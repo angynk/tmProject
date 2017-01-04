@@ -7,10 +7,6 @@
 	<script name="jquery/jquery.js" library="primefaces"></script>
 	<h:outputStylesheet name="css/bootstrap.min.css" />
 	<h:outputStylesheet name="css/simple-sidebar.css" />
-	<!--<link href="css/bootstrap.min.css" rel="stylesheet"/>-->
-
-	<!-- Custom CSS -->
-	<!--<link href="css/simple-sidebar.css" rel="stylesheet"/>-->
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,16 +28,57 @@
 					</a>
 				</li>
 				<li>
-					<a href="#">Tabla Maestra</a>
+					<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+						<!--<span class="glyphicon glyphicon-folder-close"></span>-->
+						Tabla Maestra</a>
+					</h4>
+					<div id="collapseOne" class="panel-collapse collapse in">
+						<div class="panel-body" style="background: #3a3746">
+							<table class="table">
+								<tr>
+									<td>
+										<!--<span class="glyphicon glyphicon-eye-open text-primary"></span>-->
+										<a href="#">Tabla Maestra Vigente</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!--<span class="glyphicon glyphicon-edit text-success"></span>-->
+										<a href="#">Actualizar Tabla Maestra</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!--<span class="glyphicon glyphicon-zoom-in text-info"></span>-->
+										<a href="#">Buscar Tabla Maestra</a>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!--<a href="#">Tabla Maestra</a>-->
 				</li>
 				<li>
-					<a href="#">Matriz Distancias</a>
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+							<!--<span class="glyphicon glyphicon-folder-close"></span>-->
+							Matriz Distancias</a>
+					</h4>
 				</li>
 				<li>
-					<a href="#">Carga</a>
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+							<!--<span class="glyphicon glyphicon-folder-close"></span>-->
+							Carga</a>
+					</h4>
 				</li>
 				<li>
-					<a href="#">Horarios</a>
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+							<!--<span class="glyphicon glyphicon-folder-close"></span>-->
+							Horarios</a>
+					</h4>
 				</li>
 			</ul>
 		</div>
@@ -52,74 +89,9 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-12">
-						<p:panel id="basic"   style="margin-bottom:10px">
-							<p:dataTable var="servicio" value="#{dtFilterView.servicios}" widgetVar="carsTable"
-										 emptyMessage="No cars found with given criteria" filteredValue="#{dtFilterView.filteredServicios}"
-										 >
-
-								<f:facet name="header">
-									<p:outputPanel>
-										<h:outputText value="Buscar en todos los campos:" />
-										<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder=""/>
-									</p:outputPanel>
-								</f:facet>
-
-
-								<p:column filterBy="#{servicio.id}" headerText="Id" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.id}">
-									<h:outputText value="#{servicio.id}" />
-								</p:column>
-
-
-								<p:column filterBy="#{servicio.tipoDia}" headerText="Tipo Dia" footerText="exact" filterMatchMode="exact">
-									<f:facet name="filter">
-										<p:selectOneMenu onchange="PF('carsTable').filter()" >
-											<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
-											<f:selectItems value="#{dtFilterView.tipoDia}" />
-										</p:selectOneMenu>
-									</f:facet>
-									<h:outputText value="#{servicio.tipoDia}" />
-								</p:column>
-
-								<p:column filterBy="#{servicio.macro}" headerText="Macro" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.macro}">
-									<h:outputText value="#{servicio.macro}" />
-								</p:column>
-
-								<p:column filterBy="#{servicio.linea}" headerText="Linea" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.linea}">
-									<h:outputText value="#{servicio.linea}" />
-								</p:column>
-
-								<p:column filterBy="#{servicio.seccion}" headerText="Seccion" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.seccion}">
-									<h:outputText value="#{servicio.seccion}" />
-								</p:column>
-
-								<!--<p:column filterBy="#{car.color}" headerText="Color" footerText="in" filterMatchMode="in">-->
-								<!--<f:facet name="filter">-->
-								<!--<p:selectCheckboxMenu label="Colors" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">-->
-								<!--<f:selectItems value="#{dtFilterView.colors}" />-->
-								<!--</p:selectCheckboxMenu>-->
-								<!--</f:facet>-->
-								<!--<h:outputText value="#{car.color}" />-->
-								<!--</p:column>-->
-
-								<!--<p:column filterBy="#{car.sold}" headerText="Status" footerText="equals" filterMatchMode="equals">-->
-								<!--<f:facet name="filter">-->
-								<!--<p:selectOneButton onchange="PF('carsTable').filter()">-->
-								<!--<f:converter converterId="javax.faces.Boolean" />-->
-								<!--<f:selectItem itemLabel="All" itemValue="" />-->
-								<!--<f:selectItem itemLabel="Sold" itemValue="true" />-->
-								<!--<f:selectItem itemLabel="Sale" itemValue="false" />-->
-								<!--</p:selectOneButton>-->
-								<!--</f:facet>-->
-								<!--<h:outputText value="#{car.sold ? 'Sold': 'Sale'}" />-->
-								<!--</p:column>-->
-
-								<!--<p:column filterBy="#{car.price}" headerText="Price" footerText="custom (min)" filterFunction="#{dtFilterView.filterByPrice}">-->
-								<!--<h:outputText value="#{car.price}">-->
-								<!--<f:convertNumber currencySymbol="$" type="currency"/>-->
-								<!--</h:outputText>-->
-								<!--</p:column>-->
-							</p:dataTable>
-						</p:panel>
+							<ui:insert name="page-content-wrapper" >
+								<ui:include src="/templates/tablaMaestra.xhtml" />
+							</ui:insert>
 						<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
 					</div>
 				</div>
@@ -130,12 +102,7 @@
 	</div>
 
 
-	<!--<h:outputScript name="js/jquery.js" />-->
 	<h:outputScript name="js/bootstrap.min.js" />
-	<!--<script src="js/jquery.js"></script>-->
-
-	<!-- Bootstrap Core JavaScript -->
-	<!--<script src="js/bootstrap.min.js"></script>-->
 
 	<!-- Menu Toggle Script -->
 	<script>

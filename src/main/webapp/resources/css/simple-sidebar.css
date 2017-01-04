@@ -6,8 +6,13 @@
 
  body {
     overflow-x: hidden;
- }
+     margin-top:50px;
 
+ }
+.glyphicon { margin-right:10px; }
+.panel-body { padding:0px; }
+.panel-body table tr td { padding-left: 15px }
+.panel-body .table {margin-bottom: 0px; }
 /* Toggle Styles */
 
 #wrapper {
@@ -72,6 +77,12 @@
     display: block;
     text-decoration: none;
     color: #999999;
+}
+
+.sidebar-nav li div {
+    display: block;
+    text-decoration: none;
+    color: #4cae4c;
 }
 
 .sidebar-nav li a:hover {
