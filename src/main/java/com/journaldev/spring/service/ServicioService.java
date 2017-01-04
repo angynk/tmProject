@@ -4,6 +4,7 @@ package com.journaldev.spring.service;
 import com.journaldev.hibernate.data.Car;
 import com.journaldev.hibernate.data.Servicio;
 import com.journaldev.hibernate.data.TipoDia;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,9 @@ import java.util.UUID;
 @ManagedBean(name = "servicioService")
 @ApplicationScoped
 public class ServicioService {
+
+    @Autowired
+    private TablaMaestraService tablaMaestraService;
 
     private final static TipoDia[] tipoDia;
 
@@ -74,5 +78,10 @@ public class ServicioService {
 
     public List<TipoDia> getTipoDia() {
         return Arrays.asList(tipoDia);
+    }
+
+    public int test() {
+
+        return tablaMaestraService.find();
     }
 }

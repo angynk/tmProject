@@ -3,6 +3,8 @@ package com.journaldev.prime.faces.beans;
 import com.journaldev.hibernate.data.Servicio;
 import com.journaldev.hibernate.data.TipoDia;
 import com.journaldev.spring.service.ServicioService;
+import com.journaldev.spring.service.TablaMaestraService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,12 +22,15 @@ public class FilterView implements Serializable {
 
     private List<Servicio> filteredServicios;
 
+
+
     @ManagedProperty("#{servicioService}")
     private ServicioService service;
 
     @PostConstruct
     public void init() {
         servicios = service.createServicio(10);
+        servicios.get(0).setMacro(service.test());
     }
 
     public boolean filterByPrice(Object value, Object filter, Locale locale) {
