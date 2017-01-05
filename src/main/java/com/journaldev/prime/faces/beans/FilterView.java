@@ -30,7 +30,8 @@ public class FilterView implements Serializable {
     @PostConstruct
     public void init() {
         servicios = service.createServicio(10);
-       service.test();
+      // service.test();
+
     }
 
     public boolean filterByPrice(Object value, Object filter, Locale locale) {
@@ -69,4 +70,6 @@ public class FilterView implements Serializable {
     public void setService(ServicioService service) {
         this.service = service;
     }
+
+
 }

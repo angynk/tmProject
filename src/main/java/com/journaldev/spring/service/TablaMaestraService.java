@@ -1,17 +1,12 @@
 package com.journaldev.spring.service;
 
-import com.journaldev.hibernate.data.Employee;
+
 import com.journaldev.hibernate.data.TablaMaestra;
 import com.journaldev.hibernate.data.dao.TablaMaestraDao;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
 import java.util.List;
 
 

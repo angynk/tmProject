@@ -38,4 +38,36 @@
 
 
     <tx:annotation-driven transaction-manager="transactionManager" />
+
+
+    <bean id="dataSourceSqlServer" class="org.apache.commons.dbcp.BasicDataSource"
+              destroy-method="close">
+           <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+                   <property name="url" value="jdbc:jtds:sqlserver://localhost\DESKTOP-LMESTVN:1433/SAEBogota" />
+                   <property name="username" value="nataly" />
+                   <property name="password" value="capitulo3" />
+        </bean>
+        <!-- Define SessionFactory bean -->
+        <bean id="sessionFactorySqlServer"
+              class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+            <property name="dataSource" ref="dataSourceSqlServer" />
+            <property name="mappingResources">
+                <list>
+                    <value>domain-classes.hbm.xml</value>
+                </list>
+            </property>
+            <property name="configLocation">
+                <value>classpath:hibernate.cfg.xml</value>
+            </property>
+        </bean>
+        <!-- Transaction Manager -->
+        <bean id="transactionManagerSqlServer"
+              class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+            <property name="sessionFactory" ref="sessionFactorySqlServer" />
+        </bean>
+
+
+        <tx:annotation-driven transaction-manager="transactionManager" />
+        <tx:annotation-driven transaction-manager="transactionManagerSqlServer" />
+
 </beans>

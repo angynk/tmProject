@@ -16,10 +16,11 @@
     <![endif]-->
 	<title>TM Modulos</title>
 </h:head>
-<h:form>
+<h:form value="#{sideBar}">
 	<div id="wrapper">
 
 		<!-- Sidebar -->
+		<!--<f:ajax render="include">-->
 		<div id="sidebar-wrapper">
 			<ul class="sidebar-nav">
 				<li class="sidebar-brand">
@@ -39,19 +40,22 @@
 								<tr>
 									<td>
 										<!--<span class="glyphicon glyphicon-eye-open text-primary"></span>-->
-										<a href="#">Tabla Maestra Vigente</a>
+										<!--<a href="#">Tabla Maestra Vigente</a>-->
+										<h:commandLink value="Tabla Maestra Vigente" action="#{sideBar.setPage('/templates/tablaMaestra')}" />
 									</td>
 								</tr>
 								<tr>
 									<td>
 										<!--<span class="glyphicon glyphicon-edit text-success"></span>-->
-										<a href="#">Actualizar Tabla Maestra</a>
+										<!--<a href="#">Actualizar Tabla Maestra</a>-->
+										<h:commandLink value="Actualizar Tabla Maestra" action="#{sideBar.setPage('/templates/NuevaTablaMaestra')}" />
 									</td>
 								</tr>
 								<tr>
 									<td>
 										<!--<span class="glyphicon glyphicon-zoom-in text-info"></span>-->
-										<a href="#">Buscar Tabla Maestra</a>
+										<!--<a href="#">Buscar Tabla Maestra</a>-->
+										<h:commandLink value="Buscar Tabla Maestra" action="#{sideBar.setPage('/templates/BuscarTablaMaestra')}" />
 									</td>
 								</tr>
 							</table>
@@ -82,15 +86,20 @@
 				</li>
 			</ul>
 		</div>
+		<!--</f:ajax>-->
 		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
+
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-12">
-							<ui:insert name="page-content-wrapper" >
-								<ui:include src="/templates/tablaMaestra.xhtml" />
+
+							<ui:insert name="include" >
+							<!--<ui:insert name="page-content-wrapper" >-->
+								<!--<ui:include src="/templates/tablaMaestra.xhtml" />-->
+								<ui:include src="#{sideBar.page}.xhtml" />
 							</ui:insert>
 						<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
 					</div>

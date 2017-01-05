@@ -11,20 +11,20 @@ import com.journaldev.hibernate.data.Employee;
 @Component
 public class EmployeeService {
 	@Autowired
-	private SessionFactory sessionFactory;
+	private SessionFactory sessionFactorySqlServer;
 
 	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return sessionFactorySqlServer;
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+		this.sessionFactorySqlServer = sessionFactory;
 	}
 	
 	@Transactional
 	public void register(Employee emp){
 		// Acquire session
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactorySqlServer.getCurrentSession();
 		// Save employee, saving behavior get done in a transactional manner
 		session.save(emp);		
 	}
