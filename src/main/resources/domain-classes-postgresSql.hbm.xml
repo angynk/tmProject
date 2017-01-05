@@ -3,7 +3,7 @@
 PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
 <hibernate-mapping>
-	<class name="com.journaldev.hibernate.data.TablaMaestra" table="TablaMaestra">
+	<class name="com.journaldev.hibernate.data.TablaMaestra" table="tablamaestra">
 		<id name="id" column="id" type="long">
 			<generator class="native" />
 		</id>

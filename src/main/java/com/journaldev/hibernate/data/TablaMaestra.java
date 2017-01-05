@@ -1,13 +1,23 @@
 package com.journaldev.hibernate.data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
-
+@Entity
+@Table(name="tablamaestra")
 public class TablaMaestra {
 
+    @Id
+    @Column(name = "id")
     private long id;
+    @Column(name = "version")
     private int version;
+    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
+    @Column(name = "esta_vigente")
     private Boolean estaVigente;
 
     public long getId() {

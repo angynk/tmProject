@@ -30,7 +30,7 @@ public class FilterView implements Serializable {
     @PostConstruct
     public void init() {
         servicios = service.createServicio(10);
-        servicios.get(0).setMacro(service.test());
+       service.test();
     }
 
     public boolean filterByPrice(Object value, Object filter, Locale locale) {

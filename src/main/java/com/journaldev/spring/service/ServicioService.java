@@ -1,23 +1,20 @@
 package com.journaldev.spring.service;
 
 
-import com.journaldev.hibernate.data.Car;
 import com.journaldev.hibernate.data.Servicio;
+import com.journaldev.hibernate.data.TablaMaestra;
 import com.journaldev.hibernate.data.TipoDia;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import javax.faces.bean.ManagedProperty;
+import java.util.*;
 
 @ManagedBean(name = "servicioService")
 @ApplicationScoped
 public class ServicioService {
 
-    @Autowired
+    @ManagedProperty("#{TablaMaestraService}")
     private TablaMaestraService tablaMaestraService;
 
     private final static TipoDia[] tipoDia;
@@ -80,8 +77,20 @@ public class ServicioService {
         return Arrays.asList(tipoDia);
     }
 
-    public int test() {
+    public void test() {
+//        TablaMaestra tablaMaestra= new TablaMaestra();
+//        tablaMaestra.setEstaVigente(true);
+//        tablaMaestra.setVersion(1);
+//        tablaMaestra.setFechaCreacion(new Date());
+//        tablaMaestra.setId(1);
+//        tablaMaestraService.addCustomer(tablaMaestra);
 
-        return tablaMaestraService.find();
+        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
+        customers.size();
+    }
+
+
+    public void setTablaMaestraService(TablaMaestraService tablaMaestraService) {
+        this.tablaMaestraService = tablaMaestraService;
     }
 }

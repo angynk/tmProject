@@ -2,34 +2,55 @@ package com.journaldev.spring.service;
 
 import com.journaldev.hibernate.data.Employee;
 import com.journaldev.hibernate.data.TablaMaestra;
+import com.journaldev.hibernate.data.dao.TablaMaestraDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import java.util.List;
 
-@Component
+
+@Service("TablaMaestraService")
+@Transactional(readOnly = true)
 public class TablaMaestraService {
 
+
     @Autowired
-    private SessionFactory sessionFactoryPostgresSql;
+    TablaMaestraDao tablaMaestraDao;
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactoryPostgresSql;
+    @Transactional(readOnly = false)
+    public void addCustomer(TablaMaestra tablaMaestra) {
+        getTablaMaestraDao().addCustomer(tablaMaestra);
     }
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactoryPostgresSql = sessionFactory;
+    @Transactional(readOnly = false)
+    public void deleteCustomer(TablaMaestra customer) {
+        getTablaMaestraDao().deleteCustomer(customer);
     }
 
-    @Transactional
-    public int find(){
-        // Acquire session
-        Session session = sessionFactoryPostgresSql.getCurrentSession();
-        // Save employee, saving behavior get done in a transactional manner
-        List<TablaMaestra> list = session.createCriteria(TablaMaestra.class).list();
-       return list.size();
+    @Transactional(readOnly = false)
+    public void updateCustomer(TablaMaestra customer) {
+        getTablaMaestraDao().updateCustomer(customer);
     }
+
+    public TablaMaestra getCustomerById(int id) {
+        return getTablaMaestraDao().getCustomerById(id);
+    }
+    public List<TablaMaestra> getCustomers() {
+        return getTablaMaestraDao().getCustomers();
+    }
+
+    public TablaMaestraDao getTablaMaestraDao() {
+        return tablaMaestraDao;
+    }
+
+    public void setTablaMaestraDao(TablaMaestraDao tablaMaestraDao) {
+        this.tablaMaestraDao = tablaMaestraDao;
+    }
+
 }
