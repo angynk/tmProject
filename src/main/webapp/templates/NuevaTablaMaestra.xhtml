@@ -4,8 +4,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <f:view>
-    <h:outputLabel value="Hello, Nueva tabla maestra"/>
+    <h:form>
+        <p:panel id="basic" header="Actualizar Tabla Maestra"  style="margin-bottom:20px">
+        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <p:outputLabel value="Version:" />
+            <p:inputText />
+            <p:outputLabel value="Descripcion:" />
+            <p:inputTextarea rows="5" cols="30"  maxlength="10" />
+        </h:panelGrid>
+        <p:commandButton value="Crear"  />
+        </p:panel>
+    </h:form>
 </f:view>
 </html>

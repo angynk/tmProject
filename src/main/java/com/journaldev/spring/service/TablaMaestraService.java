@@ -1,8 +1,10 @@
 package com.journaldev.spring.service;
 
 
+import com.journaldev.hibernate.data.Nodos;
 import com.journaldev.hibernate.data.TablaMaestra;
 import com.journaldev.hibernate.data.dao.TablaMaestraDao;
+import com.journaldev.hibernate.data.dao.VigenciasDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,9 @@ public class TablaMaestraService {
 
     @Autowired
     TablaMaestraDao tablaMaestraDao;
+
+    @Autowired
+    VigenciasDao vigenciasDao;
 
     @Transactional(readOnly = false)
     public void addCustomer(TablaMaestra tablaMaestra) {
@@ -46,6 +51,10 @@ public class TablaMaestraService {
 
     public void setTablaMaestraDao(TablaMaestraDao tablaMaestraDao) {
         this.tablaMaestraDao = tablaMaestraDao;
+    }
+
+    public List<Nodos> getVigenciasDao(){
+        return vigenciasDao.getCustomers();
     }
 
 }

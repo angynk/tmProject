@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      >
+    <body>
+	    <ui:composition>
+            <div id="wrapper">
+            <h:form id="formSideBar">
+            <div id="sidebar-wrapper">
+                <div id="sidenav1">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sideNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="sideNavbar">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title"><a href="">
+                                        <span class="glyphicon glyphicon-home"></span>Home</a> </h4>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                        <span class="glyphicon glyphicon-book"> </span>
+                                            Tabla Maestra<span class="caret"></span></a> </h4>
+                                </div>
+                                <!-- Note: By adding "in" after "collapse", it starts with that particular panel open by default; remove if you want them all collapsed by default -->
+                                <div id="collapseOne" class="panel-collapse collapse in">
+                                    <ul class="list-group">
+                                        <li>
+                                        <a href="tablaMaestra.xhtml">Tabla Maestra Vigente</a>
+                                        </li>
+                                        <li>
+                                            <h:commandLink value="Actualizar Tabla Maestra" action="#{sideBar.setPage('/templates/NuevaTablaMaestra')}"/>
+                                        </li>
+                                        <li>	<h:commandLink value="Buscar Tabla Maestra" action="#{sideBar.setPage('/templates/BuscarGISCarga')}" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                            <span class="glyphicon glyphicon-cog">
+				                    </span>GIS Carga<span class="caret"></span></a> </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse in">
+
+                                    <ul class="list-group">
+                                        <li>
+                                            <a href="NewGISCarga.xhtml">Nuevo GIS Carga</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </h:form>
+            </div>
+	    </ui:composition>
+    </body>
+</html>
+
+

@@ -1,126 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<script name="jquery/jquery.js" library="primefaces"></script>
-	<h:outputStylesheet name="css/bootstrap.min.css" />
-	<h:outputStylesheet name="css/simple-sidebar.css" />
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<h:body>
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-	<title>TM Modulos</title>
-</h:head>
-<h:form value="#{sideBar}">
-	<div id="wrapper">
+	<ui:composition template="template/common/commonLayout.xhtml">
 
-		<!-- Sidebar -->
-		<!--<f:ajax render="include">-->
-		<div id="sidebar-wrapper">
-			<ul class="sidebar-nav">
-				<li class="sidebar-brand">
-					<a href="#">
-						TRANSMILENIO
-					</a>
-				</li>
-				<li>
-					<h4 class="panel-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-						<!--<span class="glyphicon glyphicon-folder-close"></span>-->
-						Tabla Maestra</a>
-					</h4>
-					<div id="collapseOne" class="panel-collapse collapse in">
-						<div class="panel-body" style="background: #3a3746">
-							<table class="table">
-								<tr>
-									<td>
-										<!--<span class="glyphicon glyphicon-eye-open text-primary"></span>-->
-										<!--<a href="#">Tabla Maestra Vigente</a>-->
-										<h:commandLink value="Tabla Maestra Vigente" action="#{sideBar.setPage('/templates/tablaMaestra')}" />
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<!--<span class="glyphicon glyphicon-edit text-success"></span>-->
-										<!--<a href="#">Actualizar Tabla Maestra</a>-->
-										<h:commandLink value="Actualizar Tabla Maestra" action="#{sideBar.setPage('/templates/NuevaTablaMaestra')}" />
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<!--<span class="glyphicon glyphicon-zoom-in text-info"></span>-->
-										<!--<a href="#">Buscar Tabla Maestra</a>-->
-										<h:commandLink value="Buscar Tabla Maestra" action="#{sideBar.setPage('/templates/BuscarTablaMaestra')}" />
-									</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					<!--<a href="#">Tabla Maestra</a>-->
-				</li>
-				<li>
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-							<!--<span class="glyphicon glyphicon-folder-close"></span>-->
-							Matriz Distancias</a>
-					</h4>
-				</li>
-				<li>
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-							<!--<span class="glyphicon glyphicon-folder-close"></span>-->
-							Carga</a>
-					</h4>
-				</li>
-				<li>
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-							<!--<span class="glyphicon glyphicon-folder-close"></span>-->
-							Horarios</a>
-					</h4>
-				</li>
-			</ul>
-		</div>
-		<!--</f:ajax>-->
-		<!-- /#sidebar-wrapper -->
+	</ui:composition>
 
-		<!-- Page Content -->
+</h:body>
 
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-12">
-
-							<ui:insert name="include" >
-							<!--<ui:insert name="page-content-wrapper" >-->
-								<!--<ui:include src="/templates/tablaMaestra.xhtml" />-->
-								<ui:include src="#{sideBar.page}.xhtml" />
-							</ui:insert>
-						<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /#page-content-wrapper -->
-
-	</div>
-
-
-	<h:outputScript name="js/bootstrap.min.js" />
-
-	<!-- Menu Toggle Script -->
-	<script>
-		$("#menu-toggle").click(function(e) {
-			e.preventDefault();
-			$("#wrapper").toggleClass("toggled");
-		});
-	</script>
-
-
-</h:form>
 </html>
+
+

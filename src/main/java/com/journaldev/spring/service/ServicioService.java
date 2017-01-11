@@ -2,7 +2,7 @@ package com.journaldev.spring.service;
 
 
 import com.journaldev.hibernate.data.Servicio;
-import com.journaldev.hibernate.data.TablaMaestra;
+import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 import com.journaldev.hibernate.data.TipoDia;
 
 import javax.faces.bean.ApplicationScoped;
@@ -85,8 +85,10 @@ public class ServicioService {
 //        tablaMaestra.setId(1);
 //        tablaMaestraService.addCustomer(tablaMaestra);
 
-        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
-        customers.size();
+//        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
+//        customers.size();
+
+       // tablaMaestraService.getVigenciasDao().size();
     }
 
 

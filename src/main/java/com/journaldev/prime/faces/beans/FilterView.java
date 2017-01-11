@@ -30,7 +30,7 @@ public class FilterView implements Serializable {
     @PostConstruct
     public void init() {
         servicios = service.createServicio(10);
-      // service.test();
+       service.test();
 
     }
 

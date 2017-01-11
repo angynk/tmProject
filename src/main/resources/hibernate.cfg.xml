@@ -6,9 +6,27 @@
 <hibernate-configuration>
 
     <session-factory>
-        <!-- SQL dialect, only thing required for Spring. 
+        <!-- SQL dialect, only thing required for Spring.
         For stanalone application, other DB configs are required -->
         <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
     </session-factory>
+
+    <!--<session-factory>-->
+
+        <!--&lt;!&ndash; Database connection settings &ndash;&gt;-->
+        <!--<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>-->
+        <!--<property name="hibernate.connection.url">jdbc:jtds:sqlserver://localhost:1433/SAEBogota</property>-->
+        <!--<property name="hibernate.connection.username">nataly</property>-->
+        <!--<property name="hibernate.connection.password">capitulo3</property>-->
+
+        <!--&lt;!&ndash; SQL dialect &ndash;&gt;-->
+        <!--<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>-->
+        <!--&lt;!&ndash; Specify session context &ndash;&gt;-->
+
+        <!--&lt;!&ndash; Show SQL &ndash;&gt;-->
+        <!--<property name="hibernate.show_sql">true</property>-->
+        <!--&lt;!&ndash; Referring Mapping File &ndash;&gt;-->
+        <!--<mapping resource="domain-classes.hbm.xml"/>-->
+    <!--</session-factory>-->
 
 </hibernate-configuration>
