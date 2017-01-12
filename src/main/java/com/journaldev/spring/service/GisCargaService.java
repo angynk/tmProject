@@ -1,8 +1,12 @@
 package com.journaldev.spring.service;
 
 import com.journaldev.hibernate.data.dao.GisCargaDao;
+import com.journaldev.hibernate.data.dao.TipoDiaDao;
+import com.journaldev.hibernate.data.dao.TipoDiaDetalleDao;
 import com.journaldev.hibernate.data.dao.TrayectoDao;
 import com.journaldev.hibernate.data.entity.GisCarga;
+import com.journaldev.hibernate.data.entity.TipoDia;
+import com.journaldev.hibernate.data.entity.TipoDiaDetalle;
 import com.journaldev.hibernate.data.entity.Trayecto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,8 @@ public class GisCargaService {
 
     @Autowired
     TrayectoDao trayectoDao;
+
+
 
     public void addGisCarga(GisCarga gisCarga) {
         gisCargaDao.addGisCarga(gisCarga);
@@ -48,7 +54,7 @@ public class GisCargaService {
         trayectoDao.updateTrayecto(trayecto);
     }
 
-    public List<Trayecto> getTrayectoAll() {
-        return trayectoDao.getTrayectoAll();
-    }
+    public List<Trayecto> getTrayectoAll() { return trayectoDao.getTrayectoAll(); }
+
+
 }

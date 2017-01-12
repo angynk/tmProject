@@ -3,6 +3,7 @@ package com.journaldev.processing.saveData;
 
 import com.journaldev.spring.service.ExcelReader;
 import com.journaldev.spring.service.GisCargaService;
+import com.journaldev.spring.service.TipoDiaService;
 import jxl.read.biff.BiffException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -23,6 +24,9 @@ public class DataProcesorImpl {
     @Autowired
     private GisCargaService gisCargaService;
 
+    @Autowired
+    private TipoDiaService tipoDiaService;
+
     private String destination="C:\\temp\\";
 
     public DataProcesorImpl() {
@@ -38,6 +42,8 @@ public class DataProcesorImpl {
 //        }
         System.out.println( gisCargaService.getGisCargaAll().size());
         System.out.println( gisCargaService.getTrayectoAll().size());
+        System.out.println( tipoDiaService.getTipoDiaAll().size());
+        System.out.println( tipoDiaService.getTipoDiaDetalleAll().size());
         return false;
 
     }
