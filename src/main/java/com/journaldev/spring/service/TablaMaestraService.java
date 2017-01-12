@@ -2,7 +2,7 @@ package com.journaldev.spring.service;
 
 
 import com.journaldev.hibernate.data.Nodos;
-import com.journaldev.hibernate.data.TablaMaestra;
+import com.journaldev.hibernate.data.entity.TablaMaestra;
 import com.journaldev.hibernate.data.dao.TablaMaestraDao;
 import com.journaldev.hibernate.data.dao.VigenciasDao;
 import org.springframework.beans.factory.annotation.Autowired;

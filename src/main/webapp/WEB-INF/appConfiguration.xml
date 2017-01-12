@@ -29,8 +29,9 @@
 
         <property name="annotatedClasses">
             <list>
-                <value>com.journaldev.hibernate.data.GisCarga</value>
-                <value>com.journaldev.hibernate.data.TablaMaestra</value>
+                <value>com.journaldev.hibernate.data.entity.GisCarga</value>
+                <value>com.journaldev.hibernate.data.entity.TablaMaestra</value>
+                <value>com.journaldev.hibernate.data.entity.Trayecto</value>
             </list>
         </property>
     </bean>

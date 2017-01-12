@@ -2,11 +2,13 @@ package com.journaldev.processing.saveData;
 
 
 import com.journaldev.spring.service.ExcelReader;
+import com.journaldev.spring.service.GisCargaService;
 import jxl.read.biff.BiffException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.faces.bean.ManagedProperty;
@@ -18,6 +20,9 @@ public class DataProcesorImpl {
 
     private ExcelReader excelReader;
 
+    @Autowired
+    private GisCargaService gisCargaService;
+
     private String destination="C:\\temp\\";
 
     public DataProcesorImpl() {
@@ -25,12 +30,14 @@ public class DataProcesorImpl {
     }
 
     public boolean processDataFromFile(String fileName, InputStream in) {
-        copyFile(fileName,in);
-        try {
-            return excelReader.procesarGisCarga(destination);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        copyFile(fileName,in);
+//        try {
+//            return excelReader.procesarGisCarga(destination);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println( gisCargaService.getGisCargaAll().size());
+        System.out.println( gisCargaService.getTrayectoAll().size());
         return false;
 
     }
@@ -66,5 +73,13 @@ public class DataProcesorImpl {
 
     public void setExcelReader(ExcelReader excelReader) {
         this.excelReader = excelReader;
+    }
+
+    public GisCargaService getGisCargaService() {
+        return gisCargaService;
+    }
+
+    public void setGisCargaService(GisCargaService gisCargaService) {
+        this.gisCargaService = gisCargaService;
     }
 }

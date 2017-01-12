@@ -1,4 +1,4 @@
-package com.journaldev.hibernate.data;
+package com.journaldev.hibernate.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

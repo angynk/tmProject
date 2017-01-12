@@ -1,6 +1,6 @@
 package com.journaldev.hibernate.data.dao;
 
-import com.journaldev.hibernate.data.TablaMaestra;
+import com.journaldev.hibernate.data.entity.TablaMaestra;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

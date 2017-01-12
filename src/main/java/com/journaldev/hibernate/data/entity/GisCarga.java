@@ -1,11 +1,11 @@
-package com.journaldev.hibernate.data;
+package com.journaldev.hibernate.data.entity;
 
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="gisCarga")
+@Table(name="giscarga")
 public class GisCarga {
 
     @Id

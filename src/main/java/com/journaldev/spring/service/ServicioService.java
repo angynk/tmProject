@@ -2,7 +2,7 @@ package com.journaldev.spring.service;
 
 
 import com.journaldev.hibernate.data.Servicio;
-import com.journaldev.hibernate.data.TablaMaestra;
+import com.journaldev.hibernate.data.entity.TablaMaestra;
 import com.journaldev.hibernate.data.TipoDia;
 
 import javax.faces.bean.ApplicationScoped;
