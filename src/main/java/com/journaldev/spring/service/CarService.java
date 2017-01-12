@@ -1,14 +1,14 @@
 package com.journaldev.spring.service;
 
 
+import com.journaldev.hibernate.data.Car;
+
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-
-import com.journaldev.hibernate.data.Car;
 
 @ManagedBean(name = "carService")
 @ApplicationScoped

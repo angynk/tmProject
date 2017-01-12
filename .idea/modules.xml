@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Primefaces-Hibernate-Spring-Integration-Sample.iml" filepath="$PROJECT_DIR$/Primefaces-Hibernate-Spring-Integration-Sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/restServices/restServices.iml" filepath="$PROJECT_DIR$/restServices/restServices.iml" />
     </modules>
   </component>
 </project>

@@ -3,16 +3,14 @@ package com.journaldev.prime.faces.beans;
 import com.journaldev.hibernate.data.Servicio;
 import com.journaldev.hibernate.data.TipoDia;
 import com.journaldev.spring.service.ServicioService;
-import com.journaldev.spring.service.TablaMaestraService;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
 
 @ManagedBean(name="dtFilterView")
 @ViewScoped

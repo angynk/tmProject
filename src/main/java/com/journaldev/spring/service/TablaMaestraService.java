@@ -41,6 +41,8 @@ public class TablaMaestraService {
     public TablaMaestra getCustomerById(int id) {
         return getTablaMaestraDao().getCustomerById(id);
     }
+
+    @Transactional(readOnly = false)
     public List<TablaMaestra> getCustomers() {
         return getTablaMaestraDao().getCustomers();
     }

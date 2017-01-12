@@ -2,13 +2,16 @@ package com.journaldev.spring.service;
 
 
 import com.journaldev.hibernate.data.Servicio;
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
+import com.journaldev.hibernate.data.TablaMaestra;
 import com.journaldev.hibernate.data.TipoDia;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 @ManagedBean(name = "servicioService")
 @ApplicationScoped
@@ -85,8 +88,8 @@ public class ServicioService {
 //        tablaMaestra.setId(1);
 //        tablaMaestraService.addCustomer(tablaMaestra);
 
-//        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
-//        customers.size();
+        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
+        customers.size();
 
        // tablaMaestraService.getVigenciasDao().size();
     }

@@ -1,10 +1,8 @@
 package com.journaldev.prime.faces.beans;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 
 @ManagedBean(name="sideBar")

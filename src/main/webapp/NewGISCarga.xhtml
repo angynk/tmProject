@@ -4,6 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
       >
     <h:body>
     	
@@ -11,8 +13,32 @@
     	
     		<ui:define name="content">
     			<h2>This is page1 content</h2>
-				<h:form>
-					<h:commandLink value="Next" action="#{user.upl}"></h:commandLink>
+				<h:form enctype="multipart/form-data">
+					<p:growl id="messages" showDetail="true" />
+
+					<p:panel id="basic" header="Nuevo GIS de Carga"  style="margin-bottom:20px">
+						<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+							<p:outputLabel for="button" value="Fecha Programacion:" />
+							<p:calendar id="button" value="#{gisCarga.fechaProgramacion}" showOn="button" />
+							<p:outputLabel value="Descripcion:" />
+							<p:inputTextarea rows="5" cols="30"  maxlength="10" />
+							<p:outputLabel value="Gis de Carga:" />
+							<p:fileUpload value="#{gisCarga.gisCarga}" mode="simple" skinSimple="true"/>
+							<h:commandButton value="Next" action="#{gisCarga.upload}" ajax="false"
+											 icon="ui-icon-disk" id="withIcon" />
+						</h:panelGrid>
+					</p:panel>
+
+					<p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+							<p:panelGrid id="display" columns="2" columnClasses="label,value">
+								<h:outputText value="Button:" />
+								<h:outputText value="#{gisCarga.fechaProgramacion}">
+									<f:convertDateTime pattern="MM/dd/yyyy" />
+								</h:outputText>
+							</p:panelGrid>
+					</p:dialog>
+
+
 				</h:form>
     		</ui:define>
 
