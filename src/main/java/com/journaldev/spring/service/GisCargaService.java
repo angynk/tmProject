@@ -22,7 +22,7 @@ public class GisCargaService {
     ArcoTiempoDao arcoTiempoDao;
 
 
-
+    @Transactional(readOnly = false)
     public void addGisCarga(GisCarga gisCarga) {
         gisCargaDao.addGisCarga(gisCarga);
     }
@@ -39,6 +39,7 @@ public class GisCargaService {
         return gisCargaDao.getGisCargaAll();
     }
 
+    @Transactional(readOnly = false)
     public void addTrayecto(Trayecto trayecto) {
         trayectoDao.addTrayecto(trayecto);
     }
@@ -52,7 +53,9 @@ public class GisCargaService {
     }
 
     public List<Trayecto> getTrayectoAll() { return trayectoDao.getTrayectoAll(); }
+    public List<Trayecto> getTrayectoByIdentifier(String trayectoId){ return trayectoDao.getTrayectoByIdentifier(trayectoId);}
 
+    @Transactional(readOnly = false)
     public void addArcoTiempo(ArcoTiempo arcoTiempo) { arcoTiempoDao.addArcoTiempo( arcoTiempo );}
 
     public void deleteArcoTiempo(ArcoTiempo arcoTiempo) { arcoTiempoDao.deleteArcoTiempo( arcoTiempo );}

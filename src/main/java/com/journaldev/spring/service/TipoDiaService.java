@@ -20,6 +20,7 @@ public class TipoDiaService {
     @Autowired
     TipoDiaDetalleDao tipoDiaDetalleDao;
 
+    @Transactional(readOnly = false)
     public void addTipoDia(TipoDia tipoDia) { tipoDiaDao.addTipoDia(tipoDia);    }
 
     public void deleteTipoDia(TipoDia tipoDia) {
@@ -32,6 +33,9 @@ public class TipoDiaService {
 
     public List<TipoDia> getTipoDiaAll() {  return tipoDiaDao.getTipoDiaAll(); }
 
+    public TipoDia getTipoDia(String nombre){ return tipoDiaDao.getTipoDia( nombre );}
+
+    @Transactional(readOnly = false)
     public void addTipoDiaDetalle(TipoDiaDetalle  tipoDiaDetalle) { tipoDiaDetalleDao.addTipoDiaDetalle(tipoDiaDetalle);    }
 
     public void deleteTipoDiaDetalle(TipoDiaDetalle  tipoDiaDetalle) {
@@ -43,4 +47,6 @@ public class TipoDiaService {
     }
 
     public List<TipoDiaDetalle> getTipoDiaDetalleAll() {  return tipoDiaDetalleDao.getTipoDiaDetalleAll(); }
+
+    public List<TipoDiaDetalle> getTipoDiaByDetalle(String nombre){ return tipoDiaDetalleDao.getTipoDiaByDetalle( nombre );}
 }

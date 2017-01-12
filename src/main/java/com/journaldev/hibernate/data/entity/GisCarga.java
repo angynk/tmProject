@@ -11,7 +11,8 @@ import java.util.Set;
 public class GisCarga {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="GisGenerator")
+    @SequenceGenerator(name="GisGenerator", sequenceName = "giscarga_id_seq",allocationSize=1)
     @Column(name = "id")
     private long id;
     @Column(name = "fecha_creacion")
@@ -28,6 +29,16 @@ public class GisCarga {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisCargaArco")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
 
+    public GisCarga(Date fechaCreacion, Date fechaProgramacion, Date fechaVigencia, String descripcion) {
+        this.fechaCreacion = fechaCreacion;
+        this.fechaProgramacion = fechaProgramacion;
+        this.fechaVigencia = fechaVigencia;
+        this.descripcion = descripcion;
+        this.estaVigente = false;
+    }
+
+    public GisCarga() {
+    }
 
     public long getId() {
         return id;

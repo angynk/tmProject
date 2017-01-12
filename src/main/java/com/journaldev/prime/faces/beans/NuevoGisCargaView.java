@@ -25,13 +25,15 @@ public class NuevoGisCargaView implements Serializable{
     private Date fechaProgramacion;
     private Date fechaVigencia;
     private UploadedFile gisCarga;
+    private String tipoDia;
+    private String descripcion;
     private String messageContent="Failed";
 
     public void upload() {
         System.out.println("hola");
         if(gisCarga.getSize()>0) {
             try {
-                dataProcesor.processDataFromFile(gisCarga.getFileName(),gisCarga.getInputstream());
+                dataProcesor.processDataFromFile(gisCarga.getFileName(),gisCarga.getInputstream(), fechaProgramacion, fechaVigencia,tipoDia,descripcion);
 
             } catch (IOException e) {
                 messageContent= "Failed";
@@ -64,6 +66,22 @@ public class NuevoGisCargaView implements Serializable{
 
     public void setGisCarga(UploadedFile gisCarga) {
         this.gisCarga = gisCarga;
+    }
+
+    public String getTipoDia() {
+        return tipoDia;
+    }
+
+    public void setTipoDia(String tipoDia) {
+        this.tipoDia = tipoDia;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public void onDateSelect(SelectEvent event) {

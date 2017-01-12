@@ -9,7 +9,8 @@ import java.util.Set;
 public class TipoDiaDetalle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="TipoDiaDetalleGenerator")
+    @SequenceGenerator(name="TipoDiaDetalleGenerator", sequenceName = "tipo_dia_detalle_id_seq",allocationSize=1)
     @Column(name = "id")
     private long id;
 
@@ -26,6 +27,14 @@ public class TipoDiaDetalle {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoDiaByArco")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
 
+
+    public TipoDiaDetalle(String detalle, TipoDia tipoDia) {
+        this.detalle = detalle;
+        this.tipoDia = tipoDia;
+    }
+
+    public TipoDiaDetalle() {
+    }
 
     public long getId() {
         return id;

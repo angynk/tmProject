@@ -9,7 +9,8 @@ import java.util.Set;
 public class Nodo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="NodoGenerator")
+    @SequenceGenerator(name="NodoGenerator", sequenceName = "nodo_id_seq",allocationSize=1)
     @Column(name = "id")
     private long id;
 
@@ -24,6 +25,13 @@ public class Nodo {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoFinal")
     private Set<ArcoTiempo> arcoTiempoNodoFinalRecords = new HashSet<ArcoTiempo>(0);
+
+    public Nodo() {
+    }
+
+    public Nodo(String nombre) {
+        this.nombre = nombre;
+    }
 
     public long getId() {
         return id;

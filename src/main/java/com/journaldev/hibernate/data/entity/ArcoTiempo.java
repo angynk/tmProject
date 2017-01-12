@@ -1,7 +1,8 @@
 package com.journaldev.hibernate.data.entity;
 
+import org.joda.time.LocalTime;
+
 import javax.persistence.*;
-import java.time.LocalTime;
 
 @Entity
 @Table(name="arco_tiempo")
@@ -9,7 +10,8 @@ public class ArcoTiempo {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="ArcoGenerator")
+    @SequenceGenerator(name="ArcoGenerator", sequenceName = "arco_tiempo_id_seq",allocationSize=1)
     @Column(name = "id")
     private long id;
 
@@ -26,19 +28,19 @@ public class ArcoTiempo {
     private Integer distancia;
 
     @Column(name = "hora_desde")
-    private LocalTime horaDesde;
+    private String horaDesde;
 
     @Column(name = "hora_hasta")
-    private LocalTime horaHasta;
+    private String horaHasta;
 
     @Column(name = "tiempo_minimo")
-    private LocalTime tiempoMinimo;
+    private String tiempoMinimo;
 
     @Column(name = "tiempo_maximo")
-    private LocalTime tiempoMaximo;
+    private String tiempoMaximo;
 
     @Column(name = "tiempo_optimo")
-    private LocalTime tiempoOptimo;
+    private String tiempoOptimo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gis_carga", nullable = false)
@@ -60,6 +62,25 @@ public class ArcoTiempo {
     @JoinColumn(name = "nodo_final", nullable = false)
     private Nodo nodoFinal;
 
+    public ArcoTiempo() {
+    }
+
+    public ArcoTiempo(int sentido, int secuencia, int tipoArco, Integer distancia, String horaDesde, String horaHasta, String tiempoMinimo, String tiempoMaximo, String tiempoOptimo, GisCarga gisCargaArco, Trayecto trayectoLinea, TipoDiaDetalle tipoDiaByArco, Nodo nodoInicial, Nodo nodoFinal) {
+        this.sentido = sentido;
+        this.secuencia = secuencia;
+        this.tipoArco = tipoArco;
+        this.distancia = distancia;
+        this.horaDesde = horaDesde;
+        this.horaHasta = horaHasta;
+        this.tiempoMinimo = tiempoMinimo;
+        this.tiempoMaximo = tiempoMaximo;
+        this.tiempoOptimo = tiempoOptimo;
+        this.gisCargaArco = gisCargaArco;
+        this.trayectoLinea = trayectoLinea;
+        this.tipoDiaByArco = tipoDiaByArco;
+        this.nodoInicial = nodoInicial;
+        this.nodoFinal = nodoFinal;
+    }
 
     public long getId() {
         return id;
@@ -101,43 +122,43 @@ public class ArcoTiempo {
         this.distancia = distancia;
     }
 
-    public LocalTime getHoraDesde() {
+    public String getHoraDesde() {
         return horaDesde;
     }
 
-    public void setHoraDesde(LocalTime horaDesde) {
+    public void setHoraDesde(String horaDesde) {
         this.horaDesde = horaDesde;
     }
 
-    public LocalTime getHoraHasta() {
+    public String getHoraHasta() {
         return horaHasta;
     }
 
-    public void setHoraHasta(LocalTime horaHasta) {
+    public void setHoraHasta(String horaHasta) {
         this.horaHasta = horaHasta;
     }
 
-    public LocalTime getTiempoMinimo() {
+    public String getTiempoMinimo() {
         return tiempoMinimo;
     }
 
-    public void setTiempoMinimo(LocalTime tiempoMinimo) {
+    public void setTiempoMinimo(String tiempoMinimo) {
         this.tiempoMinimo = tiempoMinimo;
     }
 
-    public LocalTime getTiempoMaximo() {
+    public String getTiempoMaximo() {
         return tiempoMaximo;
     }
 
-    public void setTiempoMaximo(LocalTime tiempoMaximo) {
+    public void setTiempoMaximo(String tiempoMaximo) {
         this.tiempoMaximo = tiempoMaximo;
     }
 
-    public LocalTime getTiempoOptimo() {
+    public String getTiempoOptimo() {
         return tiempoOptimo;
     }
 
-    public void setTiempoOptimo(LocalTime tiempoOptimo) {
+    public void setTiempoOptimo(String tiempoOptimo) {
         this.tiempoOptimo = tiempoOptimo;
     }
 

@@ -20,6 +20,9 @@ public class TablaMaestra {
     @Column(name = "esta_vigente")
     private Boolean estaVigente;
 
+    public TablaMaestra() {
+    }
+
     public long getId() {
         return id;
     }

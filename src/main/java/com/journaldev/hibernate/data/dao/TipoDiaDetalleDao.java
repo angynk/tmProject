@@ -1,7 +1,11 @@
 package com.journaldev.hibernate.data.dao;
 
+import com.journaldev.hibernate.data.entity.TipoDia;
 import com.journaldev.hibernate.data.entity.TipoDiaDetalle;
+import com.journaldev.hibernate.data.entity.Trayecto;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -39,5 +43,11 @@ public class TipoDiaDetalleDao {
     public List<TipoDiaDetalle> getTipoDiaDetalleAll() {
         List list = getSessionFactory().getCurrentSession().createQuery("from  TipoDiaDetalle").list();
         return list;
+    }
+
+    public List<TipoDiaDetalle> getTipoDiaByDetalle(String nombre){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TipoDiaDetalle.class);
+        criteria.add(Restrictions.eq("detalle", nombre));
+        return criteria.list();
     }
 }

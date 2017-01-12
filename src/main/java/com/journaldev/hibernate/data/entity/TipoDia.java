@@ -9,12 +9,16 @@ import java.util.Set;
 public class TipoDia {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="TipoDiaGenerator")
+    @SequenceGenerator(name="TipoDiaGenerator", sequenceName = "tipodia_id_seq",allocationSize=1)
     @Column(name = "id")
     private long id;
 
     @Column(name = "nombre")
     private String nombre;
+
+    public TipoDia() {
+    }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoDia")
     private Set<TipoDiaDetalle> tipoDiaDetalleRecords = new HashSet<TipoDiaDetalle>(0);

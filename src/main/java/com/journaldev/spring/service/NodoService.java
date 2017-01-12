@@ -15,6 +15,7 @@ public class NodoService {
     @Autowired
     NodoDao nodoDao;
 
+    @Transactional(readOnly = false)
     public void addNodo(Nodo nodo) { nodoDao.addNodo(nodo); }
 
     public void deleteNodo(Nodo nodo) { nodoDao.deleteNodo(nodo);}
@@ -24,4 +25,6 @@ public class NodoService {
 
 
     public List<Nodo> getNodosAll() { return  nodoDao.getNodosAll(); }
+
+    public List<Nodo> getNodo(String nombre){ return nodoDao.getNodo( nombre );}
 }

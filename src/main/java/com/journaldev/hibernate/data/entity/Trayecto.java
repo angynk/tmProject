@@ -9,7 +9,8 @@ import java.util.Set;
 public class Trayecto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="TrayectoGenerator")
+    @SequenceGenerator(name="TrayectoGenerator", sequenceName = "trayecto_id_seq",allocationSize=1)
     @Column(name = "id")
     private long id;
     @Column(name = "trayecto")
@@ -19,6 +20,14 @@ public class Trayecto {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "trayectoLinea")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
+
+    public Trayecto(String trayecto, int linea) {
+        this.trayecto = trayecto;
+        this.linea = linea;
+    }
+
+    public Trayecto() {
+    }
 
     public long getId() {
         return id;

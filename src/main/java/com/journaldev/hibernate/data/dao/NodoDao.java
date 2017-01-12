@@ -2,7 +2,10 @@ package com.journaldev.hibernate.data.dao;
 
 import com.journaldev.hibernate.data.entity.Nodo;
 import com.journaldev.hibernate.data.entity.TipoDiaDetalle;
+import com.journaldev.hibernate.data.entity.Trayecto;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -40,5 +43,11 @@ public class NodoDao {
     public List<Nodo> getNodosAll() {
         List list = getSessionFactory().getCurrentSession().createQuery("from  Nodo").list();
         return list;
+    }
+
+    public List<Nodo> getNodo(String nombre){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Nodo.class);
+        criteria.add(Restrictions.eq("nombre", nombre));
+        return criteria.list();
     }
 }
