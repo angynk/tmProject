@@ -37,6 +37,8 @@
                 <value>com.journaldev.hibernate.data.entity.Trayecto</value>
                 <value>com.journaldev.hibernate.data.entity.TipoDia</value>
                 <value>com.journaldev.hibernate.data.entity.TipoDiaDetalle</value>
+                <value>com.journaldev.hibernate.data.entity.Nodo</value>
+                <value>com.journaldev.hibernate.data.entity.ArcoTiempo</value>
             </list>
         </property>
     </bean>

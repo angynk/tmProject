@@ -3,6 +3,8 @@ package com.journaldev.hibernate.data.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="giscarga")
@@ -22,6 +24,9 @@ public class GisCarga {
     private boolean estaVigente;
     @Column(name = "descripcion")
     private String descripcion;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisCargaArco")
+    private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
 
 
     public long getId() {
@@ -70,5 +75,13 @@ public class GisCarga {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Set<ArcoTiempo> getArcoTiempoRecords() {
+        return arcoTiempoRecords;
+    }
+
+    public void setArcoTiempoRecords(Set<ArcoTiempo> arcoTiempoRecords) {
+        this.arcoTiempoRecords = arcoTiempoRecords;
     }
 }

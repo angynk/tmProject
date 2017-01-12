@@ -1,13 +1,7 @@
 package com.journaldev.spring.service;
 
-import com.journaldev.hibernate.data.dao.GisCargaDao;
-import com.journaldev.hibernate.data.dao.TipoDiaDao;
-import com.journaldev.hibernate.data.dao.TipoDiaDetalleDao;
-import com.journaldev.hibernate.data.dao.TrayectoDao;
-import com.journaldev.hibernate.data.entity.GisCarga;
-import com.journaldev.hibernate.data.entity.TipoDia;
-import com.journaldev.hibernate.data.entity.TipoDiaDetalle;
-import com.journaldev.hibernate.data.entity.Trayecto;
+import com.journaldev.hibernate.data.dao.*;
+import com.journaldev.hibernate.data.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +17,9 @@ public class GisCargaService {
 
     @Autowired
     TrayectoDao trayectoDao;
+
+    @Autowired
+    ArcoTiempoDao arcoTiempoDao;
 
 
 
@@ -55,6 +52,16 @@ public class GisCargaService {
     }
 
     public List<Trayecto> getTrayectoAll() { return trayectoDao.getTrayectoAll(); }
+
+    public void addArcoTiempo(ArcoTiempo arcoTiempo) { arcoTiempoDao.addArcoTiempo( arcoTiempo );}
+
+    public void deleteArcoTiempo(ArcoTiempo arcoTiempo) { arcoTiempoDao.deleteArcoTiempo( arcoTiempo );}
+
+
+    public void updateArcoTiempo(ArcoTiempo arcoTiempo) { arcoTiempoDao.updateArcoTiempo( arcoTiempo );}
+
+
+    public List<ArcoTiempo> getArcoTiempoAll() { return  arcoTiempoDao.getArcoTiempoAll(); }
 
 
 }

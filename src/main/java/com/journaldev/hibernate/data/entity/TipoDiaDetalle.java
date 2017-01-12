@@ -1,6 +1,8 @@
 package com.journaldev.hibernate.data.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="tipo_dia_detalle")
@@ -20,6 +22,10 @@ public class TipoDiaDetalle {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_dia", nullable = false)
     private TipoDia tipoDia;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoDiaByArco")
+    private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
+
 
     public long getId() {
         return id;
@@ -51,5 +57,13 @@ public class TipoDiaDetalle {
 
     public void setTipoDia(TipoDia tipoDia) {
         this.tipoDia = tipoDia;
+    }
+
+    public Set<ArcoTiempo> getArcoTiempoRecords() {
+        return arcoTiempoRecords;
+    }
+
+    public void setArcoTiempoRecords(Set<ArcoTiempo> arcoTiempoRecords) {
+        this.arcoTiempoRecords = arcoTiempoRecords;
     }
 }
