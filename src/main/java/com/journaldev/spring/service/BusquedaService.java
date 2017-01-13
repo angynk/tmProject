@@ -1,5 +1,6 @@
 package com.journaldev.spring.service;
 
+import com.journaldev.hibernate.data.entity.ArcoTiempo;
 import com.journaldev.hibernate.data.entity.GisCarga;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class BusquedaService {
     public List<GisCarga> busquedaRangos(Date fechaInicio,Date fechaFin,String tipoFecha){
         List<GisCarga> gisCargaByFecha = gisCargaService.getGisCargaBetwenFechas(tipoFecha, fechaInicio,fechaFin);
         return  gisCargaByFecha;
+    }
+
+    public List<ArcoTiempo> busquedaArcos(GisCarga gisCarga){
+        List<ArcoTiempo> arcoTiempos = gisCargaService.getArcoTiempoByGisCarga(gisCarga);
+        return arcoTiempos;
     }
 
     public GisCargaService getGisCargaService() {

@@ -46,19 +46,19 @@ public class ArcoTiempo {
     @JoinColumn(name = "gis_carga", nullable = false)
     private GisCarga gisCargaArco;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "trayecto_linea", nullable = false)
     private Trayecto trayectoLinea;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_dia", nullable = false)
     private TipoDiaDetalle tipoDiaByArco;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nodo_inicial", nullable = false)
     private Nodo nodoInicial;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nodo_final", nullable = false)
     private Nodo nodoFinal;
 

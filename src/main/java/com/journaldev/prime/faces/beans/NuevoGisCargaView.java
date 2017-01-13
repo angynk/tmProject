@@ -30,11 +30,10 @@ public class NuevoGisCargaView implements Serializable{
     private String messageContent="Failed";
 
     public void upload() {
-        System.out.println("hola");
         if(gisCarga.getSize()>0) {
             try {
                 dataProcesor.processDataFromFile(gisCarga.getFileName(),gisCarga.getInputstream(), fechaProgramacion, fechaVigencia,tipoDia,descripcion);
-
+                messageContent = "GIS de Carga Almacenado";
             } catch (IOException e) {
                 messageContent= "Failed";
             }

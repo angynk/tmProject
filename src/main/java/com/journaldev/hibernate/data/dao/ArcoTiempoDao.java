@@ -1,11 +1,15 @@
 package com.journaldev.hibernate.data.dao;
 
 import com.journaldev.hibernate.data.entity.ArcoTiempo;
+import com.journaldev.hibernate.data.entity.GisCarga;
 import com.journaldev.hibernate.data.entity.Nodo;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -40,5 +44,11 @@ public class ArcoTiempoDao {
     public List<ArcoTiempo> getArcoTiempoAll() {
         List list = getSessionFactory().getCurrentSession().createQuery("from  ArcoTiempo ").list();
         return list;
+    }
+
+    public List<ArcoTiempo> getArcoTiempoByGisCarga(GisCarga gisCarga){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ArcoTiempo.class);
+        criteria.add(Restrictions.eq("gisCargaArco", gisCarga));
+        return criteria.list();
     }
 }

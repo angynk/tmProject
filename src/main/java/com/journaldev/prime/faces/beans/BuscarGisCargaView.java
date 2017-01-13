@@ -11,7 +11,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,12 +55,25 @@ public class BuscarGisCargaView implements Serializable {
         visibleRecords = resultado;
     }
 
+    public void busquedaCargaGis(){
+        System.out.println("visible");
+        visibleRecords=true;
+        arcoTiempoRecords = busquedaService.busquedaArcos(selectedCarga);
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/GISCargaTabla.xhtml");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //  externalContext.redirect("foo.xhtml");
+    }
+
     @PostConstruct
     public void init() {
         gisCargaRecords = new ArrayList<>();
         selectedGisCarga = new ArrayList<>();
-        arcoTiempoRecords = new ArrayList<>();
-        filteredArcoTiempoRecords = new ArrayList<>();
         visibleRecords = false;
     }
 

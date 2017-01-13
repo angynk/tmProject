@@ -68,5 +68,7 @@ public class GisCargaService {
 
     public List<ArcoTiempo> getArcoTiempoAll() { return  arcoTiempoDao.getArcoTiempoAll(); }
 
+    public List<ArcoTiempo> getArcoTiempoByGisCarga(GisCarga gisCarga){ return arcoTiempoDao.getArcoTiempoByGisCarga(gisCarga);}
+
 
 }
