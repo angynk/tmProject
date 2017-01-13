@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:body>
+
+    <ui:composition template="/template/common/commonLayout.xhtml">
+
+        <ui:define name="content">
+            <h:form >
+                <p:panel id="basic" header="Gis Carga" style="margin-bottom:20px">
+                    <div style="margin-top:20px">
+                        <p:dataTable var="servicio" value="#{busquedaGis.arcoTiempoRecords}" widgetVar="carsTable"
+                                     emptyMessage="No cars found with given criteria" filteredValue="#{busquedaGis.filteredArcoTiempoRecords}">
+
+                            <f:facet name="header" style="background-color: #4cae4c">
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar en todos los campos:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder=""/>
+                                </p:outputPanel>
+                            </f:facet>
+
+
+                            <p:column filterBy="#{servicio.trayectoLinea.linea}" headerText="Linea" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.trayectoLinea.linea}">
+                                <h:outputText value="#{servicio.trayectoLinea.linea}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.trayectoLinea.trayecto}" headerText="Trayecto" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.trayectoLinea.trayecto}">
+                                <h:outputText value="#{servicio.trayectoLinea.trayecto}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.nodoInicial.nombre}" headerText="Nodo Inicio" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.nodoInicial.nombre}">
+                                <h:outputText value="#{servicio.nodoInicial.nombre}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.nodoFinal.nombre}" headerText="Nodo Final" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.nodoFinal.nombre}">
+                                <h:outputText value="#{servicio.nodoFinal.nombre}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.distancia}" headerText="Distancia" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.distancia}">
+                                <h:outputText value="#{servicio.distancia}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.tipoDiaByArco.detalle}" headerText="Tipo Dia" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.tipoDiaByArco.detalle}">
+                                <h:outputText value="#{servicio.tipoDiaByArco.detalle}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.horaDesde}" headerText="Hora Desde" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.horaDesde}">
+                                <h:outputText value="#{servicio.horaDesde}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.horaHasta}" headerText="Hora Hasta" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.horaHasta}">
+                                <h:outputText value="#{servicio.horaHasta}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.tiempoMinimo}" headerText="T.Minimo" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.tiempoMinimo}">
+                                <h:outputText value="#{servicio.tiempoMinimo}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.tiempoMaximo}" headerText="T.Maximo" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.tiempoMaximo}">
+                                <h:outputText value="#{servicio.tiempoMaximo}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.tiempoOptimo}" headerText="T.Optimo" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.tiempoOptimo}">
+                                <h:outputText value="#{servicio.tiempoOptimo}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.sentido}" headerText="Sentido" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.sentido}">
+                                <h:outputText value="#{servicio.sentido}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.secuencia}" headerText="Secuencia" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.secuencia}">
+                                <h:outputText value="#{servicio.secuencia}" />
+                            </p:column>
+
+                            <p:column filterBy="#{servicio.tipoArco}" headerText="Tipo Arco" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.tipoArco}">
+                                <h:outputText value="#{servicio.tipoArco}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </p:panel>
+            </h:form>
+        </ui:define>
+
+
+    </ui:composition>
+
+</h:body>
+
+</html>

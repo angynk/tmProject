@@ -2,11 +2,15 @@ package com.journaldev.hibernate.data.dao;
 
 import com.journaldev.hibernate.data.entity.GisCarga;
 import com.journaldev.hibernate.data.entity.TablaMaestra;
+import com.journaldev.hibernate.data.entity.Trayecto;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -43,5 +47,17 @@ public class GisCargaDao {
     public List<GisCarga> getGisCargaAll() {
         List list = getSessionFactory().getCurrentSession().createQuery("from  GisCarga").list();
         return list;
+    }
+
+    public List<GisCarga> getGisCargaByFecha(String tipoFecha,Date fecha){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(GisCarga.class);
+        criteria.add(Restrictions.eq(tipoFecha, fecha));
+        return criteria.list();
+    }
+
+    public List<GisCarga> getGisCargaBetwenFechas(String tipoFecha,Date fechaIni,Date fechaFin){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(GisCarga.class);
+        criteria.add(  Restrictions.between(tipoFecha, fechaIni, fechaFin)  );
+        return criteria.list();
     }
 }

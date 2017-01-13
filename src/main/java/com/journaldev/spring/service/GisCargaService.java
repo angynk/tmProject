@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,7 +39,8 @@ public class GisCargaService {
     public List<GisCarga> getGisCargaAll() {
         return gisCargaDao.getGisCargaAll();
     }
-
+    public List<GisCarga> getGisCargaByFecha(String tipoFecha,Date fecha){ return  gisCargaDao.getGisCargaByFecha( tipoFecha, fecha);}
+    public List<GisCarga> getGisCargaBetwenFechas(String tipoFecha,Date fechaIni,Date fechaFin){ return  gisCargaDao.getGisCargaBetwenFechas(tipoFecha,fechaIni,fechaFin);}
     @Transactional(readOnly = false)
     public void addTrayecto(Trayecto trayecto) {
         trayectoDao.addTrayecto(trayecto);
