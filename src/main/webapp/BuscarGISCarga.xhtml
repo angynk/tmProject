@@ -13,6 +13,7 @@
 
         <ui:define name="content">
             <h:form >
+                <p:growl id="messages" showDetail="true" />
                 <p:panel id="basic" header="Buscar GIS de Carga"  style="margin-bottom:20px">
                 <h:panelGrid columns="2" style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
                     <p:outputLabel  value="Tipo Busqueda:" />
@@ -44,16 +45,16 @@
                             <h:outputText value="#{carga.descripcion}" />
                         </p:column>
                         <p:column headerText="Fecha Creacion">
-                            <h:outputText value="#{carga.fechaCreacion}" />
+                            <h:outputText value="#{carga.fechaCreacionFormato}" />
                         </p:column>
                         <p:column headerText="Fecha Programacion">
-                            <h:outputText value="#{carga.fechaProgramacion}" />
+                            <h:outputText value="#{carga.fechaProgramacionFormato}" />
                         </p:column>
                         <p:column headerText="Fecha Vigencia">
-                            <h:outputText value="#{carga.fechaVigencia}" />
+                            <h:outputText value="#{carga.fechaVigenciaFormato}" />
                         </p:column>
-                        <p:column style="width:32px;text-align: center">
-                            <p:commandButton action="#{busquedaGis.busquedaCargaGis}" icon="ui-icon-search" title="View">
+                        <p:column style="width:100px;text-align: center">
+                            <p:commandButton action="#{busquedaGis.busquedaCargaGis}" icon="ui-icon-search" title="View" >
                                 <f:setPropertyActionListener value="#{carga}" target="#{busquedaGis.selectedCarga}" />
                             </p:commandButton>
                         </p:column>

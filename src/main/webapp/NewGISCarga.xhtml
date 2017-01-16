@@ -16,6 +16,12 @@
 					<p:growl id="messages" showDetail="true" />
 
 					<p:panel id="basic" header="Nuevo GIS de Carga"  style="margin-bottom:20px">
+						<br />
+
+						<p:progressBar ajax="true" widgetVar="progress" value="#{gisCarga.progress}"
+									   styleClass="animated" global="false" />
+
+						<br />
 						<h:panelGrid columns="4" style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
 							<p:outputLabel for="button" value="Fecha Programacion:" />
 							<p:calendar id="button" value="#{gisCarga.fechaProgramacion}" showOn="button" />
@@ -29,12 +35,16 @@
 								<f:selectItem itemLabel="Festivo" itemValue="FESTIVO" />
 							</p:selectOneMenu>
 							<p:outputLabel value="Gis de Carga:" />
-							<p:fileUpload value="#{gisCarga.gisCarga}" mode="simple" skinSimple="true"/>
+							<p:fileUpload value="#{gisCarga.gisCarga}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
 							<p:outputLabel value="Descripcion:" />
 							<p:inputText value="#{gisCarga.descripcion}"/>
 						</h:panelGrid>
 						<h:commandButton value="Next" action="#{gisCarga.upload}" ajax="false"
-										 icon="ui-icon-disk" id="withIcon" />
+										 icon="ui-icon-disk" id="withIcon"
+										 async="true" process="@form" onclick="progress.start()" global="false"/>
+
+
+
 					</p:panel>
 
 					<p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
@@ -45,9 +55,8 @@
 								</h:outputText>
 							</p:panelGrid>
 					</p:dialog>
-
-
 				</h:form>
+
     		</ui:define>
 
     		

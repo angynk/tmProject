@@ -16,7 +16,8 @@
                 <p:panel id="basic" header="Gis Carga" style="margin-bottom:20px" visible="#{busquedaGis.visibleRecords}">
                     <div style="margin-top:20px">
                         <p:dataTable var="arco" value="#{busquedaGis.arcoTiempoRecords}" widgetVar="carsTable"
-                                     emptyMessage="No cars found with given criteria" filteredValue="#{busquedaGis.filteredArcoTiempoRecords}">
+                                     emptyMessage="No cars found with given criteria" filteredValue="#{busquedaGis.filteredArcoTiempoRecords}"
+                                     scrollable="true" scrollWidth="100%" >
 
                             <f:facet name="header" style="background-color: #4cae4c">
                                 <p:outputPanel>
@@ -26,59 +27,73 @@
                             </f:facet>
 
 
-                            <p:column filterBy="#{arco.trayectoLinea.linea}" headerText="Linea" footerText="contains" filterMatchMode="contains" sortBy="#{arco.trayectoLinea.linea}">
+                            <p:column filterBy="#{arco.trayectoLinea.linea}" headerText="Linea"  filterMatchMode="contains" sortBy="#{arco.trayectoLinea.linea}"
+                             style="width: 120px">
                                 <h:outputText value="#{arco.trayectoLinea.linea}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.trayectoLinea.trayecto}" headerText="Trayecto" footerText="contains" filterMatchMode="contains" sortBy="#{arco.trayectoLinea.trayecto}">
+                            <p:column filterBy="#{arco.trayectoLinea.trayecto}" headerText="Trayecto"  filterMatchMode="contains" sortBy="#{arco.trayectoLinea.trayecto}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.trayectoLinea.trayecto}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.nodoInicial.nombre}" headerText="Nodo Inicio" footerText="contains" filterMatchMode="contains" sortBy="#{arco.nodoInicial.nombre}">
+                            <p:column filterBy="#{arco.nodoInicial.nombre}" headerText="Nodo Inicio" filterMatchMode="contains" sortBy="#{arco.nodoInicial.nombre}"
+                                      style="width: 125px">
                                 <h:outputText value="#{arco.nodoInicial.nombre}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.nodoFinal.nombre}" headerText="Nodo Final" footerText="contains" filterMatchMode="contains" sortBy="#{arco.nodoFinal.nombre}">
+                            <p:column filterBy="#{arco.nodoFinal.nombre}" headerText="Nodo Final"  filterMatchMode="contains" sortBy="#{arco.nodoFinal.nombre}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.nodoFinal.nombre}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.distancia}" headerText="Distancia" footerText="contains" filterMatchMode="contains" sortBy="#{arco.distancia}">
+                            <p:column filterBy="#{arco.distancia}" headerText="Distancia" filterMatchMode="contains" sortBy="#{arco.distancia}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.distancia}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.tipoDiaByArco.detalle}" headerText="Tipo Dia" footerText="contains" filterMatchMode="contains" sortBy="#{arco.tipoDiaByArco.detalle}">
+                            <p:column filterBy="#{arco.tipoDiaByArco.detalle}" headerText="Tipo Dia"  filterMatchMode="contains" sortBy="#{arco.tipoDiaByArco.detalle}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.tipoDiaByArco.detalle}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.horaDesde}" headerText="Hora Desde" footerText="contains" filterMatchMode="contains" sortBy="#{arco.horaDesde}">
+                            <p:column filterBy="#{arco.horaDesde}" headerText="Hora Desde"  filterMatchMode="contains" sortBy="#{arco.horaDesde}"
+                                      style="width: 125px">
                                 <h:outputText value="#{arco.horaDesde}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.horaHasta}" headerText="Hora Hasta" footerText="contains" filterMatchMode="contains" sortBy="#{arco.horaHasta}">
+                            <p:column filterBy="#{arco.horaHasta}" headerText="Hora Hasta"  filterMatchMode="contains" sortBy="#{arco.horaHasta}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.horaHasta}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.tiempoMinimo}" headerText="T.Minimo" footerText="contains" filterMatchMode="contains" sortBy="#{arco.tiempoMinimo}">
+                            <p:column filterBy="#{arco.tiempoMinimo}" headerText="T.Minimo"  filterMatchMode="contains" sortBy="#{arco.tiempoMinimo}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.tiempoMinimo}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.tiempoMaximo}" headerText="T.Maximo" footerText="contains" filterMatchMode="contains" sortBy="#{arco.tiempoMaximo}">
+                            <p:column filterBy="#{arco.tiempoMaximo}" headerText="T.Maximo"  filterMatchMode="contains" sortBy="#{arco.tiempoMaximo}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.tiempoMaximo}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.tiempoOptimo}" headerText="T.Optimo" footerText="contains" filterMatchMode="contains" sortBy="#{arco.tiempoOptimo}">
+                            <p:column filterBy="#{arco.tiempoOptimo}" headerText="T.Optimo"  filterMatchMode="contains" sortBy="#{arco.tiempoOptimo}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.tiempoOptimo}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.sentido}" headerText="Sentido" footerText="contains" filterMatchMode="contains" sortBy="#{arco.sentido}">
+                            <p:column filterBy="#{arco.sentido}" headerText="Sentido"  filterMatchMode="contains" sortBy="#{arco.sentido}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.sentido}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.secuencia}" headerText="Secuencia" footerText="contains" filterMatchMode="contains" sortBy="#{arco.secuencia}">
+                            <p:column filterBy="#{arco.secuencia}" headerText="Secuencia"  filterMatchMode="contains" sortBy="#{arco.secuencia}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.secuencia}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.tipoArco}" headerText="Tipo Arco" footerText="contains" filterMatchMode="contains" sortBy="#{arco.tipoArco}">
+                            <p:column filterBy="#{arco.tipoArco}" headerText="Tipo Arco"  filterMatchMode="contains" sortBy="#{arco.tipoArco}"
+                                      style="width: 120px">
                                 <h:outputText value="#{arco.tipoArco}" />
                             </p:column>
 

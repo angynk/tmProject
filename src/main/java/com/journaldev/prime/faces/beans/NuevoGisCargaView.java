@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @ManagedBean(name="gisCarga")
-@SessionScoped
+@ViewScoped
 public class NuevoGisCargaView implements Serializable{
 
     @ManagedProperty("#{DataProcesorImpl}")
@@ -28,18 +29,46 @@ public class NuevoGisCargaView implements Serializable{
     private String tipoDia;
     private String descripcion;
     private String messageContent="Failed";
+    private boolean status;
+    private double progress = 0d;
 
     public void upload() {
-        if(gisCarga.getSize()>0) {
+        if(isValid()){
+        if(gisCarga.getSize()>0 && gisCarga.getContentType().equals("application/vnd.ms-excel")) {
+            progress=20;
             try {
+                status = true;
+                progress=50;
+                if(descripcion.isEmpty()){ descripcion="Sin descripcion";}
                 dataProcesor.processDataFromFile(gisCarga.getFileName(),gisCarga.getInputstream(), fechaProgramacion, fechaVigencia,tipoDia,descripcion);
+               status =false;
+                progress=100;
                 messageContent = "GIS de Carga Almacenado";
             } catch (IOException e) {
                 messageContent= "Failed";
             }
-            FacesMessage message = new FacesMessage(messageContent);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+
         }
+        }else{
+            messageContent="Complete todos los campos";
+        }
+
+        FacesMessage message = new FacesMessage(messageContent);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    private boolean isValid() {
+
+        if(gisCarga!=null){
+            if(fechaProgramacion!=null){
+                if(fechaVigencia!=null){
+                    if(tipoDia!= null){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public Date getFechaProgramacion() {
@@ -58,6 +87,13 @@ public class NuevoGisCargaView implements Serializable{
         this.fechaVigencia = fechaVigencia;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public UploadedFile getGisCarga() {
         return gisCarga;
@@ -103,5 +139,13 @@ public class NuevoGisCargaView implements Serializable{
 
     public void setDataProcesor(DataProcesorImpl dataProcesor) {
         this.dataProcesor = dataProcesor;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
     }
 }

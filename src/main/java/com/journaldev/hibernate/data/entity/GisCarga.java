@@ -2,6 +2,7 @@ package com.journaldev.hibernate.data.entity;
 
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,13 @@ public class GisCarga {
     private boolean estaVigente;
     @Column(name = "descripcion")
     private String descripcion;
+    @Transient
+    private String fechaCreacionFormato;
+    @Transient
+    private String fechaProgramacionFormato;
+    @Transient
+    private String fechaVigenciaFormato;
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisCargaArco")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
@@ -94,5 +102,32 @@ public class GisCarga {
 
     public void setArcoTiempoRecords(Set<ArcoTiempo> arcoTiempoRecords) {
         this.arcoTiempoRecords = arcoTiempoRecords;
+    }
+
+    public String getFechaCreacionFormato() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        return dt1.format(fechaCreacion);
+    }
+
+    public void setFechaCreacionFormato(String fechaCreacionFormato) {
+        this.fechaCreacionFormato = fechaCreacionFormato;
+    }
+
+    public String getFechaProgramacionFormato() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        return dt1.format(fechaProgramacion);
+    }
+
+    public void setFechaProgramacionFormato(String fechaProgramacionFormato) {
+        this.fechaProgramacionFormato = fechaProgramacionFormato;
+    }
+
+    public String getFechaVigenciaFormato() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        return dt1.format(fechaVigencia);
+    }
+
+    public void setFechaVigenciaFormato(String fechaVigenciaFormato) {
+        this.fechaVigenciaFormato = fechaVigenciaFormato;
     }
 }

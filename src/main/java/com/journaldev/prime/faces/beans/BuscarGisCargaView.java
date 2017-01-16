@@ -8,9 +8,7 @@ import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.*;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
@@ -30,6 +28,8 @@ public class BuscarGisCargaView implements Serializable {
     private Date fechaInicial;
     private Date fechaFinal;
     private boolean visibleRecords;
+    private String messageContent;
+
 
     private List<GisCarga> gisCargaRecords;
     private GisCarga selectedCarga;
@@ -42,17 +42,28 @@ public class BuscarGisCargaView implements Serializable {
     private BusquedaService busquedaService;
 
 
+    public BuscarGisCargaView(){};
+
     public void buscar(){
-        boolean resultado = true;
+        visibleRecords=true;
         if (busqueda.equals("1")){
-            gisCargaRecords = busquedaService.busquedaFecha(fechaInicial, tipoFecha);
-        }else{
-            if( fechaInicial!= null && fechaFinal!=null){
+            if(fechaInicial!=null && tipoFecha!= null){
+                gisCargaRecords = busquedaService.busquedaFecha(fechaInicial, tipoFecha);
+            }else { showMessage("Complete todos los campos");}
+        }else if (busqueda.equals("2")){
+            if( fechaInicial!= null && fechaFinal!=null && tipoFecha!= null){
                 gisCargaRecords = busquedaService.busquedaRangos( fechaInicial,fechaFinal,tipoFecha );
-            }
+            }else { showMessage("Complete todos los campos");}
+        }else{
+            showMessage("Seleccione el tipo de busqueda");
         }
 
-        visibleRecords = resultado;
+    }
+
+    public void showMessage(String messageText){
+        FacesMessage message = new FacesMessage(messageText);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        visibleRecords = false;
     }
 
     public void busquedaCargaGis(){
@@ -137,6 +148,14 @@ public class BuscarGisCargaView implements Serializable {
         return gisCargaRecords;
     }
 
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
+    }
+
     public void setGisCargaRecords(List<GisCarga> gisCargaRecords) {
         this.gisCargaRecords = gisCargaRecords;
     }
@@ -185,4 +204,6 @@ public class BuscarGisCargaView implements Serializable {
     public void setBusquedaService(BusquedaService busquedaService) {
         this.busquedaService = busquedaService;
     }
+
+
 }
