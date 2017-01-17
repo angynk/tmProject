@@ -5,6 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <import resource="DataSource"/>
+    <import resource="DataSourceSqlServer.xml"/>
 
 
     <context:annotation-config />
@@ -49,4 +50,36 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!--<bean id="sessionFactoryServer"-->
+          <!--class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">-->
+
+        <!--<property name="dataSource">-->
+            <!--<ref bean="DataSourceSqlServer"/>-->
+        <!--</property>-->
+
+        <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>-->
+                <!--&lt;!&ndash;<prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>&ndash;&gt;-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--&lt;!&ndash;<prop key="current_session_context_class">thread</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hbm2ddl.auto">validate</prop>&ndash;&gt;-->
+            <!--</props>-->
+        <!--</property>-->
+
+        <!--<property name="annotatedClasses">-->
+            <!--<list>-->
+                <!--<value>com.journaldev.hibernate.data.entity.saeBogota.Nodos</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="transactionManager2"-->
+          <!--class="org.springframework.orm.hibernate3.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactoryServer" />-->
+    <!--</bean>-->
+
+    <!--<tx:annotation-driven transaction-manager="transactionManager2" />-->
 </beans>

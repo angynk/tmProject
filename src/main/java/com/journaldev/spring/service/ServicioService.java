@@ -4,14 +4,13 @@ package com.journaldev.spring.service;
 import com.journaldev.hibernate.data.Servicio;
 import com.journaldev.hibernate.data.entity.TablaMaestra;
 import com.journaldev.hibernate.data.TipoDia;
+import com.journaldev.hibernate.data.entity.saeBogota.*;
+import com.saeBogota.services.MatrizDistanciasService;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @ManagedBean(name = "servicioService")
 @ApplicationScoped
@@ -19,6 +18,10 @@ public class ServicioService {
 
     @ManagedProperty("#{TablaMaestraService}")
     private TablaMaestraService tablaMaestraService;
+
+    @ManagedProperty("#{DistanciaNodosService}")
+    private DistanciaNodosService distanciaNodosService;
+
 
     private final static TipoDia[] tipoDia;
 
@@ -88,14 +91,26 @@ public class ServicioService {
 //        tablaMaestra.setId(1);
 //        tablaMaestraService.addCustomer(tablaMaestra);
 
-        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
-        customers.size();
-
-       // tablaMaestraService.getVigenciasDao().size();
+//        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
+//        customers.size();
+        // tablaMaestraService.getVigenciasDao().size();
+        List<NodosSeccion> lineasByMacroAndLinea = distanciaNodosService.getNodosSeccionesByMacroLineaAndConfig(9, 30,17);
+        System.out.println(lineasByMacroAndLinea.size());
     }
 
+    public TablaMaestraService getTablaMaestraService() {
+        return tablaMaestraService;
+    }
 
     public void setTablaMaestraService(TablaMaestraService tablaMaestraService) {
         this.tablaMaestraService = tablaMaestraService;
+    }
+
+    public DistanciaNodosService getDistanciaNodosService() {
+        return distanciaNodosService;
+    }
+
+    public void setDistanciaNodosService(DistanciaNodosService distanciaNodosService) {
+        this.distanciaNodosService = distanciaNodosService;
     }
 }

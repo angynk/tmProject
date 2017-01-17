@@ -4,29 +4,31 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-
     <session-factory>
-        <!-- SQL dialect, only thing required for Spring.
-        For stanalone application, other DB configs are required -->
-        <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.SQLServerDialect
+        </property>
+        <property name="hibernate.connection.driver_class">
+            com.microsoft.sqlserver.jdbc.SQLServerDriver
+        </property>
+
+        <!-- Assume test is the database name -->
+        <property name="hibernate.connection.url">
+            jdbc:sqlserver://localhost:1433;databaseName=SAEBogota
+        </property>
+        <property name="hibernate.connection.username">
+            sa
+        </property>
+        <property name="hibernate.connection.password">
+            1234
+        </property>
+
+        <!-- List of XML mapping files -->
+        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Nodos"/>
+        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Vigencias"/>
+        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Lineas"/>
+        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Secciones"/>
+        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.NodosSeccion"/>
+
     </session-factory>
-
-    <!--<session-factory>-->
-
-        <!--&lt;!&ndash; Database connection settings &ndash;&gt;-->
-        <!--<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>-->
-        <!--<property name="hibernate.connection.url">jdbc:jtds:sqlserver://localhost:1433/SAEBogota</property>-->
-        <!--<property name="hibernate.connection.username">nataly</property>-->
-        <!--<property name="hibernate.connection.password">capitulo3</property>-->
-
-        <!--&lt;!&ndash; SQL dialect &ndash;&gt;-->
-        <!--<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>-->
-        <!--&lt;!&ndash; Specify session context &ndash;&gt;-->
-
-        <!--&lt;!&ndash; Show SQL &ndash;&gt;-->
-        <!--<property name="hibernate.show_sql">true</property>-->
-        <!--&lt;!&ndash; Referring Mapping File &ndash;&gt;-->
-        <!--<mapping resource="domain-classes.hbm.xml"/>-->
-    <!--</session-factory>-->
-
 </hibernate-configuration>

@@ -30,6 +30,7 @@ public class FilterView implements Serializable {
         servicios = service.createServicio(10);
        service.test();
 
+
     }
 
     public boolean filterByPrice(Object value, Object filter, Locale locale) {
@@ -69,5 +70,7 @@ public class FilterView implements Serializable {
         this.service = service;
     }
 
-
+    public ServicioService getService() {
+        return service;
+    }
 }

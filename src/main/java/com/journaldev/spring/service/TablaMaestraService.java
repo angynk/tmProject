@@ -1,10 +1,10 @@
 package com.journaldev.spring.service;
 
 
-import com.journaldev.hibernate.data.Nodos;
+import com.journaldev.hibernate.data.dao.saeBogota.NodosDao;
+import com.journaldev.hibernate.data.entity.saeBogota.Nodos;
 import com.journaldev.hibernate.data.entity.TablaMaestra;
 import com.journaldev.hibernate.data.dao.TablaMaestraDao;
-import com.journaldev.hibernate.data.dao.VigenciasDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +20,12 @@ public class TablaMaestraService {
     @Autowired
     TablaMaestraDao tablaMaestraDao;
 
-    @Autowired
-    VigenciasDao vigenciasDao;
+
+
+
+
+
+
 
     @Transactional(readOnly = false)
     public void addCustomer(TablaMaestra tablaMaestra) {
@@ -55,8 +59,6 @@ public class TablaMaestraService {
         this.tablaMaestraDao = tablaMaestraDao;
     }
 
-    public List<Nodos> getVigenciasDao(){
-        return vigenciasDao.getCustomers();
-    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.journaldev.hibernate.data;
+package com.journaldev.hibernate.data.entity.saeBogota;
 
 
 import javax.persistence.Column;
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="dbo.Nodos")
+@Table(name="Nodos",schema="dbo")
 public class Nodos {
 
     @Id
