@@ -15,9 +15,22 @@
             <h:form >
                 <p:panel id="basic" header="Gis Carga" style="margin-bottom:20px" visible="#{busquedaGis.visibleRecords}">
                     <div style="margin-top:20px">
-                        <p:dataTable var="arco" value="#{busquedaGis.arcoTiempoRecords}" widgetVar="carsTable"
+                        <p:panelGrid columns="4">
+                                <p:commandButton actionListener="#{busquedaGis.atras}" id="atras"  icon="ui-icon ui-icon-arrow-1-w" title="atras" />
+                                <p:commandButton actionListener="#{busquedaGis.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
+
+                            <h:outputText value="Exportar:" />
+                            <h:commandLink>
+                                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls"
+                                                target="arco" fileName="GIS de carga"  />
+                            </h:commandLink>
+                        </p:panelGrid>
+                        <div style="height: 10px"></div>
+                        <p:dataTable id="arco" var="arco" value="#{busquedaGis.arcoTiempoRecords}" widgetVar="carsTable"
                                      emptyMessage="No cars found with given criteria" filteredValue="#{busquedaGis.filteredArcoTiempoRecords}"
-                                     scrollable="true" scrollWidth="100%" >
+                                     scrollable="true" scrollWidth="100%" scrollHeight="510">
+
 
                             <f:facet name="header" style="background-color: #4cae4c">
                                 <p:outputPanel>
@@ -98,6 +111,7 @@
                             </p:column>
 
                         </p:dataTable>
+
                     </div>
                 </p:panel>
             </h:form>

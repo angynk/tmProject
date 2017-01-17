@@ -60,6 +60,20 @@ public class BuscarGisCargaView implements Serializable {
 
     }
 
+    public void atras(){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/BuscarGISCarga.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void inicio(){
+
+    }
+
     public void showMessage(String messageText){
         FacesMessage message = new FacesMessage(messageText);
         FacesContext.getCurrentInstance().addMessage(null, message);
