@@ -28,6 +28,7 @@ public class BuscarGisCargaView implements Serializable {
     private Date fechaInicial;
     private Date fechaFinal;
     private boolean visibleRecords;
+    private boolean fechaFinalVisible;
     private String messageContent;
 
 
@@ -72,6 +73,14 @@ public class BuscarGisCargaView implements Serializable {
 
     public void inicio(){
 
+    }
+
+    public void cambioTipoBusqueda(){
+        if(busqueda.equals("1")){
+            fechaFinalVisible= false;
+        }else{
+            fechaFinalVisible=true;
+        }
     }
 
     public void showMessage(String messageText){
@@ -219,5 +228,11 @@ public class BuscarGisCargaView implements Serializable {
         this.busquedaService = busquedaService;
     }
 
+    public boolean isFechaFinalVisible() {
+        return fechaFinalVisible;
+    }
 
+    public void setFechaFinalVisible(boolean fechaFinalVisible) {
+        this.fechaFinalVisible = fechaFinalVisible;
+    }
 }

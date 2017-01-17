@@ -18,6 +18,7 @@
                 <h:panelGrid columns="2" style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
                     <p:outputLabel  value="Tipo Busqueda:" />
                     <p:selectOneRadio id="busqueda" value="#{busquedaGis.busqueda}">
+                        <p:ajax process="@this" update="@form" listener="#{busquedaGis.cambioTipoBusqueda}"/>
                         <f:selectItem itemLabel="Fecha" itemValue="1" />
                         <f:selectItem itemLabel="Rango Fechas" itemValue="2" />
                     </p:selectOneRadio>
@@ -28,10 +29,17 @@
                         <f:selectItem itemLabel="Fecha de vigencia" itemValue="fechaVigencia" />
                     </p:selectOneRadio>
                     <p:outputLabel for="button" value="Fecha Inicial:" />
+                    <p:panel  style="border:none">
                     <p:calendar id="button" value="#{busquedaGis.fechaInicial}" showOn="button" />
+                    </p:panel>
+
                     <p:outputLabel for="buttonF" value="Fecha Final:" />
-                    <p:calendar id="buttonF" value="#{busquedaGis.fechaFinal}" showOn="button" />
-                        </h:panelGrid>
+                    <p:panel visible="#{busquedaGis.fechaFinalVisible}" style="border:none">
+                        <p:calendar id="buttonF" value="#{busquedaGis.fechaFinal}" showOn="button" />
+                    </p:panel>
+
+                </h:panelGrid>
+
                     <h:commandButton value="Next" action="#{busquedaGis.buscar}" ajax="false"
                                      icon="ui-icon-disk" id="withIcon" />
 
