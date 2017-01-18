@@ -1,5 +1,7 @@
 package com.journaldev.hibernate.data.entity;
 
+import com.journaldev.hibernate.data.entity.tmData.DistanciaNodos;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +27,9 @@ public class Nodo {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoFinal")
     private Set<ArcoTiempo> arcoTiempoNodoFinalRecords = new HashSet<ArcoTiempo>(0);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
+    private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
 
     public Nodo() {
     }
@@ -71,5 +76,13 @@ public class Nodo {
 
     public void setArcoTiempoNodoFinalRecords(Set<ArcoTiempo> arcoTiempoNodoFinalRecords) {
         this.arcoTiempoNodoFinalRecords = arcoTiempoNodoFinalRecords;
+    }
+
+    public Set<DistanciaNodos> getDistanciaNodosRecords() {
+        return distanciaNodosRecords;
+    }
+
+    public void setDistanciaNodosRecords(Set<DistanciaNodos> distanciaNodosRecords) {
+        this.distanciaNodosRecords = distanciaNodosRecords;
     }
 }

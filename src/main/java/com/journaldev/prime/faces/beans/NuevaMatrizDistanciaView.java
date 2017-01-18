@@ -1,11 +1,18 @@
 package com.journaldev.prime.faces.beans;
 
+import com.journaldev.hibernate.data.entity.tmData.DistanciaNodos;
+import com.journaldev.hibernate.data.entity.tmData.MatrizDistancia;
+import com.journaldev.hibernate.data.entity.tmData.Servicio;
+import com.journaldev.spring.service.BusquedaService;
+import com.journaldev.spring.service.MatrizDistanciaService;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.util.Date;
+import java.util.List;
 
 @ManagedBean(name="matrizDis")
 @SessionScoped
@@ -19,6 +26,9 @@ public class NuevaMatrizDistanciaView {
     private Date fechaDeProgramacion;
     private Date fechaDeVigencia;
     private UploadedFile matrizDistancias;
+
+    @ManagedProperty("#{MatrizDistanciaService}")
+    private MatrizDistanciaService matrizDistanciaService;
 
     @PostConstruct
     public void init() {
@@ -48,6 +58,8 @@ public class NuevaMatrizDistanciaView {
     }
 
     public void calcularMatrizDistancias(){
+
+        List<DistanciaNodos> distanciaNodosAll = matrizDistanciaService.getDistanciaNodosAll();
 
     }
 
@@ -105,5 +117,13 @@ public class NuevaMatrizDistanciaView {
 
     public void setMatrizDistancias(UploadedFile matrizDistancias) {
         this.matrizDistancias = matrizDistancias;
+    }
+
+    public MatrizDistanciaService getMatrizDistanciaService() {
+        return matrizDistanciaService;
+    }
+
+    public void setMatrizDistanciaService(MatrizDistanciaService matrizDistanciaService) {
+        this.matrizDistanciaService = matrizDistanciaService;
     }
 }

@@ -40,6 +40,9 @@
                 <value>com.journaldev.hibernate.data.entity.TipoDiaDetalle</value>
                 <value>com.journaldev.hibernate.data.entity.Nodo</value>
                 <value>com.journaldev.hibernate.data.entity.ArcoTiempo</value>
+                <value>com.journaldev.hibernate.data.entity.tmData.MatrizDistancia</value>
+                <value>com.journaldev.hibernate.data.entity.tmData.Servicio</value>
+                <value>com.journaldev.hibernate.data.entity.tmData.DistanciaNodos</value>
             </list>
         </property>
     </bean>
