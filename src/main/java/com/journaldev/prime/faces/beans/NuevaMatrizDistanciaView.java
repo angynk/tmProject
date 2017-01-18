@@ -38,6 +38,12 @@ public class NuevaMatrizDistanciaView {
     }
 
     public void cargarArchivo(){
+        long sle= 10000;
+        try {
+            Thread.sleep(sle);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -12,6 +12,14 @@
     <ui:composition template="/template/common/commonLayout.xhtml">
 
         <ui:define name="content">
+
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage name="/resources/images/ajaxloadingbar.gif" />
+            </p:dialog>
+
+
             <h:form enctype="multipart/form-data">
                 <p:growl id="messages" showDetail="true" />
 
@@ -36,8 +44,8 @@
                             <p:fileUpload value="#{matrizDis.matrizDistancias}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
                             <h:commandButton value="Guardar" action="#{matrizDis.cargarArchivo}" ajax="false"
                                              icon="ui-icon-disk" id="withIcon" styleClass="boton"
-                                             async="true" process="@form" onclick="progress.start()" global="false"
-                                             oncomplete="PF('dlg2').show();"/>
+                                             async="true" process="@form" onclick="PF('dlg2').show();" global="false"
+                                             oncomplete="PF('dlg2').hide()"/>
                             </p:panelGrid>
                         </p:panel>
                         <p:panel visible="#{matrizDis.automaticoVisible}" style="border:none" >
@@ -74,8 +82,10 @@
                     </p:panelGrid>
                 </p:dialog>
 
-                <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
-                    <h:outputText value="#{gisCarga.messageContent}" />
+                <p:dialog  widgetVar="dlg2" modal="true" height="100" closable="false" resizable="false"
+                minHeight="40" style="height: 40px">
+                    <h:outputText value="En Proceso.." />
+                    <p:graphicImage name="images/ajaxloadingbar.gif" />
                 </p:dialog>
 
             </h:form>
