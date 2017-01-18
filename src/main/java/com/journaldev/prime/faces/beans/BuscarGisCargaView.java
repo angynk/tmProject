@@ -45,6 +45,15 @@ public class BuscarGisCargaView implements Serializable {
 
     public BuscarGisCargaView(){};
 
+    @PostConstruct
+    public void init() {
+        busqueda = "1";
+        fechaFinalVisible=false;
+        gisCargaRecords = new ArrayList<>();
+        selectedGisCarga = new ArrayList<>();
+        visibleRecords = false;
+    }
+
     public void buscar(){
         visibleRecords=true;
         if (busqueda.equals("1")){
@@ -104,12 +113,6 @@ public class BuscarGisCargaView implements Serializable {
         //  externalContext.redirect("foo.xhtml");
     }
 
-    @PostConstruct
-    public void init() {
-        gisCargaRecords = new ArrayList<>();
-        selectedGisCarga = new ArrayList<>();
-        visibleRecords = false;
-    }
 
     public String getBusqueda() {
         return busqueda;

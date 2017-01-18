@@ -5,6 +5,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -31,6 +32,10 @@ public class NuevoGisCargaView implements Serializable{
     private String messageContent="Failed";
     private boolean status;
     private double progress = 0d;
+
+
+
+
 
     public void upload() {
         if(isValid()){
@@ -147,5 +152,13 @@ public class NuevoGisCargaView implements Serializable{
 
     public void setProgress(double progress) {
         this.progress = progress;
+    }
+
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
     }
 }

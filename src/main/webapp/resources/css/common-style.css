@@ -21,3 +21,13 @@
 	height:100px;
 	border: 1px solid #000;
 }
+
+.ui-panelgrid tr, .ui-panelgrid td{
+	border:none !important;
+}
+
+.boton {
+	color: #900;
+	font-weight: bold;
+	font-size: 120%;
+}

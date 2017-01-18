@@ -39,9 +39,10 @@
 							<p:outputLabel value="Descripcion:" />
 							<p:inputText value="#{gisCarga.descripcion}"/>
 						</h:panelGrid>
-						<h:commandButton value="Next" action="#{gisCarga.upload}" ajax="false"
-										 icon="ui-icon-disk" id="withIcon"
-										 async="true" process="@form" onclick="progress.start()" global="false"/>
+						<h:commandButton value="Guardar" action="#{gisCarga.upload}" ajax="false"
+										 icon="ui-icon-disk" id="withIcon" styleClass="boton"
+										 async="true" process="@form" onclick="progress.start()" global="false"
+										 oncomplete="PF('dlg2').show();"/>
 
 
 
@@ -55,6 +56,11 @@
 								</h:outputText>
 							</p:panelGrid>
 					</p:dialog>
+
+					<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+						<h:outputText value="#{gisCarga.messageContent}" />
+					</p:dialog>
+
 				</h:form>
 
     		</ui:define>
