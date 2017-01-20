@@ -30,7 +30,7 @@ public class MatrizDistanciaService {
     @Autowired
     DistanciaNodosDao distanciaNodosDao;
 
-
+    @Transactional(readOnly = false)
     public void addMatrizDistancia(MatrizDistancia matrizDistancia) {
         matrizDistanciaDao.addMatrizDistancia( matrizDistancia );
 
@@ -40,7 +40,7 @@ public class MatrizDistanciaService {
         matrizDistanciaDao.deleteMatrizDistancia(matrizDistancia);
     }
 
-
+    @Transactional(readOnly = false)
     public void updateMatrizDistancia(MatrizDistancia matrizDistancia) {
         matrizDistanciaDao.updateMatrizDistancia(matrizDistancia);
     }
@@ -57,7 +57,7 @@ public class MatrizDistanciaService {
     public List<MatrizDistancia> getMatrizDistanciaBetwenFechas(String tipoFecha,Date fechaIni,Date fechaFin){
         return matrizDistanciaDao.getMatrizDistanciaBetwenFechas(tipoFecha,fechaIni,fechaFin);
     }
-
+    @Transactional(readOnly = false)
     public void addServicio(Servicio servicio) {
         servicioDao.addServicio( servicio );
 
@@ -67,7 +67,7 @@ public class MatrizDistanciaService {
         servicioDao.deleteServicio( servicio );
     }
 
-
+    @Transactional(readOnly = false)
     public void updateServicio(Servicio servicio) {
         servicioDao.updateServicio( servicio );
     }
@@ -77,6 +77,7 @@ public class MatrizDistanciaService {
         return servicioDao.getServicioAll();
     }
 
+    @Transactional(readOnly = false)
     public void addDistanciaNodos(DistanciaNodos distanciaNodos) {
         distanciaNodosDao.addDistanciaNodos(distanciaNodos);
 
@@ -86,7 +87,7 @@ public class MatrizDistanciaService {
         distanciaNodosDao.deleteDistanciaNodos(distanciaNodos);
     }
 
-
+    @Transactional(readOnly = false)
     public void updateDistanciaNodos(DistanciaNodos distanciaNodos) {
         distanciaNodosDao.updateDistanciaNodos(distanciaNodos);
     }
@@ -94,6 +95,10 @@ public class MatrizDistanciaService {
 
     public List<DistanciaNodos> getDistanciaNodosAll() {
         return distanciaNodosDao.getDistanciaNodosAll();
+    }
+
+    public Servicio getServicioBymacroLineaYseccion(int macro,int linea,int seccion){
+        return servicioDao.getServicioBymacroLineaYseccion( macro,linea,seccion );
     }
 
 }

@@ -29,7 +29,7 @@ public class NuevoGisCargaView implements Serializable{
     private UploadedFile gisCarga;
     private String tipoDia;
     private String descripcion;
-    private String messageContent="Failed";
+    private String messageContent="Fallo el GIS de carga";
     private boolean status;
     private double progress = 0d;
 

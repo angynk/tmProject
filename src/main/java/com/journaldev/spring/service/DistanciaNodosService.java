@@ -41,11 +41,15 @@ public class DistanciaNodosService {
         return lineasDao.getLineasByMacroAndLinea(macro,linea);
     }
 
-    public List<Secciones> getSeccionesByMacroLineaAndConfig(int macro, int linea, int config) {
-        return  seccionesDao.getSeccionesByMacroLineaAndConfig( macro,linea,config );
+    public List<Secciones> getSeccionesByMacroLineaAndConfig(int macro, int linea, int config,int seccion) {
+        return  seccionesDao.getSeccionesByMacroLineaAndConfig( macro,linea,config,seccion );
     }
 
-    public List<NodosSeccion> getNodosSeccionesByMacroLineaAndConfig(int macro, int linea, int config) {
-        return nodosSeccionDao.getNodosSeccionesByMacroLineaAndConfig(macro,linea,config);
+    public List<NodosSeccion> getNodosSeccionesByMacroLineaAndConfig(int macro, int linea, int config,int tipoNodo) {
+        return nodosSeccionDao.getNodosSeccionesByMacroLineaAndConfig(macro,linea,config,tipoNodo);
+    }
+
+    public Nodos getNodosByTipoandCode(int id,int tipo) {
+        return nodosDao.getNodosByTipoandCode(id,tipo);
     }
 }

@@ -48,7 +48,7 @@ public class MatrizDistanciaDao {
     }
 
     public List<MatrizDistancia> getMatrizDistanciaByFecha(String tipoFecha,Date fecha){
-        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(GisCarga.class);
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(MatrizDistancia.class);
         criteria.add(Restrictions.eq(tipoFecha, fecha));
         return criteria.list();
     }

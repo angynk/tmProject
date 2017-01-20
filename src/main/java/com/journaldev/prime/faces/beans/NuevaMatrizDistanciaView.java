@@ -3,14 +3,17 @@ package com.journaldev.prime.faces.beans;
 import com.journaldev.hibernate.data.entity.tmData.DistanciaNodos;
 import com.journaldev.hibernate.data.entity.tmData.MatrizDistancia;
 import com.journaldev.hibernate.data.entity.tmData.Servicio;
+import com.journaldev.processing.saveData.MatrizProcessor;
 import com.journaldev.spring.service.BusquedaService;
 import com.journaldev.spring.service.MatrizDistanciaService;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +29,10 @@ public class NuevaMatrizDistanciaView {
     private Date fechaDeProgramacion;
     private Date fechaDeVigencia;
     private UploadedFile matrizDistancias;
+    private String messageContent="Fallo la generacion de la matriz de distancia";
 
-    @ManagedProperty("#{MatrizDistanciaService}")
-    private MatrizDistanciaService matrizDistanciaService;
+    @ManagedProperty("#{MatrizProcessor}")
+    private MatrizProcessor matrizProcessor;
 
     @PostConstruct
     public void init() {
@@ -58,9 +62,18 @@ public class NuevaMatrizDistanciaView {
     }
 
     public void calcularMatrizDistancias(){
-
-        List<DistanciaNodos> distanciaNodosAll = matrizDistanciaService.getDistanciaNodosAll();
-
+        if( numeracion!=null ){
+            if(fechaDeVigencia!=null ){
+                   boolean resultado= matrizProcessor.calcularMatrizDistancia(fechaDeVigencia,numeracion);
+                   if(resultado){
+                       messageContent = "GIS de Carga Almacenado";
+                   }else{
+                       messageContent = "No es posible generar GIS de Carga para la fecha seleccionada";
+                   }
+                FacesMessage message = new FacesMessage(messageContent);
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
+        }
     }
 
     public String getTipoGeneracion() {
@@ -119,11 +132,19 @@ public class NuevaMatrizDistanciaView {
         this.matrizDistancias = matrizDistancias;
     }
 
-    public MatrizDistanciaService getMatrizDistanciaService() {
-        return matrizDistanciaService;
+    public MatrizProcessor getMatrizProcessor() {
+        return matrizProcessor;
     }
 
-    public void setMatrizDistanciaService(MatrizDistanciaService matrizDistanciaService) {
-        this.matrizDistanciaService = matrizDistanciaService;
+    public void setMatrizProcessor(MatrizProcessor matrizProcessor) {
+        this.matrizProcessor = matrizProcessor;
+    }
+
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
     }
 }

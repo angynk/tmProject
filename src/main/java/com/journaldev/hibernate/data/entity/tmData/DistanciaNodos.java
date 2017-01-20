@@ -31,9 +31,17 @@ public class DistanciaNodos {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "matriz_distancia", nullable = false)
-    private Servicio matrizDistancia;
+    private MatrizDistancia matrizDistancia;
 
     public DistanciaNodos() {
+    }
+
+    public DistanciaNodos(String ruta, int distancia, Nodo nodo, Servicio servicio, MatrizDistancia matrizDistancia) {
+        this.ruta = ruta;
+        this.distancia = distancia;
+        this.nodo = nodo;
+        this.servicio = servicio;
+        this.matrizDistancia = matrizDistancia;
     }
 
     public long getId() {
@@ -76,11 +84,11 @@ public class DistanciaNodos {
         this.servicio = servicio;
     }
 
-    public Servicio getMatrizDistancia() {
+    public MatrizDistancia getMatrizDistancia() {
         return matrizDistancia;
     }
 
-    public void setMatrizDistancia(Servicio matrizDistancia) {
+    public void setMatrizDistancia(MatrizDistancia matrizDistancia) {
         this.matrizDistancia = matrizDistancia;
     }
 }

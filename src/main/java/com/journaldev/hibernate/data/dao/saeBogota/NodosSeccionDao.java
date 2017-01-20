@@ -4,6 +4,7 @@ import com.journaldev.hibernate.data.entity.saeBogota.NodosSeccion;
 import com.journaldev.hibernate.data.entity.saeBogota.Secciones;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -26,12 +27,13 @@ public class NodosSeccionDao implements Serializable {
         this.sessionFactoryServer = sessionFactoryServer;
     }
 
-    public List<NodosSeccion> getNodosSeccionesByMacroLineaAndConfig(int macro, int linea, int config) {
+    public List<NodosSeccion> getNodosSeccionesByMacroLineaAndConfig(int macro, int linea, int config,int tipoNodo) {
         session = sessionFactoryServer.openSession();
         Criteria criteria = session.createCriteria(NodosSeccion.class);
         criteria.add(Restrictions.eq("macro",macro));
         criteria.add(Restrictions.eq("linea",linea));
         criteria.add(Restrictions.eq("configLinea",config));
+        criteria.add(Restrictions.eq("tipo",tipoNodo));
         List list = criteria.list();
         session.close();
         return list;

@@ -1,6 +1,7 @@
 package com.journaldev.hibernate.data.entity.tmData;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +28,18 @@ public class MatrizDistancia {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matrizDistancia")
     private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
 
+    @Transient
+    private String fechaCreacionFormato;
+    @Transient
+    private String fechaProgramacionFormato;
+
     public MatrizDistancia() {
+    }
+
+    public MatrizDistancia(Date fechaCreacion, Date fechaAplicacion, String numeracion) {
+        this.fechaCreacion = fechaCreacion;
+        this.fechaAplicacion = fechaAplicacion;
+        this.numeracion = numeracion;
     }
 
     public long getId() {
@@ -68,5 +80,23 @@ public class MatrizDistancia {
 
     public void setDistanciaNodosRecords(Set<DistanciaNodos> distanciaNodosRecords) {
         this.distanciaNodosRecords = distanciaNodosRecords;
+    }
+
+    public String getFechaCreacionFormato() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        return dt1.format(fechaCreacion);
+    }
+
+    public void setFechaCreacionFormato(String fechaCreacionFormato) {
+        this.fechaCreacionFormato = fechaCreacionFormato;
+    }
+
+    public String getFechaProgramacionFormato() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        return dt1.format(fechaAplicacion);
+    }
+
+    public void setFechaProgramacionFormato(String fechaProgramacionFormato) {
+        this.fechaProgramacionFormato = fechaProgramacionFormato;
     }
 }

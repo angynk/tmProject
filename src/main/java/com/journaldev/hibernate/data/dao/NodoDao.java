@@ -50,4 +50,10 @@ public class NodoDao {
         criteria.add(Restrictions.eq("nombre", nombre));
         return criteria.list();
     }
+
+    public Nodo getNodoByCodigo(String codigo){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Nodo.class);
+        criteria.add(Restrictions.eq("codigo", codigo));
+        return (Nodo) criteria.uniqueResult();
+    }
 }

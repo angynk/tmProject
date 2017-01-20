@@ -2,11 +2,10 @@ package com.journaldev.hibernate.data.dao.saeBogota;
 
 import com.journaldev.hibernate.data.entity.ArcoTiempo;
 import com.journaldev.hibernate.data.entity.saeBogota.Nodos;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import com.journaldev.hibernate.data.entity.saeBogota.Secciones;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -35,5 +34,15 @@ public class NodosDao implements Serializable {
         List list = session.createQuery("from  Nodos").list();
         session.close();
         return list;
+    }
+
+    public Nodos getNodosByTipoandCode(int id,int tipo) {
+        session = sessionFactoryServer.openSession();
+        Criteria criteria = session.createCriteria(Nodos.class);
+        criteria.add(Restrictions.eq("tipo",tipo));
+        criteria.add(Restrictions.eq("id",id));
+        Nodos nodos = (Nodos) criteria.uniqueResult();
+        session.close();
+        return nodos;
     }
 }

@@ -26,19 +26,19 @@
                 <p:panel id="basic" header="Generar Matriz de distancia"  style="margin-bottom:20px">
                     <h:panelGrid  style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
                         <p:panelGrid style="border:none" columns="2" >
-                        <p:outputLabel  value="Tipo Generacion:" />
+                        <p:outputLabel  value="Tipo Generación:" />
                         <p:selectOneRadio id="busqueda" value="#{matrizDis.tipoGeneracion}">
                             <p:ajax process="@this" update="@form" listener="#{matrizDis.cambioTipoGeneracion}"/>
                             <f:selectItem itemLabel="Calcular" itemValue="1" />
                             <f:selectItem itemLabel="Cargar Archivo" itemValue="2" />
                         </p:selectOneRadio>
-                            <p:outputLabel value="Numeracion:" />
+                            <p:outputLabel value="Numeración:" />
                             <p:inputText value="#{matrizDis.numeracion}"/>
 
                         </p:panelGrid>
                         <p:panel visible="#{matrizDis.archivoVisible}" style="border:none">
                             <p:panelGrid columns="2">
-                            <p:outputLabel for="button" value="Fecha Programacion:" />
+                            <p:outputLabel for="button" value="Fecha Programación:" />
                             <p:calendar id="button" value="#{matrizDis.fechaDeProgramacion}" showOn="button" />
                             <p:outputLabel value="Archivo Matriz de Distancias:" />
                             <p:fileUpload value="#{matrizDis.matrizDistancias}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
@@ -55,8 +55,8 @@
                                 <h:commandButton value="Calcular" action="#{matrizDis.calcularMatrizDistancias}" ajax="false"
                                                  styleClass="boton"
                                                  icon="ui-icon-disk" id="calcular" visible="#{matrizDis.automaticoVisible}"
-                                                 async="true" process="@form" onclick="progress.start()" global="false"
-                                                 oncomplete="PF('dlg2').show();"/>
+                                                 async="true" process="@form" onclick="PF('dlg2').show();" global="false"
+                                                 oncomplete="PF('dlg2').hide()"/>
                             </p:panelGrid>
 
 

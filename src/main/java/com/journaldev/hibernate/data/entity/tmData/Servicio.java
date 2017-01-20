@@ -33,6 +33,13 @@ public class Servicio {
     public Servicio() {
     }
 
+    public Servicio(int macro, int linea, int seccion, int config) {
+        this.macro = macro;
+        this.linea = linea;
+        this.seccion = seccion;
+        this.config = config;
+    }
+
     public long getId() {
         return id;
     }

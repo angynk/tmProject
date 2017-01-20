@@ -49,12 +49,6 @@ public class DataProcesorImpl {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        System.out.println( gisCargaService.getGisCargaAll().size());
-//        System.out.println( gisCargaService.getTrayectoAll().size());
-//        System.out.println( gisCargaService.getArcoTiempoAll().size());
-//        System.out.println( tipoDiaService.getTipoDiaAll().size());
-//        System.out.println( tipoDiaService.getTipoDiaDetalleAll().size());
-//        System.out.println( nodoService.getNodosAll().size());
         return false;
 
     }

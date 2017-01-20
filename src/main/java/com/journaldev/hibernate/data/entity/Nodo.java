@@ -38,6 +38,11 @@ public class Nodo {
         this.nombre = nombre;
     }
 
+    public Nodo(String nombre, Integer codigo) {
+        this.nombre = nombre;
+        this.codigo = codigo;
+    }
+
     public long getId() {
         return id;
     }

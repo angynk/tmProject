@@ -20,11 +20,13 @@ public class NodoService {
 
     public void deleteNodo(Nodo nodo) { nodoDao.deleteNodo(nodo);}
 
-
+    @Transactional(readOnly = false)
     public void updateNodo(Nodo nodo) { nodoDao.updateNodo(nodo);}
 
 
     public List<Nodo> getNodosAll() { return  nodoDao.getNodosAll(); }
 
     public List<Nodo> getNodo(String nombre){ return nodoDao.getNodo( nombre );}
+
+    public Nodo getNodoByCodigo(String codigo){ return nodoDao.getNodoByCodigo(codigo);}
 }

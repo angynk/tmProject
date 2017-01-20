@@ -94,8 +94,8 @@ public class ServicioService {
 //        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
 //        customers.size();
         // tablaMaestraService.getVigenciasDao().size();
-        List<NodosSeccion> lineasByMacroAndLinea = distanciaNodosService.getNodosSeccionesByMacroLineaAndConfig(9, 30,17);
-        System.out.println(lineasByMacroAndLinea.size());
+//        List<NodosSeccion> lineasByMacroAndLinea = distanciaNodosService.getNodosSeccionesByMacroLineaAndConfig(9, 30,17);
+//        System.out.println(lineasByMacroAndLinea.size());
     }
 
     public TablaMaestraService getTablaMaestraService() {

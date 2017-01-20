@@ -17,10 +17,12 @@ public class NodosSeccion implements Serializable{
     @Id
     @Column(name = "Linea")
     private int linea;
+    @Id
     @Column(name = "Seccion")
     private int seccion;
     @Column(name = "Tipo")
     private int tipo;
+    @Id
     @Column(name = "Nodo")
     private int nodo;
     @Column(name = "ConfigLinea")

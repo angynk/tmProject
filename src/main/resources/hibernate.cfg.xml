@@ -22,6 +22,7 @@
         <property name="hibernate.connection.password">
             1234
         </property>
+        <property name="hibernate.show_sql">true</property>
 
         <!-- List of XML mapping files -->
         <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Nodos"/>

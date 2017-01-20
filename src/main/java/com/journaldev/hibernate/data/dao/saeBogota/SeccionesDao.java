@@ -26,12 +26,13 @@ public class SeccionesDao implements Serializable {
         this.sessionFactoryServer = sessionFactoryServer;
     }
 
-    public List<Secciones> getSeccionesByMacroLineaAndConfig(int macro, int linea,int config) {
+    public List<Secciones> getSeccionesByMacroLineaAndConfig(int macro, int linea,int config,int seccion) {
         session = sessionFactoryServer.openSession();
         Criteria criteria = session.createCriteria(Secciones.class);
         criteria.add(Restrictions.eq("macro",macro));
         criteria.add(Restrictions.eq("linea",linea));
         criteria.add(Restrictions.eq("config",config));
+        criteria.add(Restrictions.eq("seccion",seccion));
         List list = criteria.list();
         session.close();
         return list;
