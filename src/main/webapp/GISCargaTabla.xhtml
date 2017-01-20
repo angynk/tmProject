@@ -27,15 +27,16 @@
                             </h:commandLink>
                         </p:panelGrid>
                         <div style="height: 10px"></div>
-                        <p:dataTable id="arco" var="arco" value="#{busquedaGis.arcoTiempoRecords}" widgetVar="carsTable"
-                                     emptyMessage="No cars found with given criteria" filteredValue="#{busquedaGis.filteredArcoTiempoRecords}"
+                        <p:dataTable id="arco" var="arco" value="#{busquedaGis.arcoTiempoRecords}" widgetVar="gisTable"
+                                     emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{busquedaGis.filteredArcoTiempoRecords}"
+
                                      scrollable="true" scrollWidth="100%" scrollHeight="510">
 
 
                             <f:facet name="header" style="background-color: #4cae4c">
                                 <p:outputPanel>
                                     <h:outputText value="Buscar en todos los campos:" />
-                                    <p:inputText id="globalFilter" onkeyup="PF('arco').filter()" style="width:150px" placeholder=""/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('gisTable').filter()" style="width:150px" placeholder=""/>
                                 </p:outputPanel>
                             </f:facet>
 
