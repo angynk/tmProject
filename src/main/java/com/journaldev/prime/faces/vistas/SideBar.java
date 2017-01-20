@@ -1,4 +1,4 @@
-package com.journaldev.prime.faces.beans;
+package com.journaldev.prime.faces.vistas;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;

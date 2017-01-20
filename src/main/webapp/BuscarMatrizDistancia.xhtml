@@ -15,7 +15,7 @@
             <h:form >
                 <p:growl id="messages" showDetail="true" />
                 <p:panel id="basic" header="Buscar Matriz de Distancia"  style="margin-bottom:20px">
-                    <h:panelGrid columns="2" style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
+                    <h:panelGrid columns="2" style="margin-bottom:10px;margin-top: 10px" cellpadding="10">
                         <p:outputLabel  value="Tipo Busqueda:" />
                         <p:selectOneRadio id="busqueda" value="#{busquedaMatriz.busqueda}">
                             <p:ajax process="@this" update="@form" listener="#{busquedaMatriz.cambioTipoBusqueda}"/>
@@ -38,9 +38,13 @@
                         </p:panel>
 
                     </h:panelGrid>
+                    <h:panelGrid columns="2"  cellpadding="15">
+                        <p:commandButton value="Buscar" action="#{busquedaMatriz.buscar}" ajax="false"
+                                         icon="ui-icon ui-icon-search" id="withIcon" />
 
-                    <h:commandButton value="Buscar" action="#{busquedaMatriz.buscar}" ajax="false" styleClass="boton"
-                                     icon="ui-icon-disk" id="withIcon" />
+                        <p:commandButton value="Reiniciar" id="withIcon2" icon="ui-icon ui-icon-arrowrefresh-1-s" action="#{busquedaMatriz.reinciar}" ajax="false" />
+                </h:panelGrid>
+
 
                 </p:panel>
                 <p:panel visible="#{busquedaMatriz.visibleRecords}"  >

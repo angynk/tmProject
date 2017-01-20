@@ -1,7 +1,5 @@
-package com.journaldev.prime.faces.beans;
+package com.journaldev.prime.faces.vistas;
 
-import com.journaldev.hibernate.data.entity.ArcoTiempo;
-import com.journaldev.hibernate.data.entity.GisCarga;
 import com.journaldev.hibernate.data.entity.tmData.DistanciaNodos;
 import com.journaldev.hibernate.data.entity.tmData.MatrizDistancia;
 import com.journaldev.spring.service.MatrizDistanciaService;
@@ -63,6 +61,15 @@ public class BusquedaMatrizDistanciaView implements Serializable {
 
     }
 
+    public void reinciar(){
+        busqueda = "1";
+        fechaFinalVisible=false;
+        MatrizDistanciaRecords = new ArrayList<>();
+        selectedMatrizDistancia = new ArrayList<>();
+        visibleRecords = false;
+        fechaFinal = null;
+        fechaInicial = null;
+    }
     public void buscar(){
         visibleRecords=true;
         if (busqueda.equals("1")){

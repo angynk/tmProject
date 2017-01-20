@@ -1,11 +1,6 @@
-package com.journaldev.prime.faces.beans;
+package com.journaldev.prime.faces.vistas;
 
-import com.journaldev.hibernate.data.entity.tmData.DistanciaNodos;
-import com.journaldev.hibernate.data.entity.tmData.MatrizDistancia;
-import com.journaldev.hibernate.data.entity.tmData.Servicio;
 import com.journaldev.processing.saveData.MatrizProcessor;
-import com.journaldev.spring.service.BusquedaService;
-import com.journaldev.spring.service.MatrizDistanciaService;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +11,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 @ManagedBean(name="matrizDis")
 @SessionScoped
@@ -34,6 +28,9 @@ public class NuevaMatrizDistanciaView {
 
     @ManagedProperty("#{MatrizProcessor}")
     private MatrizProcessor matrizProcessor;
+
+    @ManagedProperty("#{MessagesView}")
+    private MessagesView messagesView;
 
     @PostConstruct
     public void init() {
@@ -64,10 +61,9 @@ public class NuevaMatrizDistanciaView {
 
             }
         }else{
-            messageContent="Complete todos los campos";
+            messagesView.error(Messages.MENSAJE_CAMPOS_INCOMPLETOS,Messages.ACCION_CAMPOS_INCOMPLETOS);
         }
-        FacesMessage message = new FacesMessage(messageContent);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+
 
     }
 
@@ -168,5 +164,13 @@ public class NuevaMatrizDistanciaView {
 
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
+    }
+
+    public MessagesView getMessagesView() {
+        return messagesView;
+    }
+
+    public void setMessagesView(MessagesView messagesView) {
+        this.messagesView = messagesView;
     }
 }

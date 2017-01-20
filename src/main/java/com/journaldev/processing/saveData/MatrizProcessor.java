@@ -14,6 +14,7 @@ import com.journaldev.spring.service.MatrizDistanciaService;
 import com.journaldev.spring.service.NodoService;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,18 +109,20 @@ public class MatrizProcessor {
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 if( row.getCell(0) != null ){
-                    int codigoNodo= convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.NODO_CODIGO).getStringCellValue());
+                    int codigoNodo=convertirAInt(row,MatrizDistanciaDefinicion.NODO_CODIGO);
+
+
                     Nodo nodo= findOrSaveNodo(codigoNodo
                             ,row.getCell(MatrizDistanciaDefinicion.NOMBRE_NODO).getStringCellValue());
                     Servicio servicio = encontrarOGuardarServicio(
-                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.MACRO).getStringCellValue()),
-                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.LINEA).getStringCellValue()),
-                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.SECCION).getStringCellValue()),
+
+                            convertirAInt(row,MatrizDistanciaDefinicion.MACRO),
+                            convertirAInt(row,MatrizDistanciaDefinicion.LINEA),
+                            convertirAInt(row,MatrizDistanciaDefinicion.SECCION),
                             1);
                     guardarDistanciaNodos(matrizDistancia,nodo,servicio,
-                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.ABSICSA).getStringCellValue()),
+                            convertirAInt(row,MatrizDistanciaDefinicion.ABSICSA),
                             row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue());
-
                 }else{
                     break;
                 }
@@ -132,8 +135,13 @@ public class MatrizProcessor {
         }
     }
 
-    private int convertirStringToInt(String value) {
-        return Integer.parseInt(value);
+    private int convertirAInt(Row row,int numberCell) {
+        Cell cell = row.getCell(numberCell);
+        if(cell.getCellType()==0){
+            return (int) cell.getNumericCellValue();
+        }
+
+        return Integer.parseInt(cell.getStringCellValue());
     }
 
     public List<Vigencias> encontrarVigencias(Date fecha){

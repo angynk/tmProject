@@ -40,8 +40,13 @@
 
                 </h:panelGrid>
 
-                    <h:commandButton value="Buscar" action="#{busquedaGis.buscar}" ajax="false" styleClass="boton"
-                                     icon="ui-icon-disk" id="withIcon" />
+                    <h:panelGrid columns="2"  cellpadding="15">
+                        <p:commandButton value="Buscar" action="#{busquedaGis.buscar}" ajax="false"
+                                         icon="ui-icon ui-icon-search" id="withIcon" />
+
+                        <p:commandButton value="Reiniciar" id="withIcon2" icon="ui-icon ui-icon-arrowrefresh-1-s" action="#{busquedaGis.reiniciar}" ajax="false" />
+                    </h:panelGrid>
+
 
                 </p:panel>
                 <p:panel visible="#{busquedaGis.visibleRecords}"  >

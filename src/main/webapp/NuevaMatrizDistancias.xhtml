@@ -21,7 +21,8 @@
 
 
             <h:form enctype="multipart/form-data">
-                <p:growl id="messages" showDetail="true" />
+                <!--<p:growl id="messages" showDetail="true" />-->
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
                 <p:panel id="basic" header="Generar Matriz de distancia"  style="margin-bottom:20px">
                     <h:panelGrid  style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
@@ -32,8 +33,9 @@
                             <f:selectItem itemLabel="Calcular" itemValue="1" />
                             <f:selectItem itemLabel="Cargar Archivo" itemValue="2" />
                         </p:selectOneRadio>
-                            <p:outputLabel value="Numeración:" />
-                            <p:inputText value="#{matrizDis.numeracion}"/>
+                            <p:outputLabel value="Numeración:" for="numeracion" />
+                            <p:inputText value="#{matrizDis.numeracion}" id="numeracion"/>
+                            <p:message for="numeracion" display="tooltip" />
 
                         </p:panelGrid>
                         <p:panel visible="#{matrizDis.archivoVisible}" style="border:none">
@@ -42,19 +44,19 @@
                             <p:calendar id="button" value="#{matrizDis.fechaDeProgramacion}" showOn="button" />
                             <p:outputLabel value="Archivo Matriz de Distancias:" />
                             <p:fileUpload value="#{matrizDis.matrizDistancias}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
-                            <h:commandButton value="Guardar" action="#{matrizDis.cargarArchivo}" ajax="false"
-                                             icon="ui-icon-disk" id="withIcon" styleClass="boton"
-                                             async="true" process="@form" onclick="PF('dlg2').show();" global="false"
-                                             oncomplete="PF('dlg2').hide()"/>
+
+                                <p:commandButton value="Guardar" action="#{matrizDis.cargarArchivo}" ajax="false"
+                                                 icon="ui-icon ui-icon-disk" id="withIcon"
+                                                 async="true" process="@form" onclick="PF('dlg2').show();" global="false"
+                                                 oncomplete="PF('dlg2').hide()"/>
                             </p:panelGrid>
                         </p:panel>
                         <p:panel visible="#{matrizDis.automaticoVisible}" style="border:none" >
                             <p:panelGrid columns="2">
                                 <p:outputLabel for="buttonV" value="Fecha Vigencia:" />
                                 <p:calendar id="buttonV" value="#{matrizDis.fechaDeVigencia}" showOn="button" />
-                                <h:commandButton value="Calcular" action="#{matrizDis.calcularMatrizDistancias}" ajax="false"
-                                                 styleClass="boton"
-                                                 icon="ui-icon-disk" id="calcular" visible="#{matrizDis.automaticoVisible}"
+                                <p:commandButton value="Calcular" action="#{matrizDis.calcularMatrizDistancias}" ajax="false"
+                                                 icon="ui-icon ui-icon-calculator" id="calcular" visible="#{matrizDis.automaticoVisible}"
                                                  async="true" process="@form" onclick="PF('dlg2').show();" global="false"
                                                  oncomplete="PF('dlg2').hide()"/>
                             </p:panelGrid>

@@ -1,4 +1,4 @@
-package com.journaldev.prime.faces.beans;
+package com.journaldev.prime.faces.vistas;
 
 import com.journaldev.hibernate.data.Servicio;
 import com.journaldev.hibernate.data.TipoDia;

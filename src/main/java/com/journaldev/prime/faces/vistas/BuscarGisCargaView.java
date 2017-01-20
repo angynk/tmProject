@@ -1,4 +1,4 @@
-package com.journaldev.prime.faces.beans;
+package com.journaldev.prime.faces.vistas;
 
 import com.journaldev.hibernate.data.entity.ArcoTiempo;
 import com.journaldev.hibernate.data.entity.GisCarga;
@@ -52,6 +52,17 @@ public class BuscarGisCargaView implements Serializable {
         gisCargaRecords = new ArrayList<>();
         selectedGisCarga = new ArrayList<>();
         visibleRecords = false;
+    }
+
+
+    public void reiniciar(){
+        busqueda = "1";
+        fechaFinalVisible=false;
+        gisCargaRecords = new ArrayList<>();
+        selectedGisCarga = new ArrayList<>();
+        visibleRecords = false;
+        fechaFinal = null;
+        fechaInicial = null;
     }
 
     public void buscar(){
