@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -52,13 +53,34 @@ public class NuevaMatrizDistanciaView {
     }
 
     public void cargarArchivo(){
-        long sle= 10000;
-        try {
-            Thread.sleep(sle);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        if(isValid()){
+            if(matrizDistancias.getSize()>0 && matrizDistancias.getContentType().equals("application/vnd.ms-excel")) {
+                try {
+                    matrizProcessor.processDataFromFile(matrizDistancias.getFileName(),matrizDistancias.getInputstream(), fechaDeProgramacion,numeracion);
+                    messageContent = "Matriz de distancias almacenada";
+                } catch (IOException e) {
+                    messageContent= "Fallo la carga del archivo";
+                }
 
+            }
+        }else{
+            messageContent="Complete todos los campos";
+        }
+        FacesMessage message = new FacesMessage(messageContent);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+
+    }
+
+    private boolean isValid() {
+
+        if(matrizDistancias!=null){
+            if(fechaDeProgramacion!=null){
+                if(numeracion!=null){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void calcularMatrizDistancias(){

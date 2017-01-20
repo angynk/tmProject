@@ -1,7 +1,10 @@
 package com.journaldev.processing.saveData;
 
 
+import com.journaldev.hibernate.data.entity.GisCarga;
 import com.journaldev.hibernate.data.entity.Nodo;
+import com.journaldev.hibernate.data.entity.TipoDiaDetalle;
+import com.journaldev.hibernate.data.entity.Trayecto;
 import com.journaldev.hibernate.data.entity.saeBogota.*;
 import com.journaldev.hibernate.data.entity.tmData.DistanciaNodos;
 import com.journaldev.hibernate.data.entity.tmData.MatrizDistancia;
@@ -9,11 +12,18 @@ import com.journaldev.hibernate.data.entity.tmData.Servicio;
 import com.journaldev.spring.service.DistanciaNodosService;
 import com.journaldev.spring.service.MatrizDistanciaService;
 import com.journaldev.spring.service.NodoService;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Service("MatrizProcessor")
@@ -27,6 +37,11 @@ public class MatrizProcessor {
 
     @Autowired
     private NodoService nodoService;
+
+    @Autowired
+    private ProcessorUtils processorUtils;
+
+    private String destination="C:\\temp\\";
 
     public boolean calcularMatrizDistancia(Date fecha,String numeracion){
         int vigenciad=0;
@@ -66,6 +81,59 @@ public class MatrizProcessor {
         }
 
         return false;
+    }
+
+    public boolean processDataFromFile(String fileName, InputStream in, Date fechaProgramacion,String numeracion){
+        processorUtils.copyFile(fileName,in,destination);
+        destination=destination+fileName;
+        MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaProgramacion,numeracion);
+        try {
+            readExcelAndSaveData(destination,matrizDistancia);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void readExcelAndSaveData(String destination, MatrizDistancia matrizDistancia)throws IOException {
+        try {
+
+            FileInputStream fileInputStream = new FileInputStream(destination);
+            HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+            HSSFSheet worksheet = workbook.getSheetAt(0);
+
+            Iterator<Row> rowIterator = worksheet.iterator();
+            rowIterator.next();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                if( row.getCell(0) != null ){
+                    int codigoNodo= convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.NODO_CODIGO).getStringCellValue());
+                    Nodo nodo= findOrSaveNodo(codigoNodo
+                            ,row.getCell(MatrizDistanciaDefinicion.NOMBRE_NODO).getStringCellValue());
+                    Servicio servicio = encontrarOGuardarServicio(
+                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.MACRO).getStringCellValue()),
+                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.LINEA).getStringCellValue()),
+                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.SECCION).getStringCellValue()),
+                            1);
+                    guardarDistanciaNodos(matrizDistancia,nodo,servicio,
+                            convertirStringToInt(row.getCell(MatrizDistanciaDefinicion.ABSICSA).getStringCellValue()),
+                            row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue());
+
+                }else{
+                    break;
+                }
+            }
+            fileInputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int convertirStringToInt(String value) {
+        return Integer.parseInt(value);
     }
 
     public List<Vigencias> encontrarVigencias(Date fecha){
@@ -150,5 +218,13 @@ public class MatrizProcessor {
 
     public void setNodoService(NodoService nodoService) {
         this.nodoService = nodoService;
+    }
+
+    public ProcessorUtils getProcessorUtils() {
+        return processorUtils;
+    }
+
+    public void setProcessorUtils(ProcessorUtils processorUtils) {
+        this.processorUtils = processorUtils;
     }
 }

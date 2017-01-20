@@ -50,7 +50,7 @@ public class NuevoGisCargaView implements Serializable{
                 progress=100;
                 messageContent = "GIS de Carga Almacenado";
             } catch (IOException e) {
-                messageContent= "Failed";
+                messageContent= "Fallo la carga del archivo";
             }
 
         }

@@ -35,6 +35,9 @@ public class DataProcesorImpl {
     @Autowired
     private NodoService nodoService;
 
+    @Autowired
+    private ProcessorUtils processorUtils;
+
     private String destination="C:\\temp\\";
 
     public DataProcesorImpl() {
@@ -42,7 +45,8 @@ public class DataProcesorImpl {
     }
 
     public boolean processDataFromFile(String fileName, InputStream in, Date fechaProgrmacion, Date fechaVigencia, String tipoDia, String descripcion) {
-        copyFile(fileName,in);
+        processorUtils.copyFile(fileName,in,destination);
+        destination=destination+fileName;
         GisCarga gisCarga = saveGisCarga(fechaProgrmacion,fechaVigencia,descripcion);
         try {
             readExcelAndSaveData(destination,gisCarga,tipoDia);
@@ -149,29 +153,7 @@ public class DataProcesorImpl {
         return tipoDiaByDetalle.get(0);
     }
 
-    public void copyFile(String fileName, InputStream in) {
-        try {
 
-            destination= destination+fileName;
-            // write the inputStream to a FileOutputStream
-            OutputStream out = new FileOutputStream(new File(destination));
-
-            int read = 0;
-            byte[] bytes = new byte[1024];
-
-            while ((read = in.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-
-            in.close();
-            out.flush();
-            out.close();
-
-            System.out.println("New file created!");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
 
     public ExcelReader getExcelReader() {
@@ -188,5 +170,13 @@ public class DataProcesorImpl {
 
     public void setGisCargaService(GisCargaService gisCargaService) {
         this.gisCargaService = gisCargaService;
+    }
+
+    public ProcessorUtils getProcessorUtils() {
+        return processorUtils;
+    }
+
+    public void setProcessorUtils(ProcessorUtils processorUtils) {
+        this.processorUtils = processorUtils;
     }
 }
