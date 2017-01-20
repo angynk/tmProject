@@ -25,11 +25,11 @@
         <property name="hibernate.show_sql">true</property>
 
         <!-- List of XML mapping files -->
-        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Nodos"/>
-        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Vigencias"/>
-        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Lineas"/>
-        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.Secciones"/>
-        <mapping class="com.journaldev.hibernate.data.entity.saeBogota.NodosSeccion"/>
+        <mapping class="com.tmModulos.modelo.entity.saeBogota.Nodos"/>
+        <mapping class="com.tmModulos.modelo.entity.saeBogota.Vigencias"/>
+        <mapping class="com.tmModulos.modelo.entity.saeBogota.Lineas"/>
+        <mapping class="com.tmModulos.modelo.entity.saeBogota.Secciones"/>
+        <mapping class="com.tmModulos.modelo.entity.saeBogota.NodosSeccion"/>
 
     </session-factory>
 </hibernate-configuration>

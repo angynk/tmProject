@@ -11,7 +11,7 @@
     <context:annotation-config />
     <!-- Auto scan the components -->
     <context:component-scan
-            base-package="com.journaldev" />
+            base-package="com.tmModulos" />
 
 
     <bean id="sessionFactory"
@@ -33,16 +33,16 @@
 
         <property name="annotatedClasses">
             <list>
-                <value>com.journaldev.hibernate.data.entity.GisCarga</value>
-                <value>com.journaldev.hibernate.data.entity.TablaMaestra</value>
-                <value>com.journaldev.hibernate.data.entity.Trayecto</value>
-                <value>com.journaldev.hibernate.data.entity.TipoDia</value>
-                <value>com.journaldev.hibernate.data.entity.TipoDiaDetalle</value>
-                <value>com.journaldev.hibernate.data.entity.Nodo</value>
-                <value>com.journaldev.hibernate.data.entity.ArcoTiempo</value>
-                <value>com.journaldev.hibernate.data.entity.tmData.MatrizDistancia</value>
-                <value>com.journaldev.hibernate.data.entity.tmData.Servicio</value>
-                <value>com.journaldev.hibernate.data.entity.tmData.DistanciaNodos</value>
+                <value>com.tmModulos.modelo.entity.tmData.GisCarga</value>
+                <value>com.tmModulos.modelo.entity.tmData.TablaMaestra</value>
+                <value>com.tmModulos.modelo.entity.tmData.Trayecto</value>
+                <value>com.tmModulos.modelo.entity.tmData.TipoDia</value>
+                <value>com.tmModulos.modelo.entity.tmData.TipoDiaDetalle</value>
+                <value>com.tmModulos.modelo.entity.tmData.Nodo</value>
+                <value>com.tmModulos.modelo.entity.tmData.ArcoTiempo</value>
+                <value>com.tmModulos.modelo.entity.tmData.MatrizDistancia</value>
+                <value>com.tmModulos.modelo.entity.tmData.Servicio</value>
+                <value>com.tmModulos.modelo.entity.tmData.DistanciaNodos</value>
             </list>
         </property>
     </bean>
@@ -74,7 +74,7 @@
 
         <!--<property name="annotatedClasses">-->
             <!--<list>-->
-                <!--<value>com.journaldev.hibernate.data.entity.saeBogota.Nodos</value>-->
+                <!--<value>com.tmModuloshibernate.data.entity.saeBogota.Nodos</value>-->
             <!--</list>-->
         <!--</property>-->
     <!--</bean>-->

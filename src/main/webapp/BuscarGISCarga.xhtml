@@ -13,7 +13,7 @@
 
         <ui:define name="content">
             <h:form >
-                <p:growl id="messages" showDetail="true" />
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 <p:panel id="basic" header="Buscar GIS de Carga"  style="margin-bottom:20px">
                 <h:panelGrid columns="2" style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
                     <p:outputLabel  value="Tipo Busqueda:" />
@@ -50,7 +50,8 @@
 
                 </p:panel>
                 <p:panel visible="#{busquedaGis.visibleRecords}"  >
-                    <p:dataTable id="basicDT" var="carga" value="#{busquedaGis.gisCargaRecords}">
+                    <p:dataTable id="basicDT" var="carga" value="#{busquedaGis.gisCargaRecords}"
+                                 emptyMessage="No se encontraron registros relacionados a la busqueda">
                         <f:facet name="header">
                             Gis de Carga
                         </f:facet>
