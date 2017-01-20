@@ -97,6 +97,10 @@ public class MatrizDistanciaService {
         return distanciaNodosDao.getDistanciaNodosAll();
     }
 
+    public List<DistanciaNodos> getDistanciaNodosByMatriz(MatrizDistancia matrizDistancia){
+        return distanciaNodosDao.getDistanciaNodosByMatriz( matrizDistancia );
+    }
+
     public Servicio getServicioBymacroLineaYseccion(int macro,int linea,int seccion){
         return servicioDao.getServicioBymacroLineaYseccion( macro,linea,seccion );
     }

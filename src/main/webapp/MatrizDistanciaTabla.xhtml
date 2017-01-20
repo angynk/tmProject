@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:body>
+
+    <ui:composition template="/template/common/commonLayout.xhtml">
+
+        <ui:define name="content">
+            <h:form >
+                <p:panel id="basic" header="Matriz de distancia" style="margin-bottom:20px" visible="#{busquedaMatriz.visibleRecords}">
+                    <div style="margin-top:20px">
+                        <p:panelGrid columns="4">
+                            <p:commandButton actionListener="#{busquedaMatriz.atras}" id="atras"  icon="ui-icon ui-icon-arrow-1-w" title="atras" />
+                            <p:commandButton actionListener="#{busquedaMatriz.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
+
+                            <h:outputText value="Exportar:" />
+                            <h:commandLink>
+                                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls"
+                                                target="matriz" fileName="Matriz de Distancias"  />
+                            </h:commandLink>
+                        </p:panelGrid>
+                        <div style="height: 10px"></div>
+                        <p:dataTable id="matriz" var="matriz" value="#{busquedaMatriz.distanciaNodosRecords}" widgetVar="carsTable"
+                                     emptyMessage="No cars found with given criteria" filteredValue="#{busquedaMatriz.filteredDistanciaNodosRecords}"
+                                     scrollable="true" scrollWidth="100%" scrollHeight="510">
+
+
+                            <f:facet name="header" style="background-color: #4cae4c">
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar en todos los campos:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('matriz').filter()" style="width:150px" placeholder=""/>
+                                </p:outputPanel>
+                            </f:facet>
+
+
+                            <p:column filterBy="#{matriz.ruta}" headerText="Ruta"  filterMatchMode="contains" sortBy="#{matriz.ruta}"
+                                      style="width: 120px">
+                                <h:outputText value="#{matriz.ruta}" />
+                            </p:column>
+
+                            <p:column filterBy="#{matriz.servicio.macro}" headerText="Macro"  filterMatchMode="contains" sortBy="#{matriz.servicio.macro}"
+                                      style="width: 120px">
+                                <h:outputText value="#{matriz.servicio.macro}" />
+                            </p:column>
+
+                            <p:column filterBy="#{matriz.servicio.linea}" headerText="Línea" filterMatchMode="contains" sortBy="#{matriz.servicio.linea}"
+                                      style="width: 120px">
+                                <h:outputText value="#{matriz.servicio.linea}" />
+                            </p:column>
+
+                            <p:column filterBy="#{matriz.servicio.seccion}" headerText="Sección"  filterMatchMode="contains" sortBy="#{matriz.servicio.seccion}"
+                                      style="width: 120px">
+                                <h:outputText value="#{matriz.servicio.seccion}" />
+                            </p:column>
+
+                            <p:column filterBy="#{matriz.nodo.codigo}" headerText="Nodo" filterMatchMode="contains" sortBy="#{matriz.nodo.codigo}"
+                                      style="width: 120px">
+                                <h:outputText value="#{matriz.nodo.codigo}" />
+                            </p:column>
+
+                            <p:column filterBy="#{matriz.distancia}" headerText="Abscisa"  filterMatchMode="contains" sortBy="#{matriz.distancia}"
+                                      style="width: 120px">
+                                <h:outputText value="#{matriz.distancia}" />
+                            </p:column>
+
+                            <p:column filterBy="#{matriz.nodo.nombre}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{matriz.nodo.nombre}"
+                                      style="width: 120px">
+                                <h:outputText value="#{matriz.nodo.nombre}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </div>
+                </p:panel>
+            </h:form>
+        </ui:define>
+
+
+    </ui:composition>
+
+</h:body>
+
+</html>
+

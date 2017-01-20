@@ -104,18 +104,16 @@ public class BusquedaMatrizDistanciaView implements Serializable {
     }
 
     public void busquedaMatrizDistancia(){
-//        System.out.println("visible");
-//        visibleRecords=true;
-////        arcoTiempoRecords = busquedaService.busquedaArcos(selectedCarga);
-//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-//        try {
-//            ec.redirect(ec.getRequestContextPath()
-//                    + "/GISCargaTabla.xhtml");
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-        //  externalContext.redirect("foo.xhtml");
+        visibleRecords=true;
+        distanciaNodosRecords = matrizDistanciaService.getDistanciaNodosByMatriz(selectedMatriz);
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/MatrizDistanciaTabla.xhtml");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void setBusqueda(String busqueda) {

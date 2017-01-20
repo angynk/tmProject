@@ -1,8 +1,12 @@
 package com.journaldev.hibernate.data.dao.tmData;
 
+import com.journaldev.hibernate.data.entity.ArcoTiempo;
+import com.journaldev.hibernate.data.entity.GisCarga;
 import com.journaldev.hibernate.data.entity.tmData.DistanciaNodos;
 import com.journaldev.hibernate.data.entity.tmData.MatrizDistancia;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,5 +45,11 @@ public class DistanciaNodosDao {
     public List<DistanciaNodos> getDistanciaNodosAll() {
         List list = getSessionFactory().getCurrentSession().createQuery("from  DistanciaNodos ").list();
         return list;
+    }
+
+    public List<DistanciaNodos> getDistanciaNodosByMatriz(MatrizDistancia matrizDistancia){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(DistanciaNodos.class);
+        criteria.add(Restrictions.eq("matrizDistancia", matrizDistancia));
+        return criteria.list();
     }
 }
