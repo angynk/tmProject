@@ -37,12 +37,14 @@
                                 <div id="collapseOne" class="panel-collapse collapse">
                                     <ul class="list-group">
                                         <li>
-                                        <a href="tablaMaestra.xhtml">Tabla Maestra Vigente</a>
+                                            <a href="NewGISCarga.xhtml">Tabla Maestra Vigente</a>
                                         </li>
                                         <li>
-                                            <h:commandLink value="Actualizar Tabla Maestra" action="#{sideBar.setPage('/templates/NuevaTablaMaestra')}"/>
+                                            <a href="NuevaTablaMaestra.xhtml">Nueva Tabla Maestra</a>
                                         </li>
-                                        <li>	<h:commandLink value="Buscar Tabla Maestra" action="#{sideBar.setPage('/templates/BuscarGISCarga')}" /></li>
+                                        <li>
+                                            <a href="BuscarGISCarga.xhtml">Buscar Tabla Maestra</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -85,6 +87,46 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                                            <span class="glyphicon glyphicon-cog">
+				                    </span>Intervalos GIS<span class="caret"></span></a> </h4>
+                                </div>
+                                <div id="collapseFour" class="panel-collapse collapse">
+
+                                    <ul class="list-group">
+                                        <li>
+                                            <a href="NuevaMatrizDistancias.xhtml">Generar Intervalos GIS</a>
+                                        </li>
+                                        <li>
+                                            <a href="BuscarMatrizDistancia.xhtml">Buscar Intervalos GIS</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                                            <span class="glyphicon glyphicon-cog">
+				                    </span>Parametrizacion<span class="caret"></span></a> </h4>
+                                </div>
+                                <div id="collapseFive" class="panel-collapse collapse">
+
+                                    <ul class="list-group">
+                                        <li>
+                                            <a href="NodosParametrizacion.xhtml">Nodos</a>
+                                        </li>
+                                        <li>
+                                            <a href="BuscarMatrizDistancia.xhtml">Servicios</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

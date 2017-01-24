@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:body>
+
+    <ui:composition template="/template/common/commonLayout.xhtml">
+
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+                <p:panel id="basic" header="Matriz de distancia" style="margin-bottom:20px" visible="true">
+                    <div style="margin-top:20px">
+                        <p:panelGrid columns="4">
+                            <p:commandButton actionListener="#{nodosP.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
+
+                            <h:outputText value="Exportar:" />
+                            <h:commandLink>
+                                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls"
+                                                target="matriz" fileName="Matriz de Distancias"  />
+                            </h:commandLink>
+                        </p:panelGrid>
+                        <div style="height: 10px"></div>
+                        <p:dataTable id="matriz" var="nodo" value="#{nodosP.nodosRecords}" widgetVar="MatrizTable"
+                                     emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{nodosP.filteredNodosRecords}"
+                                     scrollable="true" scrollWidth="100%" scrollHeight="510"
+                                     editable="true">
+
+
+                            <f:facet name="header" style="background-color: #4cae4c">
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar en todos los campos:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('MatrizTable').filter()" style="width:150px" placeholder=""/>
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{nodosP.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{nodosP.onRowCancel}" update=":form:msgs" />
+
+                            <p:column filterBy="#{nodo.codigo}" headerText="Codigo"  filterMatchMode="contains" sortBy="#{nodo.codigo}"
+                                      style="width: 120px">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{nodo.codigo}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="modelInput" value="#{nodo.codigo}" style="width:100%"/>
+                                            </f:facet>
+
+                                        </p:cellEditor>
+
+                            </p:column>
+
+                            <p:column filterBy="#{nodo.nombre}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{nodo.nombre}"
+                                      style="width: 120px">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{nodo.nombre}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="nombreInput" value="#{nodo.nombre}" style="width:100%"/>
+                                    </f:facet>
+
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column filterBy="#{nodo.zonaId.nombre}" headerText="Zona"  filterMatchMode="contains" sortBy="#{nodo.zonaId.nombre}"
+                                      style="width: 120px">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{nodo.zonaId.nombre}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{nodosP.auxNombreZona}" style="width:100%" >
+                                            <f:selectItems value="#{nodosP.zonasRecords}" var="zona" itemLabel="#{zona.nombre}" itemValue="#{zona}" />
+                                        </h:selectOneMenu>
+                                    </f:facet>
+
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </div>
+                </p:panel>
+            </h:form>
+        </ui:define>
+
+
+    </ui:composition>
+
+</h:body>
+
+</html>

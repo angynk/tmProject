@@ -20,11 +20,6 @@ public class TablaMaestraService {
 
 
 
-
-
-
-
-
     @Transactional(readOnly = false)
     public void addCustomer(TablaMaestra tablaMaestra) {
         getTablaMaestraDao().addCustomer(tablaMaestra);

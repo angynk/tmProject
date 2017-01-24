@@ -43,6 +43,7 @@
                 <value>com.tmModulos.modelo.entity.tmData.MatrizDistancia</value>
                 <value>com.tmModulos.modelo.entity.tmData.Servicio</value>
                 <value>com.tmModulos.modelo.entity.tmData.DistanciaNodos</value>
+                <value>com.tmModulos.modelo.entity.tmData.Zona</value>
             </list>
         </property>
     </bean>

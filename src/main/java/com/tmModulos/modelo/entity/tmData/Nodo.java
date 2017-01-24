@@ -20,6 +20,11 @@ public class Nodo {
     @Column(name = "codigo")
     private Integer codigo;
 
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "zona", nullable = false)
+    private Zona zonaId;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoInicial")
     private Set<ArcoTiempo> arcoTiempoNodoInicialRecords = new HashSet<ArcoTiempo>(0);
 
@@ -61,6 +66,7 @@ public class Nodo {
         return codigo;
     }
 
+
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
@@ -88,4 +94,16 @@ public class Nodo {
     public void setDistanciaNodosRecords(Set<DistanciaNodos> distanciaNodosRecords) {
         this.distanciaNodosRecords = distanciaNodosRecords;
     }
+
+    public Zona getZonaId() {
+        return zonaId;
+    }
+
+    public void setZonaId(Zona zonaId) {
+        this.zonaId = zonaId;
+    }
+
+
+
+
 }
