@@ -34,6 +34,8 @@ public class Nodo {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
     private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
 
+
+
     public Nodo() {
     }
 

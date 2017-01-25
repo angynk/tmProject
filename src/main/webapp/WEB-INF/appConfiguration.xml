@@ -44,6 +44,9 @@
                 <value>com.tmModulos.modelo.entity.tmData.Servicio</value>
                 <value>com.tmModulos.modelo.entity.tmData.DistanciaNodos</value>
                 <value>com.tmModulos.modelo.entity.tmData.Zona</value>
+                <value>com.tmModulos.modelo.entity.tmData.Tipologia</value>
+                <value>com.tmModulos.modelo.entity.tmData.FranjaHoraria</value>
+                <value>com.tmModulos.modelo.entity.tmData.ServicioFranjaHorario</value>
             </list>
         </property>
     </bean>

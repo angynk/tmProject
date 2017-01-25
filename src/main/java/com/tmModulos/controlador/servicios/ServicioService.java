@@ -1,105 +1,145 @@
 package com.tmModulos.controlador.servicios;
 
+import com.tmModulos.modelo.dao.tmData.FranjaHorariaDao;
+import com.tmModulos.modelo.dao.tmData.ServicioDao;
+import com.tmModulos.modelo.dao.tmData.ServicioFranjaHorarioDao;
+import com.tmModulos.modelo.dao.tmData.TipologiaDao;
+import com.tmModulos.modelo.entity.tmData.*;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.tmModulos.modelo.TipoDia;
+import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import java.util.*;
-
-@ManagedBean(name = "servicioService")
-@ApplicationScoped
+@Service("ServicioService")
+@Transactional(readOnly = true)
 public class ServicioService {
 
-    @ManagedProperty("#{TablaMaestraService}")
-    private TablaMaestraService tablaMaestraService;
+    @Autowired
+    TipologiaDao tipologiaDao;
 
-    @ManagedProperty("#{DistanciaNodosService}")
-    private DistanciaNodosService distanciaNodosService;
+    @Autowired
+    FranjaHorariaDao franjaHorariaDao;
+
+    @Autowired
+    ServicioDao servicioDao;
+
+    @Autowired
+    ServicioFranjaHorarioDao servicioFranjaHorarioDao;
 
 
-    private final static TipoDia[] tipoDia;
+    @Transactional(readOnly = false)
+    public void addTipologia(Tipologia tipologia) {
+        tipologiaDao.addTipologia(tipologia);
+    }
 
-//    private final static String[] tipologia;
+    public void deleteTipologia(Tipologia tipologia) {
+       tipologiaDao.deleteTipologia(tipologia);
+    }
 
-    static {
-        tipoDia = new TipoDia[3];
-        tipoDia[0] = TipoDia.HABIL;
-        tipoDia[1] = TipoDia.SABADO;
-        tipoDia[2] = TipoDia.FESTIVO;
-
-//        brands = new String[10];
-//        brands[0] = "BMW";
-//        brands[1] = "Mercedes";
-//        brands[2] = "Volvo";
-//        brands[3] = "Audi";
-//        brands[4] = "Renault";
-//        brands[5] = "Fiat";
-//        brands[6] = "Volkswagen";
-//        brands[7] = "Honda";
-//        brands[8] = "Jaguar";
-//        brands[9] = "Ford";
+    @Transactional(readOnly = false)
+    public void updateTipologia(Tipologia tipologia) {
+        tipologiaDao.updateTipologia(tipologia);
     }
 
 
-
-    private String getRandomId() {
-        return UUID.randomUUID().toString().substring(0, 8);
+    public List<Tipologia> getTipologiaAll() {
+     return tipologiaDao.getTipologiaAll();
     }
 
-    private int getRandomYear() {
-        return (int) (Math.random() * 50 + 1960);
+    public Tipologia getTipologiaByNombre(String nombre){
+       return tipologiaDao.getTipologiaByNombre(nombre);
     }
 
-    private TipoDia getRandomColor() {
-        return tipoDia[(int) (Math.random() * 3)];
+    @Transactional(readOnly = false)
+    public void addFranjaHoraria(FranjaHoraria franjaHoraria) {
+        franjaHorariaDao.addFranjaHoraria(franjaHoraria);
     }
 
-//    private String getRandomBrand() {
-//        return brands[(int) (Math.random() * 10)];
-//    }
-
-    public int  getRandomNumber() {
-        return (int) (Math.random() * 10);
+    public void deleteFranjaHoraria(FranjaHoraria franjaHoraria) {
+        franjaHorariaDao.deleteFranjaHoraria(franjaHoraria);
     }
 
-    public boolean getRandomSoldState() {
-        return (Math.random() > 0.5) ? true: false;
+    @Transactional(readOnly = false)
+    public void updateFranjaHoraria(FranjaHoraria franjaHoraria) {
+       franjaHorariaDao.updateFranjaHoraria(franjaHoraria);
     }
 
-    public List<TipoDia> getTipoDia() {
-        return Arrays.asList(tipoDia);
+
+    public List<FranjaHoraria> getFranjaHorariaAll() {
+      return franjaHorariaDao.getFranjaHorariaAll();
     }
 
-    public void test() {
-//        TablaMaestra tablaMaestra= new TablaMaestra();
-//        tablaMaestra.setEstaVigente(true);
-//        tablaMaestra.setVersion(1);
-//        tablaMaestra.setFechaCreacion(new Date());
-//        tablaMaestra.setId(1);
-//        tablaMaestraService.addCustomer(tablaMaestra);
-
-//        List<TablaMaestra> customers = tablaMaestraService.getCustomers();
-//        customers.size();
-        // tablaMaestraService.getVigenciasDao().size();
-//        List<NodosSeccion> lineasByMacroAndLinea = distanciaNodosService.getNodosSeccionesByMacroLineaAndConfig(9, 30,17);
-//        System.out.println(lineasByMacroAndLinea.size());
+    public TipologiaDao getTipologiaDao() {
+        return tipologiaDao;
     }
 
-    public TablaMaestraService getTablaMaestraService() {
-        return tablaMaestraService;
+    public void setTipologiaDao(TipologiaDao tipologiaDao) {
+        this.tipologiaDao = tipologiaDao;
     }
 
-    public void setTablaMaestraService(TablaMaestraService tablaMaestraService) {
-        this.tablaMaestraService = tablaMaestraService;
+    public FranjaHorariaDao getFranjaHorariaDao() {
+        return franjaHorariaDao;
     }
 
-    public DistanciaNodosService getDistanciaNodosService() {
-        return distanciaNodosService;
+    public void setFranjaHorariaDao(FranjaHorariaDao franjaHorariaDao) {
+        this.franjaHorariaDao = franjaHorariaDao;
     }
 
-    public void setDistanciaNodosService(DistanciaNodosService distanciaNodosService) {
-        this.distanciaNodosService = distanciaNodosService;
+    public ServicioDao getServicioDao() {
+        return servicioDao;
     }
+
+    public void setServicioDao(ServicioDao servicioDao) {
+        this.servicioDao = servicioDao;
+    }
+
+    public ServicioFranjaHorarioDao getServicioFranjaHorarioDao() {
+        return servicioFranjaHorarioDao;
+    }
+
+    public void setServicioFranjaHorarioDao(ServicioFranjaHorarioDao servicioFranjaHorarioDao) {
+        this.servicioFranjaHorarioDao = servicioFranjaHorarioDao;
+    }
+    @Transactional(readOnly = false)
+    public void addServicioFranjaHorario(ServicioFranjaHorario servicioFranjaHorario) {
+        servicioFranjaHorarioDao.addServicioFranjaHorario(servicioFranjaHorario);
+    }
+
+    public void deleteServicioFranjaHorario(ServicioFranjaHorario servicioFranjaHorario) {
+    servicioFranjaHorarioDao.deleteServicioFranjaHorario(servicioFranjaHorario);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateServicioFranjaHorario(ServicioFranjaHorario servicioFranjaHorario) {
+        servicioFranjaHorarioDao.updateServicioFranjaHorario(servicioFranjaHorario);
+    }
+
+
+    public List<ServicioFranjaHorario> getServicioFranjaHorarioAll() {
+       return servicioFranjaHorarioDao.getServicioFranjaHorarioAll();
+    }
+
+    @Transactional(readOnly = false)
+    public void addServicio(Servicio servicio) {
+        servicioDao.addServicio( servicio );
+
+    }
+
+    public void deleteServicio(Servicio servicio) {
+        servicioDao.deleteServicio( servicio );
+    }
+
+    @Transactional(readOnly = false)
+    public void updateServicio(Servicio servicio) {
+        servicioDao.updateServicio( servicio );
+    }
+
+
+    public List<Servicio> getServicioAll() {
+        return servicioDao.getServicioAll();
+    }
+
 }

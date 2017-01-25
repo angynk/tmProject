@@ -26,9 +26,40 @@ public class Servicio {
     @Column(name = "config")
     private int config;
 
+    @Column(name = "punto")
+    private int punto;
+
+    @Column(name = "identificador")
+    private String identificador;
+
+    @Column(name = "nombre_general")
+    private String nombreGeneral;
+
+    @Column(name = "nombre_especial")
+    private String nombreEspecial;
+
+    @Column(name = "trayecto")
+    private Integer trayecto;
+
+    @Column(name = "estado")
+    private boolean estado;
+
+    @Column(name = "linea_compuesta")
+    private Integer lineaCompuesta;
+
+    @Column(name = "tipo_servicio")
+    private String tipoServicio;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tipologia", nullable = false)
+    private Tipologia tipologia;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
+    private Set<ServicioFranjaHorario> servicioFranjaRecords= new HashSet<ServicioFranjaHorario>(0);
+
 
     public Servicio() {
     }
@@ -86,5 +117,85 @@ public class Servicio {
 
     public void setDistanciaNodosRecords(Set<DistanciaNodos> distanciaNodosRecords) {
         this.distanciaNodosRecords = distanciaNodosRecords;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
+
+    public String getNombreGeneral() {
+        return nombreGeneral;
+    }
+
+    public void setNombreGeneral(String nombreGeneral) {
+        this.nombreGeneral = nombreGeneral;
+    }
+
+    public String getNombreEspecial() {
+        return nombreEspecial;
+    }
+
+    public void setNombreEspecial(String nombreEspecial) {
+        this.nombreEspecial = nombreEspecial;
+    }
+
+    public Integer getTrayecto() {
+        return trayecto;
+    }
+
+    public void setTrayecto(Integer trayecto) {
+        this.trayecto = trayecto;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public Integer getLineaCompuesta() {
+        return lineaCompuesta;
+    }
+
+    public void setLineaCompuesta(Integer lineaCompuesta) {
+        this.lineaCompuesta = lineaCompuesta;
+    }
+
+    public String getTipoServicio() {
+        return tipoServicio;
+    }
+
+    public void setTipoServicio(String tipoServicio) {
+        this.tipoServicio = tipoServicio;
+    }
+
+    public Tipologia getTipologia() {
+        return tipologia;
+    }
+
+    public void setTipologia(Tipologia tipologia) {
+        this.tipologia = tipologia;
+    }
+
+    public Set<ServicioFranjaHorario> getServicioFranjaRecords() {
+        return servicioFranjaRecords;
+    }
+
+    public void setServicioFranjaRecords(Set<ServicioFranjaHorario> servicioFranjaRecords) {
+        this.servicioFranjaRecords = servicioFranjaRecords;
+    }
+
+    public int getPunto() {
+        return punto;
+    }
+
+    public void setPunto(int punto) {
+        this.punto = punto;
     }
 }
