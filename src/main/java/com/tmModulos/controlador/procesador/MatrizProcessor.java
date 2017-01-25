@@ -22,9 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service("MatrizProcessor")
 public class MatrizProcessor {
@@ -42,6 +40,7 @@ public class MatrizProcessor {
     private ProcessorUtils processorUtils;
 
     private String destination="C:\\temp\\";
+
 
     public boolean calcularMatrizDistancia(Date fecha,String numeracion){
         int vigenciad=0;
@@ -69,11 +68,8 @@ public class MatrizProcessor {
                         nombreMatriz= encontrarNombreMatriz(macro,linea,config,seccion);
                         distancia=nodoSec.getDistancia();
                         nodos= encontrarNodo(nodoSec.getNodo(),nodoSec.getTipo());
-
                         Nodo nodo= findOrSaveNodo(nodos.getId(),nodos.getNombre());
-                        Servicio servicio= encontrarOGuardarServicio(macro,linea,seccion,config);
-
-                        guardarDistanciaNodos(matrizDistancia,nodo,servicio,distancia,nombreMatriz);
+                        guardarDistanciaNodos(matrizDistancia,nodo,distancia,nombreMatriz,macro,linea,seccion);
                     }
 
                 }
@@ -81,9 +77,10 @@ public class MatrizProcessor {
         }else{
             return false;
         }
-
         return true;
     }
+
+
 
     public boolean processDataFromFile(String fileName, InputStream in, Date fechaProgramacion,String numeracion){
         processorUtils.copyFile(fileName,in,destination);
@@ -115,15 +112,13 @@ public class MatrizProcessor {
 
                     Nodo nodo= findOrSaveNodo(codigoNodo
                             ,row.getCell(MatrizDistanciaDefinicion.NOMBRE_NODO).getStringCellValue());
-                    Servicio servicio = encontrarOGuardarServicio(
-
+                    guardarDistanciaNodos(matrizDistancia
+                            ,nodo,
+                            convertirAInt(row,MatrizDistanciaDefinicion.ABSICSA)
+                            ,row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue() ,
                             convertirAInt(row,MatrizDistanciaDefinicion.MACRO),
                             convertirAInt(row,MatrizDistanciaDefinicion.LINEA),
-                            convertirAInt(row,MatrizDistanciaDefinicion.SECCION),
-                            1);
-                    guardarDistanciaNodos(matrizDistancia,nodo,servicio,
-                            convertirAInt(row,MatrizDistanciaDefinicion.ABSICSA),
-                            row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue());
+                            convertirAInt(row,MatrizDistanciaDefinicion.SECCION));
                 }else{
                     break;
                 }
@@ -180,14 +175,7 @@ public class MatrizProcessor {
         return  nodos.get(0);
     }
 
-    private Servicio encontrarOGuardarServicio(int macro,int linea,int seccion,int config){
-      Servicio servicio = matrizDistanciaService.getServicioBymacroLineaYseccion(macro,linea,seccion);
-        if(servicio==null){
-                servicio= new Servicio(macro,linea,seccion,config);
-                matrizDistanciaService.addServicio(servicio);
-        }
-        return servicio;
-    }
+
 
     private MatrizDistancia guardarMatrizDistancia(Date fecha,String numeracion){
         MatrizDistancia matrizDistancia= new MatrizDistancia(new Date(),fecha,numeracion);
@@ -195,8 +183,8 @@ public class MatrizProcessor {
         return matrizDistancia;
     }
 
-    private void guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, Servicio servicio, int distancia, String ruta){
-        DistanciaNodos distanciaNodos=new DistanciaNodos(ruta,distancia,nodo,servicio,matrizDistancia);
+    private void guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, int distancia, String ruta,int macro,int linea,int seccion){
+        DistanciaNodos distanciaNodos=new DistanciaNodos(ruta,distancia,macro, linea,seccion,nodo,matrizDistancia);
         matrizDistanciaService.addDistanciaNodos(distanciaNodos);
     }
 

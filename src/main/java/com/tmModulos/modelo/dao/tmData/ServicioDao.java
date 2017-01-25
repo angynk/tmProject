@@ -44,12 +44,17 @@ public class ServicioDao {
         return list;
     }
 
-    public Servicio getServicioBymacroLineaYseccion(int macro,int linea,int seccion){
+    public Servicio getServicioBymacroLineaYseccion(int macro,int linea,int seccion, int nodo){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Servicio.class);
         criteria.add(Restrictions.eq("macro", macro));
         criteria.add(Restrictions.eq("linea", linea));
         criteria.add(Restrictions.eq("seccion", seccion));
-        return (Servicio) criteria.uniqueResult();
+        criteria.add(Restrictions.eq("punto", nodo));
+        List<Servicio> list = criteria.list();
+        if(list.size()<1){
+            return null;
+        }
+        return list.get(0);
     }
 
     public Servicio getServicioByTrayecto(int trayecto, int punto){

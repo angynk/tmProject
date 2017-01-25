@@ -97,8 +97,8 @@ public class MatrizDistanciaService {
         return distanciaNodosDao.getDistanciaNodosByMatriz( matrizDistancia );
     }
 
-    public Servicio getServicioBymacroLineaYseccion(int macro,int linea,int seccion){
-        return servicioDao.getServicioBymacroLineaYseccion( macro,linea,seccion );
+    public Servicio getServicioBymacroLineaYseccion(int macro,int linea,int seccion, int nodo){
+        return servicioDao.getServicioBymacroLineaYseccion( macro,linea,seccion,nodo );
     }
 
 }

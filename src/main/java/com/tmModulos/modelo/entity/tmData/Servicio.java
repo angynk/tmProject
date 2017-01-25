@@ -54,8 +54,6 @@ public class Servicio {
     @JoinColumn(name = "tipologia", nullable = false)
     private Tipologia tipologia;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
-    private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<ServicioFranjaHorario> servicioFranjaRecords= new HashSet<ServicioFranjaHorario>(0);
@@ -113,14 +111,6 @@ public class Servicio {
 
     public void setConfig(int config) {
         this.config = config;
-    }
-
-    public Set<DistanciaNodos> getDistanciaNodosRecords() {
-        return distanciaNodosRecords;
-    }
-
-    public void setDistanciaNodosRecords(Set<DistanciaNodos> distanciaNodosRecords) {
-        this.distanciaNodosRecords = distanciaNodosRecords;
     }
 
     public String getIdentificador() {

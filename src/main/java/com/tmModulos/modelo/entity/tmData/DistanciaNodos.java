@@ -18,14 +18,19 @@ public class DistanciaNodos {
     @Column(name = "distancia")
     private int distancia;
 
+    @Column(name = "macro")
+    private int macro;
+
+    @Column(name = "linea")
+    private int linea;
+
+    @Column(name = "seccion")
+    private int seccion;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nodo", nullable = false)
     private Nodo nodo;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "servicio", nullable = false)
-    private Servicio servicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "matriz_distancia", nullable = false)
@@ -34,11 +39,13 @@ public class DistanciaNodos {
     public DistanciaNodos() {
     }
 
-    public DistanciaNodos(String ruta, int distancia, Nodo nodo, Servicio servicio, MatrizDistancia matrizDistancia) {
+    public DistanciaNodos(String ruta, int distancia, int macro, int linea, int seccion, Nodo nodo,MatrizDistancia matrizDistancia) {
         this.ruta = ruta;
         this.distancia = distancia;
+        this.macro = macro;
+        this.linea = linea;
+        this.seccion = seccion;
         this.nodo = nodo;
-        this.servicio = servicio;
         this.matrizDistancia = matrizDistancia;
     }
 
@@ -74,19 +81,35 @@ public class DistanciaNodos {
         this.nodo = nodo;
     }
 
-    public Servicio getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
-
     public MatrizDistancia getMatrizDistancia() {
         return matrizDistancia;
     }
 
     public void setMatrizDistancia(MatrizDistancia matrizDistancia) {
         this.matrizDistancia = matrizDistancia;
+    }
+
+    public int getMacro() {
+        return macro;
+    }
+
+    public void setMacro(int macro) {
+        this.macro = macro;
+    }
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public int getSeccion() {
+        return seccion;
+    }
+
+    public void setSeccion(int seccion) {
+        this.seccion = seccion;
     }
 }
