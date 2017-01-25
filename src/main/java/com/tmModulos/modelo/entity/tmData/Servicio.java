@@ -61,6 +61,10 @@ public class Servicio {
     private Set<ServicioFranjaHorario> servicioFranjaRecords= new HashSet<ServicioFranjaHorario>(0);
 
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
+    private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
+
+
     public Servicio() {
     }
 
@@ -197,5 +201,13 @@ public class Servicio {
 
     public void setPunto(int punto) {
         this.punto = punto;
+    }
+
+    public Set<ArcoTiempo> getArcoTiempoRecords() {
+        return arcoTiempoRecords;
+    }
+
+    public void setArcoTiempoRecords(Set<ArcoTiempo> arcoTiempoRecords) {
+        this.arcoTiempoRecords = arcoTiempoRecords;
     }
 }

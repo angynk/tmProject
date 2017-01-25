@@ -1,15 +1,12 @@
 package com.tmModulos.controlador.servicios;
 
-import com.tmModulos.modelo.dao.tmData.ArcoTiempoDao;
-import com.tmModulos.modelo.dao.tmData.GisCargaDao;
-import com.tmModulos.modelo.dao.tmData.TrayectoDao;
-import com.tmModulos.modelo.entity.tmData.ArcoTiempo;
-import com.tmModulos.modelo.entity.tmData.GisCarga;
-import com.tmModulos.modelo.entity.tmData.Trayecto;
+import com.tmModulos.modelo.dao.tmData.*;
+import com.tmModulos.modelo.entity.tmData.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +22,14 @@ public class GisCargaService {
 
     @Autowired
     ArcoTiempoDao arcoTiempoDao;
+
+    @Autowired
+    ServicioDao servicioDao;
+
+    @Autowired
+    TipologiaDao tipologiaDao;
+
+
 
 
     @Transactional(readOnly = false)
@@ -73,6 +78,20 @@ public class GisCargaService {
     public List<ArcoTiempo> getArcoTiempoAll() { return  arcoTiempoDao.getArcoTiempoAll(); }
 
     public List<ArcoTiempo> getArcoTiempoByGisCarga(GisCarga gisCarga){ return arcoTiempoDao.getArcoTiempoByGisCarga(gisCarga);}
+
+    public Servicio getServicioByTrayecto(int trayecto,int punto){
+        return servicioDao.getServicioByTrayecto(trayecto, punto);
+    }
+
+    @Transactional(readOnly = false)
+    public void addServicio(Servicio servicio) {
+        servicioDao.addServicio(servicio);
+
+    }
+
+    public List<Tipologia> getTipologiaAll() {
+        return tipologiaDao.getTipologiaAll();
+    }
 
 
 }

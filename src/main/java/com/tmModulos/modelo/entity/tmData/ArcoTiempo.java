@@ -45,8 +45,8 @@ public class ArcoTiempo {
     private GisCarga gisCargaArco;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "trayecto_linea", nullable = false)
-    private Trayecto trayectoLinea;
+    @JoinColumn(name = "servicio", nullable = false)
+    private Servicio servicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_dia", nullable = false)
@@ -63,7 +63,7 @@ public class ArcoTiempo {
     public ArcoTiempo() {
     }
 
-    public ArcoTiempo(int sentido, int secuencia, int tipoArco, Integer distancia, String horaDesde, String horaHasta, String tiempoMinimo, String tiempoMaximo, String tiempoOptimo, GisCarga gisCargaArco, Trayecto trayectoLinea, TipoDiaDetalle tipoDiaByArco, Nodo nodoInicial, Nodo nodoFinal) {
+    public ArcoTiempo(int sentido, int secuencia, int tipoArco, Integer distancia, String horaDesde, String horaHasta, String tiempoMinimo, String tiempoMaximo, String tiempoOptimo, GisCarga gisCargaArco, Servicio servicio, TipoDiaDetalle tipoDiaByArco, Nodo nodoInicial, Nodo nodoFinal) {
         this.sentido = sentido;
         this.secuencia = secuencia;
         this.tipoArco = tipoArco;
@@ -74,7 +74,7 @@ public class ArcoTiempo {
         this.tiempoMaximo = tiempoMaximo;
         this.tiempoOptimo = tiempoOptimo;
         this.gisCargaArco = gisCargaArco;
-        this.trayectoLinea = trayectoLinea;
+        this.servicio = servicio;
         this.tipoDiaByArco = tipoDiaByArco;
         this.nodoInicial = nodoInicial;
         this.nodoFinal = nodoFinal;
@@ -168,12 +168,12 @@ public class ArcoTiempo {
         this.gisCargaArco = gisCargaArco;
     }
 
-    public Trayecto getTrayectoLinea() {
-        return trayectoLinea;
+    public Servicio getServicio() {
+        return servicio;
     }
 
-    public void setTrayectoLinea(Trayecto trayectoLinea) {
-        this.trayectoLinea = trayectoLinea;
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
     }
 
     public TipoDiaDetalle getTipoDiaByArco() {

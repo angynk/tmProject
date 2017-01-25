@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -42,16 +43,32 @@ public class DataProcesorImpl {
 
     }
 
+    private List<String> serviciosNoEncontrados;
+
+
+
     public boolean processDataFromFile(String fileName, InputStream in, Date fechaProgrmacion, Date fechaVigencia, String tipoDia, String descripcion) {
+        serviciosNoEncontrados = new ArrayList<>();
         processorUtils.copyFile(fileName,in,destination);
         destination=destination+fileName;
         GisCarga gisCarga = saveGisCarga(fechaProgrmacion,fechaVigencia,descripcion);
         try {
             readExcelAndSaveData(destination,gisCarga,tipoDia);
+            printServiciosNoEncontrados();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
+
+    }
+
+    private void printServiciosNoEncontrados() {
+        for (String servicio:serviciosNoEncontrados
+             ) {
+            System.out.println(servicio);
+
+        }
+
 
     }
 
@@ -61,16 +78,21 @@ public class DataProcesorImpl {
         return gisCarga;
     }
 
-    public Trayecto findOrSaveTrayecto(Row row){
-        String trayectoId =  row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue();
-        List<Trayecto> trayectoByIdentifier = gisCargaService.getTrayectoByIdentifier(trayectoId);
-        if( trayectoByIdentifier.size() == 0 ){
-            int linea = Integer.parseInt( row.getCell(GisCargaDefinition.LINEA ).getStringCellValue());
-            Trayecto trayecto = new Trayecto( trayectoId, linea );
-            gisCargaService.addTrayecto(trayecto);
-            return trayecto;
+    public Servicio findOrSaveServicio(Row row,Nodo nodo){
+        int trayectoId = Integer.parseInt( row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
+
+        if( nodo.getCodigo() == null){
+            serviciosNoEncontrados.add("Nodo No encontrado- Nodo( "+nodo.getNombre()+")");
+        }else{
+            int punto = nodo.getCodigo();
+            Servicio servicio = gisCargaService.getServicioByTrayecto(trayectoId,punto);
+            if( servicio== null ){
+                serviciosNoEncontrados.add("Servicio No encontrado- Trayecto( "+trayectoId+")");
+            }
+            return servicio;
         }
-        return trayectoByIdentifier.get(0);
+        return null;
+
     }
 
 
@@ -85,11 +107,14 @@ public class DataProcesorImpl {
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 if( row.getCell(0) != null ){
-                    Trayecto trayecto = findOrSaveTrayecto(row);
-                    TipoDiaDetalle tipoDia = findOrSaveTipoDia(row,tipoDiaD);
                     Nodo nodoInicial = findOrSaveNodo(row, GisCargaDefinition.NODOINICIO);
-                    Nodo nodoFinal = findOrSaveNodo(row, GisCargaDefinition.NODOFINAL);
-                    saveArcoTiempo(row,gisCarga,trayecto,tipoDia,nodoInicial,nodoFinal);
+                    Servicio servicio = findOrSaveServicio(row,nodoInicial);
+                    if( servicio!= null ){
+                        TipoDiaDetalle tipoDia = findOrSaveTipoDia(row,tipoDiaD);
+                        Nodo nodoFinal = findOrSaveNodo(row, GisCargaDefinition.NODOFINAL);
+                        saveArcoTiempo(row,gisCarga,servicio,tipoDia,nodoInicial,nodoFinal);
+                    }
+
                 }else{
                     break;
                 }
@@ -102,7 +127,7 @@ public class DataProcesorImpl {
         }
     }
 
-    private void saveArcoTiempo(Row row,GisCarga gisCarga, Trayecto trayecto, TipoDiaDetalle tipoDia, Nodo nodoInicial, Nodo nodoFinal) {
+    private void saveArcoTiempo(Row row,GisCarga gisCarga, Servicio servicio, TipoDiaDetalle tipoDia, Nodo nodoInicial, Nodo nodoFinal) {
 
         int distancia = Integer.parseInt(row.getCell( GisCargaDefinition.DISTANCIA ).getStringCellValue());
         int secuencia = Integer.parseInt(row.getCell( GisCargaDefinition.SECUENCIA ).getStringCellValue());
@@ -118,7 +143,7 @@ public class DataProcesorImpl {
                 sentido,secuencia,tipoArco,
                 distancia,horaDesde,horaHasta,
                 tiempoMinimo,tiempoMaximo,tiempoOptimo,
-                gisCarga,trayecto,tipoDia,
+                gisCarga,servicio,tipoDia,
                 nodoInicial,nodoFinal
         );
 

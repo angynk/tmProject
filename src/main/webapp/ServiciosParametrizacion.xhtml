@@ -18,8 +18,8 @@
                     <div style="margin-top:20px">
                         <p:panelGrid columns="4">
                             <p:commandButton actionListener="#{serviciosP.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
-                            <p:commandButton actionListener="#{serviciosP.habilitarNuevo}" update=":form:nuevoDialog"
-                                             oncomplete="PF('nuevoDialog').show()" icon="ui-icon-search" title="View">
+                            <p:commandButton actionListener="#{serviciosP.habilitarNuevo}" update=":form:nuevoDialog" value="Crear"
+                                             oncomplete="PF('nuevoDialog').show()" icon="ui-icon-plus" title="View">
                             </p:commandButton>
                             <h:outputText value="Exportar:" />
                             <h:commandLink>

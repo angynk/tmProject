@@ -51,4 +51,15 @@ public class ServicioDao {
         criteria.add(Restrictions.eq("seccion", seccion));
         return (Servicio) criteria.uniqueResult();
     }
+
+    public Servicio getServicioByTrayecto(int trayecto, int punto){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Servicio.class);
+        criteria.add(Restrictions.eq("trayecto", trayecto));
+        criteria.add(Restrictions.eq("punto", punto));
+        List<Servicio> list = criteria.list();
+        if(list.size()<1){
+            return null;
+        }
+        return list.get(0);
+    }
 }

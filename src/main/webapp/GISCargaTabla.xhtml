@@ -41,9 +41,9 @@
                             </f:facet>
 
 
-                            <p:column filterBy="#{arco.trayectoLinea.linea}" headerText="Linea"  filterMatchMode="contains" sortBy="#{arco.trayectoLinea.linea}"
+                            <p:column filterBy="#{arco.servicio.linea}" headerText="Linea"  filterMatchMode="contains" sortBy="#{arco.servicio.linea}"
                              style="width: 120px">
-                                <h:outputText value="#{arco.trayectoLinea.linea}" />
+                                <h:outputText value="#{arco.servicio.linea}" />
                             </p:column>
 
                             <p:column filterBy="#{arco.nodoInicial.nombre}" headerText="Nodo Inicio" filterMatchMode="contains" sortBy="#{arco.nodoInicial.nombre}"
@@ -61,9 +61,9 @@
                                 <h:outputText value="#{arco.distancia}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.trayectoLinea.trayecto}" headerText="Descripcion"  filterMatchMode="contains" sortBy="#{arco.trayectoLinea.trayecto}"
+                            <p:column filterBy="#{arco.servicio.trayecto}" headerText="Descripcion"  filterMatchMode="contains" sortBy="#{arco.servicio.trayecto}"
                                       style="width: 120px">
-                                <h:outputText value="#{arco.trayectoLinea.trayecto}" />
+                                <h:outputText value="#{arco.servicio.trayecto}" />
                             </p:column>
 
                             <p:column filterBy="#{arco.tipoDiaByArco.detalle}" headerText="Tipo Dia"  filterMatchMode="contains" sortBy="#{arco.tipoDiaByArco.detalle}"
@@ -96,9 +96,9 @@
                                 <h:outputText value="#{arco.tiempoMaximo}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.trayectoLinea.trayecto}" headerText="Trayecto"  filterMatchMode="contains" sortBy="#{arco.trayectoLinea.trayecto}"
+                            <p:column filterBy="#{arco.servicio.trayecto}" headerText="Trayecto"  filterMatchMode="contains" sortBy="#{arco.servicio.trayecto}"
                                       style="width: 120px">
-                                <h:outputText value="#{arco.trayectoLinea.trayecto}" />
+                                <h:outputText value="#{arco.servicio.trayecto}" />
                             </p:column>
 
                             <p:column filterBy="#{arco.sentido}" headerText="Sentido"  filterMatchMode="contains" sortBy="#{arco.sentido}"
