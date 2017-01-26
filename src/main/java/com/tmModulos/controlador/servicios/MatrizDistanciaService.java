@@ -101,4 +101,7 @@ public class MatrizDistanciaService {
         return servicioDao.getServicioBymacroLineaYseccion( macro,linea,seccion,nodo );
     }
 
+    public MatrizDistancia getMatrizDistanciaById(String id){
+       return matrizDistanciaDao.getMatrizDistanciaById(id);
+    }
 }

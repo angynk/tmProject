@@ -93,5 +93,13 @@ public class GisCargaService {
         return tipologiaDao.getTipologiaAll();
     }
 
+    public List<ArcoTiempo> getArcoTiempoById(long id){
+        return arcoTiempoDao.getArcoTiempoById(id);
+    }
+
+    public GisCarga getGisCargaById(String id){
+      return  gisCargaDao.getGisCargaById(id);
+    }
+
 
 }

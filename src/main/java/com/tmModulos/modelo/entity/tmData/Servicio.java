@@ -62,6 +62,9 @@ public class Servicio {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
+    private Set<TablaMaestraServicios> tablaServiciosRecords = new HashSet<TablaMaestraServicios>(0);
+
 
     public Servicio() {
     }
@@ -199,5 +202,13 @@ public class Servicio {
 
     public void setArcoTiempoRecords(Set<ArcoTiempo> arcoTiempoRecords) {
         this.arcoTiempoRecords = arcoTiempoRecords;
+    }
+
+    public Set<TablaMaestraServicios> getTablaServiciosRecords() {
+        return tablaServiciosRecords;
+    }
+
+    public void setTablaServiciosRecords(Set<TablaMaestraServicios> tablaServiciosRecords) {
+        this.tablaServiciosRecords = tablaServiciosRecords;
     }
 }

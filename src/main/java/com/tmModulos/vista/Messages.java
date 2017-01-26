@@ -18,6 +18,7 @@ public class Messages {
     public static final String MENSAJE_CALCULO_EXITOSO = "Generacion exitosa";
     public static final String MENSAJE_CALCULO_FALLA = "Generacion fallida";
     public static final String ACCION_MATRIZ_ALMACENADA = "Matriz de distancias Almacenada";
+    public static final String ACCION_TABLA_MAESTRA_ALMACENADA = "Tabla Maestra Almacenada";
     public static final String ACCION_GIS_CARGA_ALMACENADA = "GIS de carga Almacenado";
     public static final String ACCION_CALCULO_FALLA = "No es posible generar matriz de distancias para la fecha seleccionada";
 }

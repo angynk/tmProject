@@ -1,5 +1,6 @@
 package com.tmModulos.modelo.dao.tmData;
 
+import com.tmModulos.modelo.entity.tmData.GisCarga;
 import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -56,5 +57,11 @@ public class MatrizDistanciaDao {
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(MatrizDistancia.class);
         criteria.add(  Restrictions.between(tipoFecha, fechaIni, fechaFin)  );
         return criteria.list();
+    }
+
+    public MatrizDistancia getMatrizDistanciaById(String id){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(MatrizDistancia.class);
+        criteria.add(Restrictions.eq("numeracion", id));
+        return (MatrizDistancia) criteria.uniqueResult();
     }
 }

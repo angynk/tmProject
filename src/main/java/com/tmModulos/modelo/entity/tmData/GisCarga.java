@@ -37,6 +37,9 @@ public class GisCarga {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisCargaArco")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisCarga")
+    private Set<TablaMaestra> tablaMaestraRecords= new HashSet<TablaMaestra>(0);
+
     public GisCarga(Date fechaCreacion, Date fechaProgramacion, Date fechaVigencia, String descripcion) {
         this.fechaCreacion = fechaCreacion;
         this.fechaProgramacion = fechaProgramacion;
@@ -129,5 +132,13 @@ public class GisCarga {
 
     public void setFechaVigenciaFormato(String fechaVigenciaFormato) {
         this.fechaVigenciaFormato = fechaVigenciaFormato;
+    }
+
+    public Set<TablaMaestra> getTablaMaestraRecords() {
+        return tablaMaestraRecords;
+    }
+
+    public void setTablaMaestraRecords(Set<TablaMaestra> tablaMaestraRecords) {
+        this.tablaMaestraRecords = tablaMaestraRecords;
     }
 }

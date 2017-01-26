@@ -47,6 +47,7 @@
                 <value>com.tmModulos.modelo.entity.tmData.Tipologia</value>
                 <value>com.tmModulos.modelo.entity.tmData.FranjaHoraria</value>
                 <value>com.tmModulos.modelo.entity.tmData.ServicioFranjaHorario</value>
+                <value>com.tmModulos.modelo.entity.tmData.TablaMaestraServicios</value>
             </list>
         </property>
     </bean>

@@ -1,12 +1,17 @@
 package com.tmModulos.controlador.servicios;
 
 
+import com.tmModulos.modelo.dao.tmData.TablaMaestraServiciosDao;
 import com.tmModulos.modelo.entity.tmData.TablaMaestra;
 import com.tmModulos.modelo.dao.tmData.TablaMaestraDao;
+import com.tmModulos.modelo.entity.tmData.TablaMaestraServicios;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,6 +22,10 @@ public class TablaMaestraService {
 
     @Autowired
     TablaMaestraDao tablaMaestraDao;
+
+    @Autowired
+    TablaMaestraServiciosDao tablaMaestraServiciosDao;
+
 
 
 
@@ -52,6 +61,35 @@ public class TablaMaestraService {
         this.tablaMaestraDao = tablaMaestraDao;
     }
 
+    @Transactional(readOnly = false)
+    public void addTServicios(TablaMaestraServicios tablaMaestraServicios) {
+        tablaMaestraServiciosDao.addTServicios(tablaMaestraServicios);
+    }
+
+    public void deleteTServicios(TablaMaestraServicios tablaMaestraServicios) {
+        tablaMaestraServiciosDao.deleteTServicios(tablaMaestraServicios);
+    }
 
 
+    public void updateTServicios(TablaMaestraServicios tablaMaestraServicios) {
+        tablaMaestraServiciosDao.updateTServicios(tablaMaestraServicios);
+    }
+
+
+    public List<TablaMaestraServicios> getTServicios() {
+        return tablaMaestraServiciosDao.getTServicios();
+    }
+
+
+    public List<TablaMaestra> getTablaMaestraByFecha(String tipoFecha, Date fecha){
+        return tablaMaestraDao.getTablaMaestraByFecha(tipoFecha,fecha);
+    }
+
+    public List<TablaMaestra> getTablaMaestraBetwenFechas(String tipoFecha,Date fechaIni,Date fechaFin){
+        return tablaMaestraDao.getTablaMaestraBetwenFechas(tipoFecha,fechaIni,fechaFin);
+    }
+
+    public List<TablaMaestraServicios> getServiciosByTabla(TablaMaestra tablaMaestra){
+        return tablaMaestraServiciosDao.getServiciosByTabla(tablaMaestra);
+    }
 }

@@ -26,10 +26,10 @@ public class NuevaTablaMaestra {
     private Date fechaDeVigencia;
     private UploadedFile tablaMaestra;
 
-    private GisCarga gisCarga;
+    private String gisCarga;
     private List<GisCarga> gisCargaList;
 
-    private MatrizDistancia matrizDistancia;
+    private String matrizDistancia;
     private List<MatrizDistancia> matrizDistanciasList;
 
     @ManagedProperty("#{MessagesView}")
@@ -44,29 +44,35 @@ public class NuevaTablaMaestra {
         tipoGeneracion = "2";
         automaticoVisible=false;
         archivoVisible=true;
-        gisCargaList = new ArrayList<>();
-        matrizDistanciasList = new ArrayList<>();
+        gisCargaList = tablaMaestraProcessor.getGisCargaList();
+        matrizDistanciasList = tablaMaestraProcessor.getMatrizDistanciaAll();
     }
 
-    public void cambioTipoGeneracion(){
-        if(tipoGeneracion.equals("1")){
-            automaticoVisible=true;
-            archivoVisible=false;
-            gisCargaList = tablaMaestraProcessor.getGisCargaList();
-            matrizDistanciasList = tablaMaestraProcessor.getMatrizDistanciaAll();
-        }else{
-            automaticoVisible=false;
-            archivoVisible=true;
-            gisCargaList = new ArrayList<>();
-            matrizDistanciasList = new ArrayList<>();
-        }
-    }
-
-    public void cargarArchivo(){
-
-    }
 
     public void calcularTablaMaestra(){
+        if(valid()){
+            boolean resultado=tablaMaestraProcessor.calcularTablaMaestra(fechaDeProgramacion,
+                    descripcion,gisCarga,matrizDistancia);
+            if(resultado){
+                messagesView.info(Messages.MENSAJE_CALCULO_EXITOSO,Messages.ACCION_TABLA_MAESTRA_ALMACENADA);
+            }
+
+        }else{
+            messagesView.error(Messages.MENSAJE_CAMPOS_INCOMPLETOS, Messages.ACCION_CAMPOS_INCOMPLETOS);
+        }
+
+
+
+    }
+
+    public boolean valid(){
+        if(descripcion!=null){
+            if(fechaDeProgramacion!=null){
+                    return true;
+
+            }
+        }
+        return false;
     }
 
 
@@ -134,13 +140,6 @@ public class NuevaTablaMaestra {
         this.descripcion = descripcion;
     }
 
-    public GisCarga getGisCarga() {
-        return gisCarga;
-    }
-
-    public void setGisCarga(GisCarga gisCarga) {
-        this.gisCarga = gisCarga;
-    }
 
     public List<GisCarga> getGisCargaList() {
         return gisCargaList;
@@ -158,13 +157,6 @@ public class NuevaTablaMaestra {
         this.tablaMaestraProcessor = tablaMaestraProcessor;
     }
 
-    public MatrizDistancia getMatrizDistancia() {
-        return matrizDistancia;
-    }
-
-    public void setMatrizDistancia(MatrizDistancia matrizDistancia) {
-        this.matrizDistancia = matrizDistancia;
-    }
 
     public List<MatrizDistancia> getMatrizDistanciasList() {
         return matrizDistanciasList;
@@ -172,5 +164,21 @@ public class NuevaTablaMaestra {
 
     public void setMatrizDistanciasList(List<MatrizDistancia> matrizDistanciasList) {
         this.matrizDistanciasList = matrizDistanciasList;
+    }
+
+    public String getMatrizDistancia() {
+        return matrizDistancia;
+    }
+
+    public void setMatrizDistancia(String matrizDistancia) {
+        this.matrizDistancia = matrizDistancia;
+    }
+
+    public String getGisCarga() {
+        return gisCarga;
+    }
+
+    public void setGisCarga(String gisCarga) {
+        this.gisCarga = gisCarga;
     }
 }

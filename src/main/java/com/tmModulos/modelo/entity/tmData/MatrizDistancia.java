@@ -28,6 +28,10 @@ public class MatrizDistancia {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matrizDistancia")
     private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
 
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "matrizDistancia")
+    private Set<TablaMaestra> tablaMaestraRecords= new HashSet<TablaMaestra>(0);
+
     @Transient
     private String fechaCreacionFormato;
     @Transient
@@ -98,5 +102,13 @@ public class MatrizDistancia {
 
     public void setFechaProgramacionFormato(String fechaProgramacionFormato) {
         this.fechaProgramacionFormato = fechaProgramacionFormato;
+    }
+
+    public Set<TablaMaestra> getTablaMaestraRecords() {
+        return tablaMaestraRecords;
+    }
+
+    public void setTablaMaestraRecords(Set<TablaMaestra> tablaMaestraRecords) {
+        this.tablaMaestraRecords = tablaMaestraRecords;
     }
 }

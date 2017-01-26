@@ -34,6 +34,11 @@ public class Nodo {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
     private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoIncial")
+    private Set<TablaMaestraServicios> tablaServiciosIRecords = new HashSet<TablaMaestraServicios>(0);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoFinal")
+    private Set<TablaMaestraServicios> tablaServiciosFRecords = new HashSet<TablaMaestraServicios>(0);
 
 
     public Nodo() {
@@ -106,6 +111,19 @@ public class Nodo {
     }
 
 
+    public Set<TablaMaestraServicios> getTablaServiciosIRecords() {
+        return tablaServiciosIRecords;
+    }
 
+    public void setTablaServiciosIRecords(Set<TablaMaestraServicios> tablaServiciosIRecords) {
+        this.tablaServiciosIRecords = tablaServiciosIRecords;
+    }
 
+    public Set<TablaMaestraServicios> getTablaServiciosFRecords() {
+        return tablaServiciosFRecords;
+    }
+
+    public void setTablaServiciosFRecords(Set<TablaMaestraServicios> tablaServiciosFRecords) {
+        this.tablaServiciosFRecords = tablaServiciosFRecords;
+    }
 }

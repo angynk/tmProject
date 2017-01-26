@@ -26,38 +26,22 @@
                 <p:panel id="basic" header="Generar Tabla Maestra"  style="margin-bottom:20px">
                     <h:panelGrid  style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
                         <p:panelGrid style="border:none" columns="2" >
-                            <p:outputLabel  value="Tipo Generación:" />
-                            <p:selectOneRadio id="busqueda" value="#{tablaMaestra.tipoGeneracion}">
-                                <p:ajax process="@this" update="@form" listener="#{tablaMaestra.cambioTipoGeneracion}"/>
-                                <f:selectItem itemLabel="Calcular" itemValue="1" />
-                                <f:selectItem itemLabel="Cargar Archivo" itemValue="2" />
-                            </p:selectOneRadio>
                             <p:outputLabel value="Descripción:" for="desc" />
                             <p:inputText value="#{tablaMaestra.descripcion}" id="desc"/>
                             <p:outputLabel for="button" value="Fecha Programación:" />
                             <p:calendar id="button" value="#{tablaMaestra.fechaDeProgramacion}" showOn="button" />
                         </p:panelGrid>
-                        <p:panel visible="#{tablaMaestra.archivoVisible}" style="border:none">
-                            <p:panelGrid columns="2">
-                                <p:outputLabel value="Archivo Tabla Maestra:" />
-                                <p:fileUpload value="#{tablaMaestra.tablaMaestra}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
-                                <p:commandButton value="Guardar" action="#{tablaMaestra.cargarArchivo}" ajax="false"
-                                                 icon="ui-icon ui-icon-disk" id="withIcon"
-                                                 async="true" process="@form" onclick="PF('dlg2').show();" global="false"
-                                                 oncomplete="PF('dlg2').hide()"/>
-                            </p:panelGrid>
-                        </p:panel>
-                        <p:panel visible="#{tablaMaestra.automaticoVisible}" style="border:none" >
+                        <p:panel  style="border:none" >
                             <p:panelGrid columns="2">
 
                                 <p:outputLabel value="GIS de Carga:" />
                                 <p:selectOneMenu id="advanced" value="#{tablaMaestra.gisCarga}"  panelStyle="width:180px"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItems value="#{tablaMaestra.gisCargaList}" var="gis"
-                                                   itemLabel="#{gis.descripcion}" itemValue="#{gis}" />
+                                                   itemLabel="#{gis.descripcion}" itemValue="#{gis.descripcion}" />
 
                                     <p:column>
-                                        <h:outputText value="#{t.descripcion}" />
+                                        <h:outputText value="#{t}" />
                                     </p:column>
 
                                 </p:selectOneMenu>
@@ -66,16 +50,16 @@
                                 <p:selectOneMenu id="matrizD" value="#{tablaMaestra.matrizDistancia}"  panelStyle="width:180px"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItems value="#{tablaMaestra.matrizDistanciasList}" var="matriz"
-                                                   itemLabel="#{matriz.numeracion}" itemValue="#{matriz}" />
+                                                   itemLabel="#{matriz.numeracion}" itemValue="#{matriz.numeracion}" />
 
                                     <p:column>
-                                        <h:outputText value="#{t.numeracion}" />
+                                        <h:outputText value="#{t}" />
                                     </p:column>
 
                                 </p:selectOneMenu>
 
-                                <p:commandButton value="Calcular" action="#{tablaMaestra.calcularTablaMaestra}" ajax="false"
-                                                 icon="ui-icon ui-icon-calculator" id="calcular" visible="#{tablaMaestra.automaticoVisible}"
+                                <p:commandButton value="Calcular"  ajax="false"
+                                                 icon="ui-icon ui-icon-calculator" id="calcular" action="#{tablaMaestra.calcularTablaMaestra}"
                                                  async="true" process="@form" onclick="PF('dlg2').show();" global="false"
                                                  oncomplete="PF('dlg2').hide()"/>
                             </p:panelGrid>

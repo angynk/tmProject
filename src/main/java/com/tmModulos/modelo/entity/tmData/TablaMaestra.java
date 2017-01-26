@@ -1,26 +1,56 @@
 package com.tmModulos.modelo.entity.tmData;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="tablamaestra")
+@Table(name="tabla_maestra")
 public class TablaMaestra {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="TablaGenerator")
+    @SequenceGenerator(name="TablaGenerator", sequenceName = "tabla_maestra_id_seq",allocationSize=1)
     @Column(name = "id")
     private long id;
-    @Column(name = "version")
-    private int version;
+
     @Column(name = "fecha_creacion")
     private Date fechaCreacion;
-    @Column(name = "esta_vigente")
-    private Boolean estaVigente;
+
+    @Column(name = "fecha_vigencia")
+    private Date fechaVigencia;
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "matriz_distancia", nullable = false)
+    private MatrizDistancia matrizDistancia;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "gis_carga", nullable = false)
+    private GisCarga gisCarga;
+
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMeestra")
+    private Set<TablaMaestraServicios> tablaServiciosRecords = new HashSet<TablaMaestraServicios>(0);
+
+    @Transient
+    private String fechaCreacionFormato;
+    @Transient
+    private String fechaProgramacionFormato;
 
     public TablaMaestra() {
+    }
+
+    public TablaMaestra(Date fechaCreacion, Date fechaVigencia, String descripcion, MatrizDistancia matrizDistancia, GisCarga gisCarga) {
+        this.fechaCreacion = fechaCreacion;
+        this.fechaVigencia = fechaVigencia;
+        this.descripcion = descripcion;
+        this.matrizDistancia = matrizDistancia;
+        this.gisCarga = gisCarga;
     }
 
     public long getId() {
@@ -31,14 +61,6 @@ public class TablaMaestra {
         this.id = id;
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
@@ -47,11 +69,61 @@ public class TablaMaestra {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public Boolean getEstaVigente() {
-        return estaVigente;
+    public Date getFechaVigencia() {
+        return fechaVigencia;
     }
 
-    public void setEstaVigente(Boolean estaVigente) {
-        this.estaVigente = estaVigente;
+    public void setFechaVigencia(Date fechaVigencia) {
+        this.fechaVigencia = fechaVigencia;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public MatrizDistancia getMatrizDistancia() {
+        return matrizDistancia;
+    }
+
+    public void setMatrizDistancia(MatrizDistancia matrizDistancia) {
+        this.matrizDistancia = matrizDistancia;
+    }
+
+    public GisCarga getGisCarga() {
+        return gisCarga;
+    }
+
+    public void setGisCarga(GisCarga gisCarga) {
+        this.gisCarga = gisCarga;
+    }
+
+    public Set<TablaMaestraServicios> getTablaServiciosRecords() {
+        return tablaServiciosRecords;
+    }
+
+    public void setTablaServiciosRecords(Set<TablaMaestraServicios> tablaServiciosRecords) {
+        this.tablaServiciosRecords = tablaServiciosRecords;
+    }
+
+    public String getFechaCreacionFormato() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        return dt1.format(fechaCreacion);
+    }
+
+    public void setFechaCreacionFormato(String fechaCreacionFormato) {
+        this.fechaCreacionFormato = fechaCreacionFormato;
+    }
+
+    public String getFechaProgramacionFormato() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        return dt1.format(fechaVigencia);
+    }
+
+    public void setFechaProgramacionFormato(String fechaProgramacionFormato) {
+        this.fechaProgramacionFormato = fechaProgramacionFormato;
     }
 }

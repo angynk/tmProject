@@ -8,52 +8,96 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 <h:body>
+
     <ui:composition template="/template/common/commonLayout.xhtml">
+
         <ui:define name="content">
-            <h:form>
-             <p:panel id="basic" header="Tabla Maestra Vigente" style="margin-bottom:20px">
-                <div style="margin-top:20px">
-                <p:dataTable var="servicio" value="#{dtFilterView.servicios}" widgetVar="carsTable"
-                 emptyMessage="No cars found with given criteria" filteredValue="#{dtFilterView.filteredServicios}">
+            <h:form >
+                <p:panel id="basic" header="Tabla Maestra" style="margin-bottom:20px" visible="#{busquedaTabla.visibleRecords}">
+                    <div style="margin-top:20px">
+                        <p:panelGrid columns="4">
+                            <p:commandButton actionListener="#{busquedaTabla.atras}" id="atras"  icon="ui-icon ui-icon-arrow-1-w" title="atras" />
+                            <p:commandButton actionListener="#{busquedaTabla.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
 
-                    <f:facet name="header" style="background-color: #4cae4c">
-                        <p:outputPanel>
-                            <h:outputText value="Buscar en todos los campos:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder=""/>
-                        </p:outputPanel>
-                     </f:facet>
+                            <h:outputText value="Exportar:" />
+                            <h:commandLink>
+                                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls"
+                                                target="tservicio" fileName="Tabla Maestra"  />
+                            </h:commandLink>
+                        </p:panelGrid>
+                        <div style="height: 10px"></div>
+                        <p:dataTable id="tservicio" var="tservicio" value="#{busquedaTabla.tServiciosRecords}" widgetVar="MatrizTable"
+                                     emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{busquedaTabla.filteredTServiciosRecords}"
+                                     scrollable="true" scrollWidth="100%" scrollHeight="510">
 
 
-        <p:column filterBy="#{servicio.id}" headerText="Id" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.id}">
-            <h:outputText value="#{servicio.id}" />
-        </p:column>
+                            <f:facet name="header" style="background-color: #4cae4c">
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar en todos los campos:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('MatrizTable').filter()" style="width:150px" placeholder=""/>
+                                </p:outputPanel>
+                            </f:facet>
 
 
-        <p:column filterBy="#{servicio.tipoDia}" headerText="Tipo Dia" footerText="exact" filterMatchMode="exact">
-            <f:facet name="filter">
-                <p:selectOneMenu onchange="PF('carsTable').filter()" >
-                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="#{dtFilterView.tipoDia}" />
-                </p:selectOneMenu>
-            </f:facet>
-            <h:outputText value="#{servicio.tipoDia}" />
-        </p:column>
+                            <p:column filterBy="#{tservicio.servicio.identificador}" headerText="Id"  filterMatchMode="contains" sortBy="#{tservicio.servicio.identificador}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.identificador}" />
+                            </p:column>
 
-        <p:column filterBy="#{servicio.macro}" headerText="Macro" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.macro}">
-            <h:outputText value="#{servicio.macro}" />
-        </p:column>
+                            <p:column filterBy="#{tservicio.tipoDia}" headerText="TipoDia"  filterMatchMode="contains" sortBy="#{tservicio.tipoDia}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.tipoDia}" />
+                            </p:column>
 
-        <p:column filterBy="#{servicio.linea}" headerText="Linea" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.linea}">
-            <h:outputText value="#{servicio.linea}" />
-        </p:column>
+                            <p:column filterBy="#{tservicio.servicio.trayecto}" headerText="Trayecto"  filterMatchMode="contains" sortBy="#{tservicio.servicio.trayecto}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.trayecto}" />
+                            </p:column>
 
-        <p:column filterBy="#{servicio.seccion}" headerText="Seccion" footerText="contains" filterMatchMode="contains" sortBy="#{servicio.seccion}">
-            <h:outputText value="#{servicio.seccion}" />
-        </p:column>
+                            <p:column filterBy="#{tservicio.servicio.macro}" headerText="Macro" filterMatchMode="contains" sortBy="#{tservicio.servicio.macro}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.macro}" />
+                            </p:column>
 
-    </p:dataTable>
-        </div>
-    </p:panel>
+                            <p:column filterBy="#{tservicio.servicio.linea}" headerText="Linea"  filterMatchMode="contains" sortBy="#{tservicio.servicio.linea}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.linea}" />
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.servicio.seccion}" headerText="Seccion" filterMatchMode="contains" sortBy="#{tservicio.servicio.seccion}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.seccion}" />
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.nodoIncial.codigo}" headerText="PuntoI"  filterMatchMode="contains" sortBy="#{tservicio.nodoIncial.codigo}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.nodoIncial.codigo}" />
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.nodoFinal.codigo}" headerText="PuntoF"  filterMatchMode="contains" sortBy="#{tservicio.nodoFinal.codigo}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.nodoFinal.codigo}" />
+                            </p:column>
+                            <p:column filterBy="#{tservicio.servicio.tipologia.nombre}" headerText="Tipología"  filterMatchMode="contains" sortBy="#{tservicio.servicio.tipologia.nombre}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.tipologia.nombre}" />
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.servicio.nombreGeneral}" headerText="Servicio U" filterMatchMode="contains" sortBy="#{tservicio.servicio.nombreGeneral}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.nombreGeneral}" />
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.servicio.nombreEspecial}" headerText="Servicio E" filterMatchMode="contains" sortBy="#{tservicio.servicio.nombreEspecial}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.servicio.nombreEspecial}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </div>
+                </p:panel>
             </h:form>
         </ui:define>
 

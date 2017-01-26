@@ -49,4 +49,12 @@ public class ArcoTiempoDao {
         criteria.add(Restrictions.eq("gisCargaArco", gisCarga));
         return criteria.list();
     }
+
+    public List<ArcoTiempo> getArcoTiempoById(long id){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ArcoTiempo.class);
+        criteria.add(Restrictions.eq("gisCargaArco", id));
+        return criteria.list();
+    }
+
+
 }

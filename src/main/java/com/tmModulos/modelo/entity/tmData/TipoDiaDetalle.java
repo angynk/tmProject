@@ -20,7 +20,7 @@ public class TipoDiaDetalle {
     @Column(name = "codigo")
     private Integer codigo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_dia", nullable = false)
     private TipoDia tipoDia;
 
