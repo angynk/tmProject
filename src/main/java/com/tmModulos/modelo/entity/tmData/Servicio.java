@@ -55,15 +55,12 @@ public class Servicio {
     private Tipologia tipologia;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
-    private Set<ServicioFranjaHorario> servicioFranjaRecords= new HashSet<ServicioFranjaHorario>(0);
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
+//    private Set<ServicioFranjaHorario> servicioFranjaRecords= new HashSet<ServicioFranjaHorario>(0);
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
-    private Set<TablaMaestraServicios> tablaServiciosRecords = new HashSet<TablaMaestraServicios>(0);
 
     @Transient
     private String estadoFormato;
@@ -183,13 +180,6 @@ public class Servicio {
         this.tipologia = tipologia;
     }
 
-    public Set<ServicioFranjaHorario> getServicioFranjaRecords() {
-        return servicioFranjaRecords;
-    }
-
-    public void setServicioFranjaRecords(Set<ServicioFranjaHorario> servicioFranjaRecords) {
-        this.servicioFranjaRecords = servicioFranjaRecords;
-    }
 
     public int getPunto() {
         return punto;
@@ -207,13 +197,7 @@ public class Servicio {
         this.arcoTiempoRecords = arcoTiempoRecords;
     }
 
-    public Set<TablaMaestraServicios> getTablaServiciosRecords() {
-        return tablaServiciosRecords;
-    }
 
-    public void setTablaServiciosRecords(Set<TablaMaestraServicios> tablaServiciosRecords) {
-        this.tablaServiciosRecords = tablaServiciosRecords;
-    }
 
     public String getEstadoFormato() {
         if(estado){

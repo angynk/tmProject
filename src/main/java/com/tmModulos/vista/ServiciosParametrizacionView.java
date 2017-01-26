@@ -24,17 +24,21 @@ public class ServiciosParametrizacionView {
     private List<Servicio> serviciosRecords;
     private List<Servicio> filteredServiciosRecords;
     private Servicio selectedServicio;
+    private Servicio nuevoServicio;
 
-    private List<Tipologia> tipologias;
+    private List<String> tipologias;
     private List<String> tipoServicio;
 
-    private String auxTipologia;
+    private String console;
 
 
     @PostConstruct
     public void init() {
         serviciosRecords= servicioService.getServicioAll();
-        tipologias = servicioService.getTipologiaAll();
+        tipologias = new ArrayList<>();
+        tipologias.add("ARTICULADO");
+        tipologias.add("BIARTICULADO");
+        tipologias.add("MIXTO");
         tipoServicio= new ArrayList<>();
         tipoServicio.add("1");
         tipoServicio.add("1-1");
@@ -48,10 +52,11 @@ public class ServiciosParametrizacionView {
     }
 
     public void actualizar(){
-        if(auxTipologia!=null){
-            Tipologia tipologia = servicioService.getTipologiaByNombre(auxTipologia);
-            selectedServicio.setTipologia(tipologia);
+        if(console==null || console.equals("")){
+            console="ARTICULADO";
         }
+        Tipologia tipologia = servicioService.getTipologiaByNombre(console);
+        selectedServicio.setTipologia(tipologia);
         String identificador = selectedServicio.getMacro()+"-"+selectedServicio.getLinea()+"-"+selectedServicio.getSeccion()+"-"+selectedServicio.getPunto();
         selectedServicio.setIdentificador(identificador);
         servicioService.updateServicio(selectedServicio);
@@ -59,17 +64,18 @@ public class ServiciosParametrizacionView {
     }
 
     public void habilitarNuevo(){
-        selectedServicio= new Servicio();
+        nuevoServicio= new Servicio();
     }
 
     public void nuevo(){
-        if(auxTipologia!=null){
-            Tipologia tipologia = servicioService.getTipologiaByNombre(auxTipologia);
-            selectedServicio.setTipologia(tipologia);
+        if(console==null || console.equals("")){
+            console="ARTICULADO";
         }
-        String identificador = selectedServicio.getMacro()+"-"+selectedServicio.getLinea()+"-"+selectedServicio.getSeccion()+"-"+selectedServicio.getPunto();
-        selectedServicio.setIdentificador(identificador);
-        servicioService.addServicio(selectedServicio);
+        Tipologia tipologia = servicioService.getTipologiaByNombre(console);
+        nuevoServicio.setTipologia(tipologia);
+        String identificador = nuevoServicio.getMacro()+"-"+nuevoServicio.getLinea()+"-"+nuevoServicio.getSeccion()+"-"+nuevoServicio.getPunto();
+        nuevoServicio.setIdentificador(identificador);
+        servicioService.addServicio(nuevoServicio);
         serviciosRecords= servicioService.getServicioAll();
     }
 
@@ -109,20 +115,20 @@ public class ServiciosParametrizacionView {
         this.selectedServicio = selectedServicio;
     }
 
-    public List<Tipologia> getTipologias() {
+    public List<String> getTipologias() {
         return tipologias;
     }
 
-    public void setTipologias(List<Tipologia> tipologias) {
+    public void setTipologias(List<String> tipologias) {
         this.tipologias = tipologias;
     }
 
-    public String getAuxTipologia() {
-        return auxTipologia;
+    public String getConsole() {
+        return console;
     }
 
-    public void setAuxTipologia(String auxTipologia) {
-        this.auxTipologia = auxTipologia;
+    public void setConsole(String console) {
+        this.console = console;
     }
 
     public List<String> getTipoServicio() {
@@ -131,5 +137,13 @@ public class ServiciosParametrizacionView {
 
     public void setTipoServicio(List<String> tipoServicio) {
         this.tipoServicio = tipoServicio;
+    }
+
+    public Servicio getNuevoServicio() {
+        return nuevoServicio;
+    }
+
+    public void setNuevoServicio(Servicio nuevoServicio) {
+        this.nuevoServicio = nuevoServicio;
     }
 }

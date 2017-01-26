@@ -101,7 +101,7 @@
                                     <h:inputText value="#{serviciosP.selectedServicio.lineaCompuesta}"  />
 
                                     <h:outputText value="Trayecto:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.servicioDistancia}"  />
+                                    <h:inputText value="#{serviciosP.selectedServicio.trayecto}"  />
 
                                     <h:outputText value="Nombre Generico:" style="color:black"/>
                                     <h:inputText value="#{serviciosP.selectedServicio.nombreGeneral}"  />
@@ -119,15 +119,20 @@
                                     </h:selectOneMenu>
 
                                     <h:outputText value="Tipología:" style="color:black"/>
-                                    <h:selectOneMenu value="#{serviciosP.auxTipologia}" style="width:100%" >
-                                    <f:selectItems value="#{serviciosP.tipologias}" var="tipo" itemLabel="#{tipo.nombre}" itemValue="#{tipo}" />
-                                     </h:selectOneMenu>
+                                    <p:selectOneMenu value="#{serviciosP.console}" style="width:100%" >
+                                    <!--<f:selectItems value="#{serviciosP.tipologias}" var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />-->
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItem itemLabel="ARTICULADO" itemValue="ARTICULADO" />
+                                        <f:selectItem itemLabel="BIARTICULADO" itemValue="BIARTICULADO" />
+                                        <f:selectItem itemLabel="MIXTO" itemValue="MIXTO" />
+
+                                    </p:selectOneMenu>
 
 
 
                                 </p:panelGrid>
                                 <p:panelGrid columns="2">
-                                    <p:commandButton value="Actualizar" action="#{serviciosP.nuevo}" ajax="false"
+                                    <p:commandButton value="Actualizar" action="#{serviciosP.actualizar}" ajax="false"
                                                      icon="ui-icon ui-icon-disk" id="actualizar"
                                                      async="true" />
 
@@ -141,48 +146,51 @@
 
                         <p:dialog header="Servicio Informacion" widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                             <p:outputPanel id="nuevoDialog" style="text-align:center;">
-                                <p:panelGrid  columns="4" rendered="#{not empty serviciosP.selectedServicio}" columnClasses="label,value">
+                                <p:panelGrid  columns="4" rendered="#{not empty serviciosP.nuevoServicio}" columnClasses="label,value">
 
                                     <h:outputText value="Identificador:" style="color:black" />
-                                    <h:inputText value="#{serviciosP.selectedServicio.identificador}" disabled="true" style="background-color: #d6d7d8" />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.identificador}" disabled="true" style="background-color: #d6d7d8" />
 
                                     <h:outputText value="Macro:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.macro}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.macro}"  />
 
                                     <h:outputText value="Linea:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.linea}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.linea}"  />
 
                                     <h:outputText value="Seccion:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.seccion}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.seccion}"  />
 
                                     <h:outputText value="Punto:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.punto}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.punto}"  />
 
 
                                     <h:outputText value="Linea Compuesta:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.lineaCompuesta}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.lineaCompuesta}"  />
 
                                     <h:outputText value="Trayecto:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.servicioDistancia}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.trayecto}"  />
 
                                     <h:outputText value="Nombre Generico:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.nombreGeneral}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.nombreGeneral}"  />
 
                                     <h:outputText value="Nombre Especifico:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.selectedServicio.nombreEspecial}"  />
+                                    <h:inputText value="#{serviciosP.nuevoServicio.nombreEspecial}"  />
 
 
                                     <h:outputText value="Estado:" style="color:black"/>
-                                    <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.estado}" />
+                                    <p:selectBooleanCheckbox value="#{serviciosP.nuevoServicio.estado}" />
 
                                     <h:outputText value="TipoServicio:" style="color:black"/>
-                                    <h:selectOneMenu value="#{serviciosP.selectedServicio.tipoServicio}" style="width:100%" >
+                                    <h:selectOneMenu value="#{serviciosP.nuevoServicio.tipoServicio}" style="width:100%" >
                                         <f:selectItems value="#{serviciosP.tipoServicio}" var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
                                     </h:selectOneMenu>
 
                                     <h:outputText value="Tipología:" style="color:black"/>
-                                    <h:selectOneMenu value="#{serviciosP.auxTipologia}" style="width:100%" >
-                                        <f:selectItems value="#{serviciosP.tipologias}" var="tipo" itemLabel="#{tipo.nombre}" itemValue="#{tipo}" />
+                                    <h:selectOneMenu value="#{serviciosP.console}" style="width:100%" >
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItem itemLabel="ARTICULADO" itemValue="ARTICULADO" />
+                                        <f:selectItem itemLabel="BIARTICULADO" itemValue="BIARTICULADO" />
+                                        <f:selectItem itemLabel="MIXTO" itemValue="MIXTO" />
                                     </h:selectOneMenu>
 
 

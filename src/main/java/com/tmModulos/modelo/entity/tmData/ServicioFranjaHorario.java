@@ -17,10 +17,10 @@ public class ServicioFranjaHorario {
     @Column(name = "tipo_franja")
     private int tipoFranja;
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "servicio", nullable = false)
-    private Servicio servicio;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "servicio", nullable = false)
+//    private Servicio servicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "franja", nullable = false)
@@ -42,13 +42,13 @@ public class ServicioFranjaHorario {
         this.tipoFranja = tipoFranja;
     }
 
-    public Servicio getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
+//    public Servicio getServicio() {
+//        return servicio;
+//    }
+//
+//    public void setServicio(Servicio servicio) {
+//        this.servicio = servicio;
+//    }
 
     public FranjaHoraria getFranja() {
         return franja;
