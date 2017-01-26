@@ -35,7 +35,7 @@
             <list>
                 <value>com.tmModulos.modelo.entity.tmData.GisCarga</value>
                 <value>com.tmModulos.modelo.entity.tmData.TablaMaestra</value>
-                <!--<value>com.tmModulos.modelo.entity.tmData.Trayecto</value>-->
+                <value>com.tmModulos.modelo.entity.tmData.ServicioDistancia</value>
                 <value>com.tmModulos.modelo.entity.tmData.TipoDia</value>
                 <value>com.tmModulos.modelo.entity.tmData.TipoDiaDetalle</value>
                 <value>com.tmModulos.modelo.entity.tmData.Nodo</value>

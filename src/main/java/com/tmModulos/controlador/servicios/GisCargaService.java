@@ -2,11 +2,12 @@ package com.tmModulos.controlador.servicios;
 
 import com.tmModulos.modelo.dao.tmData.*;
 import com.tmModulos.modelo.entity.tmData.*;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,8 +18,7 @@ public class GisCargaService {
     @Autowired
     GisCargaDao gisCargaDao;
 
-    @Autowired
-    TrayectoDao trayectoDao;
+
 
     @Autowired
     ArcoTiempoDao arcoTiempoDao;
@@ -50,21 +50,7 @@ public class GisCargaService {
     }
     public List<GisCarga> getGisCargaByFecha(String tipoFecha,Date fecha){ return  gisCargaDao.getGisCargaByFecha( tipoFecha, fecha);}
     public List<GisCarga> getGisCargaBetwenFechas(String tipoFecha,Date fechaIni,Date fechaFin){ return  gisCargaDao.getGisCargaBetwenFechas(tipoFecha,fechaIni,fechaFin);}
-    @Transactional(readOnly = false)
-    public void addTrayecto(Trayecto trayecto) {
-        trayectoDao.addTrayecto(trayecto);
-    }
 
-    public void deleteTrayecto(Trayecto trayecto) {
-        trayectoDao.deleteTrayecto(trayecto);
-    }
-
-    public void updateTrayecto(Trayecto trayecto) {
-        trayectoDao.updateTrayecto(trayecto);
-    }
-
-    public List<Trayecto> getTrayectoAll() { return trayectoDao.getTrayectoAll(); }
-    public List<Trayecto> getTrayectoByIdentifier(String trayectoId){ return trayectoDao.getTrayectoByIdentifier(trayectoId);}
 
     @Transactional(readOnly = false)
     public void addArcoTiempo(ArcoTiempo arcoTiempo) { arcoTiempoDao.addArcoTiempo( arcoTiempo );}

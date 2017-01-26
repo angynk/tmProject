@@ -65,6 +65,9 @@ public class Servicio {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<TablaMaestraServicios> tablaServiciosRecords = new HashSet<TablaMaestraServicios>(0);
 
+    @Transient
+    private String estadoFormato;
+
 
     public Servicio() {
     }
@@ -210,5 +213,16 @@ public class Servicio {
 
     public void setTablaServiciosRecords(Set<TablaMaestraServicios> tablaServiciosRecords) {
         this.tablaServiciosRecords = tablaServiciosRecords;
+    }
+
+    public String getEstadoFormato() {
+        if(estado){
+            return "Activo";
+        }
+        return "Inactivo";
+    }
+
+    public void setEstadoFormato(String estadoFormato) {
+        this.estadoFormato = estadoFormato;
     }
 }

@@ -87,7 +87,7 @@ public class DataProcesorImpl {
             int punto = nodo.getCodigo();
             Servicio servicio = gisCargaService.getServicioByTrayecto(trayectoId,punto);
             if( servicio== null ){
-                serviciosNoEncontrados.add("Servicio No encontrado- Trayecto( "+trayectoId+")");
+                serviciosNoEncontrados.add("Servicio No encontrado- ServicioDistancia( "+trayectoId+")");
             }
             return servicio;
         }

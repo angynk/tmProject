@@ -12,20 +12,8 @@ public class DistanciaNodos {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "ruta")
-    private String ruta;
-
     @Column(name = "distancia")
     private int distancia;
-
-    @Column(name = "macro")
-    private int macro;
-
-    @Column(name = "linea")
-    private int linea;
-
-    @Column(name = "seccion")
-    private int seccion;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,17 +24,18 @@ public class DistanciaNodos {
     @JoinColumn(name = "matriz_distancia", nullable = false)
     private MatrizDistancia matrizDistancia;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "servicio_distancia", nullable = false)
+    private ServicioDistancia servicioDistancia;
+
     public DistanciaNodos() {
     }
 
-    public DistanciaNodos(String ruta, int distancia, int macro, int linea, int seccion, Nodo nodo,MatrizDistancia matrizDistancia) {
-        this.ruta = ruta;
+    public DistanciaNodos(int distancia, Nodo nodo, MatrizDistancia matrizDistancia, ServicioDistancia servicioDistancia) {
         this.distancia = distancia;
-        this.macro = macro;
-        this.linea = linea;
-        this.seccion = seccion;
         this.nodo = nodo;
         this.matrizDistancia = matrizDistancia;
+        this.servicioDistancia = servicioDistancia;
     }
 
     public long getId() {
@@ -55,14 +44,6 @@ public class DistanciaNodos {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getRuta() {
-        return ruta;
-    }
-
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
     }
 
     public int getDistancia() {
@@ -89,27 +70,11 @@ public class DistanciaNodos {
         this.matrizDistancia = matrizDistancia;
     }
 
-    public int getMacro() {
-        return macro;
+    public ServicioDistancia getServicioDistancia() {
+        return servicioDistancia;
     }
 
-    public void setMacro(int macro) {
-        this.macro = macro;
-    }
-
-    public int getLinea() {
-        return linea;
-    }
-
-    public void setLinea(int linea) {
-        this.linea = linea;
-    }
-
-    public int getSeccion() {
-        return seccion;
-    }
-
-    public void setSeccion(int seccion) {
-        this.seccion = seccion;
+    public void setServicioDistancia(ServicioDistancia servicioDistancia) {
+        this.servicioDistancia = servicioDistancia;
     }
 }

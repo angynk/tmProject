@@ -68,15 +68,44 @@ public class TablaMaestraProcessor {
                 tablaMaestraServicios.setNodoFinal(arcoTiempo.getNodoFinal());
                 tablaMaestraServicios.setIdInicio(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoInicial().getCodigo()));
                 tablaMaestraServicios.setIdFin(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoFinal().getCodigo()));
-                tablaMaestraServicios.setDistancia(10);
+                tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,arcoTiempo.getNodoInicial(),arcoTiempo.getNodoFinal(),matriz);
+//                tablaMaestraServicios.setDistancia(10);
                 tablaMaestraServicios.setTablaMeestra(tablaMaestra);
                 tablaMaestraServicios.setTipoDia(arcoTiempo.getTipoDiaByArco().getTipoDia().getNombre());
+                tablaMaestraServicios.setSecuencia(arcoTiempo.getSecuencia());
                 tablaMaestraService.addTServicios(tablaMaestraServicios);
                 serviciosIncluidos.put(arcoTiempo.getServicio().getIdentificador(),"");
             }
 
         }
         return true;
+    }
+
+    private TablaMaestraServicios calcularDistancia(TablaMaestraServicios tablaMaestraServicios, Nodo nodoIni,Nodo nodoFin, MatrizDistancia matrizDistancia) {
+
+        int macro = tablaMaestraServicios.getServicio().getMacro();
+        int linea = tablaMaestraServicios.getServicio().getLinea();
+        int seccion = tablaMaestraServicios.getServicio().getSeccion();
+
+        ServicioDistancia servicioDistancia = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
+        if (servicioDistancia!=null){
+            DistanciaNodos distanciaNodosA= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoFin,matrizDistancia);
+            DistanciaNodos distanciaNodosB= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoIni,matrizDistancia);
+
+            if( distanciaNodosA!=null && distanciaNodosB!=null){
+                tablaMaestraServicios.setDistancia(distanciaNodosA.getDistancia()-distanciaNodosB.getDistancia());
+            }else{
+                tablaMaestraServicios.setDistancia(-1);
+            }
+            tablaMaestraServicios.setMatrizNombre(servicioDistancia.getRuta());
+        }else{
+            tablaMaestraServicios.setDistancia(-1);
+            tablaMaestraServicios.setMatrizNombre("ERROR");
+        }
+
+
+
+        return tablaMaestraServicios;
     }
 
     private String calcularId(Servicio servicio, Integer codigo) {

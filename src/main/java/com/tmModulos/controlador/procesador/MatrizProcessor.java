@@ -6,11 +6,8 @@ import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.NodoService;
 import com.tmModulos.controlador.utils.MatrizDistanciaDefinicion;
 import com.tmModulos.controlador.utils.ProcessorUtils;
-import com.tmModulos.modelo.entity.tmData.Nodo;
+import com.tmModulos.modelo.entity.tmData.*;
 import com.tmModulos.modelo.entity.saeBogota.*;
-import com.tmModulos.modelo.entity.tmData.DistanciaNodos;
-import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
-import com.tmModulos.modelo.entity.tmData.Servicio;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -69,7 +66,8 @@ public class MatrizProcessor {
                         distancia=nodoSec.getDistancia();
                         nodos= encontrarNodo(nodoSec.getNodo(),nodoSec.getTipo());
                         Nodo nodo= findOrSaveNodo(nodos.getId(),nodos.getNombre());
-                        guardarDistanciaNodos(matrizDistancia,nodo,distancia,nombreMatriz,macro,linea,seccion);
+                        ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(macro,linea,seccion,nombreMatriz);
+                        guardarDistanciaNodos(matrizDistancia,nodo,distancia,servicioDistancia);
                     }
 
                 }
@@ -80,6 +78,15 @@ public class MatrizProcessor {
         return true;
     }
 
+    private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz) {
+
+        ServicioDistancia servicioDistancia = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
+        if(servicioDistancia==null){
+            servicioDistancia = new ServicioDistancia(nombreMatriz,macro,linea,seccion);
+            matrizDistanciaService.addServicioDistancia(servicioDistancia);
+        }
+        return servicioDistancia;
+    }
 
 
     public boolean processDataFromFile(String fileName, InputStream in, Date fechaProgramacion,String numeracion){
@@ -112,13 +119,15 @@ public class MatrizProcessor {
 
                     Nodo nodo= findOrSaveNodo(codigoNodo
                             ,row.getCell(MatrizDistanciaDefinicion.NOMBRE_NODO).getStringCellValue());
+
+                    ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(convertirAInt(row,MatrizDistanciaDefinicion.MACRO)
+                            , convertirAInt(row,MatrizDistanciaDefinicion.LINEA)
+                            , convertirAInt(row,MatrizDistanciaDefinicion.SECCION)
+                            ,row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue());
                     guardarDistanciaNodos(matrizDistancia
                             ,nodo,
-                            convertirAInt(row,MatrizDistanciaDefinicion.ABSICSA)
-                            ,row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue() ,
-                            convertirAInt(row,MatrizDistanciaDefinicion.MACRO),
-                            convertirAInt(row,MatrizDistanciaDefinicion.LINEA),
-                            convertirAInt(row,MatrizDistanciaDefinicion.SECCION));
+                            convertirAInt(row,MatrizDistanciaDefinicion.ABSICSA),
+                            servicioDistancia);
                 }else{
                     break;
                 }
@@ -183,8 +192,8 @@ public class MatrizProcessor {
         return matrizDistancia;
     }
 
-    private void guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, int distancia, String ruta,int macro,int linea,int seccion){
-        DistanciaNodos distanciaNodos=new DistanciaNodos(ruta,distancia,macro, linea,seccion,nodo,matrizDistancia);
+    private void guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, int distancia,ServicioDistancia servicioDistancia){
+        DistanciaNodos distanciaNodos=new DistanciaNodos(distancia,nodo,matrizDistancia,servicioDistancia);
         matrizDistanciaService.addDistanciaNodos(distanciaNodos);
     }
 

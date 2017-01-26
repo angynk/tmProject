@@ -40,33 +40,39 @@
                             </f:facet>
 
 
-                            <p:column filterBy="#{matriz.ruta}" headerText="Ruta"  filterMatchMode="contains" sortBy="#{matriz.ruta}"
+                            <p:column filterBy="#{matriz.servicioDistancia.ruta}" headerText="Ruta" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{matriz.servicioDistancia.ruta}"
                                       style="width: 120px">
-                                <h:outputText value="#{matriz.ruta}" />
+                                <h:outputText value="#{matriz.servicioDistancia.ruta}" />
                             </p:column>
 
-                            <p:column filterBy="#{matriz.macro}" headerText="Macro"  filterMatchMode="contains" sortBy="#{matriz.macro}"
-                                      style="width: 120px">
-                                <h:outputText value="#{matriz.macro}" />
+                            <p:column filterBy="#{matriz.servicioDistancia.macro}" filterStyle="width: 65px;"
+                                      headerText="Macro"  filterMatchMode="contains" sortBy="#{matriz.servicioDistancia.macro}"
+                                      style="width: 70px">
+                                <h:outputText value="#{matriz.servicioDistancia.macro}" />
                             </p:column>
 
-                            <p:column filterBy="#{matriz.linea}" headerText="Línea" filterMatchMode="contains" sortBy="#{matriz.linea}"
-                                      style="width: 120px">
-                                <h:outputText value="#{matriz.linea}" />
+                            <p:column filterBy="#{matriz.servicioDistancia.linea}" headerText="Línea" filterStyle="width: 65px;"
+                                      filterMatchMode="contains" sortBy="#{matriz.servicioDistancia.linea}"
+                                      style="width: 70px">
+                                <h:outputText value="#{matriz.servicioDistancia.linea}" />
                             </p:column>
 
-                            <p:column filterBy="#{matriz.seccion}" headerText="Sección"  filterMatchMode="contains" sortBy="#{matriz.seccion}"
-                                      style="width: 120px">
-                                <h:outputText value="#{matriz.seccion}" />
+                            <p:column filterBy="#{matriz.servicioDistancia.seccion}" headerText="Sección" filterStyle="width: 80px;"
+                                      filterMatchMode="contains" sortBy="#{matriz.servicioDistancia.seccion}"
+                                      style="width: 85px">
+                                <h:outputText value="#{matriz.servicioDistancia.seccion}" />
                             </p:column>
 
-                            <p:column filterBy="#{matriz.nodo.codigo}" headerText="Nodo" filterMatchMode="contains" sortBy="#{matriz.nodo.codigo}"
-                                      style="width: 120px">
+                            <p:column filterBy="#{matriz.nodo.codigo}" headerText="Nodo" filterStyle="width: 65px;"
+                                      filterMatchMode="contains" sortBy="#{matriz.nodo.codigo}"
+                                      style="width: 70px">
                                 <h:outputText value="#{matriz.nodo.codigo}" />
                             </p:column>
 
-                            <p:column filterBy="#{matriz.distancia}" headerText="Abscisa"  filterMatchMode="contains" sortBy="#{matriz.distancia}"
-                                      style="width: 120px">
+                            <p:column filterBy="#{matriz.distancia}" headerText="Abscisa" filterStyle="width: 90px;"
+                                      filterMatchMode="contains" sortBy="#{matriz.distancia}"
+                                      style="width: 95px">
                                 <h:outputText value="#{matriz.distancia}" />
                             </p:column>
 

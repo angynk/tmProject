@@ -1,7 +1,5 @@
 package com.tmModulos.modelo.dao.tmData;
 
-import com.tmModulos.modelo.entity.tmData.Nodo;
-import com.tmModulos.modelo.entity.tmData.Trayecto;
 import com.tmModulos.modelo.entity.tmData.Zona;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;

@@ -15,6 +15,9 @@ public class TablaMaestraServicios {
     @Column(name = "distancia")
     private Integer distancia;
 
+    @Column(name = "secuencia")
+    private Integer secuencia;
+
     @Column(name = "identificador_inicio")
     private String idInicio;
 
@@ -23,6 +26,9 @@ public class TablaMaestraServicios {
 
     @Column(name = "tipo_dia")
     private String tipoDia;
+
+    @Column(name = "matriz_nombre")
+    private String matrizNombre;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "servicio", nullable = false)
@@ -110,5 +116,21 @@ public class TablaMaestraServicios {
 
     public void setTipoDia(String tipoDia) {
         this.tipoDia = tipoDia;
+    }
+
+    public Integer getSecuencia() {
+        return secuencia;
+    }
+
+    public void setSecuencia(Integer secuencia) {
+        this.secuencia = secuencia;
+    }
+
+    public String getMatrizNombre() {
+        return matrizNombre;
+    }
+
+    public void setMatrizNombre(String matrizNombre) {
+        this.matrizNombre = matrizNombre;
     }
 }

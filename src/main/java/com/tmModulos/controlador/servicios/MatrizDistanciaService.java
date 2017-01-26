@@ -3,9 +3,8 @@ package com.tmModulos.controlador.servicios;
 import com.tmModulos.modelo.dao.tmData.DistanciaNodosDao;
 import com.tmModulos.modelo.dao.tmData.MatrizDistanciaDao;
 import com.tmModulos.modelo.dao.tmData.ServicioDao;
-import com.tmModulos.modelo.entity.tmData.DistanciaNodos;
-import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
-import com.tmModulos.modelo.entity.tmData.Servicio;
+import com.tmModulos.modelo.dao.tmData.ServicioDistanciaDao;
+import com.tmModulos.modelo.entity.tmData.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +24,10 @@ public class MatrizDistanciaService {
 
     @Autowired
     DistanciaNodosDao distanciaNodosDao;
+
+    @Autowired
+    ServicioDistanciaDao servicioDistanciaDao;
+
 
     @Transactional(readOnly = false)
     public void addMatrizDistancia(MatrizDistancia matrizDistancia) {
@@ -103,5 +106,31 @@ public class MatrizDistanciaService {
 
     public MatrizDistancia getMatrizDistanciaById(String id){
        return matrizDistanciaDao.getMatrizDistanciaById(id);
+    }
+
+    @Transactional(readOnly = false)
+    public void addServicioDistancia(ServicioDistancia servicioDistancia) {
+        servicioDistanciaDao.addServicioDistancia(servicioDistancia);
+    }
+
+    public void deleteServicioDistancia(ServicioDistancia servicioDistancia) {
+        servicioDistanciaDao.deleteServicioDistancia(servicioDistancia);
+    }
+
+
+    public void updateServicioDistancia(ServicioDistancia servicioDistancia) {
+        servicioDistanciaDao.updateServicioDistancia(servicioDistancia);
+    }
+
+
+    public List<ServicioDistancia> getServicioDistanciaAll() {
+        return servicioDistanciaDao.getServicioDistanciaAll();
+    }
+
+    public ServicioDistancia getServicioDistanciaByMacroLineaSeccion(int macro, int linea, int seccion){
+        return servicioDistanciaDao.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
+    }
+    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia,Nodo nodo, MatrizDistancia matrizDistancia){
+       return distanciaNodosDao.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodo,matrizDistancia);
     }
 }
