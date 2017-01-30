@@ -1,10 +1,8 @@
 package com.tmModulos.controlador.servicios;
 
 
-import com.tmModulos.modelo.dao.tmData.TablaMaestraServiciosDao;
-import com.tmModulos.modelo.entity.tmData.TablaMaestra;
-import com.tmModulos.modelo.dao.tmData.TablaMaestraDao;
-import com.tmModulos.modelo.entity.tmData.TablaMaestraServicios;
+import com.tmModulos.modelo.dao.tmData.*;
+import com.tmModulos.modelo.entity.tmData.*;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,14 @@ public class TablaMaestraService {
     @Autowired
     TablaMaestraServiciosDao tablaMaestraServiciosDao;
 
+    @Autowired
+    TipoFranjaDao tipoFranjaDao;
+
+    @Autowired
+    CicloServicioDao cicloServicioDao;
+
+    @Autowired
+    IntervalosServicioDao intervalosServicioDao;
 
 
 
@@ -92,4 +98,61 @@ public class TablaMaestraService {
     public List<TablaMaestraServicios> getServiciosByTabla(TablaMaestra tablaMaestra){
         return tablaMaestraServiciosDao.getServiciosByTabla(tablaMaestra);
     }
+
+    public List<TipoFranja> getTipoFranjaAll() {
+        return tipoFranjaDao.getTipoFranjaAll();
+    }
+
+    public TipoFranja getTipoFranjaByHorario(String horaIncio,String horaFin){
+        return  tipoFranjaDao.getTipoFranjaByHorario(horaIncio,horaFin);
+    }
+
+    @Transactional(readOnly = false)
+    public void addIntervalosServicio(IntervalosServicio intervalosServicio) {
+       intervalosServicioDao.addIntervalosServicio(intervalosServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteIntervalosServicios(IntervalosServicio intervalosServicio) {
+        intervalosServicioDao.deleteIntervalosServicios(intervalosServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateIntervalosServicio(IntervalosServicio intervalosServicio) {
+        intervalosServicioDao.updateIntervalosServicio(intervalosServicio);
+    }
+
+
+    public List<IntervalosServicio> getIntervalosServicioAll() {
+       return intervalosServicioDao.getIntervalosServicioAll();
+    }
+
+    public List<IntervalosServicio> getIntervalosServicioByTabla(TablaMaestraServicios tablaMaestra){
+        return intervalosServicioDao.getIntervalosServicioByTabla(tablaMaestra);
+    }
+
+    @Transactional(readOnly = false)
+    public void addCicloServicio(CicloServicio cicloServicio) {
+        cicloServicioDao.addCicloServicio(cicloServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteCicloServicio(CicloServicio cicloServicio) {
+       cicloServicioDao.deleteCicloServicio(cicloServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateCicloServicio(CicloServicio cicloServicio) {
+        cicloServicioDao.updateCicloServicio(cicloServicio);
+    }
+
+
+    public List<CicloServicio> getCicloServiciosAll() {
+       return cicloServicioDao.getCicloServiciosAll();
+    }
+
+    public List<CicloServicio> getCicloServicioByTabla(TablaMaestraServicios tablaMaestra){
+        return getCicloServicioByTabla(tablaMaestra);
+    }
+
 }

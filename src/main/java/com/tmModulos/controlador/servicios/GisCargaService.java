@@ -68,6 +68,9 @@ public class GisCargaService {
     public Servicio getServicioByTrayecto(int trayecto,int punto){
         return servicioDao.getServicioByTrayecto(trayecto, punto);
     }
+    public List<Servicio> getServicioAll() {
+        return servicioDao.getServicioAll();
+    }
 
     @Transactional(readOnly = false)
     public void addServicio(Servicio servicio) {
@@ -85,6 +88,10 @@ public class GisCargaService {
 
     public GisCarga getGisCargaById(String id){
       return  gisCargaDao.getGisCargaById(id);
+    }
+
+    public List<ArcoTiempo> getArcoTiempoByGisCargaAndServicio(GisCarga gisCarga,Servicio servicio){
+        return arcoTiempoDao.getArcoTiempoByGisCargaAndServicio(gisCarga,servicio);
     }
 
 

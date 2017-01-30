@@ -77,10 +77,10 @@
 
 
 
-                            <p:column filterBy="#{tservicio.servicio.identificador}" headerText="Id"  filterStyle="width: 100px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.identificador}"
+                            <p:column filterBy="#{tservicio.identificador}" headerText="Id"  filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.identificador}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.servicio.identificador}" />
+                                <h:outputText value="#{tservicio.identificador}" />
                             </p:column>
 
                             <p:column filterBy="#{tservicio.tipoDia}" headerText="TipoDia"  filterStyle="width: 80px;"
@@ -89,40 +89,40 @@
                                 <h:outputText value="#{tservicio.tipoDia}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.trayecto}" headerText="Trayecto"  filterStyle="width: 80px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.trayecto}"
+                            <p:column filterBy="#{tservicio.trayecto}" headerText="Trayecto"  filterStyle="width: 80px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.trayecto}"
                                       style="width: 110px">
-                                <h:outputText value="#{tservicio.servicio.trayecto}" />
+                                <h:outputText value="#{tservicio.trayecto}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.macro}" headerText="Macro" filterStyle="width: 70px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.macro}"
+                            <p:column filterBy="#{tservicio.macro}" headerText="Macro" filterStyle="width: 70px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.macro}"
                                       style="width: 90px">
-                                <h:outputText value="#{tservicio.servicio.macro}" />
+                                <h:outputText value="#{tservicio.macro}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.linea}" headerText="Linea" filterStyle="width: 70px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.linea}"
+                            <p:column filterBy="#{tservicio.linea}" headerText="Linea" filterStyle="width: 70px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.linea}"
                                       style="width: 80px">
-                                <h:outputText value="#{tservicio.servicio.linea}" />
+                                <h:outputText value="#{tservicio.linea}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.seccion}" headerText="Seccion" filterStyle="width: 90px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.seccion}"
+                            <p:column filterBy="#{tservicio.seccion}" headerText="Seccion" filterStyle="width: 90px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.seccion}"
                                       style="width: 100px">
-                                <h:outputText value="#{tservicio.servicio.seccion}" />
+                                <h:outputText value="#{tservicio.seccion}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.nodoIncial.codigo}" headerText="PuntoI"  filterStyle="width: 80px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.nodoIncial.codigo}"
+                            <p:column filterBy="#{tservicio.codigoInicio}" headerText="PuntoI"  filterStyle="width: 80px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.codigoInicio}"
                                       style="width: 90px">
-                                <h:outputText value="#{tservicio.nodoIncial.codigo}" />
+                                <h:outputText value="#{tservicio.codigoInicio}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.nodoFinal.codigo}" headerText="PuntoF" filterStyle="width: 80px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.nodoFinal.codigo}"
+                            <p:column filterBy="#{tservicio.codigoFin}" headerText="PuntoF" filterStyle="width: 80px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.codigoFin}"
                                       style="width: 95px">
-                                <h:outputText value="#{tservicio.nodoFinal.codigo}" />
+                                <h:outputText value="#{tservicio.codigoFin}" />
                             </p:column>
 
                             <p:column filterBy="#{tservicio.secuencia}" headerText="Secuencia" filterStyle="width: 90px;"
@@ -131,21 +131,21 @@
                                 <h:outputText value="#{tservicio.secuencia}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.tipologia.nombre}" headerText="Tipología"  filterMatchMode="contains" sortBy="#{tservicio.servicio.tipologia.nombre}"
+                            <p:column filterBy="#{tservicio.tipologia.nombre}" headerText="Tipología"  filterMatchMode="contains" sortBy="#{tservicio.servicio.tipologia.nombre}"
                                       style="width: 130px">
-                                <h:outputText value="#{tservicio.servicio.tipologia.nombre}" />
+                                <h:outputText value="#{tservicio.tipologia.nombre}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.nombreGeneral}" headerText="Servicio U" filterStyle="width: 60px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.nombreGeneral}"
+                            <p:column filterBy="#{tservicio.nombreGeneral}" headerText="Servicio U" filterStyle="width: 60px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.nombreGeneral}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.servicio.nombreGeneral}" />
+                                <h:outputText value="#{tservicio.nombreGeneral}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.nombreEspecial}" headerText="Servicio E" filterStyle="width: 60px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.nombreEspecial}"
+                            <p:column filterBy="#{tservicio.nombreEspecial}" headerText="Servicio E" filterStyle="width: 60px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.nombreEspecial}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.servicio.nombreEspecial}" />
+                                <h:outputText value="#{tservicio.nombreEspecial}" />
                             </p:column>
 
                             <p:column filterBy="#{tservicio.matrizNombre}"
@@ -161,10 +161,16 @@
                                 <h:outputText value="#{tservicio.idInicio}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.nodoIncial.zonaId.nombre}" headerText="Zona Inicio" filterStyle="width: 110px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.nodoIncial.zonaId.nombre}"
+                            <p:column filterBy="#{tservicio.zonaTInicio}" headerText="Zona T Inicio" filterStyle="width: 110px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.zonaTInicio}"
                                       style="width: 125px">
-                                <h:outputText value="#{tservicio.nodoIncial.zonaId.nombre}" />
+                                <h:outputText value="#{tservicio.zonaTInicio}" />
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.zonaPInicio}" headerText="Zona P Inicio" filterStyle="width: 110px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.zonaPInicio}"
+                                      style="width: 125px">
+                                <h:outputText value="#{tservicio.zonaPInicio}" />
                             </p:column>
 
                             <p:column filterBy="#{tservicio.idFin}" headerText="M-L-S-P Fin" filterStyle="width: 110px;"
@@ -173,16 +179,22 @@
                                 <h:outputText value="#{tservicio.idFin}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.nodoFinal.zonaId.nombre}" headerText="Zona Fin" filterStyle="width: 110px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.nodoFinal.zonaId.nombre}"
+                            <p:column filterBy="#{tservicio.zonaTFin}" headerText="Zona T Fin" filterStyle="width: 110px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.zonaTFin}"
                                       style="width: 125px">
-                                <h:outputText value="#{tservicio.nodoFinal.zonaId.nombre}" />
+                                <h:outputText value="#{tservicio.zonaTFin}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.tipoServicio}" headerText="Tipo Servicio" filterStyle="width: 110px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.tipoServicio}"
+                            <p:column filterBy="#{tservicio.zonaPFin}" headerText="Zona P Fin" filterStyle="width: 110px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.zonaPFin}"
+                                      style="width: 125px">
+                                <h:outputText value="#{tservicio.zonaPFin}" />
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.tipoServicio}" headerText="Tipo Servicio" filterStyle="width: 110px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.tipoServicio}"
                                       style="width: 140px">
-                                <h:outputText value="#{tservicio.servicio.tipoServicio}" />
+                                <h:outputText value="#{tservicio.tipoServicio}" />
                             </p:column>
 
                             <p:column filterBy="#{tservicio.distancia}" headerText="Distancia" filterStyle="width: 90px;"
@@ -191,10 +203,10 @@
                                 <h:outputText value="#{tservicio.distancia}" />
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.servicio.estadoFormato}" headerText="Estado" filterStyle="width: 100px;"
-                                      filterMatchMode="contains" sortBy="#{tservicio.servicio.estadoFormato}"
+                            <p:column filterBy="#{tservicio.estadoFormato}" headerText="Estado" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.estadoFormato}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.servicio.estadoFormato}" />
+                                <h:outputText value="#{tservicio.estadoFormato}" />
                             </p:column>
 
                         </p:dataTable>

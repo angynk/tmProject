@@ -59,23 +59,68 @@ public class TablaMaestraProcessor {
         MatrizDistancia matriz= matrizDistanciaService.getMatrizDistanciaById(matrizDistancia);
         TablaMaestra tablaMaestra = crearTablaMaestra(fechaDeProgramacion,new Date(),descripcion,gis,matriz);
         tablaMaestraService.addCustomer(tablaMaestra);
-        List<ArcoTiempo> programacionRutas = gisCargaService.getArcoTiempoByGisCarga(gis);
-        for (ArcoTiempo arcoTiempo: programacionRutas   ) {
-            if(!serviciosIncluidos.containsKey(arcoTiempo.getServicio().getIdentificador())){
+        //Obtener servicios disponibles
+        List<Servicio> serviciosDisponibles = gisCargaService.getServicioAll();
+
+        //List<ArcoTiempo> programacionRutas = gisCargaService.getArcoTiempoByGisCarga(gis);
+        for (Servicio servicio: serviciosDisponibles   ) {
+
+            List<ArcoTiempo> arcoTiempoRecords = gisCargaService.getArcoTiempoByGisCargaAndServicio(gis,servicio);
+            if(arcoTiempoRecords.size()>0){
+                ArcoTiempo arcoTiempoBase = arcoTiempoRecords.get(0);
                 TablaMaestraServicios tablaMaestraServicios = new TablaMaestraServicios();
-                tablaMaestraServicios.setServicio(arcoTiempo.getServicio());
-                tablaMaestraServicios.setNodoIncial(arcoTiempo.getNodoInicial());
-                tablaMaestraServicios.setNodoFinal(arcoTiempo.getNodoFinal());
-                tablaMaestraServicios.setIdInicio(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoInicial().getCodigo()));
-                tablaMaestraServicios.setIdFin(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoFinal().getCodigo()));
-                tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,arcoTiempo.getNodoInicial(),arcoTiempo.getNodoFinal(),matriz);
-//                tablaMaestraServicios.setDistancia(10);
+
+
+                tablaMaestraServicios.setTipoDia(arcoTiempoBase.getTipoDiaByArco().getTipoDia().getNombre());
+                tablaMaestraServicios.setSecuencia(arcoTiempoBase.getSecuencia());
+                //Copiar informacion del servicio
+                tablaMaestraServicios.setTrayecto(servicio.getTrayecto()+"");
+                tablaMaestraServicios.setMacro(servicio.getMacro());
+                tablaMaestraServicios.setLinea(servicio.getLinea());
+                tablaMaestraServicios.setSeccion(servicio.getSeccion());
+                tablaMaestraServicios.setTipoServicio(servicio.getTipoServicio());
+                tablaMaestraServicios.setNombreEspecial(servicio.getNombreEspecial());
+                tablaMaestraServicios.setNombreGeneral(servicio.getNombreGeneral());
+                tablaMaestraServicios.setEstado(servicio.isEstado());
+                tablaMaestraServicios.setIdentificador(servicio.getIdentificador());
+
+                //Informacion Nodo Inicio
+                tablaMaestraServicios.setCodigoInicio(arcoTiempoBase.getNodoInicial().getCodigo());
+                tablaMaestraServicios.setNombreInicio(arcoTiempoBase.getNodoInicial().getNombre());
+                tablaMaestraServicios.setZonaTInicio(arcoTiempoBase.getNodoInicial().getZonaId().getNombre());
+                tablaMaestraServicios.setZonaPInicio(arcoTiempoBase.getNodoInicial().getZonaId().getNombre());
+                tablaMaestraServicios.setIdInicio(calcularId(servicio,arcoTiempoBase.getNodoInicial().getCodigo()));
+                //Informacion Nodo Final
+                tablaMaestraServicios.setCodigoFin(arcoTiempoBase.getNodoFinal().getCodigo());
+                tablaMaestraServicios.setNombreIFin(arcoTiempoBase.getNodoFinal().getNombre());
+                tablaMaestraServicios.setZonaTFin(arcoTiempoBase.getNodoFinal().getZonaId().getNombre());
+                tablaMaestraServicios.setZonaPFin(arcoTiempoBase.getNodoFinal().getZonaId().getNombre());
+                tablaMaestraServicios.setIdFin(calcularId(servicio,arcoTiempoBase.getNodoFinal().getCodigo()));
+
+                //CalcularDistnacia
+                tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,arcoTiempoBase.getNodoInicial(),arcoTiempoBase.getNodoFinal(),matriz);
                 tablaMaestraServicios.setTablaMeestra(tablaMaestra);
-                tablaMaestraServicios.setTipoDia(arcoTiempo.getTipoDiaByArco().getTipoDia().getNombre());
-                tablaMaestraServicios.setSecuencia(arcoTiempo.getSecuencia());
+                tablaMaestraServicios.setTipologia(servicio.getTipologia());
                 tablaMaestraService.addTServicios(tablaMaestraServicios);
-                serviciosIncluidos.put(arcoTiempo.getServicio().getIdentificador(),"");
+
+            }else{
+                System.out.println("No hay información de carga para el servicio "+servicio.getIdentificador());
             }
+//            if(!serviciosIncluidos.containsKey(arcoTiempo.getServicio().getIdentificador())){
+//                TablaMaestraServicios tablaMaestraServicios = new TablaMaestraServicios();
+//                tablaMaestraServicios.setServicio(arcoTiempo.getServicio());
+//                tablaMaestraServicios.setNodoIncial(arcoTiempo.getNodoInicial());
+//                tablaMaestraServicios.setNodoFinal(arcoTiempo.getNodoFinal());
+//                tablaMaestraServicios.setIdInicio(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoInicial().getCodigo()));
+//                tablaMaestraServicios.setIdFin(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoFinal().getCodigo()));
+//                tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,arcoTiempo.getNodoInicial(),arcoTiempo.getNodoFinal(),matriz);
+////                tablaMaestraServicios.setDistancia(10);
+//                tablaMaestraServicios.setTablaMeestra(tablaMaestra);
+//                tablaMaestraServicios.setTipoDia(arcoTiempo.getTipoDiaByArco().getTipoDia().getNombre());
+//                tablaMaestraServicios.setSecuencia(arcoTiempo.getSecuencia());
+//                tablaMaestraService.addTServicios(tablaMaestraServicios);
+//                serviciosIncluidos.put(arcoTiempo.getServicio().getIdentificador(),"");
+//            }
 
         }
         return true;
@@ -83,9 +128,10 @@ public class TablaMaestraProcessor {
 
     private TablaMaestraServicios calcularDistancia(TablaMaestraServicios tablaMaestraServicios, Nodo nodoIni,Nodo nodoFin, MatrizDistancia matrizDistancia) {
 
-        int macro = tablaMaestraServicios.getServicio().getMacro();
-        int linea = tablaMaestraServicios.getServicio().getLinea();
-        int seccion = tablaMaestraServicios.getServicio().getSeccion();
+        int macro = tablaMaestraServicios.getMacro();
+        int linea = tablaMaestraServicios.getLinea();
+        int seccion = tablaMaestraServicios.getSeccion();
+
 
         ServicioDistancia servicioDistancia = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
         if (servicioDistancia!=null){

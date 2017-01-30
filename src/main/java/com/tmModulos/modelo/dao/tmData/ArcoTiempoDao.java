@@ -2,6 +2,7 @@ package com.tmModulos.modelo.dao.tmData;
 
 import com.tmModulos.modelo.entity.tmData.ArcoTiempo;
 import com.tmModulos.modelo.entity.tmData.GisCarga;
+import com.tmModulos.modelo.entity.tmData.Servicio;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -47,6 +48,13 @@ public class ArcoTiempoDao {
     public List<ArcoTiempo> getArcoTiempoByGisCarga(GisCarga gisCarga){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ArcoTiempo.class);
         criteria.add(Restrictions.eq("gisCargaArco", gisCarga));
+        return criteria.list();
+    }
+
+    public List<ArcoTiempo> getArcoTiempoByGisCargaAndServicio(GisCarga gisCarga,Servicio servicio){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ArcoTiempo.class);
+        criteria.add(Restrictions.eq("gisCargaArco", gisCarga));
+        criteria.add(Restrictions.eq("servicio", servicio));
         return criteria.list();
     }
 
