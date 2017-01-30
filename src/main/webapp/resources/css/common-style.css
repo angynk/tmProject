@@ -11,8 +11,8 @@
 }
 
 #content{
-	width: 85%;
-	margin-left:15%;
+	width: 95%;
+	margin-left:3%;
 	margin-bottom:0px;
 }
 
@@ -32,3 +32,77 @@
 	font-size: 120%;
 }
 
+.ui-menubar,.ui-menu-child,.ui-menu {
+	/*background: #004e8e !important;*/
+}
+
+.menu
+{
+	background-color: #2d2e2e;
+	border-bottom: 4px solid #e80b0b;
+	width:100%;
+	height: auto;
+	padding: 0 10px;
+	position: fixed;
+	margin: 0px;
+	z-index: 1;
+	opacity: 0.9;
+}
+
+.menu  .navbar-nav > .active > a
+{
+	background-color : #e80b0b;
+	color: white;
+	font-weight: bold;
+}
+
+.menu  .navbar-nav >  li >  a
+{
+	font-size: 13px;
+	color: white;
+	padding: 10px 35px;
+
+}
+.menu  .navbar-nav >  li >  a:hover
+{
+	background-color: #e80b0b;
+}
+
+.navbar-header > a
+{
+	font-family: 'Ubuntu Condensed', sans-serif;
+	padding: 0px;
+	margin: 0px;
+	text-decoration: none;
+	color: white;
+	font-size: 25px;
+	padding: 5px 30px;
+}
+.navbar-header > a:hover
+{
+	text-decoration: none;
+	color: #e80b0b;
+}
+
+/* !important is needed sometimes */
+::-webkit-scrollbar {
+	width: 12px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
+	-webkit-border-radius: 10px !important;
+	border-radius: 10px !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 10px !important;
+	border-radius: 10px !important;
+	background: #2d2e2e !important;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) !important;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #595a5a !important;
+}

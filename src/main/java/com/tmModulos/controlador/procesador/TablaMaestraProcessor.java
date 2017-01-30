@@ -106,21 +106,6 @@ public class TablaMaestraProcessor {
             }else{
                 System.out.println("No hay información de carga para el servicio "+servicio.getIdentificador());
             }
-//            if(!serviciosIncluidos.containsKey(arcoTiempo.getServicio().getIdentificador())){
-//                TablaMaestraServicios tablaMaestraServicios = new TablaMaestraServicios();
-//                tablaMaestraServicios.setServicio(arcoTiempo.getServicio());
-//                tablaMaestraServicios.setNodoIncial(arcoTiempo.getNodoInicial());
-//                tablaMaestraServicios.setNodoFinal(arcoTiempo.getNodoFinal());
-//                tablaMaestraServicios.setIdInicio(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoInicial().getCodigo()));
-//                tablaMaestraServicios.setIdFin(calcularId(arcoTiempo.getServicio(),arcoTiempo.getNodoFinal().getCodigo()));
-//                tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,arcoTiempo.getNodoInicial(),arcoTiempo.getNodoFinal(),matriz);
-////                tablaMaestraServicios.setDistancia(10);
-//                tablaMaestraServicios.setTablaMeestra(tablaMaestra);
-//                tablaMaestraServicios.setTipoDia(arcoTiempo.getTipoDiaByArco().getTipoDia().getNombre());
-//                tablaMaestraServicios.setSecuencia(arcoTiempo.getSecuencia());
-//                tablaMaestraService.addTServicios(tablaMaestraServicios);
-//                serviciosIncluidos.put(arcoTiempo.getServicio().getIdentificador(),"");
-//            }
 
         }
         return true;

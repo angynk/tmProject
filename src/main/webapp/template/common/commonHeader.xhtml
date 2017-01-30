@@ -9,6 +9,22 @@
             <!--<div id="wrapper">-->
             <!--<div style="background-color: #2e6da4">-->
             <h:form id="formSideBar">
+                <div class="menu">
+
+
+
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a href="#">Programación BRT</a>
+                        </div>
+                        <div>
+                            <ul class="nav navbar-nav navbar-right">
+                                <!--<li><a href="#" ><span class="glyphicon glyphicon-user"></span>Registro</a></li>-->
+                                <li><a href="#"><span class="ui-icon-person"></span>Ingresar</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <!--<div id="sidebar-wrapper">-->
                     <!--<div id="sidenav1">-->
                         <!--<div class="navbar-header">-->
@@ -134,8 +150,11 @@
                     <!--</div>-->
                 <!--</div>-->
 
-                <p:megaMenu orientation="horizontal" style="margin-top:20px">
-                    <p:submenu label="Tabla Maestra" icon="ui-icon-check">
+                <p:panel style="border:none;padding-top: 5px;">
+
+
+                <p:megaMenu orientation="horizontal" style="margin-top:30px;">
+                    <p:submenu label="Tabla Maestra" icon="ui-icon-script">
                         <p:column>
                             <p:submenu label="Parametrizacion">
                                 <p:menuitem value="Servicios" action="#{menu.refreshServicios}" />
@@ -157,7 +176,7 @@
                         </p:column>
                     </p:submenu>
 
-                    <p:submenu label="Matriz Distancias" icon="ui-icon-pencil">
+                    <p:submenu label="Matriz Distancias" icon="ui-icon-carat-2-e-w">
                         <p:column>
                             <p:submenu label="Matriz Distancias">
                                 <p:menuitem value="Nueva Matriz Distancias" action="#{menu.refreshNuevaMatrizDistancia}" />
@@ -168,7 +187,7 @@
                     </p:submenu>
 
                 </p:megaMenu>
-
+                </p:panel>
 
             </h:form>
             <!--</div>-->
