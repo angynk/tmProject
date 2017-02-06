@@ -24,12 +24,13 @@ public class TipoFranja {
     @Column(name = "hora_fin")
     private String horaFin;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoFranja")
-    private Set<CicloServicio> cicloServiciosRecords = new HashSet<CicloServicio>(0);
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoFranja")
     private Set<IntervalosServicio> intervalosServiciossRecords = new HashSet<IntervalosServicio>(0);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoFranja")
+    private Set<IntervalosProgramacion> intervalosProgramacions = new HashSet<IntervalosProgramacion>(0);
 
 
     public TipoFranja() {
@@ -67,13 +68,6 @@ public class TipoFranja {
         this.horaFin = horaFin;
     }
 
-    public Set<CicloServicio> getCicloServiciosRecords() {
-        return cicloServiciosRecords;
-    }
-
-    public void setCicloServiciosRecords(Set<CicloServicio> cicloServiciosRecords) {
-        this.cicloServiciosRecords = cicloServiciosRecords;
-    }
 
     public Set<IntervalosServicio> getIntervalosServiciossRecords() {
         return intervalosServiciossRecords;
@@ -81,5 +75,13 @@ public class TipoFranja {
 
     public void setIntervalosServiciossRecords(Set<IntervalosServicio> intervalosServiciossRecords) {
         this.intervalosServiciossRecords = intervalosServiciossRecords;
+    }
+
+    public Set<IntervalosProgramacion> getIntervalosProgramacions() {
+        return intervalosProgramacions;
+    }
+
+    public void setIntervalosProgramacions(Set<IntervalosProgramacion> intervalosProgramacions) {
+        this.intervalosProgramacions = intervalosProgramacions;
     }
 }

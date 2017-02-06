@@ -92,6 +92,24 @@ public class MenuView {
     }
 
 
+    public void refreshNuevosIntervalosGIS(){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/NuevoIntervalosGIS.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void refreshBuscarIntervalosGIS(){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/BuscarGisIntervalos.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

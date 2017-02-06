@@ -1,8 +1,6 @@
 package com.tmModulos.controlador.utils;
 
-/**
- * Created by nataly on 1/19/2017.
- */
+
 public class MatrizDistanciaDefinicion {
 
     public static final int RUTA = 0;

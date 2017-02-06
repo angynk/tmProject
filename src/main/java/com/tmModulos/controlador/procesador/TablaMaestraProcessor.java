@@ -70,9 +70,10 @@ public class TablaMaestraProcessor {
                 ArcoTiempo arcoTiempoBase = arcoTiempoRecords.get(0);
                 TablaMaestraServicios tablaMaestraServicios = new TablaMaestraServicios();
 
-
+                //Calcular datos basicos matriz
                 tablaMaestraServicios.setTipoDia(arcoTiempoBase.getTipoDiaByArco().getTipoDia().getNombre());
                 tablaMaestraServicios.setSecuencia(arcoTiempoBase.getSecuencia());
+
                 //Copiar informacion del servicio
                 tablaMaestraServicios.setTrayecto(servicio.getTrayecto()+"");
                 tablaMaestraServicios.setMacro(servicio.getMacro());
@@ -90,6 +91,7 @@ public class TablaMaestraProcessor {
                 tablaMaestraServicios.setZonaTInicio(arcoTiempoBase.getNodoInicial().getZonaId().getNombre());
                 tablaMaestraServicios.setZonaPInicio(arcoTiempoBase.getNodoInicial().getZonaId().getNombre());
                 tablaMaestraServicios.setIdInicio(calcularId(servicio,arcoTiempoBase.getNodoInicial().getCodigo()));
+
                 //Informacion Nodo Final
                 tablaMaestraServicios.setCodigoFin(arcoTiempoBase.getNodoFinal().getCodigo());
                 tablaMaestraServicios.setNombreIFin(arcoTiempoBase.getNodoFinal().getNombre());
@@ -101,7 +103,14 @@ public class TablaMaestraProcessor {
                 tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,arcoTiempoBase.getNodoInicial(),arcoTiempoBase.getNodoFinal(),matriz);
                 tablaMaestraServicios.setTablaMeestra(tablaMaestra);
                 tablaMaestraServicios.setTipologia(servicio.getTipologia());
+
+                //Calcular ciclos
+                CicloServicio cicloServicio = calcularCiclos(tablaMaestraServicios,arcoTiempoRecords);
+                tablaMaestraServicios.setCicloServicio(cicloServicio);
+
                 tablaMaestraService.addTServicios(tablaMaestraServicios);
+
+
 
             }else{
                 System.out.println("No hay información de carga para el servicio "+servicio.getIdentificador());
@@ -109,6 +118,44 @@ public class TablaMaestraProcessor {
 
         }
         return true;
+    }
+
+    //Calcular ciclos de tiempos de recorrido - en base al GIS de carga
+    private CicloServicio calcularCiclos(TablaMaestraServicios tablaMaestraServicios, List<ArcoTiempo> arcoTiempoRecords) {
+        CicloServicio cicloServicio = new CicloServicio();
+        for (ArcoTiempo arcoTiempo: arcoTiempoRecords){
+            TipoFranja tipoFranja = tablaMaestraService.getTipoFranjaByHorario(arcoTiempo.getHoraDesde(),arcoTiempo.getHoraHasta());
+            if(tipoFranja!=null){
+                if(tipoFranja.getNombre().equals("Inicio")){
+                    cicloServicio.setMinimoInicio(arcoTiempo.getTiempoMinimo());
+                    cicloServicio.setMaximoInicio(arcoTiempo.getTiempoMaximo());
+                    cicloServicio.setOptimoInicio(arcoTiempo.getTiempoOptimo());
+                }else if(tipoFranja.getNombre().equals("Pico AM")){
+                    cicloServicio.setMinimoAM(arcoTiempo.getTiempoMinimo());
+                    cicloServicio.setMaximoAM(arcoTiempo.getTiempoMaximo());
+                    cicloServicio.setOptimoAM(arcoTiempo.getTiempoOptimo());
+                }else if(tipoFranja.getNombre().equals("Pico PM")){
+                    cicloServicio.setMinimoPM(arcoTiempo.getTiempoMinimo());
+                    cicloServicio.setMaximoPM(arcoTiempo.getTiempoMaximo());
+                    cicloServicio.setOptimoPM(arcoTiempo.getTiempoOptimo());
+                }else if(tipoFranja.getNombre().equals("Valle")){
+                    cicloServicio.setMinimoValle(arcoTiempo.getTiempoMinimo());
+                    cicloServicio.setMaximoValle(arcoTiempo.getTiempoMaximo());
+                    cicloServicio.setOptimoValle(arcoTiempo.getTiempoOptimo());
+                }else {
+                    cicloServicio.setMinimoCierre(arcoTiempo.getTiempoMinimo());
+                    cicloServicio.setMaximoCierre(arcoTiempo.getTiempoMaximo());
+                    cicloServicio.setOptimoCierre(arcoTiempo.getTiempoOptimo());
+                }
+
+            }else{
+                System.out.println("Tipo de franja no existente");
+            }
+
+        }
+
+        tablaMaestraService.addCicloServicio(cicloServicio);
+        return cicloServicio;
     }
 
     private TablaMaestraServicios calcularDistancia(TablaMaestraServicios tablaMaestraServicios, Nodo nodoIni,Nodo nodoFin, MatrizDistancia matrizDistancia) {

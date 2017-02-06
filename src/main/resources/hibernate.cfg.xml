@@ -30,6 +30,7 @@
         <mapping class="com.tmModulos.modelo.entity.saeBogota.Lineas"/>
         <mapping class="com.tmModulos.modelo.entity.saeBogota.Secciones"/>
         <mapping class="com.tmModulos.modelo.entity.saeBogota.NodosSeccion"/>
+        <mapping class="com.tmModulos.modelo.entity.saeBogota.Horario"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -1,7 +1,9 @@
 package com.tmModulos.modelo.entity.tmData;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -91,14 +93,18 @@ public class TablaMaestraServicios {
     @JoinColumn(name = "tipologia", nullable = false)
     private Tipologia tipologia;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestraServicios")
-    private Set<CicloServicio> cicloServiciosaRecords= new HashSet<CicloServicio>(0);
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ciclo_servicio", nullable = false)
+    private CicloServicio cicloServicio;
+
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestraServicios")
     private Set<IntervalosServicio> intervalosServiciossaRecords= new HashSet<IntervalosServicio>(0);
 
     @Transient
     private String estadoFormato;
+
 
 
     public long getId() {
@@ -301,13 +307,6 @@ public class TablaMaestraServicios {
         this.tipologia = tipologia;
     }
 
-    public Set<CicloServicio> getCicloServiciosaRecords() {
-        return cicloServiciosaRecords;
-    }
-
-    public void setCicloServiciosaRecords(Set<CicloServicio> cicloServiciosaRecords) {
-        this.cicloServiciosaRecords = cicloServiciosaRecords;
-    }
 
     public Set<IntervalosServicio> getIntervalosServiciossaRecords() {
         return intervalosServiciossaRecords;
@@ -326,10 +325,21 @@ public class TablaMaestraServicios {
     }
 
     public String getEstadoFormato() {
-        return estadoFormato;
+        if( estado ){
+            return "Activo";
+        }
+        return "Inactivo";
     }
 
     public void setEstadoFormato(String estadoFormato) {
         this.estadoFormato = estadoFormato;
+    }
+
+    public CicloServicio getCicloServicio() {
+        return cicloServicio;
+    }
+
+    public void setCicloServicio(CicloServicio cicloServicio) {
+        this.cicloServicio = cicloServicio;
     }
 }

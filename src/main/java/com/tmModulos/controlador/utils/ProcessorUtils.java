@@ -7,6 +7,11 @@ import java.io.*;
 @Service
 public class ProcessorUtils {
 
+    public static final String CALCULO_PROMEDIO = "Promedio";
+    public static final String CALCULO_MODA = "Moda";
+    public static final String CALCULO_MINIMO = "Minimo";
+    public static final String CALCULO_MAXIMO = "Maximo";
+
     public void copyFile(String fileName, InputStream in, String destination) {
         try {
 

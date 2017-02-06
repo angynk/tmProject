@@ -10,7 +10,7 @@
           <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
           <element id="library" level="project" name="Maven: com.sun.faces:jsf-impl:2.2.4" />
           <element id="library" level="project" name="Maven: com.sun.faces:jsf-api:2.2.4" />
-          <element id="library" level="project" name="Maven: org.primefaces:primefaces:5.0" />
+          <element id="library" level="project" name="Maven: org.primefaces:primefaces:6.0" />
           <element id="library" level="project" name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.3.1" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.1.2" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:3.6.10.Final" />

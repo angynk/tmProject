@@ -23,6 +23,9 @@ public class TipoDia {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoDia")
     private Set<TipoDiaDetalle> tipoDiaDetalleRecords = new HashSet<TipoDiaDetalle>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoDia")
+    private Set<ServicioTipoDia> servicioTipoDiaRecords = new HashSet<ServicioTipoDia>(0);
+
     public long getId() {
         return id;
     }
@@ -45,5 +48,13 @@ public class TipoDia {
 
     public void setTipoDiaDetalleRecords(Set<TipoDiaDetalle> tipoDiaDetalleRecords) {
         this.tipoDiaDetalleRecords = tipoDiaDetalleRecords;
+    }
+
+    public Set<ServicioTipoDia> getServicioTipoDiaRecords() {
+        return servicioTipoDiaRecords;
+    }
+
+    public void setServicioTipoDiaRecords(Set<ServicioTipoDia> servicioTipoDiaRecords) {
+        this.servicioTipoDiaRecords = servicioTipoDiaRecords;
     }
 }

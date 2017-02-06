@@ -80,133 +80,175 @@
                             <p:column filterBy="#{tservicio.identificador}" headerText="Id"  filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.identificador}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.identificador}" />
+                                <h:outputText value="#{tservicio.identificador}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.tipoDia}" headerText="TipoDia"  filterStyle="width: 80px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.tipoDia}"
                                       style="width: 100px">
-                                <h:outputText value="#{tservicio.tipoDia}" />
+                                <h:outputText value="#{tservicio.tipoDia}" style="width: 104px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.trayecto}" headerText="Trayecto"  filterStyle="width: 80px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.trayecto}"
                                       style="width: 110px">
-                                <h:outputText value="#{tservicio.trayecto}" />
+                                <h:outputText value="#{tservicio.trayecto}" style="width: 114px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.macro}" headerText="Macro" filterStyle="width: 70px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.macro}"
                                       style="width: 90px">
-                                <h:outputText value="#{tservicio.macro}" />
+                                <h:outputText value="#{tservicio.macro}" style="width: 96px"/>
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.linea}" headerText="Linea" filterStyle="width: 70px;"
+                            <p:column filterBy="#{tservicio.linea}" headerText="Linea" filterStyle="width: 50px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.linea}"
                                       style="width: 80px">
-                                <h:outputText value="#{tservicio.linea}" />
+                                <h:outputText value="#{tservicio.linea}" style="width: 82px"/>
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.seccion}" headerText="Seccion" filterStyle="width: 90px;"
+                            <p:column filterBy="#{tservicio.seccion}" headerText="Seccion" filterStyle="width: 70px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.seccion}"
                                       style="width: 100px">
-                                <h:outputText value="#{tservicio.seccion}" />
+                                <h:outputText value="#{tservicio.seccion}" style="width: 102px"/>
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.codigoInicio}" headerText="PuntoI"  filterStyle="width: 80px;"
+                            <p:column filterBy="#{tservicio.codigoInicio}" headerText="PuntoI"  filterStyle="width: 50px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.codigoInicio}"
                                       style="width: 90px">
-                                <h:outputText value="#{tservicio.codigoInicio}" />
+                                <h:outputText value="#{tservicio.codigoInicio}" style="width: 92px"/>
                             </p:column>
 
-                            <p:column filterBy="#{tservicio.codigoFin}" headerText="PuntoF" filterStyle="width: 80px;"
+                            <p:column filterBy="#{tservicio.codigoFin}" headerText="PuntoF" filterStyle="width: 50px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.codigoFin}"
                                       style="width: 95px">
-                                <h:outputText value="#{tservicio.codigoFin}" />
+                                <h:outputText value="#{tservicio.codigoFin}" style="width: 98px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.secuencia}" headerText="Secuencia" filterStyle="width: 90px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.secuencia}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.secuencia}" />
+                                <h:outputText value="#{tservicio.secuencia}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.tipologia.nombre}" headerText="Tipología"  filterMatchMode="contains" sortBy="#{tservicio.servicio.tipologia.nombre}"
                                       style="width: 130px">
-                                <h:outputText value="#{tservicio.tipologia.nombre}" />
+                                <h:outputText value="#{tservicio.tipologia.nombre}" style="width: 132px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.nombreGeneral}" headerText="Servicio U" filterStyle="width: 60px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.nombreGeneral}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.nombreGeneral}" />
+                                <h:outputText value="#{tservicio.nombreGeneral}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.nombreEspecial}" headerText="Servicio E" filterStyle="width: 60px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.nombreEspecial}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.nombreEspecial}" />
+                                <h:outputText value="#{tservicio.nombreEspecial}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.matrizNombre}"
                                       headerText="Matriz" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.matrizNombre}"
                                       style="width: 130px">
-                                <h:outputText value="#{tservicio.matrizNombre}" />
+                                <h:outputText value="#{tservicio.matrizNombre}" style="width: 132px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.idInicio}" headerText="M-L-S-P Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.idInicio}"
                                       style="width: 145px">
-                                <h:outputText value="#{tservicio.idInicio}" />
+                                <h:outputText value="#{tservicio.idInicio}" style="width: 147px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaTInicio}" headerText="Zona T Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaTInicio}"
                                       style="width: 125px">
-                                <h:outputText value="#{tservicio.zonaTInicio}" />
+                                <h:outputText value="#{tservicio.zonaTInicio}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaPInicio}" headerText="Zona P Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaPInicio}"
                                       style="width: 125px">
-                                <h:outputText value="#{tservicio.zonaPInicio}" />
+                                <h:outputText value="#{tservicio.zonaPInicio}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.idFin}" headerText="M-L-S-P Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.idInicio}"
                                       style="width: 130px">
-                                <h:outputText value="#{tservicio.idFin}" />
+                                <h:outputText value="#{tservicio.idFin}" style="width: 132px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaTFin}" headerText="Zona T Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaTFin}"
                                       style="width: 125px">
-                                <h:outputText value="#{tservicio.zonaTFin}" />
+                                <h:outputText value="#{tservicio.zonaTFin}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaPFin}" headerText="Zona P Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaPFin}"
                                       style="width: 125px">
-                                <h:outputText value="#{tservicio.zonaPFin}" />
+                                <h:outputText value="#{tservicio.zonaPFin}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.tipoServicio}" headerText="Tipo Servicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.tipoServicio}"
                                       style="width: 140px">
-                                <h:outputText value="#{tservicio.tipoServicio}" />
+                                <h:outputText value="#{tservicio.tipoServicio}" style="width: 142px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.distancia}" headerText="Distancia" filterStyle="width: 90px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.distancia}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.distancia}" />
+                                <h:outputText value="#{tservicio.distancia}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.estadoFormato}" headerText="Estado" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.estadoFormato}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.estadoFormato}" />
+                                <h:outputText value="#{tservicio.estadoFormato}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.optimoInicio}" headerText="Inicio" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoInicio}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.cicloServicio.optimoInicio}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.optimoAM}" headerText="Pico AM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoAM}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.cicloServicio.optimoAM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.optimoValle}" headerText="Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoValle}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.cicloServicio.optimoValle}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.optimoPM}" headerText="Pico PM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoPM}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.cicloServicio.optimoPM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.optimoCierre}" headerText="Cierre" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoCierre}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.cicloServicio.optimoCierre}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.tipologia.capacidadPicos}" headerText="Capacidad Picos" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.tipologia.capacidadPicos}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.tipologia.capacidadPicos}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.tipologia.capacidadValle}" headerText="Capacidad Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.tipologia.capacidadValle}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.tipologia.capacidadValle}" style="width: 122px"/>
                             </p:column>
 
                         </p:dataTable>

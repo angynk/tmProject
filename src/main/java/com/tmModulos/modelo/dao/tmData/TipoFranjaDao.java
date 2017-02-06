@@ -50,4 +50,10 @@ public class TipoFranjaDao {
         return (TipoFranja) criteria.uniqueResult();
     }
 
+    public TipoFranja getTipoFranjaByNombre(String nombre){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TipoFranja.class);
+        criteria.add(Restrictions.eq("nombre", nombre));
+        return (TipoFranja) criteria.uniqueResult();
+    }
+
 }
