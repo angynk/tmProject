@@ -69,35 +69,11 @@
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <!--<bean id="sessionFactoryServer"-->
-          <!--class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">-->
+    <bean id="taskExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="WaitForTasksToCompleteOnShutdown" value="true" />
+    </bean>
 
-        <!--<property name="dataSource">-->
-            <!--<ref bean="DataSourceSqlServer"/>-->
-        <!--</property>-->
-
-        <!--<property name="hibernateProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>-->
-                <!--&lt;!&ndash;<prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>&ndash;&gt;-->
-                <!--<prop key="hibernate.show_sql">true</prop>-->
-                <!--&lt;!&ndash;<prop key="current_session_context_class">thread</prop>&ndash;&gt;-->
-                <!--&lt;!&ndash;<prop key="cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>&ndash;&gt;-->
-                <!--&lt;!&ndash;<prop key="hbm2ddl.auto">validate</prop>&ndash;&gt;-->
-            <!--</props>-->
-        <!--</property>-->
-
-        <!--<property name="annotatedClasses">-->
-            <!--<list>-->
-                <!--<value>com.tmModuloshibernate.data.entity.saeBogota.Nodos</value>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <!--<bean id="transactionManager2"-->
-          <!--class="org.springframework.orm.hibernate3.HibernateTransactionManager">-->
-        <!--<property name="sessionFactory" ref="sessionFactoryServer" />-->
-    <!--</bean>-->
-
-    <!--<tx:annotation-driven transaction-manager="transactionManager2" />-->
 </beans>

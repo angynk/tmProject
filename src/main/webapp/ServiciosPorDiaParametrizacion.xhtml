@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:body>
+
+    <ui:composition template="/template/common/commonLayout.xhtml">
+
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" />
+                <p:panel id="basic" header="Servicios" style="margin-bottom:20px" visible="true">
+                    <div style="margin-top:20px">
+                        <p:panelGrid columns="3">
+                            <h:outputText value="Seleccione el tipo dia:" />
+                            <h:selectOneMenu value="#{serviciosTipoDiaP.tipoDiaSeleccionado}" style="width:100%" >
+                                <f:selectItem itemLabel="HABIL" itemValue="HABIL" />
+                                <f:selectItem itemLabel="SABADO" itemValue="SABADO" />
+                                <f:selectItem itemLabel="FESTIVO" itemValue="FESTIVO" />
+                            </h:selectOneMenu>
+                            <p:commandButton value="Buscar" action="#{serviciosTipoDiaP.buscar}" ajax="false"
+                                             icon="ui-icon ui-icon-disk" id="buscar"
+                                             async="true" />
+                        </p:panelGrid>
+                        <p:panel visible="#{serviciosTipoDiaP.tablaVisible}">
+                        <p:panelGrid columns="4" >
+                            <p:commandButton actionListener="#{serviciosTipoDiaP.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
+                            <p:commandButton actionListener="#{serviciosTipoDiaP.habilitarNuevo}" update=":form:nuevoDialog" value="Crear"
+                                             oncomplete="PF('nuevoDialog').show()" icon="ui-icon-plus" title="View">
+                            </p:commandButton>
+                            <h:outputText value="Exportar:" />
+                            <h:commandLink>
+                                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls"
+                                                target="matriz" fileName="Servicios por Tipo Dia"  />
+                            </h:commandLink>
+                        </p:panelGrid>
+                        <div style="height: 10px"></div>
+                        <p:dataTable id="matriz" var="ser" value="#{serviciosTipoDiaP.serviciosRecords}" widgetVar="MatrizTable"
+                                     emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{serviciosTipoDiaP.filteredServiciosRecords}"
+                                     scrollable="true" scrollWidth="100%" scrollHeight="510"
+                                     editable="true">
+
+
+                            <f:facet name="header" style="background-color: #4cae4c">
+                                <p:outputPanel>
+                                    <h:outputText value="Buscar en todos los campos:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('MatrizTable').filter()" style="width:150px" placeholder=""/>
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <p:column filterBy="#{ser.identificador}" headerText="Id"  filterMatchMode="contains" sortBy="#{ser.identificador}"
+                                      style="width: 120px">
+                                <h:outputText value="#{ser.identificador}" />
+                            </p:column>
+
+                            <p:column filterBy="#{ser.nombre}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{ser.nombre}"
+                                      style="width: 120px">
+                                <h:outputText value="#{ser.nombre}" />
+                            </p:column>
+
+                            <p:column filterBy="#{ser.orden}" headerText="Orden"  filterMatchMode="contains" sortBy="#{ser.orden}"
+                                      style="width: 120px">
+                                <h:outputText value="#{ser.orden}" />
+                            </p:column>
+
+                            <p:column filterBy="#{ser.tipoDia.nombre}" headerText="Tipo Dia"  filterMatchMode="contains" sortBy="#{ser.tipoDia.nombre}"
+                                      style="width: 120px">
+                                <h:outputText value="#{ser.tipoDia.nombre}" />
+
+                            </p:column>
+
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{ser}" target="#{serviciosTipoDiaP.selectedServicio}" />
+                                </p:commandButton>
+
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton id="delete"
+                                                 icon="ui-icon ui-icon-trash"
+                                                 title="GDeleteButton"
+                                                 onclick="PF('groupDeleteConfirm').show()">
+                                    <f:setPropertyActionListener value="#{ser}" target="#{serviciosTipoDiaP.selectedServicio}" />
+                                </p:commandButton>
+
+                            </p:column>
+
+
+
+
+                        </p:dataTable>
+
+                        <p:dialog header="Actualizar Servicio" widgetVar="carDialog" modal="true" showEffect="fade"
+                                  hideEffect="fade" resizable="false" appendTo="@(body)">
+                            <p:outputPanel id="carDetail" style="text-align:center;">
+                                <p:panelGrid  columns="4" rendered="#{not empty serviciosTipoDiaP.selectedServicio}" columnClasses="label,value">
+
+                                    <h:outputText value="Identificador:" style="color:black" />
+                                    <h:inputText value="#{serviciosTipoDiaP.selectedServicio.identificador}" />
+
+                                    <h:outputText value="Orden:" style="color:black"/>
+                                    <h:inputText value="#{serviciosTipoDiaP.selectedServicio.orden}"  />
+
+                                </p:panelGrid>
+                                <p:panelGrid columns="3">
+                                    <p:commandButton value="Actualizar" action="#{serviciosTipoDiaP.actualizar}" ajax="false"
+                                                     icon="ui-icon ui-icon-disk" id="actualizar"
+                                                     async="true" />
+
+
+
+                                    <p:commandButton value="Cancelar" action="#{serviciosTipoDiaP.cancelar}" ajax="false"
+                                                     icon="ui-icon ui-icon-disk" id="cancelar"
+                                                     async="true" />
+
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+
+
+                        <p:dialog header="Crear Servicio " widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                            <p:outputPanel id="nuevoDialog" style="text-align:center;">
+                                <p:panelGrid  columns="4" rendered="#{not empty serviciosTipoDiaP.nuevoServicio}" columnClasses="label,value">
+
+                                    <h:outputText value="Identificador:" style="color:black" />
+                                    <h:inputText value="#{serviciosTipoDiaP.nuevoServicio.identificador}" />
+
+                                    <h:outputText value="Servicio Asociado:" style="color:black"/>
+                                    <p:selectOneMenu id="advanced" value="#{serviciosTipoDiaP.nombreEspecialServicio}"  panelStyle="width:180px"
+                                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                        <f:selectItems value="#{serviciosTipoDiaP.serviciosPrincipalesRecords}" var="servicio"
+                                                       itemLabel="#{servicio.nombreEspecial}" itemValue="#{servicio.nombreEspecial}" />
+
+                                        <p:column>
+                                            <h:outputText value="#{t}" />
+                                        </p:column>
+
+                                    </p:selectOneMenu>
+
+                                    <h:outputText value="Orden:" style="color:black"/>
+                                    <h:inputText value="#{serviciosTipoDiaP.nuevoServicio.orden}"  />
+
+                                </p:panelGrid>
+                                <p:panelGrid columns="2">
+                                    <p:commandButton value="Crear" action="#{serviciosTipoDiaP.crear}" ajax="false"
+                                                     icon="ui-icon ui-icon-disk" id="actualizarw"
+                                                     async="true" />
+
+                                    <p:commandButton value="Cancelar" action="#{serviciosTipoDiaP.cancelar}" ajax="false"
+                                                     icon="ui-icon ui-icon-disk" id="cancelar2"
+                                                     async="true" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+
+                            <p:confirmDialog message="Esta seguro de eliminar este registro?"
+                                             showEffect="fade"
+                                             hideEffect="explode"
+                                             widgetVar="groupDeleteConfirm">
+                                <p:commandButton title="GDelYesButton"
+                                                 value="Yes"
+                                                 action="#{serviciosTipoDiaP.eliminar}"
+                                                 oncomplete="PF('groupDeleteConfirm').hide()"
+                                                 />
+                                <p:commandButton title="GDelNoButton"
+                                                 value="No"
+                                                 oncomplete="PF('groupDeleteConfirm').hide()"/>
+                            </p:confirmDialog>
+
+                        </p:panel>
+                    </div>
+                </p:panel>
+            </h:form>
+        </ui:define>
+
+
+    </ui:composition>
+
+</h:body>
+
+</html>

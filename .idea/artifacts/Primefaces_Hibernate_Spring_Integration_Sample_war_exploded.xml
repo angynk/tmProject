@@ -50,6 +50,7 @@
           <element id="library" level="project" name="Maven: javassist:javassist:3.12.1.GA" />
           <element id="library" level="project" name="Maven: org.primefaces.themes:blitzer:1.0.10" />
           <element id="library" level="project" name="Maven: com.journaldev:saeBogotaData:0.0.1-SNAPSHOT" />
+          <element id="library" level="project" name="Maven: net.sf.jacob-project:jacob:1.14.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">

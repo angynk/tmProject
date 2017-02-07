@@ -67,4 +67,14 @@ public class ServicioDao {
         }
         return list.get(0);
     }
+
+    public Servicio getServicioByNombreEspecial(String nombre){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Servicio.class);
+        criteria.add(Restrictions.eq("nombreEspecial", nombre));
+        List<Servicio> list = criteria.list();
+        if(list.size()<1){
+            return null;
+        }
+        return list.get(0);
+    }
 }

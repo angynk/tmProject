@@ -77,9 +77,9 @@
 
                         </p:dataTable>
 
-                        <p:dialog header="Servicio Informacion" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:dialog header="Servicio Informacion" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" >
                             <p:outputPanel id="carDetail" style="text-align:center;">
-                                <p:panelGrid  columns="4" rendered="#{not empty serviciosP.selectedServicio}" columnClasses="label,value">
+                                <p:panelGrid  columns="4" rendered="#{not empty serviciosP.selectedServicio}" columnClasses="label,value" >
 
                                     <h:outputText value="Identificador:" style="color:black" />
                                     <h:inputText value="#{serviciosP.selectedServicio.identificador}" disabled="true" style="background-color: #d6d7d8" />
@@ -127,6 +127,16 @@
                                         <f:selectItem itemLabel="MIXTO" itemValue="MIXTO" />
 
                                     </p:selectOneMenu>
+
+                                    <p:panelGrid columns="6">
+                                        <h:outputText value="Habil:" style="color:black"/>
+                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.habil}" />
+                                        <h:outputText value="Sabado:" style="color:black"/>
+                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.sabado}" />
+                                        <h:outputText value="Festivo:" style="color:black"/>
+                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.festivo}" />
+                                    </p:panelGrid>
+
 
 
 
@@ -192,6 +202,15 @@
                                         <f:selectItem itemLabel="BIARTICULADO" itemValue="BIARTICULADO" />
                                         <f:selectItem itemLabel="MIXTO" itemValue="MIXTO" />
                                     </h:selectOneMenu>
+
+                                    <p:panelGrid columns="6">
+                                        <h:outputText value="Habil:" style="color:black"/>
+                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.habil}" />
+                                        <h:outputText value="Sabado:" style="color:black"/>
+                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.sabado}" />
+                                        <h:outputText value="Festivo:" style="color:black"/>
+                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.festivo}" />
+                                    </p:panelGrid>
 
 
 

@@ -2,9 +2,7 @@ package com.tmModulos.vista;
 
 import com.tmModulos.controlador.servicios.NodoService;
 import com.tmModulos.controlador.servicios.ServicioService;
-import com.tmModulos.modelo.entity.tmData.Nodo;
-import com.tmModulos.modelo.entity.tmData.Servicio;
-import com.tmModulos.modelo.entity.tmData.Tipologia;
+import com.tmModulos.modelo.entity.tmData.*;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -27,14 +25,20 @@ public class ServiciosParametrizacionView {
     private Servicio nuevoServicio;
 
     private List<String> tipologias;
+    private List<String> selectedtipoDia;
     private List<String> tipoServicio;
 
     private String console;
+
+    private boolean tipoDiaVisible;
+
+    private List<String> availableItems;
 
 
     @PostConstruct
     public void init() {
         serviciosRecords= servicioService.getServicioAll();
+
         tipologias = new ArrayList<>();
         tipologias.add("ARTICULADO");
         tipologias.add("BIARTICULADO");
@@ -42,6 +46,15 @@ public class ServiciosParametrizacionView {
         tipoServicio= new ArrayList<>();
         tipoServicio.add("1");
         tipoServicio.add("1-1");
+        updateTipoDias();
+    }
+
+    private void updateTipoDias() {
+        availableItems = new ArrayList<>();
+        List<TipoDia> tipoDiaAll = servicioService.getTipoDiaAll();
+        for(TipoDia tipoDia:tipoDiaAll){
+            availableItems.add(tipoDia.getNombre());
+        }
     }
 
     public ServiciosParametrizacionView() {
@@ -61,10 +74,33 @@ public class ServiciosParametrizacionView {
         selectedServicio.setIdentificador(identificador);
         servicioService.updateServicio(selectedServicio);
 
+        actualizarServicioPorTipoDia();
     }
+
+    private void actualizarServicioPorTipoDia() {
+
+        //selectedServicio.getServicioTipoDias();
+    }
+
+    private List<String> getTipoDiasPorServicio() {
+        List<String> dias= new ArrayList<>();
+        String id = selectedServicio.getIdentificador();
+        if(id!=null){
+            List<ServicioTipoDia> servicioTipoDias = servicioService.getServiciosById(selectedServicio.getIdentificador());
+            for (ServicioTipoDia servicio:servicioTipoDias ) {
+                dias.add(servicio.getTipoDia().getNombre());
+            }
+            return dias;
+        }
+
+        return new ArrayList<>();
+    }
+
+
 
     public void habilitarNuevo(){
         nuevoServicio= new Servicio();
+        selectedtipoDia= new ArrayList<>();
     }
 
     public void nuevo(){
@@ -145,5 +181,29 @@ public class ServiciosParametrizacionView {
 
     public void setNuevoServicio(Servicio nuevoServicio) {
         this.nuevoServicio = nuevoServicio;
+    }
+
+    public List<String> getSelectedtipoDia() {
+        return selectedtipoDia;
+    }
+
+    public void setSelectedtipoDia(List<String> selectedtipoDia) {
+        this.selectedtipoDia = selectedtipoDia;
+    }
+
+    public boolean isTipoDiaVisible() {
+        return tipoDiaVisible;
+    }
+
+    public void setTipoDiaVisible(boolean tipoDiaVisible) {
+        this.tipoDiaVisible = tipoDiaVisible;
+    }
+
+    public List<String> getAvailableItems() {
+        return availableItems;
+    }
+
+    public void setAvailableItems(List<String> availableItems) {
+        this.availableItems = availableItems;
     }
 }

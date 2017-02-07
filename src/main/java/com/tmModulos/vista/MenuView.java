@@ -21,6 +21,16 @@ public class MenuView {
         }
     }
 
+    public void refreshServiciosporDia(){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/ServiciosPorDiaParametrizacion.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void refreshNodo(){
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {

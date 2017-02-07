@@ -1,7 +1,9 @@
 package com.tmModulos.modelo.entity.tmData;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -58,12 +60,26 @@ public class Servicio {
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
 //    private Set<ServicioFranjaHorario> servicioFranjaRecords= new HashSet<ServicioFranjaHorario>(0);
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "servicio")
+    private Set<ServicioTipoDia> servicioTipoDias = new HashSet<ServicioTipoDia>(0);
+
+
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
 
     @Transient
     private String estadoFormato;
+
+    @Transient
+    private boolean habil;
+
+    @Transient
+    private boolean festivo;
+
+    @Transient
+    private boolean sabado;
 
 
     public Servicio() {
@@ -208,5 +224,53 @@ public class Servicio {
 
     public void setEstadoFormato(String estadoFormato) {
         this.estadoFormato = estadoFormato;
+    }
+
+    public Set<ServicioTipoDia> getServicioTipoDias() {
+        return servicioTipoDias;
+    }
+
+    public void setServicioTipoDias(Set<ServicioTipoDia> servicioTipoDias) {
+        this.servicioTipoDias = servicioTipoDias;
+    }
+
+
+    public boolean isHabil() {
+        for (ServicioTipoDia servicio: servicioTipoDias ) {
+            if(servicio.getTipoDia().getNombre().equals("HABIL")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setHabil(boolean habil) {
+        this.habil = habil;
+    }
+
+    public boolean isFestivo() {
+        for (ServicioTipoDia servicio: servicioTipoDias ) {
+            if(servicio.getTipoDia().getNombre().equals("FESTIVO")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setFestivo(boolean festivo) {
+        this.festivo = festivo;
+    }
+
+    public boolean isSabado() {
+        for (ServicioTipoDia servicio: servicioTipoDias ) {
+            if(servicio.getTipoDia().getNombre().equals("SABADO")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setSabado(boolean sabado) {
+        this.sabado = sabado;
     }
 }

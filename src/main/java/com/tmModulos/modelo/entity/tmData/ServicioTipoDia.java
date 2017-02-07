@@ -41,6 +41,10 @@ public class ServicioTipoDia {
     @JoinColumn(name = "tipo_dia", nullable = false)
     private TipoDia tipoDia;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "servicio", nullable = false)
+    private Servicio servicio;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "idServicio")
     private Set<TiempoIntervalos> tiempoIntervalosRecords = new HashSet<TiempoIntervalos>(0);
 
@@ -128,5 +132,13 @@ public class ServicioTipoDia {
 
     public void setTiempoIntervalosRecords(Set<TiempoIntervalos> tiempoIntervalosRecords) {
         this.tiempoIntervalosRecords = tiempoIntervalosRecords;
+    }
+
+    public Servicio getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
     }
 }

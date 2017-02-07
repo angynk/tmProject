@@ -1,9 +1,6 @@
 package com.tmModulos.controlador.servicios;
 
-import com.tmModulos.modelo.dao.tmData.FranjaHorariaDao;
-import com.tmModulos.modelo.dao.tmData.ServicioDao;
-import com.tmModulos.modelo.dao.tmData.ServicioFranjaHorarioDao;
-import com.tmModulos.modelo.dao.tmData.TipologiaDao;
+import com.tmModulos.modelo.dao.tmData.*;
 import com.tmModulos.modelo.entity.tmData.*;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -27,7 +24,13 @@ public class ServicioService {
     ServicioDao servicioDao;
 
     @Autowired
+    ServicioTipoDiaDao servicioTipoDiaDao;
+
+    @Autowired
     ServicioFranjaHorarioDao servicioFranjaHorarioDao;
+
+    @Autowired
+    TipoDiaDao tipoDiaDao;
 
 
     @Transactional(readOnly = false)
@@ -140,6 +143,41 @@ public class ServicioService {
 
     public List<Servicio> getServicioAll() {
         return servicioDao.getServicioAll();
+    }
+
+    public List<ServicioTipoDia> getServiciosById(String Identificador){
+        return servicioTipoDiaDao.getServiciosById(Identificador);
+    }
+
+    public List<TipoDia> getTipoDiaAll() {
+        return tipoDiaDao.getTipoDiaAll();
+    }
+
+    public TipoDia getTipoDia(String nombre){
+        return tipoDiaDao.getTipoDia(nombre);
+    }
+
+
+    public List<ServicioTipoDia> getServiciosByTipoDia(TipoDia tipoDia){
+        return servicioTipoDiaDao.getServiciosByTipoDia(tipoDia);
+    }
+
+    public Servicio getServicioByNombreEspecial(String nombre){
+        return servicioDao.getServicioByNombreEspecial(nombre);
+    }
+
+    @Transactional(readOnly = false)
+    public void addServicio(ServicioTipoDia servicio) {
+        servicioTipoDiaDao.addServicio(servicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteServicioTipoDia(ServicioTipoDia servicio) {
+        servicioTipoDiaDao.deleteServicioTipoDia(servicio);
+    }
+    @Transactional(readOnly = false)
+    public void updateServicioTipoDia(ServicioTipoDia servicio) {
+        servicioTipoDiaDao.updateServicioTipoDia(servicio);
     }
 
 }
