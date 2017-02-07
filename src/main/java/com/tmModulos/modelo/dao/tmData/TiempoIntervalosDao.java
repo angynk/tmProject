@@ -40,4 +40,13 @@ public class TiempoIntervalosDao implements Serializable {
         criteria.add(Restrictions.eq("idServicio",id));
         return criteria.list();
     }
+
+    public List<TiempoIntervalos> getTiempoIntervalosByHoraServicioCuadro
+            (IntervalosProgramacion intervalo, ServicioTipoDia tipoDia,String cuadro){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TiempoIntervalos.class);
+        criteria.add(Restrictions.eq("idServicio",tipoDia));
+        criteria.add(Restrictions.eq("cuadro",cuadro));
+        criteria.add(Restrictions.eq("intervalosProgramacion",intervalo));
+        return criteria.list();
+    }
 }

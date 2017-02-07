@@ -2,6 +2,8 @@ package com.tmModulos.modelo.entity.tmData;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -80,4 +82,11 @@ public class IntervalosProgramacion {
     public void setTipoFranja(TipoFranja tipoFranja) {
         this.tipoFranja = tipoFranja;
     }
+
+//    @Override
+//    public String toString() {
+//        return convertirTiempo(inicio)+"-"+convertirTiempo(fin);
+//    }
+
+
 }

@@ -65,8 +65,12 @@
                             <h:outputText value="#{carga.fechaProgramacionFormato}" />
                         </p:column>
                         <p:column style="width:100px;text-align: center">
-                            <p:commandButton action="#{busquedaInt.busquedaCargaGis}" icon="ui-icon-search" title="View" >
+
+                            <p:commandButton ajax="false"
+                                    onclick="PrimeFaces.monitorDownload(start, stop)"
+                                             icon="ui-icon-search" >
                                 <f:setPropertyActionListener value="#{carga}" target="#{busquedaInt.selectedIntervalo}" />
+                                <p:fileDownload value="#{busquedaInt.file}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
