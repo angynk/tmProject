@@ -14,10 +14,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import javax.rmi.CORBA.Tie;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -93,7 +95,10 @@ public class IntervalosProcessor {
     private void procesarInformacionTablaHorario(List<Horario> tablaHorario,GisIntervalos gisIntervalos,List<ServicioTipoDia> servicioTipoDia) {
 
       //  copiarInformacionATablaProvisional(tablaHorario);
-       extraerDiferenciaIntervalos(tablaHorario,servicioTipoDia,gisIntervalos.getCuadro());
+        List<TiempoIntervalos> tiempoIntervalosList = extraerDiferenciaIntervalos(tablaHorario, servicioTipoDia, gisIntervalos.getCuadro());
+        for(TiempoIntervalos intervalos:tiempoIntervalosList){
+            horariosProvisionalServicio.addTiempoIntervalos(intervalos);
+        }
 
 
     }
@@ -174,7 +179,8 @@ public class IntervalosProcessor {
     }
 
 
-    private void extraerDiferenciaIntervalos(List<Horario> tablaHorario,List<ServicioTipoDia> servicioTipoDia,String cuadr) {
+    private List<TiempoIntervalos> extraerDiferenciaIntervalos(List<Horario> tablaHorario,List<ServicioTipoDia> servicioTipoDia,String cuadr) {
+        List<TiempoIntervalos> tiempoIntervalosLista = new ArrayList<>();
         String cuadro = tablaHorario.get(0).getCuadro();
         Horario horarioA= tablaHorario.get(0);
         Horario horarioB= null;
@@ -203,7 +209,13 @@ public class IntervalosProcessor {
                     if(servicio!=null){
                         int diferencia = calcularDiferencia(horarioA.getInstante(),horarioB.getInstante());
                         TiempoIntervalos tiempoIntervalos = new TiempoIntervalos(getTime(diferencia),servicio,intervaloB,diferencia,cuadro);
-                        horariosProvisionalServicio.addTiempoIntervalos(tiempoIntervalos);
+                       if(tiempoIntervalosLista.size()<200){
+                           tiempoIntervalosLista.add(tiempoIntervalos);
+                       }else{
+                           taskExecutor.execute(new IntervalosHilo(tiempoIntervalosLista));
+                           tiempoIntervalosLista = new ArrayList<>();
+                       }
+
 
                     }
                     aux++;
@@ -235,6 +247,7 @@ public class IntervalosProcessor {
                 aux=0;
             }
         }
+        return tiempoIntervalosLista;
     }
 
     private ServicioTipoDia getServicioById(List<ServicioTipoDia> servicioTipoDia, String id) {
