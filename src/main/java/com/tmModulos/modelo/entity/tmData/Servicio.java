@@ -60,7 +60,7 @@ public class Servicio {
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
 //    private Set<ServicioFranjaHorario> servicioFranjaRecords= new HashSet<ServicioFranjaHorario>(0);
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "servicio")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<ServicioTipoDia> servicioTipoDias = new HashSet<ServicioTipoDia>(0);
 
 

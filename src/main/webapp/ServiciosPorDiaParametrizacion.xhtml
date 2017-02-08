@@ -12,7 +12,7 @@
     <ui:composition template="/template/common/commonLayout.xhtml">
 
         <ui:define name="content">
-            <h:form id="form">
+            <h:form id="form" enctype="multipart/form-data">
                 <p:growl id="message" showDetail="true" />
                 <p:panel id="basic" header="Servicios" style="margin-bottom:20px" visible="true">
                     <div style="margin-top:20px">
@@ -28,10 +28,14 @@
                                              async="true" />
                         </p:panelGrid>
                         <p:panel visible="#{serviciosTipoDiaP.tablaVisible}">
-                        <p:panelGrid columns="4" >
+                        <p:panelGrid columns="5" >
                             <p:commandButton actionListener="#{serviciosTipoDiaP.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
-                            <p:commandButton actionListener="#{serviciosTipoDiaP.habilitarNuevo}" update=":form:nuevoDialog" value="Crear"
+                            <p:commandButton actionListener="#{serviciosTipoDiaP.habilitarNuevo}" update=":form:nuevoDialog" value="Asociar"
                                              oncomplete="PF('nuevoDialog').show()" icon="ui-icon-plus" title="View">
+                            </p:commandButton>
+
+                            <p:commandButton actionListener="#{serviciosTipoDiaP.actualizarOrdenServicios}" update=":form:actualizarDialog" value="Actualizar Orden"
+                                             oncomplete="PF('actualizarDialog').show()" icon="ui-icon-plus" title="View">
                             </p:commandButton>
                             <h:outputText value="Exportar:" />
                             <h:commandLink>
@@ -59,9 +63,9 @@
                                 <h:outputText value="#{ser.identificador}" />
                             </p:column>
 
-                            <p:column filterBy="#{ser.nombre}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{ser.nombre}"
+                            <p:column filterBy="#{ser.servicio.nombreEspecial}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{ser.servicio.nombreEspecial}"
                                       style="width: 120px">
-                                <h:outputText value="#{ser.nombre}" />
+                                <h:outputText value="#{ser.servicio.nombreEspecial}" />
                             </p:column>
 
                             <p:column filterBy="#{ser.orden}" headerText="Orden"  filterMatchMode="contains" sortBy="#{ser.orden}"
@@ -75,12 +79,6 @@
 
                             </p:column>
 
-                            <p:column style="width:32px;text-align: center">
-                                <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
-                                    <f:setPropertyActionListener value="#{ser}" target="#{serviciosTipoDiaP.selectedServicio}" />
-                                </p:commandButton>
-
-                            </p:column>
                             <p:column style="width:32px;text-align: center">
                                 <p:commandButton id="delete"
                                                  icon="ui-icon ui-icon-trash"
@@ -96,40 +94,9 @@
 
                         </p:dataTable>
 
-                        <p:dialog header="Actualizar Servicio" widgetVar="carDialog" modal="true" showEffect="fade"
-                                  hideEffect="fade" resizable="false" appendTo="@(body)">
-                            <p:outputPanel id="carDetail" style="text-align:center;">
-                                <p:panelGrid  columns="4" rendered="#{not empty serviciosTipoDiaP.selectedServicio}" columnClasses="label,value">
-
-                                    <h:outputText value="Identificador:" style="color:black" />
-                                    <h:inputText value="#{serviciosTipoDiaP.selectedServicio.identificador}" />
-
-                                    <h:outputText value="Orden:" style="color:black"/>
-                                    <h:inputText value="#{serviciosTipoDiaP.selectedServicio.orden}"  />
-
-                                </p:panelGrid>
-                                <p:panelGrid columns="3">
-                                    <p:commandButton value="Actualizar" action="#{serviciosTipoDiaP.actualizar}" ajax="false"
-                                                     icon="ui-icon ui-icon-disk" id="actualizar"
-                                                     async="true" />
-
-
-
-                                    <p:commandButton value="Cancelar" action="#{serviciosTipoDiaP.cancelar}" ajax="false"
-                                                     icon="ui-icon ui-icon-disk" id="cancelar"
-                                                     async="true" />
-
-                                </p:panelGrid>
-                            </p:outputPanel>
-                        </p:dialog>
-
-
                         <p:dialog header="Crear Servicio " widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                             <p:outputPanel id="nuevoDialog" style="text-align:center;">
                                 <p:panelGrid  columns="4" rendered="#{not empty serviciosTipoDiaP.nuevoServicio}" columnClasses="label,value">
-
-                                    <h:outputText value="Identificador:" style="color:black" />
-                                    <h:inputText value="#{serviciosTipoDiaP.nuevoServicio.identificador}" />
 
                                     <h:outputText value="Servicio Asociado:" style="color:black"/>
                                     <p:selectOneMenu id="advanced" value="#{serviciosTipoDiaP.nombreEspecialServicio}"  panelStyle="width:180px"
@@ -158,6 +125,24 @@
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>
+
+                            <p:dialog header="Actualizar Orden servicios" widgetVar="actualizarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                <p:outputPanel id="actualizarDialog" style="text-align:center;">
+                                    <p:panelGrid columns="3">
+                                    <p:outputLabel value="Orden servicios:" />
+                                    <p:fileUpload value="#{serviciosTipoDiaP.ordenServiciosFile}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
+                                    <p:commandButton value="Actualizar" action="#{serviciosTipoDiaP.procesarOrdenServicios}" ajax="false"
+                                                     icon="ui-icon ui-icon-disk" id="withIcon" styleClass="boton"
+                                                     async="true" process="@form" onclick="PF('dlg2').show();" global="false"
+                                                     oncomplete="PF('dlg2').hide()"/>
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                                <p:dialog  widgetVar="dlg2" modal="true" height="100" closable="false" resizable="false"
+                                           minHeight="40" style="height: 40px">
+                                    <h:outputText value="En Proceso.." />
+                                    <p:graphicImage name="images/ajaxloadingbar.gif" />
+                                </p:dialog>
+                            </p:dialog>
 
                             <p:confirmDialog message="Esta seguro de eliminar este registro?"
                                              showEffect="fade"

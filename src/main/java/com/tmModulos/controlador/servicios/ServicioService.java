@@ -175,9 +175,15 @@ public class ServicioService {
     public void deleteServicioTipoDia(ServicioTipoDia servicio) {
         servicioTipoDiaDao.deleteServicioTipoDia(servicio);
     }
+
     @Transactional(readOnly = false)
     public void updateServicioTipoDia(ServicioTipoDia servicio) {
         servicioTipoDiaDao.updateServicioTipoDia(servicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateListaServicioTipoDia(List<ServicioTipoDia> servicios) {
+        servicioTipoDiaDao.updateListaServicioTipoDia(servicios);
     }
 
 }

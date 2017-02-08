@@ -52,7 +52,7 @@ public class IntervalosProcessor {
             List<ServicioTipoDia> serviciosTipoDia = horariosProvisionalServicio.getServiciosByTipoDia(dia);
 
             // Crear Gis intervalos
-            GisIntervalos gisIntervalos = new GisIntervalos(new Date(),fechaVigencia,descripcion,vigencias.get(0).getTipoDia());
+            GisIntervalos gisIntervalos = new GisIntervalos(new Date(),fechaVigencia,descripcion,vigencias.get(0).getTipoDia(),dia);
             horariosProvisionalServicio.addGisIntervalo(gisIntervalos);
 
 

@@ -25,6 +25,8 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
+                <!--<prop key="hbm2ddl.auto">create</prop>-->
+                <!--<prop key="hbm2ddl.auto">update</prop>-->
                 <!--<prop key="current_session_context_class">thread</prop>-->
                 <!--<prop key="cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>-->
                 <!--<prop key="hbm2ddl.auto">validate</prop>-->

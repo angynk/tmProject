@@ -42,7 +42,7 @@ public class ConversionIntervalosServicio {
 
     public StreamedContent crearArchivoDeIntervalos(GisIntervalos gisIntervalos){
 
-        TipoDia tipoDia = intervalosServicio.getTipoDia("HABIL");
+        TipoDia tipoDia = intervalosServicio.getTipoDia(gisIntervalos.getTipoDia().getNombre());
         intervalosProgramacions = intervalosServicio.getAllIntervalos();
         servicios = intervalosServicio.getServiciosByTipoDia(tipoDia);
         cuadro=gisIntervalos.getCuadro();

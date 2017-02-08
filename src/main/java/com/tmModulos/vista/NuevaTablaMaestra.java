@@ -2,6 +2,7 @@ package com.tmModulos.vista;
 
 import com.tmModulos.controlador.procesador.TablaMaestraProcessor;
 import com.tmModulos.modelo.entity.tmData.GisCarga;
+import com.tmModulos.modelo.entity.tmData.GisIntervalos;
 import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
 import org.primefaces.model.UploadedFile;
 
@@ -27,10 +28,15 @@ public class NuevaTablaMaestra {
     private UploadedFile tablaMaestra;
 
     private String gisCarga;
+    private String selectedTipoDia;
+    private List<String> tipoDia;
     private List<GisCarga> gisCargaList;
 
     private String matrizDistancia;
     private List<MatrizDistancia> matrizDistanciasList;
+
+    private String gisIntervalos;
+    private List<GisIntervalos> gisIntervalosList;
 
     @ManagedProperty("#{MessagesView}")
     private MessagesView messagesView;
@@ -46,13 +52,17 @@ public class NuevaTablaMaestra {
         archivoVisible=true;
         gisCargaList = tablaMaestraProcessor.getGisCargaList();
         matrizDistanciasList = tablaMaestraProcessor.getMatrizDistanciaAll();
+            tipoDia = new ArrayList<>();
+            tipoDia.add("HABIL");
+            tipoDia.add("SABADO");
+            tipoDia.add("FESTIVO");
     }
 
 
     public void calcularTablaMaestra(){
         if(valid()){
             boolean resultado=tablaMaestraProcessor.calcularTablaMaestra(fechaDeProgramacion,
-                    descripcion,gisCarga,matrizDistancia);
+                    descripcion,gisCarga,matrizDistancia,gisIntervalos);
             if(resultado){
                 messagesView.info(Messages.MENSAJE_CALCULO_EXITOSO,Messages.ACCION_TABLA_MAESTRA_ALMACENADA);
             }
@@ -180,5 +190,37 @@ public class NuevaTablaMaestra {
 
     public void setGisCarga(String gisCarga) {
         this.gisCarga = gisCarga;
+    }
+
+    public String getSelectedTipoDia() {
+        return selectedTipoDia;
+    }
+
+    public void setSelectedTipoDia(String selectedTipoDia) {
+        this.selectedTipoDia = selectedTipoDia;
+    }
+
+    public List<String> getTipoDia() {
+        return tipoDia;
+    }
+
+    public void setTipoDia(List<String> tipoDia) {
+        this.tipoDia = tipoDia;
+    }
+
+    public String getGisIntervalos() {
+        return gisIntervalos;
+    }
+
+    public void setGisIntervalos(String gisIntervalos) {
+        this.gisIntervalos = gisIntervalos;
+    }
+
+    public List<GisIntervalos> getGisIntervalosList() {
+        return gisIntervalosList;
+    }
+
+    public void setGisIntervalosList(List<GisIntervalos> gisIntervalosList) {
+        this.gisIntervalosList = gisIntervalosList;
     }
 }

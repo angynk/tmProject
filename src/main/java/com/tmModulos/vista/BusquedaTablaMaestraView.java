@@ -35,11 +35,13 @@ public class BusquedaTablaMaestraView {
 
     private List<TablaMaestra> tablaMaestraRecords;
     private TablaMaestra selectedTabla;
+    private TablaMaestra nuevaTabla;
     private List<TablaMaestra> filteredTablaMaestra;
 
 
     private List<TablaMaestraServicios> tServiciosRecords;
     private List<TablaMaestraServicios> filteredTServiciosRecords;
+    TablaMaestraServicios serviciosSelected;
 
     @ManagedProperty("#{TablaMaestraService}")
     private TablaMaestraService tablaMaestraService;
@@ -59,6 +61,18 @@ public class BusquedaTablaMaestraView {
     }
 
     public void inicio(){
+
+    }
+
+    public void habilitarNuevo(){
+        nuevaTabla = new TablaMaestra();
+    }
+
+    public void actualizar(){
+
+    }
+
+    public void cancelar(){
 
     }
 
@@ -180,6 +194,14 @@ public class BusquedaTablaMaestraView {
         this.tablaMaestraRecords = tablaMaestraRecords;
     }
 
+    public TablaMaestraServicios getServiciosSelected() {
+        return serviciosSelected;
+    }
+
+    public void setServiciosSelected(TablaMaestraServicios serviciosSelected) {
+        this.serviciosSelected = serviciosSelected;
+    }
+
     public TablaMaestra getSelectedTabla() {
         return selectedTabla;
     }
@@ -226,5 +248,13 @@ public class BusquedaTablaMaestraView {
 
     public void setTablaMaestraService(TablaMaestraService tablaMaestraService) {
         this.tablaMaestraService = tablaMaestraService;
+    }
+
+    public TablaMaestra getNuevaTabla() {
+        return nuevaTabla;
+    }
+
+    public void setNuevaTabla(TablaMaestra nuevaTabla) {
+        this.nuevaTabla = nuevaTabla;
     }
 }

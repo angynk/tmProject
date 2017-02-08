@@ -24,6 +24,10 @@ public class GisIntervalos {
     @Column(name = "cuadro")
     private String cuadro;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tipo_dia", nullable = false)
+    private TipoDia tipoDia;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisIntervalos")
     private Set<Intervalos> intervalosRecords = new HashSet<Intervalos>(0);
 
@@ -35,11 +39,12 @@ public class GisIntervalos {
     public GisIntervalos() {
     }
 
-    public GisIntervalos(Date fechaCreacion, Date fechaProgramacion, String descripcion, String cuadro) {
+    public GisIntervalos(Date fechaCreacion, Date fechaProgramacion, String descripcion, String cuadro,TipoDia tipoDia) {
         this.fechaCreacion = fechaCreacion;
         this.fechaProgramacion = fechaProgramacion;
         this.descripcion = descripcion;
         this.cuadro = cuadro;
+        this.tipoDia=tipoDia;
     }
 
     public long getId() {
@@ -106,5 +111,13 @@ public class GisIntervalos {
 
     public void setFechaProgramacionFormato(String fechaProgramacionFormato) {
         this.fechaProgramacionFormato = fechaProgramacionFormato;
+    }
+
+    public TipoDia getTipoDia() {
+        return tipoDia;
+    }
+
+    public void setTipoDia(TipoDia tipoDia) {
+        this.tipoDia = tipoDia;
     }
 }

@@ -52,7 +52,7 @@ public class TablaMaestraProcessor {
         this.matrizDistanciaService = matrizDistanciaService;
     }
 
-    public boolean calcularTablaMaestra(Date fechaDeProgramacion, String descripcion, String gisCarga, String matrizDistancia) {
+    public boolean calcularTablaMaestra(Date fechaDeProgramacion, String descripcion, String gisCarga, String matrizDistancia,String gisIntervalos) {
         serviciosIncluidos= new HashMap<String,String>();
         GisCarga gis= gisCargaService.getGisCargaById(gisCarga);
 //        String tipoDia = gis.

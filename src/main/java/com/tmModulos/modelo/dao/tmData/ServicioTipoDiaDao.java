@@ -39,6 +39,14 @@ public class ServicioTipoDiaDao {
 
     public void updateServicioTipoDia(ServicioTipoDia servicio) {
         getSessionFactory().getCurrentSession().update(servicio);
+        getSessionFactory().getCurrentSession().flush();
+
+    }
+
+    public void updateListaServicioTipoDia(List<ServicioTipoDia> servicios) {
+        for(ServicioTipoDia servicio:servicios){
+            getSessionFactory().getCurrentSession().update(servicio);
+        }
     }
 
     public List<ServicioTipoDia> getServiciosByTipoDia(TipoDia tipoDia){

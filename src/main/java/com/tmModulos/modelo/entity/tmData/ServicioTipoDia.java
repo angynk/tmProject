@@ -18,21 +18,6 @@ public class ServicioTipoDia {
     @Column(name = "identificador")
     private String identificador;
 
-    @Column(name = "nombre_servicio")
-    private String nombre;
-
-    @Column(name = "punto_inicio")
-    private String puntoInicio;
-
-    @Column(name = "punto_final")
-    private String puntoFinal;
-
-    @Column(name = "zona_inicio")
-    private String zonaInicio;
-
-    @Column(name = "zona_fin")
-    private String zonaFinal;
-
     @Column(name = "orden")
     private int orden;
 
@@ -41,7 +26,7 @@ public class ServicioTipoDia {
     @JoinColumn(name = "tipo_dia", nullable = false)
     private TipoDia tipoDia;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "servicio", nullable = false)
     private Servicio servicio;
 
@@ -70,45 +55,6 @@ public class ServicioTipoDia {
         this.identificador = identificador;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getPuntoInicio() {
-        return puntoInicio;
-    }
-
-    public void setPuntoInicio(String puntoInicio) {
-        this.puntoInicio = puntoInicio;
-    }
-
-    public String getPuntoFinal() {
-        return puntoFinal;
-    }
-
-    public void setPuntoFinal(String puntoFinal) {
-        this.puntoFinal = puntoFinal;
-    }
-
-    public String getZonaInicio() {
-        return zonaInicio;
-    }
-
-    public void setZonaInicio(String zonaInicio) {
-        this.zonaInicio = zonaInicio;
-    }
-
-    public String getZonaFinal() {
-        return zonaFinal;
-    }
-
-    public void setZonaFinal(String zonaFinal) {
-        this.zonaFinal = zonaFinal;
-    }
 
     public TipoDia getTipoDia() {
         return tipoDia;
