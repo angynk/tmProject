@@ -28,8 +28,13 @@ public class GisIntervalos {
     @JoinColumn(name = "tipo_dia", nullable = false)
     private TipoDia tipoDia;
 
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisIntervalos")
-    private Set<Intervalos> intervalosRecords = new HashSet<Intervalos>(0);
+    private Set<TiempoIntervalos> tiempoIntervalosRecords = new HashSet<TiempoIntervalos>(0);
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tabla_maestra", nullable = false)
+    private TablaMaestra tablaMaestra;
 
     @Transient
     private String fechaCreacionFormato;
@@ -39,12 +44,13 @@ public class GisIntervalos {
     public GisIntervalos() {
     }
 
-    public GisIntervalos(Date fechaCreacion, Date fechaProgramacion, String descripcion, String cuadro,TipoDia tipoDia) {
+    public GisIntervalos(Date fechaCreacion, Date fechaProgramacion, String descripcion, String cuadro,TipoDia tipoDia,TablaMaestra tablaMaestra) {
         this.fechaCreacion = fechaCreacion;
         this.fechaProgramacion = fechaProgramacion;
         this.descripcion = descripcion;
         this.cuadro = cuadro;
         this.tipoDia=tipoDia;
+        this.tablaMaestra=tablaMaestra;
     }
 
     public long getId() {
@@ -53,14 +59,6 @@ public class GisIntervalos {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Set<Intervalos> getIntervalosRecords() {
-        return intervalosRecords;
-    }
-
-    public void setIntervalosRecords(Set<Intervalos> intervalosRecords) {
-        this.intervalosRecords = intervalosRecords;
     }
 
     public Date getFechaCreacion() {
@@ -119,5 +117,21 @@ public class GisIntervalos {
 
     public void setTipoDia(TipoDia tipoDia) {
         this.tipoDia = tipoDia;
+    }
+
+    public TablaMaestra getTablaMaestra() {
+        return tablaMaestra;
+    }
+
+    public void setTablaMaestra(TablaMaestra tablaMaestra) {
+        this.tablaMaestra = tablaMaestra;
+    }
+
+    public Set<TiempoIntervalos> getTiempoIntervalosRecords() {
+        return tiempoIntervalosRecords;
+    }
+
+    public void setTiempoIntervalosRecords(Set<TiempoIntervalos> tiempoIntervalosRecords) {
+        this.tiempoIntervalosRecords = tiempoIntervalosRecords;
     }
 }

@@ -1,5 +1,7 @@
 package com.tmModulos.modelo.entity.tmData;
 
+import com.tmModulos.controlador.utils.ProcessorUtils;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -100,10 +102,16 @@ public class TablaMaestraServicios {
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestraServicios")
-    private Set<IntervalosServicio> intervalosServiciossaRecords= new HashSet<IntervalosServicio>(0);
+    private List<IntervalosServicio> intervalosServiciossaRecords= new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tablaMaestraServicios")
+    private List<Intervalos> serviciosRecords = new ArrayList<Intervalos>(0);
 
     @Transient
     private String estadoFormato;
+
+    @Transient
+    private Intervalos intervaloPromedio;
 
 
 
@@ -307,12 +315,11 @@ public class TablaMaestraServicios {
         this.tipologia = tipologia;
     }
 
-
-    public Set<IntervalosServicio> getIntervalosServiciossaRecords() {
+    public List<IntervalosServicio> getIntervalosServiciossaRecords() {
         return intervalosServiciossaRecords;
     }
 
-    public void setIntervalosServiciossaRecords(Set<IntervalosServicio> intervalosServiciossaRecords) {
+    public void setIntervalosServiciossaRecords(List<IntervalosServicio> intervalosServiciossaRecords) {
         this.intervalosServiciossaRecords = intervalosServiciossaRecords;
     }
 
@@ -341,5 +348,26 @@ public class TablaMaestraServicios {
 
     public void setCicloServicio(CicloServicio cicloServicio) {
         this.cicloServicio = cicloServicio;
+    }
+
+    public List<Intervalos> getServiciosRecords() {
+        return serviciosRecords;
+    }
+
+    public void setServiciosRecords(List<Intervalos> serviciosRecords) {
+        this.serviciosRecords = serviciosRecords;
+    }
+
+    public Intervalos getIntervaloPromedio() {
+        for(Intervalos interva:serviciosRecords){
+            if(interva.getTipoCalculo().equals(ProcessorUtils.CALCULO_PROMEDIO)){
+                return interva;
+            }
+        }
+        return intervaloPromedio;
+    }
+
+    public void setIntervaloPromedio(Intervalos intervaloPromedio) {
+        this.intervaloPromedio = intervaloPromedio;
     }
 }

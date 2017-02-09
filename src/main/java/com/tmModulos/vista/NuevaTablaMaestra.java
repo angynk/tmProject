@@ -35,8 +35,6 @@ public class NuevaTablaMaestra {
     private String matrizDistancia;
     private List<MatrizDistancia> matrizDistanciasList;
 
-    private String gisIntervalos;
-    private List<GisIntervalos> gisIntervalosList;
 
     @ManagedProperty("#{MessagesView}")
     private MessagesView messagesView;
@@ -62,7 +60,7 @@ public class NuevaTablaMaestra {
     public void calcularTablaMaestra(){
         if(valid()){
             boolean resultado=tablaMaestraProcessor.calcularTablaMaestra(fechaDeProgramacion,
-                    descripcion,gisCarga,matrizDistancia,gisIntervalos);
+                    descripcion,gisCarga,matrizDistancia,fechaDeVigencia,selectedTipoDia);
             if(resultado){
                 messagesView.info(Messages.MENSAJE_CALCULO_EXITOSO,Messages.ACCION_TABLA_MAESTRA_ALMACENADA);
             }
@@ -77,7 +75,7 @@ public class NuevaTablaMaestra {
 
     public boolean valid(){
         if(descripcion!=null){
-            if(fechaDeProgramacion!=null){
+            if(fechaDeProgramacion!=null && fechaDeVigencia!=null && selectedTipoDia != null){
                     return true;
 
             }
@@ -206,21 +204,5 @@ public class NuevaTablaMaestra {
 
     public void setTipoDia(List<String> tipoDia) {
         this.tipoDia = tipoDia;
-    }
-
-    public String getGisIntervalos() {
-        return gisIntervalos;
-    }
-
-    public void setGisIntervalos(String gisIntervalos) {
-        this.gisIntervalos = gisIntervalos;
-    }
-
-    public List<GisIntervalos> getGisIntervalosList() {
-        return gisIntervalosList;
-    }
-
-    public void setGisIntervalosList(List<GisIntervalos> gisIntervalosList) {
-        this.gisIntervalosList = gisIntervalosList;
     }
 }

@@ -30,7 +30,7 @@ public class TiempoIntervalosDao implements Serializable {
         Serializable save = getSessionFactory().getCurrentSession().save(tiempoIntervalos);
     }
 
-    public List<TiempoIntervalos> getTiempoIntervalosByServicio(List<IntervalosProgramacion> intervalos, ServicioTipoDia id){
+    public List<TiempoIntervalos> getTiempoIntervalosByServicio(List<IntervalosProgramacion> intervalos, ServicioTipoDia id,GisIntervalos gisIntervalos){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TiempoIntervalos.class);
         Disjunction or = Restrictions.disjunction();
         for (IntervalosProgramacion intervalo: intervalos ) {
@@ -38,6 +38,7 @@ public class TiempoIntervalosDao implements Serializable {
         }
         criteria.add(or);
         criteria.add(Restrictions.eq("idServicio",id));
+        criteria.add(Restrictions.eq("gisIntervalos",gisIntervalos));
         return criteria.list();
     }
 

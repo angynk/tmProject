@@ -30,6 +30,8 @@ public class NuevoIntervalosGISView implements Serializable {
     private MessagesView messagesView;
 
 
+
+
     public NuevoIntervalosGISView() {
     }
 
@@ -43,7 +45,7 @@ public class NuevoIntervalosGISView implements Serializable {
 
     public void generar(){
         if(fechaVigencia!=null && descripcion!=null){
-            intervalosProcessor.generarIntervalos(fechaVigencia,descripcion,selectedTipoDia);
+           // intervalosProcessor.generarIntervalos(fechaVigencia,descripcion,selectedTipoDia);
         }
 
     }

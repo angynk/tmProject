@@ -37,6 +37,9 @@ public class TablaMaestra {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMeestra")
     private Set<TablaMaestraServicios> tablaServiciosRecords = new HashSet<TablaMaestraServicios>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestra")
+    private Set<GisIntervalos> gisIntervaloses = new HashSet<GisIntervalos>(0);
+
     @Transient
     private String fechaCreacionFormato;
     @Transient
@@ -125,5 +128,13 @@ public class TablaMaestra {
 
     public void setFechaProgramacionFormato(String fechaProgramacionFormato) {
         this.fechaProgramacionFormato = fechaProgramacionFormato;
+    }
+
+    public Set<GisIntervalos> getGisIntervaloses() {
+        return gisIntervaloses;
+    }
+
+    public void setGisIntervaloses(Set<GisIntervalos> gisIntervaloses) {
+        this.gisIntervaloses = gisIntervaloses;
     }
 }

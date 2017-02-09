@@ -95,8 +95,8 @@ public class HorariosProvisionalServicio {
     }
 
 
-    public List<TiempoIntervalos> getTiempoIntervalosByServicio(List<IntervalosProgramacion> intervalos, ServicioTipoDia id){
-        return tiempoIntervalosDao.getTiempoIntervalosByServicio(intervalos,id);
+    public List<TiempoIntervalos> getTiempoIntervalosByServicio(List<IntervalosProgramacion> intervalos, ServicioTipoDia id,GisIntervalos gisIntervalos){
+        return tiempoIntervalosDao.getTiempoIntervalosByServicio(intervalos,id,gisIntervalos);
     }
 
     @Transactional(readOnly = false)

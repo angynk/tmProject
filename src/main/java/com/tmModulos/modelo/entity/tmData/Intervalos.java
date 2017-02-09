@@ -35,10 +35,10 @@ public class Intervalos {
     private ServicioTipoDia idServicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "gis_intervalos", nullable = false)
-    private GisIntervalos gisIntervalos;
+    @JoinColumn(name = "tabla_maestra", nullable = false)
+    private TablaMaestraServicios tablaMaestraServicios;
 
-    public Intervalos(String tipoCalculo, Double valorInicio, Double valorAM, Double valorValle, Double valorPM, Double valorCierre,ServicioTipoDia idServicio,GisIntervalos gisIntervalos) {
+    public Intervalos(String tipoCalculo, Double valorInicio, Double valorAM, Double valorValle, Double valorPM, Double valorCierre,ServicioTipoDia idServicio,TablaMaestraServicios tablaMaestraServicios) {
         this.tipoCalculo = tipoCalculo;
         this.valorInicio = valorInicio;
         this.valorAM = valorAM;
@@ -46,7 +46,7 @@ public class Intervalos {
         this.valorPM = valorPM;
         this.valorCierre = valorCierre;
         this.idServicio = idServicio;
-        this.gisIntervalos=gisIntervalos;
+        this.tablaMaestraServicios=tablaMaestraServicios;
     }
 
 
@@ -54,12 +54,12 @@ public class Intervalos {
     public Intervalos() {
     }
 
-    public GisIntervalos getGisIntervalos() {
-        return gisIntervalos;
+    public TablaMaestraServicios getTablaMaestraServicios() {
+        return tablaMaestraServicios;
     }
 
-    public void setGisIntervalos(GisIntervalos gisIntervalos) {
-        this.gisIntervalos = gisIntervalos;
+    public void setTablaMaestraServicios(TablaMaestraServicios tablaMaestraServicios) {
+        this.tablaMaestraServicios = tablaMaestraServicios;
     }
 
     public ServicioTipoDia getIdServicio() {

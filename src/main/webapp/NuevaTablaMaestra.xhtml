@@ -28,12 +28,10 @@
                         <p:panelGrid style="border:none" columns="4" >
                             <p:outputLabel value="Descripción:" for="desc" />
                             <p:inputText value="#{tablaMaestra.descripcion}" id="desc"/>
-                            <p:outputLabel for="button" value="Fecha Programación:" />
-                            <p:calendar id="button" value="#{tablaMaestra.fechaDeProgramacion}" showOn="button" />
-                            <p:outputLabel  value="Tipo Día:" />
-                            <h:selectOneMenu value="#{tablaMaestra.selectedTipoDia}" style="width:100%" >-->
-                            <f:selectItems value="#{tablaMaestra.tipoDia}" var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
-                            </h:selectOneMenu>
+                            <p:outputLabel for="button" value="Fecha Programación (DD-MM-AAAA):" />
+                            <p:calendar id="button" value="#{tablaMaestra.fechaDeProgramacion}" showOn="button"
+                                        title="Formato: Dia-Mes-Año"/>
+                            <p:tooltip id="toolTipButton1" for="button" showEvent="focus" hideEvent="blur" />
                         </p:panelGrid>
                         <p:panel  style="border:none" >
                             <p:panelGrid columns="4">
@@ -62,28 +60,17 @@
 
                                 </p:selectOneMenu>
 
-                                <p:outputLabel value="Intervalos GIS:" />
-                                <p:selectOneMenu id="intervalos" value="#{tablaMaestra.gisIntervalos}"  panelStyle="width:180px"
-                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{tablaMaestra.gisIntervalosList}" var="intervalo"
-                                                   itemLabel="#{intervalo.descripcion}" itemValue="#{intervalo.descripcion}" />
-                                    <p:column>
-                                        <h:outputText value="#{t}" />
-                                    </p:column>
-
-                                </p:selectOneMenu>
-
                             </p:panelGrid>
 
-                            <!--<h:panelGrid columns="4" style="margin-bottom:10px;margin-top: 10px" cellpadding="5">-->
-                                <!--<p:outputLabel  value="Para intervalos:" />-->
-                                <!--<p:outputLabel for="buttonV" value="Fecha Vigencia:" />-->
-                                <!--<p:calendar id="buttonV" value="#{nuevoIntervalos.fechaVigencia}" showOn="button" />-->
-                                <!--<h:outputText value="Tipo Dia:" style="color:black"/>-->
-                                <!--<h:selectOneMenu value="#{nuevoIntervalos.selectedTipoDia}" style="width:100%" >-->
-                                    <!--<f:selectItems value="#{nuevoIntervalos.tipoDia}" var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />-->
-                                <!--</h:selectOneMenu>-->
-                            <!--</h:panelGrid>-->
+                            <h:panelGrid columns="5" style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
+                                <p:outputLabel for="buttonV" value="Fecha Intervalos (DD-MM-AAAA):" />
+                                <p:calendar id="buttonV" value="#{tablaMaestra.fechaDeVigencia}" showOn="button" title="Formato: Dia-Mes-Año"/>
+                                <p:tooltip id="toolTipFocus" for="buttonV" showEvent="focus" hideEvent="blur" />
+                                <h:outputText value="Tipo Dia:" style="color:black"/>
+                                <h:selectOneMenu value="#{tablaMaestra.selectedTipoDia}" style="width:100%" >
+                                    <f:selectItems value="#{tablaMaestra.tipoDia}" var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
+                                </h:selectOneMenu>
+                            </h:panelGrid>
 
                             <p:commandButton value="Calcular"  ajax="false"
                                              icon="ui-icon ui-icon-calculator" id="calcular" action="#{tablaMaestra.calcularTablaMaestra}"

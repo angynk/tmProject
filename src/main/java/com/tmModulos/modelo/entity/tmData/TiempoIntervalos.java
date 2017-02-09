@@ -21,8 +21,6 @@ public class TiempoIntervalos {
     @Column(name = "instante")
     private Integer instante;
 
-    @Column(name = "cuadro")
-    private String cuadro;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -34,15 +32,19 @@ public class TiempoIntervalos {
     @JoinColumn(name = "tiempo_programacion", nullable = false)
     private IntervalosProgramacion intervalosProgramacion;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "gis_intervalos", nullable = false)
+    private GisIntervalos gisIntervalos;
+
     public TiempoIntervalos() {
     }
 
-    public TiempoIntervalos(Time valor, ServicioTipoDia idServicio, IntervalosProgramacion intervalosProgramacion,int instante,String cuadro) {
+    public TiempoIntervalos(Time valor, ServicioTipoDia idServicio, IntervalosProgramacion intervalosProgramacion,int instante,GisIntervalos gisIntervalos) {
         this.valor = valor;
         this.idServicio = idServicio;
         this.intervalosProgramacion = intervalosProgramacion;
         this.instante = instante;
-        this.cuadro = cuadro;
+        this.gisIntervalos = gisIntervalos;
     }
 
     public ServicioTipoDia getIdServicio() {
@@ -87,11 +89,11 @@ public class TiempoIntervalos {
         this.instante = instante;
     }
 
-    public String getCuadro() {
-        return cuadro;
+    public GisIntervalos getGisIntervalos() {
+        return gisIntervalos;
     }
 
-    public void setCuadro(String cuadro) {
-        this.cuadro = cuadro;
+    public void setGisIntervalos(GisIntervalos gisIntervalos) {
+        this.gisIntervalos = gisIntervalos;
     }
 }
