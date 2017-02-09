@@ -39,9 +39,9 @@
                         </p:panelGrid>
                         <p:panel visible="#{matrizDis.archivoVisible}" style="border:none">
                             <p:panelGrid columns="2">
-                            <p:outputLabel for="button" value="Fecha Programación:" />
+                            <p:outputLabel for="button" value="Fecha Programación (DD-MM-AAAA):" />
                             <p:calendar id="button" value="#{matrizDis.fechaDeProgramacion}" showOn="button" />
-                            <p:outputLabel value="Archivo Matriz de Distancias:" />
+                            <p:outputLabel value="Archivo Matriz de Distancias (DD-MM-AAAA):" />
                             <p:fileUpload value="#{matrizDis.matrizDistancias}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
 
                                 <p:commandButton value="Guardar" action="#{matrizDis.cargarArchivo}" ajax="false"
@@ -52,7 +52,7 @@
                         </p:panel>
                         <p:panel visible="#{matrizDis.automaticoVisible}" style="border:none" >
                             <p:panelGrid columns="2">
-                                <p:outputLabel for="buttonV" value="Fecha Vigencia:" />
+                                <p:outputLabel for="buttonV" value="Fecha Vigencia (DD-MM-AAAA):" />
                                 <p:calendar id="buttonV" value="#{matrizDis.fechaDeVigencia}" showOn="button" />
                                 <p:commandButton value="Calcular" action="#{matrizDis.calcularMatrizDistancias}" ajax="false"
                                                  icon="ui-icon ui-icon-calculator" id="calcular" visible="#{matrizDis.automaticoVisible}"

@@ -12,7 +12,7 @@
     <ui:composition template="/template/common/commonLayout.xhtml">
 
         <ui:define name="content">
-            <h:form >
+            <h:form id="form">
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 <p:panel id="basic" header="Buscar Tabla Maestra"  style="margin-bottom:20px">
                     <h:panelGrid columns="2" style="margin-bottom:10px;margin-top: 10px" cellpadding="10">
@@ -27,12 +27,12 @@
                             <f:selectItem itemLabel="Fecha de creación" itemValue="fechaCreacion" />
                             <f:selectItem itemLabel="Fecha de programación" itemValue="fechaAplicacion" />
                         </p:selectOneRadio>
-                        <p:outputLabel for="button" value="Fecha Inicial:" />
+                        <p:outputLabel for="button" value="Fecha Inicial (DD-MM-AAAA):" />
                         <p:panel  style="border:none">
                             <p:calendar id="button" value="#{busquedaTabla.fechaInicial}" showOn="button" />
                         </p:panel>
 
-                        <p:outputLabel for="buttonF" value="Fecha Final:" />
+                        <p:outputLabel for="buttonF" value="Fecha Final (DD-MM-AAAA):" />
                         <p:panel visible="#{busquedaTabla.fechaFinalVisible}" style="border:none">
                             <p:calendar id="buttonF" value="#{busquedaTabla.fechaFinal}" showOn="button" />
                         </p:panel>
@@ -63,11 +63,35 @@
                             <h:outputText value="#{tabla.fechaProgramacionFormato}" />
                         </p:column>
                         <p:column style="width:100px;text-align: center">
-                            <p:commandButton action="#{busquedaTabla.busquedaTablaMaestra}" icon="ui-icon-search" title="View" >
+                            <p:commandButton  update=":form:nuevoDialog" value="Buscar"
+                                             oncomplete="PF('nuevoDialog').show()" icon="ui-icon-plus" title="View" >
                                 <f:setPropertyActionListener value="#{tabla}" target="#{busquedaTabla.selectedTabla}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
+
+                    <p:dialog header="Opciones visualización tabla maestra" widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="nuevoDialog" style="text-align:center;">
+                            <p:panelGrid  columns="5" columnClasses="label,value">
+                                <h:outputText value="Tipo Ciclo:" />
+                                <h:selectOneMenu value="#{busquedaTabla.tipoCiclo}" style="width:100%" >
+                                    <f:selectItem itemLabel="OPTIMO" itemValue="OPTIMO" />
+                                    <f:selectItem itemLabel="MINIMO" itemValue="MINIMO" />
+                                    <f:selectItem itemLabel="MAXIMO" itemValue="MAXIMO" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Tipo Intervalo:" />
+                                <h:selectOneMenu value="#{busquedaTabla.tipoIntervalo}" style="width:100%" >
+                                    <f:selectItem itemLabel="PROMEDIO" itemValue="Promedio" />
+                                    <f:selectItem itemLabel="MODA" itemValue="Moda" />
+                                    <f:selectItem itemLabel="MINIMO" itemValue="Minimo" />
+                                    <f:selectItem itemLabel="MAXIMO" itemValue="Maximo" />
+                                </h:selectOneMenu>
+                                <p:commandButton value="Visualizar" action="#{busquedaTabla.busquedaTablaMaestra}" ajax="false"
+                                                 icon="ui-icon ui-icon-disk" id="nuevo"
+                                                 async="true" />
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
                 </p:panel>
                 <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                     <p:panelGrid id="display" columns="2" columnClasses="label,value">
@@ -77,6 +101,8 @@
                         </h:outputText>
                     </p:panelGrid>
                 </p:dialog>
+
+
             </h:form>
         </ui:define>
 

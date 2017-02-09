@@ -30,12 +30,12 @@
                             <f:selectItem itemLabel="Fecha de programacion" itemValue="fechaProgramacion" />
                             <f:selectItem itemLabel="Fecha de vigencia" itemValue="fechaVigencia" />
                         </p:selectOneRadio>
-                        <p:outputLabel for="button" value="Fecha Inicial:" />
+                        <p:outputLabel for="button" value="Fecha Inicial (DD-MM-AAAA):" />
                         <p:panel  style="border:none">
                             <p:calendar id="button" value="#{busquedaInt.fechaInicial}" showOn="button" />
                         </p:panel>
 
-                        <p:outputLabel for="buttonF" value="Fecha Final:" />
+                        <p:outputLabel for="buttonF" value="Fecha Final (DD-MM-AAAA):" />
                         <p:panel visible="#{busquedaInt.fechaFinalVisible}" style="border:none">
                             <p:calendar id="buttonF" value="#{busquedaInt.fechaFinal}" showOn="button" />
                         </p:panel>

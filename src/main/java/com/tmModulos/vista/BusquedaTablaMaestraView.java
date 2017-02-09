@@ -2,6 +2,7 @@ package com.tmModulos.vista;
 
 import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.TablaMaestraService;
+import com.tmModulos.controlador.utils.ProcessorUtils;
 import com.tmModulos.modelo.entity.tmData.DistanciaNodos;
 import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
 import com.tmModulos.modelo.entity.tmData.TablaMaestra;
@@ -31,6 +32,10 @@ public class BusquedaTablaMaestraView {
     private String tipoFecha;
     private boolean visibleRecords;
     private boolean fechaFinalVisible;
+
+    private String tipoCiclo;
+    private String tipoIntervalo;
+
 
 
     private List<TablaMaestra> tablaMaestraRecords;
@@ -120,8 +125,17 @@ public class BusquedaTablaMaestraView {
     }
 
     public void busquedaTablaMaestra(){
+
+        List<TablaMaestraServicios> auxiliar =new ArrayList<>();
         visibleRecords=true;
         tServiciosRecords = tablaMaestraService.getServiciosByTabla(selectedTabla);
+
+        for(TablaMaestraServicios tServicio:tServiciosRecords){
+            tServicio.setTipoIntervalo(tipoIntervalo);
+            auxiliar.add(tServicio);
+        }
+
+        tServiciosRecords=auxiliar;
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
@@ -256,5 +270,21 @@ public class BusquedaTablaMaestraView {
 
     public void setNuevaTabla(TablaMaestra nuevaTabla) {
         this.nuevaTabla = nuevaTabla;
+    }
+
+    public String getTipoCiclo() {
+        return tipoCiclo;
+    }
+
+    public void setTipoCiclo(String tipoCiclo) {
+        this.tipoCiclo = tipoCiclo;
+    }
+
+    public String getTipoIntervalo() {
+        return tipoIntervalo;
+    }
+
+    public void setTipoIntervalo(String tipoIntervalo) {
+        this.tipoIntervalo = tipoIntervalo;
     }
 }

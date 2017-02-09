@@ -212,7 +212,7 @@
 
                             <p:column filterBy="#{tservicio.intervaloPromedio.valorAM }" headerText="I-Pico AM" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.valorAM}"
-                                      style="width: 120px">
+                                      style="width: 120px" >
                                 <h:outputText value="#{tservicio.intervaloPromedio.valorAM}" style="width: 122px"/>
                             </p:column>
 
@@ -232,6 +232,36 @@
                                       filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.valorCierre}"
                                       style="width: 120px">
                                 <h:outputText value="#{tservicio.intervaloPromedio.valorCierre}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.intervaloPromedio.busesInicio }" headerText="BH-Inicio" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.busesInicio}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.intervaloPromedio.busesInicio}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.intervaloPromedio.busesAM }" headerText="BH-Pico AM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.busesAM}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.intervaloPromedio.busesAM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.intervaloPromedio.busesValle }" headerText="BH-Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.busesValle}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.intervaloPromedio.busesValle}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.intervaloPromedio.busesPM }" headerText="BH-Pico PM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.busesPM}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.intervaloPromedio.busesPM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.intervaloPromedio.busesCierre }" headerText="BH-Cierre" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.busesCierre}"
+                                      style="width: 120px">
+                                <h:outputText value="#{tservicio.intervaloPromedio.busesCierre}" style="width: 122px"/>
                             </p:column>
 
 

@@ -5,6 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -39,6 +40,7 @@ public class TiempoIntervalosDao implements Serializable {
         criteria.add(or);
         criteria.add(Restrictions.eq("idServicio",id));
         criteria.add(Restrictions.eq("gisIntervalos",gisIntervalos));
+        criteria.addOrder(Order.asc("instante"));
         return criteria.list();
     }
 

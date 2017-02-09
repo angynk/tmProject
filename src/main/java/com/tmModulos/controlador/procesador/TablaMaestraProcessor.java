@@ -125,7 +125,8 @@ public class TablaMaestraProcessor {
                 tablaMaestraService.addTServicios(tablaMaestraServicios);
 
                 //Calcular Intervalos de tiempo
-                intervalosProcessor.calcularValorIntervaloPorFranja(tablaMaestraServicios,servicio,gisIntervalos);
+                List<Intervalos> intervaloses = intervalosProcessor.calcularValorIntervaloPorFranja(tablaMaestraServicios, servicio, gisIntervalos);
+              //  tablaMaestraServicios.setServiciosRecords(intervaloses);
 
 
 

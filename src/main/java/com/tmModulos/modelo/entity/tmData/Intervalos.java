@@ -30,6 +30,21 @@ public class Intervalos {
     @Column(name = "valor_cierre")
     private Double valorCierre;
 
+    @Column(name = "buses_inicio")
+    private int busesInicio;
+
+    @Column(name = "buses_am")
+    private int busesAM;
+
+    @Column(name = "buses_valle")
+    private int busesValle;
+
+    @Column(name = "buses_pm")
+    private int busesPM;
+
+    @Column(name = "buses_cierre")
+    private int busesCierre;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "identificador", nullable = false)
     private ServicioTipoDia idServicio;
@@ -124,5 +139,45 @@ public class Intervalos {
 
     public void setValorCierre(Double valorCierre) {
         this.valorCierre = valorCierre;
+    }
+
+    public int getBusesInicio() {
+        return busesInicio;
+    }
+
+    public void setBusesInicio(int busesInicio) {
+        this.busesInicio = busesInicio;
+    }
+
+    public int getBusesAM() {
+        return busesAM;
+    }
+
+    public void setBusesAM(int busesAM) {
+        this.busesAM = busesAM;
+    }
+
+    public int getBusesValle() {
+        return busesValle;
+    }
+
+    public void setBusesValle(int busesValle) {
+        this.busesValle = busesValle;
+    }
+
+    public int getBusesPM() {
+        return busesPM;
+    }
+
+    public void setBusesPM(int busesPM) {
+        this.busesPM = busesPM;
+    }
+
+    public int getBusesCierre() {
+        return busesCierre;
+    }
+
+    public void setBusesCierre(int busesCierre) {
+        this.busesCierre = busesCierre;
     }
 }

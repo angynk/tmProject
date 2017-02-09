@@ -51,6 +51,7 @@ public class TablaMaestraServiciosDao {
     public List<TablaMaestraServicios> getServiciosByTabla(TablaMaestra tablaMaestra){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TablaMaestraServicios.class);
         criteria.add(Restrictions.eq("tablaMeestra", tablaMaestra));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria.list();
     }
 

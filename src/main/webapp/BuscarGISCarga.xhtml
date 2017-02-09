@@ -28,12 +28,12 @@
                         <f:selectItem itemLabel="Fecha de programacion" itemValue="fechaProgramacion" />
                         <f:selectItem itemLabel="Fecha de vigencia" itemValue="fechaVigencia" />
                     </p:selectOneRadio>
-                    <p:outputLabel for="button" value="Fecha Inicial:" />
+                    <p:outputLabel for="button" value="Fecha Inicial (DD-MM-AAAA):" />
                     <p:panel  style="border:none">
                     <p:calendar id="button" value="#{busquedaGis.fechaInicial}" showOn="button" />
                     </p:panel>
 
-                    <p:outputLabel for="buttonF" value="Fecha Final:" />
+                    <p:outputLabel for="buttonF" value="Fecha Final (DD-MM-AAAA):" />
                     <p:panel visible="#{busquedaGis.fechaFinalVisible}" style="border:none">
                         <p:calendar id="buttonF" value="#{busquedaGis.fechaFinal}" showOn="button" />
                     </p:panel>

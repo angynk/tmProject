@@ -113,7 +113,8 @@ public class TablaMaestraServicios {
     @Transient
     private Intervalos intervaloPromedio;
 
-
+    @Transient
+    private String tipoIntervalo;
 
     public long getId() {
         return id;
@@ -360,7 +361,7 @@ public class TablaMaestraServicios {
 
     public Intervalos getIntervaloPromedio() {
         for(Intervalos interva:serviciosRecords){
-            if(interva.getTipoCalculo().equals(ProcessorUtils.CALCULO_PROMEDIO)){
+            if(interva.getTipoCalculo().equals(tipoIntervalo)){
                 return interva;
             }
         }
@@ -369,5 +370,13 @@ public class TablaMaestraServicios {
 
     public void setIntervaloPromedio(Intervalos intervaloPromedio) {
         this.intervaloPromedio = intervaloPromedio;
+    }
+
+    public String getTipoIntervalo() {
+        return tipoIntervalo;
+    }
+
+    public void setTipoIntervalo(String tipoIntervalo) {
+        this.tipoIntervalo = tipoIntervalo;
     }
 }

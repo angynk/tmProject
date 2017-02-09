@@ -19,10 +19,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Service("IntervalosProcessor")
@@ -122,7 +119,7 @@ public class IntervalosProcessor {
 
     }
 
-    public void calcularValorIntervaloPorFranja(TablaMaestraServicios tablaMaestraServicios,ServicioTipoDia servicio,GisIntervalos gisIntervalos) {
+    public List<Intervalos> calcularValorIntervaloPorFranja(TablaMaestraServicios tablaMaestraServicios,ServicioTipoDia servicio,GisIntervalos gisIntervalos) {
 
                List<TiempoIntervalos> tiemposFranjaInciio = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaInicio,servicio,gisIntervalos);
                List<TiempoIntervalos> tiemposFranjaAM = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaPicoAM,servicio,gisIntervalos);
@@ -130,21 +127,144 @@ public class IntervalosProcessor {
                List<TiempoIntervalos> tiemposFranjaPM = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaPicoPM,servicio,gisIntervalos);
                List<TiempoIntervalos> tiemposFranjaCierre = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaCierre,servicio,gisIntervalos);
 
-               calcularPromedio(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios);
+        List<Intervalos> intervalosLista = new ArrayList<>();
+           intervalosLista.add( calcularPromedio(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
+       intervalosLista.add( calcularModa(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
+        intervalosLista.add(calcularMinimo(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
+       intervalosLista.add( calcularMaximo(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
 
+return intervalosLista;
+    }
 
+    private Intervalos calcularMaximo(ServicioTipoDia servicio, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM, TablaMaestraServicios tablaMaestraServicios) {
+        double valorInicio = maximo(tiemposFranjaInciio);
+        double valorPicoAm = maximo(tiemposFranjaAM);
+        double valorValle = maximo(tiemposFranjaValle);
+        double valorPicoPM = maximo(tiemposFranjaPM);
+        double valorCierre = maximo(tiemposFranjaCierre);
+        int busesInicio= calcularBuses(valorInicio);
+        int busesAM= calcularBuses(valorPicoAm);
+        int busesValle= calcularBuses(valorValle);
+        int busesPm= calcularBuses(valorPicoPM);
+        int busesCierre= calcularBuses(valorCierre);
+        Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_MAXIMO,valorInicio,valorPicoAm,valorValle,valorPicoPM,valorCierre,servicio,tablaMaestraServicios);
+        intervalos.setBusesInicio(busesInicio);
+        intervalos.setBusesAM(busesAM);
+        intervalos.setBusesValle(busesValle);
+        intervalos.setBusesPM(busesPm);
+        intervalos.setBusesCierre(busesCierre);
+        horariosProvisionalServicio.addIntervalos(intervalos);
+        return intervalos;
 
     }
 
-    private void calcularPromedio(ServicioTipoDia id, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM,TablaMaestraServicios tservicios) {
+    private double maximo(List<TiempoIntervalos> tiemposFranjaInciio) {
+        if(tiemposFranjaInciio.size()>0){
+            return transformarAFormatoTiempo(tiemposFranjaInciio.get(tiemposFranjaInciio.size()-1).getInstante());
+        }
+        return 0;
+    }
+
+    private Intervalos calcularMinimo(ServicioTipoDia servicio, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM, TablaMaestraServicios tablaMaestraServicios) {
+        double valorInicio = minimo(tiemposFranjaInciio);
+        double valorPicoAm = minimo(tiemposFranjaAM);
+        double valorValle = minimo(tiemposFranjaValle);
+        double valorPicoPM = minimo(tiemposFranjaPM);
+        double valorCierre = minimo(tiemposFranjaCierre);
+        int busesInicio= calcularBuses(valorInicio);
+        int busesAM= calcularBuses(valorPicoAm);
+        int busesValle= calcularBuses(valorValle);
+        int busesPm= calcularBuses(valorPicoPM);
+        int busesCierre= calcularBuses(valorCierre);
+        Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_MINIMO,valorInicio,valorPicoAm,valorValle,valorPicoPM,valorCierre,servicio,tablaMaestraServicios);
+        intervalos.setBusesInicio(busesInicio);
+        intervalos.setBusesAM(busesAM);
+        intervalos.setBusesValle(busesValle);
+        intervalos.setBusesPM(busesPm);
+        intervalos.setBusesCierre(busesCierre);
+        horariosProvisionalServicio.addIntervalos(intervalos);
+        return intervalos;
+
+    }
+
+    private double minimo(List<TiempoIntervalos> tiemposFranjaInciio) {
+        if(tiemposFranjaInciio.size()>0){
+            return transformarAFormatoTiempo(tiemposFranjaInciio.get(0).getInstante());
+        }
+        return 0;
+    }
+
+    private Intervalos calcularModa(ServicioTipoDia servicio, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM, TablaMaestraServicios tablaMaestraServicios) {
+        double valorInicio = moda(tiemposFranjaInciio);
+        double valorPicoAm = moda(tiemposFranjaAM);
+        double valorValle = moda(tiemposFranjaValle);
+        double valorPicoPM = moda(tiemposFranjaPM);
+        double valorCierre = moda(tiemposFranjaCierre);
+        int busesInicio= calcularBuses(valorInicio);
+        int busesAM= calcularBuses(valorPicoAm);
+        int busesValle= calcularBuses(valorValle);
+        int busesPm= calcularBuses(valorPicoPM);
+        int busesCierre= calcularBuses(valorCierre);
+        Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_MODA,valorInicio,valorPicoAm,valorValle,valorPicoPM,valorCierre,servicio,tablaMaestraServicios);
+        intervalos.setBusesInicio(busesInicio);
+        intervalos.setBusesAM(busesAM);
+        intervalos.setBusesValle(busesValle);
+        intervalos.setBusesPM(busesPm);
+        intervalos.setBusesCierre(busesCierre);
+        horariosProvisionalServicio.addIntervalos(intervalos);
+        return intervalos;
+    }
+
+    private double moda(List<TiempoIntervalos> tiemposFranjaInciio) {
+        Map<Integer,Integer> servicios = new HashMap<>();
+
+        for (TiempoIntervalos tiempoInt:tiemposFranjaInciio ) {
+            if(servicios.containsKey(tiempoInt.getInstante())){
+                servicios.replace(tiempoInt.getInstante(),servicios.get(tiempoInt.getInstante())+1);
+            }else{
+                servicios.put(tiempoInt.getInstante(),1);
+            }
+        }
+        int repetidoMasVeces=0;
+        int instante=0;
+        for (Map.Entry<Integer, Integer> entry : servicios.entrySet())
+        {
+            if(repetidoMasVeces< entry.getValue()){
+                repetidoMasVeces = entry.getValue();
+                instante=entry.getKey();
+            }
+        }
+
+        return transformarAFormatoTiempo(instante);
+    }
+
+
+    private Intervalos calcularPromedio(ServicioTipoDia id, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM,TablaMaestraServicios tservicios) {
         double promedioInicio = promedio(tiemposFranjaInciio);
         double promedioPicoAm = promedio(tiemposFranjaAM);
         double promedioValle = promedio(tiemposFranjaValle);
         double promedioPicoPM = promedio(tiemposFranjaPM);
         double promedioCierre = promedio(tiemposFranjaCierre);
+        int busesInicio= calcularBuses(promedioInicio);
+        int busesAM= calcularBuses(promedioPicoAm);
+        int busesValle= calcularBuses(promedioValle);
+        int busesPm= calcularBuses(promedioPicoPM);
+        int busesCierre= calcularBuses(promedioCierre);
         Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_PROMEDIO,promedioInicio,promedioPicoAm,promedioValle,promedioPicoPM,promedioCierre,id,tservicios);
-        horariosProvisionalServicio.addIntervalos(intervalos);
+        intervalos.setBusesInicio(busesInicio);
+        intervalos.setBusesAM(busesAM);
+        intervalos.setBusesValle(busesValle);
+        intervalos.setBusesPM(busesPm);
+        intervalos.setBusesCierre(busesCierre);
+       horariosProvisionalServicio.addIntervalos(intervalos);
+        return intervalos;
+    }
 
+    private int calcularBuses(double promedioInicio) {
+        if(promedioInicio!=0){
+            return (int) (60/promedioInicio);
+        }
+        return 0;
     }
 
     private double promedio(List<TiempoIntervalos> tiempos) {
