@@ -47,7 +47,7 @@
 
 
                 </p:panel>
-                <p:panel visible="#{busquedaTabla.visibleRecords}"  >
+                <p:panel  >
                     <p:dataTable id="basicDT" var="tabla" value="#{busquedaTabla.tablaMaestraRecords}"
                                  emptyMessage="No se encontraron registros relacionados a la busqueda">
                         <f:facet name="header">
@@ -63,7 +63,7 @@
                             <h:outputText value="#{tabla.fechaProgramacionFormato}" />
                         </p:column>
                         <p:column style="width:100px;text-align: center">
-                            <p:commandButton  update=":form:nuevoDialog" value="Buscar"
+                            <p:commandButton  update=":form:nuevoDialog" value="Ver"
                                              oncomplete="PF('nuevoDialog').show()" icon="ui-icon-plus" title="View" >
                                 <f:setPropertyActionListener value="#{tabla}" target="#{busquedaTabla.selectedTabla}" />
                             </p:commandButton>

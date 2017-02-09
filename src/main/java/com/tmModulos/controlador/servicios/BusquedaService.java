@@ -31,6 +31,9 @@ public class BusquedaService {
         return arcoTiempos;
     }
 
+    public List<GisCarga> getGisCargaAll() {
+        return gisCargaService.getGisCargaAll();
+    }
     public GisCargaService getGisCargaService() {
         return gisCargaService;
     }

@@ -52,7 +52,7 @@ public class BuscarGisCargaView implements Serializable {
     public void init() {
         busqueda = "1";
         fechaFinalVisible=false;
-        gisCargaRecords = new ArrayList<>();
+        gisCargaRecords = busquedaService.getGisCargaAll();
         selectedGisCarga = new ArrayList<>();
         visibleRecords = false;
     }

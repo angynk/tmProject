@@ -51,7 +51,7 @@ public class BusquedaMatrizDistanciaView implements Serializable {
     public void init() {
         busqueda = "1";
         fechaFinalVisible=false;
-        MatrizDistanciaRecords = new ArrayList<>();
+        MatrizDistanciaRecords = matrizDistanciaService.getMatrizDistanciaAll();
         selectedMatrizDistancia = new ArrayList<>();
         visibleRecords = false;
     }
