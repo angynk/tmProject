@@ -61,7 +61,7 @@ public class BuscarGisIntervalosView {
     public void init() {
         busqueda = "1";
         fechaFinalVisible=false;
-        gisIntervalosRecords = new ArrayList<>();
+        gisIntervalosRecords = busquedaService.getGisIntervalosAll();
         selectedGisIntervalos = new ArrayList<>();
         visibleRecords = false;
     }

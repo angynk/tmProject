@@ -14,7 +14,7 @@
         <ui:define name="content">
             <h:form id="form">
                 <p:growl id="msgs" showDetail="true"/>
-                <p:panel id="basic" header="Servicios" style="margin-bottom:20px" visible="true">
+                <p:panel id="basic" header="Tabla Maestra" style="margin-bottom:20px" visible="true">
                     <div style="margin-top:20px">
                         <p:panelGrid columns="4">
                             <p:commandButton actionListener="#{busquedaTabla.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
@@ -27,18 +27,24 @@
                                 <p:dataExporter type="xls"
                                                 target="tservicio" fileName="Servicios"  />
                             </h:commandLink>
+
                         </p:panelGrid>
-                        <div style="height: 10px"></div>
+                        <div class="tablaMTexto">
+                            <h:outputText value="#{busquedaTabla.textoGeneracionMatrix}"/>
+                        </div>
+                    <div style="height: 15px"></div>
                         <p:dataTable id="tservicio" var="tservicio" value="#{busquedaTabla.tServiciosRecords}" widgetVar="MatrizTable"
                                      emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{busquedaTabla.filteredTServiciosRecords}"
                                      scrollable="true" scrollWidth="100%" scrollHeight="510"
+                                     rowKey="#{tservicio.id}"
+                                     selection="#{busquedaTabla.serviciosSelected}" selectionMode="single"
                         >
 
-                            <p:column style="width:45px;text-align: center">
-                                <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
-                                    <f:setPropertyActionListener value="#{ser}" target="#{busquedaTabla.serviciosSelected}" />
-                                </p:commandButton>
-                            </p:column>
+                            <!--<p:column style="width:45px;text-align: center">-->
+                                <!--<p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">-->
+                                    <!--<f:setPropertyActionListener value="#{ser}" target="#{busquedaTabla.serviciosSelected}" />-->
+                                <!--</p:commandButton>-->
+                            <!--</p:column>-->
 
                             <p:column filterBy="#{tservicio.identificador}" headerText="Id"  filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.identificador}"
@@ -126,15 +132,21 @@
                                 <h:outputText value="#{tservicio.idInicio}" style="width: 147px"/>
                             </p:column>
 
+                            <p:column filterBy="#{tservicio.nombreInicio}" headerText="Punto Inicio" filterStyle="width: 110px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.nombreInicio}"
+                                      style="width: 145px">
+                                <h:outputText value="#{tservicio.nombreInicio}" style="width: 147px"/>
+                            </p:column>
+
                             <p:column filterBy="#{tservicio.zonaTInicio}" headerText="Zona T Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaTInicio}"
-                                      style="width: 125px">
+                                      style="width: 130px">
                                 <h:outputText value="#{tservicio.zonaTInicio}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaPInicio}" headerText="Zona P Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaPInicio}"
-                                      style="width: 125px">
+                                      style="width: 130px">
                                 <h:outputText value="#{tservicio.zonaPInicio}" style="width: 127px"/>
                             </p:column>
 
@@ -144,15 +156,21 @@
                                 <h:outputText value="#{tservicio.idFin}" style="width: 132px"/>
                             </p:column>
 
+                            <p:column filterBy="#{tservicio.nombreIFin}" headerText="Punto Fin" filterStyle="width: 110px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.nombreIFin}"
+                                      style="width: 145px">
+                                <h:outputText value="#{tservicio.nombreIFin}" style="width: 147px"/>
+                            </p:column>
+
                             <p:column filterBy="#{tservicio.zonaTFin}" headerText="Zona T Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaTFin}"
-                                      style="width: 125px">
+                                      style="width: 130px">
                                 <h:outputText value="#{tservicio.zonaTFin}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaPFin}" headerText="Zona P Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaPFin}"
-                                      style="width: 125px">
+                                      style="width: 130px">
                                 <h:outputText value="#{tservicio.zonaPFin}" style="width: 127px"/>
                             </p:column>
 
@@ -176,32 +194,92 @@
 
                             <p:column filterBy="#{tservicio.cicloServicio.optimoInicio}" headerText="C-Inicio" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoInicio}"
-                                      style="width: 120px">
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
                                 <h:outputText value="#{tservicio.cicloServicio.optimoInicio}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.cicloServicio.optimoAM}" headerText="C-Pico AM" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoAM}"
-                                      style="width: 120px">
-                                <h:outputText value="#{tservicio.cicloServicio.optimoAM}" style="width: 122px"/>
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
+                                <h:outputText value="#{tservicio.cicloServicio.optimoAM}" style="width: 129px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.cicloServicio.optimoValle}" headerText="C-Valle" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoValle}"
-                                      style="width: 120px">
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
                                 <h:outputText value="#{tservicio.cicloServicio.optimoValle}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.cicloServicio.optimoPM}" headerText="C-Pico PM" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoPM}"
-                                      style="width: 120px">
-                                <h:outputText value="#{tservicio.cicloServicio.optimoPM}" style="width: 122px"/>
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
+                                <h:outputText value="#{tservicio.cicloServicio.optimoPM}" style="width: 129px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.cicloServicio.optimoCierre}" headerText="C-Cierre" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.optimoCierre}"
-                                      style="width: 120px">
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
                                 <h:outputText value="#{tservicio.cicloServicio.optimoCierre}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.minimoInicio}" headerText="C-Inicio" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.minimoInicio}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMinimos}">
+                                <h:outputText value="#{tservicio.cicloServicio.minimoInicio}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.minimoAM}" headerText="C-Pico AM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.minimoAM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMinimos}">
+                                <h:outputText value="#{tservicio.cicloServicio.minimoAM}" style="width: 129px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.minimoValle}" headerText="C-Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.minimoValle}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMinimos}">
+                                <h:outputText value="#{tservicio.cicloServicio.minimoValle}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.minimoPM}" headerText="C-Pico PM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.minimoPM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMinimos}">
+                                <h:outputText value="#{tservicio.cicloServicio.minimoPM}" style="width: 129px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.minimoCierre}" headerText="C-Cierre" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.minimoCierre}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMinimos}">
+                                <h:outputText value="#{tservicio.cicloServicio.minimoCierre}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.maximoInicio}" headerText="C-Inicio" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.maximoInicio}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.cicloServicio.maximoInicio}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.maximoAM}" headerText="C-Pico AM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.maximoAM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.cicloServicio.maximoAM}" style="width: 129px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.maximoValle}" headerText="C-Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.maximoValle}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.cicloServicio.maximoValle}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.maximoPM}" headerText="C-Pico PM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.maximoPM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.cicloServicio.maximoPM}" style="width: 129px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.cicloServicio.maximoCierre}" headerText="C-Cierre" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.cicloServicio.maximoCierre}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.cicloServicio.maximoCierre}" style="width: 122px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.intervaloPromedio.valorInicio }" headerText="I-Inicio" filterStyle="width: 100px;"
@@ -243,7 +321,7 @@
                             <p:column filterBy="#{tservicio.intervaloPromedio.busesAM }" headerText="BH-Pico AM" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.busesAM}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.intervaloPromedio.busesAM}" style="width: 122px"/>
+                                <h:outputText value="#{tservicio.intervaloPromedio.busesAM}" style="width: 129px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.intervaloPromedio.busesValle }" headerText="BH-Valle" filterStyle="width: 100px;"
@@ -255,7 +333,7 @@
                             <p:column filterBy="#{tservicio.intervaloPromedio.busesPM }" headerText="BH-Pico PM" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.busesPM}"
                                       style="width: 120px">
-                                <h:outputText value="#{tservicio.intervaloPromedio.busesPM}" style="width: 122px"/>
+                                <h:outputText value="#{tservicio.intervaloPromedio.busesPM}" style="width: 129px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.intervaloPromedio.busesCierre }" headerText="BH-Cierre" filterStyle="width: 100px;"

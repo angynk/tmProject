@@ -32,11 +32,13 @@ public class BusquedaTablaMaestraView {
     private String tipoFecha;
     private boolean visibleRecords;
     private boolean fechaFinalVisible;
+    private boolean visibleOptimos;
+    private boolean visibleMinimos;
+    private boolean visibleMaximos;
 
     private String tipoCiclo;
     private String tipoIntervalo;
-
-
+    private String textoGeneracionMatrix;
 
     private List<TablaMaestra> tablaMaestraRecords;
     private TablaMaestra selectedTabla;
@@ -88,6 +90,7 @@ public class BusquedaTablaMaestraView {
         visibleRecords = false;
         fechaFinal = null;
         fechaInicial = null;
+        textoGeneracionMatrix="";
     }
 
     public void buscar(){
@@ -135,7 +138,22 @@ public class BusquedaTablaMaestraView {
             auxiliar.add(tServicio);
         }
 
+        if(tipoCiclo.equals("Optimo")){
+            visibleOptimos=true;
+            visibleMaximos=false;
+            visibleMinimos=false;
+        }else if(tipoCiclo.equals("Minimo")){
+            visibleOptimos=false;
+            visibleMaximos=false;
+            visibleMinimos=true;
+        }else{
+            visibleOptimos=false;
+            visibleMaximos=true;
+            visibleMinimos=false;
+        }
+
         tServiciosRecords=auxiliar;
+        textoGeneracionMatrix="Tabla Maestra generada tipo ciclo: "+tipoCiclo+" y tipo intervalo: "+tipoIntervalo;
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
@@ -286,5 +304,37 @@ public class BusquedaTablaMaestraView {
 
     public void setTipoIntervalo(String tipoIntervalo) {
         this.tipoIntervalo = tipoIntervalo;
+    }
+
+    public boolean isVisibleOptimos() {
+        return visibleOptimos;
+    }
+
+    public void setVisibleOptimos(boolean visibleOptimos) {
+        this.visibleOptimos = visibleOptimos;
+    }
+
+    public boolean isVisibleMinimos() {
+        return visibleMinimos;
+    }
+
+    public void setVisibleMinimos(boolean visibleMinimos) {
+        this.visibleMinimos = visibleMinimos;
+    }
+
+    public boolean isVisibleMaximos() {
+        return visibleMaximos;
+    }
+
+    public void setVisibleMaximos(boolean visibleMaximos) {
+        this.visibleMaximos = visibleMaximos;
+    }
+
+    public String getTextoGeneracionMatrix() {
+        return textoGeneracionMatrix;
+    }
+
+    public void setTextoGeneracionMatrix(String textoGeneracionMatrix) {
+        this.textoGeneracionMatrix = textoGeneracionMatrix;
     }
 }

@@ -28,7 +28,6 @@
                         <p:selectOneRadio id="tipoFecha" value="#{busquedaInt.tipoFecha}">
                             <f:selectItem itemLabel="Fecha de creacion" itemValue="fechaCreacion" />
                             <f:selectItem itemLabel="Fecha de programacion" itemValue="fechaProgramacion" />
-                            <f:selectItem itemLabel="Fecha de vigencia" itemValue="fechaVigencia" />
                         </p:selectOneRadio>
                         <p:outputLabel for="button" value="Fecha Inicial (DD-MM-AAAA):" />
                         <p:panel  style="border:none">
@@ -51,7 +50,7 @@
 
 
                 </p:panel>
-                <p:panel visible="#{busquedaInt.visibleRecords}"  >
+                <p:panel >
                     <p:dataTable id="basicDT" var="carga" value="#{busquedaInt.gisIntervalosRecords}"
                                  emptyMessage="No se encontraron registros relacionados a la busqueda">
                         <f:facet name="header">
@@ -65,6 +64,9 @@
                         </p:column>
                         <p:column headerText="Fecha Vigencia">
                             <h:outputText value="#{carga.fechaProgramacionFormato}" />
+                        </p:column>
+                        <p:column headerText="Tabla Maestra">
+                            <h:outputText value="#{carga.tablaMaestra.descripcion}" />
                         </p:column>
                         <p:column style="width:100px;text-align: center">
 

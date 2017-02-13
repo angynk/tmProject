@@ -91,8 +91,14 @@ public class ServiciosTipoDiaParametrizacion {
     }
 
     public void buscar(){
-        tipoDia = servicioService.getTipoDia(tipoDiaSeleccionado);
-        serviciosRecords = servicioService.getServiciosByTipoDia(tipoDia);
+        if(tipoDiaSeleccionado.equals("TODOS")){
+            tipoDia = servicioService.getTipoDia("HABIL");
+            serviciosRecords = servicioService.getTServiciosAll();
+        }else{
+            tipoDia = servicioService.getTipoDia(tipoDiaSeleccionado);
+            serviciosRecords = servicioService.getServiciosByTipoDia(tipoDia);
+        }
+
         tablaVisible=true;
     }
 

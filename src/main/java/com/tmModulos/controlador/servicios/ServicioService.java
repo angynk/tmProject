@@ -161,6 +161,9 @@ public class ServicioService {
     public List<ServicioTipoDia> getServiciosByTipoDia(TipoDia tipoDia){
         return servicioTipoDiaDao.getServiciosByTipoDia(tipoDia);
     }
+    public List<ServicioTipoDia> getTServiciosAll() {
+        return servicioTipoDiaDao.getTServiciosAll();
+    }
 
     public Servicio getServicioByNombreEspecial(String nombre){
         return servicioDao.getServicioByNombreEspecial(nombre);

@@ -72,14 +72,14 @@
 
                     <p:dialog header="Opciones visualización tabla maestra" widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="nuevoDialog" style="text-align:center;">
-                            <p:panelGrid  columns="5" columnClasses="label,value">
-                                <h:outputText value="Tipo Ciclo:" />
+                            <p:panelGrid  columns="2" columnClasses="label,value">
+                                <h:outputText value="Tipo Ciclo:" style="color: black;" />
                                 <h:selectOneMenu value="#{busquedaTabla.tipoCiclo}" style="width:100%" >
-                                    <f:selectItem itemLabel="OPTIMO" itemValue="OPTIMO" />
-                                    <f:selectItem itemLabel="MINIMO" itemValue="MINIMO" />
-                                    <f:selectItem itemLabel="MAXIMO" itemValue="MAXIMO" />
+                                    <f:selectItem itemLabel="OPTIMO" itemValue="Optimo" />
+                                    <f:selectItem itemLabel="MINIMO" itemValue="Minimo" />
+                                    <f:selectItem itemLabel="MAXIMO" itemValue="Maximo" />
                                 </h:selectOneMenu>
-                                <h:outputText value="Tipo Intervalo:" />
+                                <h:outputText value="Tipo Intervalo:" style="color: black;"/>
                                 <h:selectOneMenu value="#{busquedaTabla.tipoIntervalo}" style="width:100%" >
                                     <f:selectItem itemLabel="PROMEDIO" itemValue="Promedio" />
                                     <f:selectItem itemLabel="MODA" itemValue="Moda" />

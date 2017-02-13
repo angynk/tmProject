@@ -2,6 +2,7 @@ package com.tmModulos.modelo.dao.tmData;
 
 import com.tmModulos.modelo.entity.tmData.Servicio;
 import com.tmModulos.modelo.entity.tmData.ServicioTipoDia;
+import com.tmModulos.modelo.entity.tmData.TablaMaestraServicios;
 import com.tmModulos.modelo.entity.tmData.TipoDia;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -47,6 +48,11 @@ public class ServicioTipoDiaDao {
         for(ServicioTipoDia servicio:servicios){
             getSessionFactory().getCurrentSession().update(servicio);
         }
+    }
+
+    public List<ServicioTipoDia> getTServiciosAll() {
+        List list = getSessionFactory().getCurrentSession().createQuery("from  ServicioTipoDia").list();
+        return list;
     }
 
     public List<ServicioTipoDia> getServiciosByTipoDia(TipoDia tipoDia){

@@ -106,3 +106,20 @@
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: #595a5a !important;
 }
+
+.ui-widget,.ui-widget .ui-widget {
+	/*font-size: 90% !important;*/
+}
+
+/* To change background color when selectedis-->*/
+.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
+{
+	/*background-color: green;*/
+}
+.tablaMTexto{
+	text-align: center;
+	vertical-align: middle;
+	color: #2a2a4a;
+	font-style: italic;
+	margin-top:10px
+}

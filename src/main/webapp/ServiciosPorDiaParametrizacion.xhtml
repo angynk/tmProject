@@ -22,6 +22,7 @@
                                 <f:selectItem itemLabel="HABIL" itemValue="HABIL" />
                                 <f:selectItem itemLabel="SABADO" itemValue="SABADO" />
                                 <f:selectItem itemLabel="FESTIVO" itemValue="FESTIVO" />
+                                <f:selectItem itemLabel="TODOS" itemValue="TODOS" />
                             </h:selectOneMenu>
                             <p:commandButton value="Buscar" action="#{serviciosTipoDiaP.buscar}" ajax="false"
                                              icon="ui-icon ui-icon-disk" id="buscar"
@@ -69,8 +70,8 @@
                             </p:column>
 
                             <p:column filterBy="#{ser.orden}" headerText="Orden"  filterMatchMode="contains" sortBy="#{ser.orden}"
-                                      style="width: 120px">
-                                <h:outputText value="#{ser.orden}" />
+                                      style="width: 120px" >
+                                <h:outputText value="#{ser.orden}"  />
                             </p:column>
 
                             <p:column filterBy="#{ser.tipoDia.nombre}" headerText="Tipo Dia"  filterMatchMode="contains" sortBy="#{ser.tipoDia.nombre}"
@@ -111,7 +112,7 @@
                                     </p:selectOneMenu>
 
                                     <h:outputText value="Orden:" style="color:black"/>
-                                    <h:inputText value="#{serviciosTipoDiaP.nuevoServicio.orden}"  />
+                                    <h:inputText value="#{serviciosTipoDiaP.nuevoServicio.orden}" disabled="true" />
 
                                 </p:panelGrid>
                                 <p:panelGrid columns="2">
