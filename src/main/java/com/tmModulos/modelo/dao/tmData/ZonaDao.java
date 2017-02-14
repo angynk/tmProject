@@ -43,9 +43,16 @@ public class ZonaDao {
         return list;
     }
 
-    public Zona getNombreByNombre(String nombre){
+    public List<Zona> getZonaByTipoZona(String tipoZona) {
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Zona.class);
+        criteria.add(Restrictions.eq("tipoZona", tipoZona));
+        return criteria.list();
+    }
+
+    public Zona getNombreByNombre(String nombre,String tipozona){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Zona.class);
         criteria.add(Restrictions.eq("nombre", nombre));
+        criteria.add(Restrictions.eq("tipoZona", tipozona));
         return (Zona) criteria.uniqueResult();
     }
 

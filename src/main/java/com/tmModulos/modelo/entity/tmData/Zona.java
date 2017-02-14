@@ -17,10 +17,14 @@ public class Zona {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "tipo_zona")
+    private String tipoZona;
 
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "zonaId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "zonaProgramacion")
     private Set<Nodo> zonaRecords= new HashSet<Nodo>(0);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "zonaUsuario")
+    private Set<Nodo> zonaUsuariosRecords= new HashSet<Nodo>(0);
 
 
     public long getId() {
@@ -52,4 +56,19 @@ public class Zona {
         return nombre;
     }
 
+    public String getTipoZona() {
+        return tipoZona;
+    }
+
+    public void setTipoZona(String tipoZona) {
+        this.tipoZona = tipoZona;
+    }
+
+    public Set<Nodo> getZonaUsuariosRecords() {
+        return zonaUsuariosRecords;
+    }
+
+    public void setZonaUsuariosRecords(Set<Nodo> zonaUsuariosRecords) {
+        this.zonaUsuariosRecords = zonaUsuariosRecords;
+    }
 }

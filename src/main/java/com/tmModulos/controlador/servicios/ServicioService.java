@@ -189,4 +189,8 @@ public class ServicioService {
         servicioTipoDiaDao.updateListaServicioTipoDia(servicios);
     }
 
+    public List<ServicioTipoDia> getServiciosByServicio(Servicio servicio){
+        return servicioTipoDiaDao.getServiciosByServicio(servicio);
+    }
+
 }

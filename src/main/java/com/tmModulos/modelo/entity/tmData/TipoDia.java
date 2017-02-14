@@ -29,6 +29,9 @@ public class TipoDia {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoDia")
     private Set<GisIntervalos> gisIntervaloses = new HashSet<GisIntervalos>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoDia")
+    private Set<GisCarga> gisCarga = new HashSet<GisCarga>(0);
+
     public long getId() {
         return id;
     }
@@ -67,5 +70,13 @@ public class TipoDia {
 
     public void setGisIntervaloses(Set<GisIntervalos> gisIntervaloses) {
         this.gisIntervaloses = gisIntervaloses;
+    }
+
+    public Set<GisCarga> getGisCarga() {
+        return gisCarga;
+    }
+
+    public void setGisCarga(Set<GisCarga> gisCarga) {
+        this.gisCarga = gisCarga;
     }
 }

@@ -20,7 +20,7 @@ public class ZonaConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        return nodoService.getZonaByName(value);
+        return nodoService.getZonaByName(value,"P");
     }
 
     @Override

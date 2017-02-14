@@ -29,8 +29,12 @@ public class NodosParametrizacionView implements Serializable {
     private List<Nodo> nodosRecords;
     private List<Nodo> filteredNodosRecords;
 
-    private List<Zona> zonasRecords;
-    private String auxNombreZona;
+    private List<Zona> zonasProgramadasRecords;
+    private String auxNombreZonaP;
+
+
+    private String auxNombreZonaU;
+    private List<Zona> zonasUsuariosRecords;
 
 
     public NodosParametrizacionView() {
@@ -39,7 +43,8 @@ public class NodosParametrizacionView implements Serializable {
     @PostConstruct
     public void init() {
        nodosRecords= nodoService.getNodosAll();
-        zonasRecords = nodoService.getZonaAll();
+        zonasProgramadasRecords = nodoService.getZonaByTipoZona("P");
+        zonasUsuariosRecords = nodoService.getZonaByTipoZona("U");
     }
 
     public void inicio(){
@@ -47,8 +52,10 @@ public class NodosParametrizacionView implements Serializable {
 
     public void onRowEdit(RowEditEvent event) {
         Nodo nodo = (Nodo) event.getObject();
-        Zona zona = nodoService.getZonaByName(auxNombreZona);
-        nodo.setZonaId(zona);
+        Zona zonaP = nodoService.getZonaByName(auxNombreZonaP,"P");
+        nodo.setZonaProgramacion(zonaP);
+        Zona zonaU = nodoService.getZonaByName(auxNombreZonaU,"U");
+        nodo.setZonaUsuario(zonaU);
         nodoService.updateNodo(nodo);
         FacesMessage msg = new FacesMessage("Zona Actualizada", (nodo).getNombre());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -91,21 +98,35 @@ public class NodosParametrizacionView implements Serializable {
         this.nodoService = nodoService;
     }
 
-    public String getAuxNombreZona() {
-        return auxNombreZona;
+    public List<Zona> getZonasProgramadasRecords() {
+        return zonasProgramadasRecords;
     }
 
-    public void setAuxNombreZona(String auxNombreZona) {
-        this.auxNombreZona = auxNombreZona;
+    public void setZonasProgramadasRecords(List<Zona> zonasProgramadasRecords) {
+        this.zonasProgramadasRecords = zonasProgramadasRecords;
     }
 
-    public List<Zona> getZonasRecords() {
-        return zonasRecords;
+    public String getAuxNombreZonaP() {
+        return auxNombreZonaP;
     }
 
-    public void setZonasRecords(List<Zona> zonasRecords) {
-        this.zonasRecords = zonasRecords;
+    public void setAuxNombreZonaP(String auxNombreZonaP) {
+        this.auxNombreZonaP = auxNombreZonaP;
     }
 
+    public String getAuxNombreZonaU() {
+        return auxNombreZonaU;
+    }
 
+    public void setAuxNombreZonaU(String auxNombreZonaU) {
+        this.auxNombreZonaU = auxNombreZonaU;
+    }
+
+    public List<Zona> getZonasUsuariosRecords() {
+        return zonasUsuariosRecords;
+    }
+
+    public void setZonasUsuariosRecords(List<Zona> zonasUsuariosRecords) {
+        this.zonasUsuariosRecords = zonasUsuariosRecords;
+    }
 }

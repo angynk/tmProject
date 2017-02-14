@@ -34,18 +34,31 @@ public class GisCarga {
     private String fechaVigenciaFormato;
 
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tipo_dia", nullable = false)
+    private TipoDia tipoDia;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisCargaArco")
     private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "gisCarga")
     private Set<TablaMaestra> tablaMaestraRecords= new HashSet<TablaMaestra>(0);
 
-    public GisCarga(Date fechaCreacion, Date fechaProgramacion, Date fechaVigencia, String descripcion) {
+    public GisCarga(Date fechaCreacion, Date fechaProgramacion, Date fechaVigencia, String descripcion,TipoDia tipoDia) {
         this.fechaCreacion = fechaCreacion;
         this.fechaProgramacion = fechaProgramacion;
         this.fechaVigencia = fechaVigencia;
         this.descripcion = descripcion;
         this.estaVigente = false;
+        this.tipoDia =tipoDia;
+    }
+
+    public TipoDia getTipoDia() {
+        return tipoDia;
+    }
+
+    public void setTipoDia(TipoDia tipoDia) {
+        this.tipoDia = tipoDia;
     }
 
     public GisCarga() {

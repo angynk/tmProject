@@ -123,3 +123,8 @@
 	font-style: italic;
 	margin-top:10px
 }
+
+/* Change frozen width */
+.ui-datatable-frozenlayout-left {
+	width: 130px;
+}

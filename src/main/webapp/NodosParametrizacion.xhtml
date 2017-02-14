@@ -70,15 +70,30 @@
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column filterBy="#{nodo.zonaId.nombre}" headerText="Zona"  filterMatchMode="contains" sortBy="#{nodo.zonaId.nombre}"
+                            <p:column filterBy="#{nodo.zonaProgramacion.nombre}" headerText="Zona P"  filterMatchMode="contains" sortBy="#{nodo.zonaProgramacion.nombre}"
                                       style="width: 120px">
                                 <p:cellEditor>
                                     <f:facet name="output">
-                                        <h:outputText value="#{nodo.zonaId.nombre}" />
+                                        <h:outputText value="#{nodo.zonaProgramacion.nombre}" />
                                     </f:facet>
                                     <f:facet name="input">
-                                        <h:selectOneMenu value="#{nodosP.auxNombreZona}" style="width:100%" >
-                                            <f:selectItems value="#{nodosP.zonasRecords}" var="zona" itemLabel="#{zona.nombre}" itemValue="#{zona}" />
+                                        <h:selectOneMenu value="#{nodosP.auxNombreZonaP}" style="width:100%" >
+                                            <f:selectItems value="#{nodosP.zonasProgramadasRecords}" var="zona" itemLabel="#{zona.nombre}" itemValue="#{zona}" />
+                                        </h:selectOneMenu>
+                                    </f:facet>
+
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column filterBy="#{nodo.zonaUsuario.nombre}" headerText="Zona U"  filterMatchMode="contains" sortBy="#{nodo.zonaUsuario.nombre}"
+                                      style="width: 120px">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{nodo.zonaUsuario.nombre}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{nodosP.auxNombreZonaU}" style="width:100%" >
+                                            <f:selectItems value="#{nodosP.zonasUsuariosRecords}" var="zona" itemLabel="#{zona.nombre}" itemValue="#{zona}" />
                                         </h:selectOneMenu>
                                     </f:facet>
 

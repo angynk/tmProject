@@ -22,14 +22,19 @@ public class Nodo {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "zona", nullable = false)
-    private Zona zonaId;
+    @JoinColumn(name = "zona_programacion", nullable = false)
+    private Zona zonaProgramacion;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoInicial")
-    private Set<ArcoTiempo> arcoTiempoNodoInicialRecords = new HashSet<ArcoTiempo>(0);
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoFinal")
-    private Set<ArcoTiempo> arcoTiempoNodoFinalRecords = new HashSet<ArcoTiempo>(0);
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "zona_usuario", nullable = false)
+    private Zona zonaUsuario;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoInicial")
+//    private Set<ArcoTiempo> arcoTiempoNodoInicialRecords = new HashSet<ArcoTiempo>(0);
+//
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoFinal")
+//    private Set<ArcoTiempo> arcoTiempoNodoFinalRecords = new HashSet<ArcoTiempo>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
     private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
@@ -73,21 +78,21 @@ public class Nodo {
         this.codigo = codigo;
     }
 
-    public Set<ArcoTiempo> getArcoTiempoNodoInicialRecords() {
-        return arcoTiempoNodoInicialRecords;
-    }
-
-    public void setArcoTiempoNodoInicialRecords(Set<ArcoTiempo> arcoTiempoNodoInicialRecords) {
-        this.arcoTiempoNodoInicialRecords = arcoTiempoNodoInicialRecords;
-    }
-
-    public Set<ArcoTiempo> getArcoTiempoNodoFinalRecords() {
-        return arcoTiempoNodoFinalRecords;
-    }
-
-    public void setArcoTiempoNodoFinalRecords(Set<ArcoTiempo> arcoTiempoNodoFinalRecords) {
-        this.arcoTiempoNodoFinalRecords = arcoTiempoNodoFinalRecords;
-    }
+//    public Set<ArcoTiempo> getArcoTiempoNodoInicialRecords() {
+//        return arcoTiempoNodoInicialRecords;
+//    }
+//
+//    public void setArcoTiempoNodoInicialRecords(Set<ArcoTiempo> arcoTiempoNodoInicialRecords) {
+//        this.arcoTiempoNodoInicialRecords = arcoTiempoNodoInicialRecords;
+//    }
+//
+//    public Set<ArcoTiempo> getArcoTiempoNodoFinalRecords() {
+//        return arcoTiempoNodoFinalRecords;
+//    }
+//
+//    public void setArcoTiempoNodoFinalRecords(Set<ArcoTiempo> arcoTiempoNodoFinalRecords) {
+//        this.arcoTiempoNodoFinalRecords = arcoTiempoNodoFinalRecords;
+//    }
 
     public Set<DistanciaNodos> getDistanciaNodosRecords() {
         return distanciaNodosRecords;
@@ -97,12 +102,19 @@ public class Nodo {
         this.distanciaNodosRecords = distanciaNodosRecords;
     }
 
-    public Zona getZonaId() {
-        return zonaId;
+    public Zona getZonaProgramacion() {
+        return zonaProgramacion;
     }
 
-    public void setZonaId(Zona zonaId) {
-        this.zonaId = zonaId;
+    public void setZonaProgramacion(Zona zonaProgramacion) {
+        this.zonaProgramacion = zonaProgramacion;
     }
 
+    public Zona getZonaUsuario() {
+        return zonaUsuario;
+    }
+
+    public void setZonaUsuario(Zona zonaUsuario) {
+        this.zonaUsuario = zonaUsuario;
+    }
 }

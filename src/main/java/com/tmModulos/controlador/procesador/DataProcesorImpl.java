@@ -7,6 +7,8 @@ import com.tmModulos.controlador.servicios.TipoDiaService;
 import com.tmModulos.controlador.utils.GisCargaDefinition;
 import com.tmModulos.controlador.utils.ProcessorUtils;
 import com.tmModulos.modelo.entity.tmData.*;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -39,6 +41,9 @@ public class DataProcesorImpl {
 
     private String destination="C:\\temp\\";
 
+    private static Logger log = Logger.getLogger(DataProcesorImpl.class);
+
+
     public DataProcesorImpl() {
 
     }
@@ -48,15 +53,18 @@ public class DataProcesorImpl {
 
 
     public boolean processDataFromFile(String fileName, InputStream in, Date fechaProgrmacion, Date fechaVigencia, String tipoDia, String descripcion) {
+
+        log.info("<< GIS Carga Incio de Procesamiento >>");
         serviciosNoEncontrados = new ArrayList<>();
         processorUtils.copyFile(fileName,in,destination);
         destination=destination+fileName;
-        GisCarga gisCarga = saveGisCarga(fechaProgrmacion,fechaVigencia,descripcion);
+        GisCarga gisCarga = saveGisCarga(fechaProgrmacion,fechaVigencia,descripcion,tipoDia);
         try {
             readExcelAndSaveData(destination,gisCarga,tipoDia);
-            printServiciosNoEncontrados();
+            log.info("<<GIS Carga Fin de Procesamiento>>");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error al leer el archivo");
+            log.equals(e.getMessage());
         }
         return false;
 
@@ -72,32 +80,38 @@ public class DataProcesorImpl {
 
     }
 
-    public GisCarga saveGisCarga(Date fechaProgrmacion, Date fechaVigencia,String descripcion){
-        GisCarga gisCarga = new GisCarga(new Date(),fechaProgrmacion,fechaVigencia,descripcion);
+    public GisCarga saveGisCarga(Date fechaProgrmacion, Date fechaVigencia,String descripcion,String tipoDia){
+       TipoDia dia= tipoDiaService.getTipoDia(tipoDia);
+       GisCarga gisCarga = new GisCarga(new Date(),fechaProgrmacion,fechaVigencia,descripcion,dia);
        gisCargaService.addGisCarga(gisCarga);
-        return gisCarga;
+       log.info("GIS Carga para día: "+tipoDia + " Descripción: "+descripcion);
+       log.info("Fecha de Programación: "+fechaProgrmacion);
+       return gisCarga;
     }
 
-    public Servicio findOrSaveServicio(Row row,Nodo nodo){
-        int trayectoId = Integer.parseInt( row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
-
-        if( nodo.getCodigo() == null){
-            serviciosNoEncontrados.add("Nodo No encontrado- Nodo( "+nodo.getNombre()+")");
-        }else{
-            int punto = nodo.getCodigo();
-            Servicio servicio = gisCargaService.getServicioByTrayecto(trayectoId,punto);
+    public GisServicio findOrSaveServicio(Row row,Nodo nodoInicial,Nodo nodoFinal){
+        Integer trayectoId = Integer.parseInt( row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
+        int linea = Integer.parseInt( row.getCell(GisCargaDefinition.LINEA).getStringCellValue());
+            GisServicio servicio = gisCargaService.getGisServicioByTrayectoLinea(linea,trayectoId);
             if( servicio== null ){
-                serviciosNoEncontrados.add("Servicio No encontrado- ServicioDistancia( "+trayectoId+")");
+                servicio = new GisServicio(trayectoId,linea,nodoInicial.getNombre(),nodoFinal.getNombre());
+                try{
+                    gisCargaService.addGisServicio(servicio);
+                }catch (Exception e){
+                    log.error("Error en la inserción de base de datos del servicio");
+                    log.error(e.getMessage());
+                }
+
             }
-            return servicio;
-        }
-        return null;
+
+        return servicio;
 
     }
 
 
     public void readExcelAndSaveData(String destination,GisCarga gisCarga, String tipoDiaD)throws IOException{
         try {
+            log.info("Inicio de recorrido de archivo");
             FileInputStream fileInputStream = new FileInputStream(destination);
             HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
             HSSFSheet worksheet = workbook.getSheetAt(0);
@@ -105,15 +119,28 @@ public class DataProcesorImpl {
             Iterator<Row> rowIterator = worksheet.iterator();
             rowIterator.next();
             while (rowIterator.hasNext()) {
+
                 Row row = rowIterator.next();
                 if( row.getCell(0) != null ){
                     Nodo nodoInicial = findOrSaveNodo(row, GisCargaDefinition.NODOINICIO);
-                    Servicio servicio = findOrSaveServicio(row,nodoInicial);
-                    if( servicio!= null ){
-                        TipoDiaDetalle tipoDia = findOrSaveTipoDia(row,tipoDiaD);
-                        Nodo nodoFinal = findOrSaveNodo(row, GisCargaDefinition.NODOFINAL);
-                        saveArcoTiempo(row,gisCarga,servicio,tipoDia,nodoInicial,nodoFinal);
+                    Nodo nodoFinal = findOrSaveNodo(row, GisCargaDefinition.NODOFINAL);
+                    if(nodoInicial!=null){
+                        if(nodoFinal!=null){
+                            GisServicio servicio = findOrSaveServicio(row,nodoInicial,nodoFinal);
+                            if( servicio!= null ){
+                                TipoDiaDetalle tipoDia = findOrSaveTipoDia(row,tipoDiaD);
+                                saveArcoTiempo(row,gisCarga,servicio,tipoDia);
+                                log.info("Servicio relacionado con Trayecto: "+ servicio.getTrayecto()+" y Linea: "+servicio.getLinea());
+                            }
+                        }else{
+                            log.warn("Nodo Final no encontrado: "+row.getCell(GisCargaDefinition.NODOFINAL).getStringCellValue());
+                            log.warn("Servicio no relacionado con Trayecto: "+row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
+                        }
+                    }else{
+                        log.warn("Nodo Inicio no encontrado: "+row.getCell(GisCargaDefinition.NODOINICIO).getStringCellValue());
+                        log.warn("Servicio no relacionado con Trayecto: "+row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
                     }
+
 
                 }else{
                     break;
@@ -121,13 +148,14 @@ public class DataProcesorImpl {
             }
             fileInputStream.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("Error: Archivo no encontrado");
+            log.error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+           log.equals(e.getMessage());
         }
     }
 
-    private void saveArcoTiempo(Row row,GisCarga gisCarga, Servicio servicio, TipoDiaDetalle tipoDia, Nodo nodoInicial, Nodo nodoFinal) {
+    private void saveArcoTiempo(Row row,GisCarga gisCarga, GisServicio servicio, TipoDiaDetalle tipoDia) {
 
         int distancia = Integer.parseInt(row.getCell( GisCargaDefinition.DISTANCIA ).getStringCellValue());
         int secuencia = Integer.parseInt(row.getCell( GisCargaDefinition.SECUENCIA ).getStringCellValue());
@@ -143,8 +171,7 @@ public class DataProcesorImpl {
                 sentido,secuencia,tipoArco,
                 distancia,horaDesde,horaHasta,
                 tiempoMinimo,tiempoMaximo,tiempoOptimo,
-                gisCarga,servicio,tipoDia,
-                nodoInicial,nodoFinal
+                gisCarga,servicio,tipoDia
         );
 
         gisCargaService.addArcoTiempo( arcoTiempo );
@@ -157,9 +184,7 @@ public class DataProcesorImpl {
          String nodoNombre = row.getCell(nodoinicio).getStringCellValue();
          List<Nodo> nodos = nodoService.getNodo( nodoNombre );
         if( nodos.size() == 0 ){
-            Nodo nodo = new Nodo(nodoNombre);
-            nodoService.addNodo( nodo );
-            return nodo;
+            return null;
         }
         return  nodos.get(0);
     }

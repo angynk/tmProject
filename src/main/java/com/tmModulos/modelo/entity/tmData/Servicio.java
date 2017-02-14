@@ -66,8 +66,7 @@ public class Servicio {
 
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
-    private Set<ArcoTiempo> arcoTiempoRecords = new HashSet<ArcoTiempo>(0);
+
 
     @Transient
     private String estadoFormato;
@@ -205,14 +204,6 @@ public class Servicio {
         this.punto = punto;
     }
 
-    public Set<ArcoTiempo> getArcoTiempoRecords() {
-        return arcoTiempoRecords;
-    }
-
-    public void setArcoTiempoRecords(Set<ArcoTiempo> arcoTiempoRecords) {
-        this.arcoTiempoRecords = arcoTiempoRecords;
-    }
-
 
 
     public String getEstadoFormato() {
@@ -236,11 +227,11 @@ public class Servicio {
 
 
     public boolean isHabil() {
-        for (ServicioTipoDia servicio: servicioTipoDias ) {
-            if(servicio.getTipoDia().getNombre().equals("HABIL")){
-                return true;
-            }
-        }
+//        for (ServicioTipoDia servicio: servicioTipoDias ) {
+//            if(servicio.getTipoDia().getNombre().equals("HABIL")){
+//                return true;
+//            }
+//        }
         return false;
     }
 
@@ -249,11 +240,11 @@ public class Servicio {
     }
 
     public boolean isFestivo() {
-        for (ServicioTipoDia servicio: servicioTipoDias ) {
-            if(servicio.getTipoDia().getNombre().equals("FESTIVO")){
-                return true;
-            }
-        }
+//        for (ServicioTipoDia servicio: servicioTipoDias ) {
+//            if(servicio.getTipoDia().getNombre().equals("FESTIVO")){
+//                return true;
+//            }
+//        }
         return false;
     }
 
@@ -262,11 +253,11 @@ public class Servicio {
     }
 
     public boolean isSabado() {
-        for (ServicioTipoDia servicio: servicioTipoDias ) {
-            if(servicio.getTipoDia().getNombre().equals("SABADO")){
-                return true;
-            }
-        }
+//        for (ServicioTipoDia servicio: servicioTipoDias ) {
+//            if(servicio.getTipoDia().getNombre().equals("SABADO")){
+//                return true;
+//            }
+//        }
         return false;
     }
 

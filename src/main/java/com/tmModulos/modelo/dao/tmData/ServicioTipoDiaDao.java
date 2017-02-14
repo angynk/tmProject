@@ -68,6 +68,12 @@ public class ServicioTipoDiaDao {
         return criteria.list();
     }
 
+    public List<ServicioTipoDia> getServiciosByServicio(Servicio servicio){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ServicioTipoDia.class);
+        criteria.add(Restrictions.eq("servicio", servicio));
+        return criteria.list();
+    }
+
 
 
 }

@@ -46,24 +46,24 @@ public class ArcoTiempo {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "servicio", nullable = false)
-    private Servicio servicio;
+    private GisServicio servicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_dia", nullable = false)
     private TipoDiaDetalle tipoDiaByArco;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "nodo_inicial", nullable = false)
-    private Nodo nodoInicial;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "nodo_final", nullable = false)
-    private Nodo nodoFinal;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "nodo_inicial", nullable = false)
+//    private Nodo nodoInicial;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "nodo_final", nullable = false)
+//    private Nodo nodoFinal;
 
     public ArcoTiempo() {
     }
 
-    public ArcoTiempo(int sentido, int secuencia, int tipoArco, Integer distancia, String horaDesde, String horaHasta, String tiempoMinimo, String tiempoMaximo, String tiempoOptimo, GisCarga gisCargaArco, Servicio servicio, TipoDiaDetalle tipoDiaByArco, Nodo nodoInicial, Nodo nodoFinal) {
+    public ArcoTiempo(int sentido, int secuencia, int tipoArco, Integer distancia, String horaDesde, String horaHasta, String tiempoMinimo, String tiempoMaximo, String tiempoOptimo, GisCarga gisCargaArco, GisServicio servicio, TipoDiaDetalle tipoDiaByArco) {
         this.sentido = sentido;
         this.secuencia = secuencia;
         this.tipoArco = tipoArco;
@@ -76,8 +76,6 @@ public class ArcoTiempo {
         this.gisCargaArco = gisCargaArco;
         this.servicio = servicio;
         this.tipoDiaByArco = tipoDiaByArco;
-        this.nodoInicial = nodoInicial;
-        this.nodoFinal = nodoFinal;
     }
 
     public long getId() {
@@ -168,11 +166,11 @@ public class ArcoTiempo {
         this.gisCargaArco = gisCargaArco;
     }
 
-    public Servicio getServicio() {
+    public GisServicio getServicio() {
         return servicio;
     }
 
-    public void setServicio(Servicio servicio) {
+    public void setServicio(GisServicio servicio) {
         this.servicio = servicio;
     }
 
@@ -184,19 +182,5 @@ public class ArcoTiempo {
         this.tipoDiaByArco = tipoDiaByArco;
     }
 
-    public Nodo getNodoInicial() {
-        return nodoInicial;
-    }
 
-    public void setNodoInicial(Nodo nodoInicial) {
-        this.nodoInicial = nodoInicial;
-    }
-
-    public Nodo getNodoFinal() {
-        return nodoFinal;
-    }
-
-    public void setNodoFinal(Nodo nodoFinal) {
-        this.nodoFinal = nodoFinal;
-    }
 }

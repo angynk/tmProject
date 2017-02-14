@@ -29,6 +29,9 @@ public class GisCargaService {
     @Autowired
     TipologiaDao tipologiaDao;
 
+    @Autowired
+    GisServicioDao gisServicioDao;
+
 
 
 
@@ -90,8 +93,32 @@ public class GisCargaService {
       return  gisCargaDao.getGisCargaById(id);
     }
 
-    public List<ArcoTiempo> getArcoTiempoByGisCargaAndServicio(GisCarga gisCarga,Servicio servicio){
+    public List<ArcoTiempo> getArcoTiempoByGisCargaAndServicio(GisCarga gisCarga,GisServicio servicio){
         return arcoTiempoDao.getArcoTiempoByGisCargaAndServicio(gisCarga,servicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void addGisServicio(GisServicio gisServicio)
+    {
+        gisServicioDao.addGisServicio(gisServicio);
+    }
+    @Transactional(readOnly = false)
+    public void deleteGisServicio(GisServicio gisServicio) {
+       gisServicioDao.deleteGisServicio(gisServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateGisServicio(GisServicio gisServicio) {
+        gisServicioDao.updateGisServicio(gisServicio);
+    }
+
+
+    public List<GisServicio> getGisServicioAll() {
+      return gisServicioDao.getGisServicioAll();
+    }
+
+    public GisServicio getGisServicioByTrayectoLinea(int linea, Integer trayecto){
+        return gisServicioDao.getGisServicioByTrayectoLinea(linea,trayecto);
     }
 
 

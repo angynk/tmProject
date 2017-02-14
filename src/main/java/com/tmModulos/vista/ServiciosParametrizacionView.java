@@ -5,9 +5,11 @@ import com.tmModulos.controlador.servicios.ServicioService;
 import com.tmModulos.modelo.entity.tmData.*;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +98,21 @@ public class ServiciosParametrizacionView {
         return new ArrayList<>();
     }
 
+    public void eliminar(){
+        selectedServicio.setEstado(false);
+        servicioService.updateServicio(selectedServicio);
+        List<ServicioTipoDia> serviciosByServicio = servicioService.getServiciosByServicio(selectedServicio);
+        for(ServicioTipoDia servicioTipoDia:serviciosByServicio){
+            servicioService.deleteServicioTipoDia(servicioTipoDia);
+        }
+        addMessage(FacesMessage.SEVERITY_INFO,"Servicio Eliminado", "");
+        serviciosRecords = servicioService.getServicioAll();
+    }
+
+    public void addMessage(FacesMessage.Severity severity , String summary, String detail) {
+        FacesMessage message = new FacesMessage(severity, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 
     public void habilitarNuevo(){

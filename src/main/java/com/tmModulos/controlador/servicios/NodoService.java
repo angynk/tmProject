@@ -56,8 +56,12 @@ public class NodoService {
         return zonaDao.getZonaAll();
     }
 
-    public Zona getZonaByName(String nombre){
-            return  zonaDao.getNombreByNombre(nombre);
+    public List<Zona> getZonaByTipoZona(String tipoZona) {
+        return zonaDao.getZonaByTipoZona(tipoZona);
+    }
+
+    public Zona getZonaByName(String nombre,String tipozona){
+            return  zonaDao.getNombreByNombre(nombre,tipozona);
     }
 
 }

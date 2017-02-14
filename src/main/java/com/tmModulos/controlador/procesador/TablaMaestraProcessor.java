@@ -31,6 +31,9 @@ public class TablaMaestraProcessor {
     private TipoDiaService tipoDiaService;
 
     @Autowired
+    private NodoService nodoService;
+
+    @Autowired
     private HorariosProvisionalServicio horariosProvisionalServicio;
 
 
@@ -77,67 +80,90 @@ public class TablaMaestraProcessor {
         GisIntervalos gisIntervalos= generarIntervalosDeTiempo(fechaIntervalos,descripcion,tipoDia,tablaMaestra);
         intervalosProcessor.precalcularIntervalosProgramacion();
 
+
         for (ServicioTipoDia servicio: serviciosTipoDia   ) {
+            GisServicio gisServicio=gisCargaService.getGisServicioByTrayectoLinea(servicio.getServicio().getLineaCompuesta(),servicio.getServicio().getTrayecto());
+            if(gisServicio!=null){
+                List<ArcoTiempo> arcoTiempoRecords = gisCargaService.getArcoTiempoByGisCargaAndServicio(gis,gisServicio);
+                if(arcoTiempoRecords.size()>0){
+                    ArcoTiempo arcoTiempoBase = arcoTiempoRecords.get(0);
+                    TablaMaestraServicios tablaMaestraServicios = new TablaMaestraServicios();
 
-            List<ArcoTiempo> arcoTiempoRecords = gisCargaService.getArcoTiempoByGisCargaAndServicio(gis,servicio.getServicio());
-            if(arcoTiempoRecords.size()>0){
-                ArcoTiempo arcoTiempoBase = arcoTiempoRecords.get(0);
-                TablaMaestraServicios tablaMaestraServicios = new TablaMaestraServicios();
+                    //Informacion Nodo Inicio
+                    Nodo nodoInicio = getNodoInicio(arcoTiempoBase.getServicio().getNodoIncial());
+                    if(nodoInicio!=null){
+                        tablaMaestraServicios.setCodigoInicio(nodoInicio.getCodigo());
+                        tablaMaestraServicios.setNombreInicio(nodoInicio.getNombre());
+                        tablaMaestraServicios.setZonaTInicio(nodoInicio.getZonaUsuario().getNombre());
+                        tablaMaestraServicios.setZonaPInicio(nodoInicio.getZonaProgramacion().getNombre());
+                        tablaMaestraServicios.setIdInicio(calcularId(servicio.getServicio(),nodoInicio.getCodigo()));
 
-                //Calcular datos basicos matriz
-                tablaMaestraServicios.setTipoDia(arcoTiempoBase.getTipoDiaByArco().getTipoDia().getNombre());
-                tablaMaestraServicios.setSecuencia(arcoTiempoBase.getSecuencia());
+                        Nodo nodoFinal = getNodoInicio(arcoTiempoBase.getServicio().getNodoFinal());
+                        if(nodoFinal!=null){
+                            tablaMaestraServicios.setCodigoFin(nodoFinal.getCodigo());
+                            tablaMaestraServicios.setNombreIFin(nodoFinal.getNombre());
+                            tablaMaestraServicios.setZonaTFin(nodoFinal.getZonaUsuario().getNombre());
+                            tablaMaestraServicios.setZonaPFin(nodoFinal.getZonaProgramacion().getNombre());
+                            tablaMaestraServicios.setIdFin(calcularId(servicio.getServicio(),nodoFinal.getCodigo()));
 
-                //Copiar informacion del servicio
-                tablaMaestraServicios.setTrayecto(servicio.getServicio().getTrayecto()+"");
-                tablaMaestraServicios.setMacro(servicio.getServicio().getMacro());
-                tablaMaestraServicios.setLinea(servicio.getServicio().getLinea());
-                tablaMaestraServicios.setSeccion(servicio.getServicio().getSeccion());
-                tablaMaestraServicios.setTipoServicio(servicio.getServicio().getTipoServicio());
-                tablaMaestraServicios.setNombreEspecial(servicio.getServicio().getNombreEspecial());
-                tablaMaestraServicios.setNombreGeneral(servicio.getServicio().getNombreGeneral());
-                tablaMaestraServicios.setEstado(servicio.getServicio().isEstado());
-                tablaMaestraServicios.setIdentificador(servicio.getServicio().getIdentificador());
+                            //Calcular datos basicos matriz
+                            tablaMaestraServicios.setTipoDia(arcoTiempoBase.getTipoDiaByArco().getTipoDia().getNombre());
+                            tablaMaestraServicios.setSecuencia(arcoTiempoBase.getSecuencia());
 
-                //Informacion Nodo Inicio
-                tablaMaestraServicios.setCodigoInicio(arcoTiempoBase.getNodoInicial().getCodigo());
-                tablaMaestraServicios.setNombreInicio(arcoTiempoBase.getNodoInicial().getNombre());
-                tablaMaestraServicios.setZonaTInicio(arcoTiempoBase.getNodoInicial().getZonaId().getNombre());
-                tablaMaestraServicios.setZonaPInicio(arcoTiempoBase.getNodoInicial().getZonaId().getNombre());
-                tablaMaestraServicios.setIdInicio(calcularId(servicio.getServicio(),arcoTiempoBase.getNodoInicial().getCodigo()));
-
-                //Informacion Nodo Final
-                tablaMaestraServicios.setCodigoFin(arcoTiempoBase.getNodoFinal().getCodigo());
-                tablaMaestraServicios.setNombreIFin(arcoTiempoBase.getNodoFinal().getNombre());
-                tablaMaestraServicios.setZonaTFin(arcoTiempoBase.getNodoFinal().getZonaId().getNombre());
-                tablaMaestraServicios.setZonaPFin(arcoTiempoBase.getNodoFinal().getZonaId().getNombre());
-                tablaMaestraServicios.setIdFin(calcularId(servicio.getServicio(),arcoTiempoBase.getNodoFinal().getCodigo()));
-
-                //CalcularDistnacia
-                tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,arcoTiempoBase.getNodoInicial(),arcoTiempoBase.getNodoFinal(),matriz);
-                tablaMaestraServicios.setTablaMeestra(tablaMaestra);
-                tablaMaestraServicios.setTipologia(servicio.getServicio().getTipologia());
-
-                //Calcular ciclos
-                CicloServicio cicloServicio = calcularCiclos(tablaMaestraServicios,arcoTiempoRecords);
-                tablaMaestraServicios.setCicloServicio(cicloServicio);
-
-                tablaMaestraService.addTServicios(tablaMaestraServicios);
-
-                //Calcular Intervalos de tiempo
-                List<Intervalos> intervaloses = intervalosProcessor.calcularValorIntervaloPorFranja(tablaMaestraServicios, servicio, gisIntervalos);
-              //  tablaMaestraServicios.setServiciosRecords(intervaloses);
+                            //Copiar informacion del servicio
+                            tablaMaestraServicios.setTrayecto(servicio.getServicio().getTrayecto()+"");
+                            tablaMaestraServicios.setMacro(servicio.getServicio().getMacro());
+                            tablaMaestraServicios.setLinea(servicio.getServicio().getLinea());
+                            tablaMaestraServicios.setSeccion(servicio.getServicio().getSeccion());
+                            tablaMaestraServicios.setTipoServicio(servicio.getServicio().getTipoServicio());
+                            tablaMaestraServicios.setNombreEspecial(servicio.getServicio().getNombreEspecial());
+                            tablaMaestraServicios.setNombreGeneral(servicio.getServicio().getNombreGeneral());
+                            tablaMaestraServicios.setEstado(servicio.getServicio().isEstado());
+                            tablaMaestraServicios.setIdentificador(servicio.getServicio().getIdentificador());
 
 
+                            //CalcularDistnacia
+                            tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,nodoInicio,nodoFinal,matriz);
+                            tablaMaestraServicios.setTablaMeestra(tablaMaestra);
+                            tablaMaestraServicios.setTipologia(servicio.getServicio().getTipologia());
+
+                            //Calcular ciclos
+                            CicloServicio cicloServicio = calcularCiclos(tablaMaestraServicios,arcoTiempoRecords);
+                            tablaMaestraServicios.setCicloServicio(cicloServicio);
+
+                            tablaMaestraService.addTServicios(tablaMaestraServicios);
+
+                            //Calcular Intervalos de tiempo
+                            List<Intervalos> intervaloses = intervalosProcessor.calcularValorIntervaloPorFranja(tablaMaestraServicios, servicio, gisIntervalos);
+
+                        }else{
+                            System.out.println("nodo no encontrado");
+                        }
+
+                    }else{
+                        System.out.println("nodo no encontrado");
+                    }
 
 
+                }else{
+                    System.out.println("No hay información de carga para el servicio "+servicio.getIdentificador());
+                }
             }else{
-                System.out.println("No hay información de carga para el servicio "+servicio.getIdentificador());
+                System.out.println("Servicio no encontrado");
             }
+
 
         }
 
         return true;
+    }
+
+    private Nodo getNodoInicio(String nodoIncial) {
+        List<Nodo> nodo = nodoService.getNodo(nodoIncial);
+        if(nodo.size()>0){
+            return nodo.get(0);
+        }
+        return null;
     }
 
     private GisIntervalos generarIntervalosDeTiempo(Date fechaIntervalos,String descripcion, String tipoDia, TablaMaestra tablaMaestra) {

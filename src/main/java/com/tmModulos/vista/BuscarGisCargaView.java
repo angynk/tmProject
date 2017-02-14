@@ -37,6 +37,7 @@ public class BuscarGisCargaView implements Serializable {
     private List<GisCarga> selectedGisCarga;
 
     private List<ArcoTiempo> arcoTiempoRecords;
+    private ArcoTiempo selectedArcoTiempo;
     private List<ArcoTiempo> filteredArcoTiempoRecords;
 
     @ManagedProperty("#{BusquedaService}")
@@ -254,5 +255,14 @@ public class BuscarGisCargaView implements Serializable {
 
     public void setFechaFinalVisible(boolean fechaFinalVisible) {
         this.fechaFinalVisible = fechaFinalVisible;
+    }
+
+
+    public ArcoTiempo getSelectedArcoTiempo() {
+        return selectedArcoTiempo;
+    }
+
+    public void setSelectedArcoTiempo(ArcoTiempo selectedArcoTiempo) {
+        this.selectedArcoTiempo = selectedArcoTiempo;
     }
 }

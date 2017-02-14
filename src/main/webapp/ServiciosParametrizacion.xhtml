@@ -13,7 +13,7 @@
 
         <ui:define name="content">
             <h:form id="form">
-                <p:growl id="msgs" showDetail="true"/>
+                <p:growl id="message" showDetail="true" />
                 <p:panel id="basic" header="Servicios" style="margin-bottom:20px" visible="true">
                     <div style="margin-top:20px">
                         <p:panelGrid columns="4">
@@ -43,18 +43,18 @@
                             </f:facet>
 
                             <p:column filterBy="#{ser.macro}" headerText="Macro"  filterMatchMode="contains" sortBy="#{ser.macro}"
-                                      style="width: 120px">
-                                <h:outputText value="#{ser.macro}" />
+                                      style="width: 70px">
+                                <h:outputText value="#{ser.macro}" style="width: 75px" />
                             </p:column>
 
                             <p:column filterBy="#{ser.linea}" headerText="Linea"  filterMatchMode="contains" sortBy="#{ser.linea}"
-                                      style="width: 120px">
-                                <h:outputText value="#{ser.linea}" />
+                                      style="width: 70px">
+                                <h:outputText value="#{ser.linea}" style="width: 75px" />
                             </p:column>
 
                             <p:column filterBy="#{ser.seccion}" headerText="Seccion"  filterMatchMode="contains" sortBy="#{ser.seccion}"
-                                      style="width: 120px">
-                                <h:outputText value="#{ser.seccion}" />
+                                      style="width: 70px">
+                                <h:outputText value="#{ser.seccion}"  style="width: 75px"/>
                             </p:column>
 
                             <p:column filterBy="#{ser.nombreGeneral}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{ser.nombreGeneral}"
@@ -73,14 +73,43 @@
                                 <h:outputText value="#{ser.tipologia.nombre}" />
                             </p:column>
 
+                            <p:column filterBy="#{ser.estado}" headerText="Activo"  filterMatchMode="contains" sortBy="#{ser.estado}"
+                                      style="width:80px">
+                                <h:outputText value="#{ser.estado}" style="width: 90px"/>
+                            </p:column>
+
                             <p:column style="width:32px;text-align: center">
                                 <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
                                     <f:setPropertyActionListener value="#{ser}" target="#{serviciosP.selectedServicio}" />
                                 </p:commandButton>
                             </p:column>
 
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton id="delete"
+                                                 icon="ui-icon ui-icon-trash"
+                                                 title="GDeleteButton"
+                                                 onclick="PF('groupDeleteConfirm').show()">
+                                    <f:setPropertyActionListener value="#{ser}" target="#{serviciosP.selectedServicio}" />
+                                </p:commandButton>
+
+                            </p:column>
+
 
                         </p:dataTable>
+
+                        <p:confirmDialog message="¿Esta seguro de eliminar este servicio?. Recuerd que se eliminaran las asociaciones del servicio y los tipo días."
+                                         showEffect="fade"
+                                         hideEffect="explode"
+                                         widgetVar="groupDeleteConfirm">
+                            <p:commandButton title="GDelYesButton"
+                                             value="Yes"
+                                             action="#{serviciosP.eliminar}"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"
+                            />
+                            <p:commandButton title="GDelNoButton"
+                                             value="No"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"/>
+                        </p:confirmDialog>
 
                         <p:dialog header="Servicio Informacion" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" >
                             <p:outputPanel id="carDetail" style="text-align:center;">
@@ -116,7 +145,7 @@
 
 
                                     <h:outputText value="Estado:" style="color:black"/>
-                                    <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.estado}" />
+                                    <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.estado}" disabled="true"/>
 
                                     <h:outputText value="TipoServicio:" style="color:black"/>
                                     <h:selectOneMenu value="#{serviciosP.selectedServicio.tipoServicio}" style="width:100%" >
@@ -133,14 +162,14 @@
 
                                     </p:selectOneMenu>
 
-                                    <p:panelGrid columns="6">
-                                        <h:outputText value="Habil:" style="color:black"/>
-                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.habil}" />
-                                        <h:outputText value="Sabado:" style="color:black"/>
-                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.sabado}" />
-                                        <h:outputText value="Festivo:" style="color:black"/>
-                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.festivo}" />
-                                    </p:panelGrid>
+                                    <!--<p:panelGrid columns="6">-->
+                                        <!--<h:outputText value="Habil:" style="color:black"/>-->
+                                        <!--<p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.habil}" />-->
+                                        <!--<h:outputText value="Sabado:" style="color:black"/>-->
+                                        <!--<p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.sabado}" />-->
+                                        <!--<h:outputText value="Festivo:" style="color:black"/>-->
+                                        <!--<p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.festivo}" />-->
+                                    <!--</p:panelGrid>-->
 
 
 

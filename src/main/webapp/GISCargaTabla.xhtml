@@ -28,9 +28,12 @@
                         </p:panelGrid>
                         <div style="height: 10px"></div>
                         <p:dataTable id="arco" var="arco" value="#{busquedaGis.arcoTiempoRecords}" widgetVar="gisTable"
-                                     emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{busquedaGis.filteredArcoTiempoRecords}"
-
-                                     scrollable="true" scrollWidth="100%" scrollHeight="500">
+                                     emptyMessage="No hay registros relacionados a la busqueda"
+                                     filteredValue="#{busquedaGis.filteredArcoTiempoRecords}"
+                                     rowKey="#{arco.id}"
+                                     selection="#{busquedaGis.selectedArcoTiempo}" selectionMode="single"
+                                     scrollable="true" scrollWidth="100%" scrollHeight="500"
+                                    >
 
 
                             <f:facet name="header" style="background-color: #4cae4c">
@@ -46,23 +49,23 @@
                                 <h:outputText value="#{arco.servicio.linea}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.nodoInicial.nombre}" headerText="Nodo Inicio" filterMatchMode="contains" sortBy="#{arco.nodoInicial.nombre}"
+                            <p:column filterBy="#{arco.servicio.nodoIncial}" headerText="Nodo Inicio" filterMatchMode="contains" sortBy="#{arco.servicio.nodoIncial}"
                                       style="width: 125px">
-                                <h:outputText value="#{arco.nodoInicial.nombre}" />
+                                <h:outputText value="#{arco.servicio.nodoIncial}" />
                             </p:column>
 
-                            <p:column filterBy="#{arco.nodoFinal.nombre}" headerText="Nodo Final"  filterMatchMode="contains" sortBy="#{arco.nodoFinal.nombre}"
+                            <p:column filterBy="#{arco.servicio.nodoFinal}" headerText="Nodo Final"  filterMatchMode="contains" sortBy="#{arco.servicio.nodoFinal}"
                                       style="width: 120px">
-                                <h:outputText value="#{arco.nodoFinal.nombre}" />
+                                <h:outputText value="#{arco.servicio.nodoFinal}" />
                             </p:column>
 
                             <p:column filterBy="#{arco.distancia}" headerText="Distancia" filterMatchMode="contains" sortBy="#{arco.distancia}"
-                                      style="width: 120px">
+                                      style="width: 130px">
                                 <h:outputText value="#{arco.distancia}" />
                             </p:column>
 
                             <p:column filterBy="#{arco.servicio.trayecto}" headerText="Descripcion"  filterMatchMode="contains" sortBy="#{arco.servicio.trayecto}"
-                                      style="width: 120px">
+                                      style="width: 130px">
                                 <h:outputText value="#{arco.servicio.trayecto}" />
                             </p:column>
 
