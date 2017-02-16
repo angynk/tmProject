@@ -51,6 +51,7 @@
         <mapping class="com.tmModulos.modelo.entity.tmData.GisIntervalos"/>
         <mapping class="com.tmModulos.modelo.entity.tmData.ServicioTipoDia"/>
         <mapping class="com.tmModulos.modelo.entity.tmData.GisServicio"/>
+        <mapping class="com.tmModulos.modelo.entity.tmData.ListaNegraMatriz"/>
 
     </session-factory>
 </hibernate-configuration>

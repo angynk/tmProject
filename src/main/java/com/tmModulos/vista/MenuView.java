@@ -91,6 +91,16 @@ public class MenuView {
         }
     }
 
+    public void refreshListaNegra(){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/ListaNegraMatriz.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void refreshBuscarMatrizDistancia(){
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {

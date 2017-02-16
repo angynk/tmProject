@@ -1,5 +1,6 @@
 package com.tmModulos.controlador.servicios;
 
+import com.tmModulos.modelo.dao.saeBogota.GroupedHorario;
 import com.tmModulos.modelo.dao.saeBogota.HorarioDao;
 import com.tmModulos.modelo.dao.saeBogota.VigenciasDao;
 import com.tmModulos.modelo.entity.saeBogota.Horario;
@@ -29,5 +30,9 @@ public class TablaHorarioService {
 
     public List<Horario> getHorarioByDateIndentificador(String date,int macro, int linea, int seccion, int punto) {
         return horarioDao.getHorarioByDateIndentificador(date,macro,linea,seccion,punto);
+    }
+
+    public List<GroupedHorario>getHorarioByTipoDia(String cuadro) {
+        return horarioDao.getHorarioByTipoDia(cuadro);
     }
 }

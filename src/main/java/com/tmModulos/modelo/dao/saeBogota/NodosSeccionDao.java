@@ -25,11 +25,12 @@ public class NodosSeccionDao implements Serializable {
         this.sessionFactoryServer = sessionFactoryServer;
     }
 
-    public List<NodosSeccion> getNodosSeccionesByMacroLineaAndConfig(int macro, int linea, int config,int tipoNodo) {
+    public List<NodosSeccion> getNodosSeccionesByMacroLineaAndConfig(int macro, int linea,int seccion, int config,int tipoNodo) {
         session = sessionFactoryServer.openSession();
         Criteria criteria = session.createCriteria(NodosSeccion.class);
         criteria.add(Restrictions.eq("macro",macro));
         criteria.add(Restrictions.eq("linea",linea));
+        criteria.add(Restrictions.eq("seccion",seccion));
         criteria.add(Restrictions.eq("configLinea",config));
         criteria.add(Restrictions.eq("tipo",tipoNodo));
         List list = criteria.list();

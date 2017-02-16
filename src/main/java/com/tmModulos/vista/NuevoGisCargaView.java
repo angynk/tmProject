@@ -1,6 +1,7 @@
 package com.tmModulos.vista;
 
 import com.tmModulos.controlador.procesador.DataProcesorImpl;
+import com.tmModulos.controlador.utils.LogDatos;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @ManagedBean(name="gisCarga")
 @ViewScoped
@@ -29,6 +31,8 @@ public class NuevoGisCargaView implements Serializable{
     private String descripcion;
     private boolean status;
     private double progress = 0d;
+    private List<LogDatos> logDatos;
+    private boolean resultadosVisibles;
 
 
     @ManagedProperty("#{MessagesView}")
@@ -36,17 +40,22 @@ public class NuevoGisCargaView implements Serializable{
 
 
     public void upload() {
+        resultadosVisibles=false;
         if(isValid()){
         if(gisCarga.getSize()>0 && gisCarga.getContentType().equals("application/vnd.ms-excel")) {
             progress=20;
             try {
                 status = true;
-                progress=50;
                 if(descripcion.isEmpty()){ descripcion="Sin descripcion";}
-                dataProcesor.processDataFromFile(gisCarga.getFileName(),gisCarga.getInputstream(), fechaProgramacion, fechaVigencia,tipoDia,descripcion);
+                logDatos= dataProcesor.processDataFromFile(gisCarga.getFileName(),gisCarga.getInputstream(), fechaProgramacion, fechaVigencia,tipoDia,descripcion);
                status =false;
-                progress=100;
-                messagesView.info(Messages.MENSAJE_CARGA_EXITOSA,Messages.ACCION_GIS_CARGA_ALMACENADA);
+                if(dataProcesor.isExitoso()){
+                    messagesView.info(Messages.MENSAJE_CARGA_EXITOSA,Messages.ACCION_GIS_CARGA_ALMACENADA);
+                }else{
+                    messagesView.error(Messages.MENSAJE_CALCULO_FALLA,Messages.ACCION_VERIFICACION);
+                }
+
+                resultadosVisibles=true;
             } catch (IOException e) {
                 messagesView.error(Messages.MENSAJE_FALLO_ARCHIVO,Messages.ACCION_FALLO_ARCHIVO);
             }
@@ -69,6 +78,14 @@ public class NuevoGisCargaView implements Serializable{
             }
         }
         return false;
+    }
+
+    public boolean isResultadosVisibles() {
+        return resultadosVisibles;
+    }
+
+    public void setResultadosVisibles(boolean resultadosVisibles) {
+        this.resultadosVisibles = resultadosVisibles;
     }
 
     public Date getFechaProgramacion() {
@@ -155,5 +172,13 @@ public class NuevoGisCargaView implements Serializable{
 
     public void setMessagesView(MessagesView messagesView) {
         this.messagesView = messagesView;
+    }
+
+    public List<LogDatos> getLogDatos() {
+        return logDatos;
+    }
+
+    public void setLogDatos(List<LogDatos> logDatos) {
+        this.logDatos = logDatos;
     }
 }

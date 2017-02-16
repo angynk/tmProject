@@ -1,9 +1,6 @@
 package com.tmModulos.controlador.servicios;
 
-import com.tmModulos.modelo.dao.tmData.DistanciaNodosDao;
-import com.tmModulos.modelo.dao.tmData.MatrizDistanciaDao;
-import com.tmModulos.modelo.dao.tmData.ServicioDao;
-import com.tmModulos.modelo.dao.tmData.ServicioDistanciaDao;
+import com.tmModulos.modelo.dao.tmData.*;
 import com.tmModulos.modelo.entity.tmData.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,9 @@ public class MatrizDistanciaService {
 
     @Autowired
     ServicioDistanciaDao servicioDistanciaDao;
+
+    @Autowired
+    ListaNegraMatrizDao listaNegraMatrizDao;
 
 
     @Transactional(readOnly = false)
@@ -133,4 +133,26 @@ public class MatrizDistanciaService {
     public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia,Nodo nodo, MatrizDistancia matrizDistancia){
        return distanciaNodosDao.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodo,matrizDistancia);
     }
+
+
+    @Transactional(readOnly = false)
+    public void addListaNegraMatriz(ListaNegraMatriz listaNegraMatriz) {
+        listaNegraMatrizDao.addListaNegraMatriz(listaNegraMatriz);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteListaNegraMatriz(ListaNegraMatriz listaNegraMatriz) {
+        listaNegraMatrizDao.deleteListaNegraMatriz(listaNegraMatriz);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateListaNegraMatriz(ListaNegraMatriz listaNegraMatriz) {
+        listaNegraMatrizDao.updateListaNegraMatriz(listaNegraMatriz);
+    }
+
+
+    public List<ListaNegraMatriz> getListaNegraMatrizAll() {
+        return listaNegraMatrizDao.getListaNegraMatrizAll();
+    }
+
 }

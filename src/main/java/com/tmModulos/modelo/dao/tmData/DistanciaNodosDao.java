@@ -6,6 +6,7 @@ import com.tmModulos.modelo.entity.tmData.Nodo;
 import com.tmModulos.modelo.entity.tmData.ServicioDistancia;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -50,6 +51,8 @@ public class DistanciaNodosDao {
     public List<DistanciaNodos> getDistanciaNodosByMatriz(MatrizDistancia matrizDistancia){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(DistanciaNodos.class);
         criteria.add(Restrictions.eq("matrizDistancia", matrizDistancia));
+        criteria.addOrder(Order.asc("servicioDistancia"));
+        criteria.addOrder(Order.asc("distancia"));
         return criteria.list();
     }
 

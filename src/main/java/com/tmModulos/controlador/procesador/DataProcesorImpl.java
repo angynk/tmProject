@@ -5,7 +5,9 @@ import com.tmModulos.controlador.servicios.GisCargaService;
 import com.tmModulos.controlador.servicios.NodoService;
 import com.tmModulos.controlador.servicios.TipoDiaService;
 import com.tmModulos.controlador.utils.GisCargaDefinition;
+import com.tmModulos.controlador.utils.LogDatos;
 import com.tmModulos.controlador.utils.ProcessorUtils;
+import com.tmModulos.controlador.utils.TipoLog;
 import com.tmModulos.modelo.entity.tmData.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -40,6 +42,7 @@ public class DataProcesorImpl {
     private ProcessorUtils processorUtils;
 
     private String destination="C:\\temp\\";
+    private boolean exitoso;
 
     private static Logger log = Logger.getLogger(DataProcesorImpl.class);
 
@@ -49,12 +52,15 @@ public class DataProcesorImpl {
     }
 
     private List<String> serviciosNoEncontrados;
+    private List<LogDatos> logDatos;
 
 
 
-    public boolean processDataFromFile(String fileName, InputStream in, Date fechaProgrmacion, Date fechaVigencia, String tipoDia, String descripcion) {
-
+    public List<LogDatos> processDataFromFile(String fileName, InputStream in, Date fechaProgrmacion, Date fechaVigencia, String tipoDia, String descripcion) {
+        logDatos = new ArrayList<>();
+        exitoso=true;
         log.info("<< GIS Carga Incio de Procesamiento >>");
+        logDatos.add(new LogDatos("GIS Carga Incio de Procesamiento", TipoLog.INFO));
         serviciosNoEncontrados = new ArrayList<>();
         processorUtils.copyFile(fileName,in,destination);
         destination=destination+fileName;
@@ -62,11 +68,14 @@ public class DataProcesorImpl {
         try {
             readExcelAndSaveData(destination,gisCarga,tipoDia);
             log.info("<<GIS Carga Fin de Procesamiento>>");
+            logDatos.add(new LogDatos("GIS Carga Fin de Procesamiento", TipoLog.INFO));
         } catch (IOException e) {
             log.error("Error al leer el archivo");
             log.equals(e.getMessage());
+            logDatos.add(new LogDatos(e.getMessage(), TipoLog.ERROR));
+            exitoso =false;
         }
-        return false;
+        return logDatos;
 
     }
 
@@ -78,6 +87,10 @@ public class DataProcesorImpl {
         }
 
 
+    }
+
+    public void roollback(){
+        exitoso =false;
     }
 
     public GisCarga saveGisCarga(Date fechaProgrmacion, Date fechaVigencia,String descripcion,String tipoDia){
@@ -100,6 +113,8 @@ public class DataProcesorImpl {
                 }catch (Exception e){
                     log.error("Error en la inserción de base de datos del servicio");
                     log.error(e.getMessage());
+                    logDatos.add(new LogDatos(e.getMessage(), TipoLog.ERROR));
+                    exitoso =false;
                 }
 
             }
@@ -135,10 +150,16 @@ public class DataProcesorImpl {
                         }else{
                             log.warn("Nodo Final no encontrado: "+row.getCell(GisCargaDefinition.NODOFINAL).getStringCellValue());
                             log.warn("Servicio no relacionado con Trayecto: "+row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
+                            logDatos.add(new LogDatos("Nodo Final no encontrado: "+row.getCell(GisCargaDefinition.NODOFINAL).getStringCellValue()
+                                    +" para servicio con Trayecto: "+row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue() , TipoLog.ERROR));
+                            exitoso =false;
                         }
                     }else{
                         log.warn("Nodo Inicio no encontrado: "+row.getCell(GisCargaDefinition.NODOINICIO).getStringCellValue());
                         log.warn("Servicio no relacionado con Trayecto: "+row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
+                        logDatos.add(new LogDatos("Nodo Inicio no encontrado: "+row.getCell(GisCargaDefinition.NODOFINAL).getStringCellValue()
+                                +" para servicio con Trayecto: "+row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue(), TipoLog.ERROR));
+                        exitoso =false;
                     }
 
 
@@ -148,10 +169,13 @@ public class DataProcesorImpl {
             }
             fileInputStream.close();
         } catch (FileNotFoundException e) {
-            log.error("Error: Archivo no encontrado");
             log.error(e.getMessage());
+            logDatos.add(new LogDatos(e.getMessage(), TipoLog.ERROR));
+            exitoso =false;
         } catch (IOException e) {
            log.equals(e.getMessage());
+            logDatos.add(new LogDatos(e.getMessage(), TipoLog.ERROR));
+            exitoso =false;
         }
     }
 
@@ -218,5 +242,13 @@ public class DataProcesorImpl {
 
     public void setProcessorUtils(ProcessorUtils processorUtils) {
         this.processorUtils = processorUtils;
+    }
+
+    public boolean isExitoso() {
+        return exitoso;
+    }
+
+    public void setExitoso(boolean exitoso) {
+        this.exitoso = exitoso;
     }
 }

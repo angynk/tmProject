@@ -4,8 +4,10 @@ package com.tmModulos.controlador.procesador;
 import com.tmModulos.controlador.servicios.DistanciaNodosService;
 import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.NodoService;
+import com.tmModulos.controlador.servicios.TablaHorarioService;
 import com.tmModulos.controlador.utils.MatrizDistanciaDefinicion;
 import com.tmModulos.controlador.utils.ProcessorUtils;
+import com.tmModulos.modelo.dao.saeBogota.GroupedHorario;
 import com.tmModulos.modelo.entity.tmData.*;
 import com.tmModulos.modelo.entity.saeBogota.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -34,6 +36,9 @@ public class MatrizProcessor {
     private NodoService nodoService;
 
     @Autowired
+    private TablaHorarioService tablaHorarioService;
+
+    @Autowired
     private ProcessorUtils processorUtils;
 
     private String destination="C:\\temp\\";
@@ -42,10 +47,10 @@ public class MatrizProcessor {
     public boolean calcularMatrizDistancia(Date fecha,String numeracion){
         int vigenciad=0;
         List<Vigencias> vigenciasDaoByDate = encontrarVigencias(fecha);
+        List<GroupedHorario> horarioByTipoDia = tablaHorarioService.getHorarioByTipoDia(vigenciasDaoByDate.get(0).getTipoDia());
         MatrizDistancia matrizDistancia = guardarMatrizDistancia(fecha,numeracion);
         if(vigenciasDaoByDate.size()>0){
             for (Vigencias vigencia:vigenciasDaoByDate ) {
-                System.out.println("NUMERO!!!!!!!!!!!!!"+vigenciad);
                 vigenciad++;
                 int macro = vigencia.getMacro();
                 int linea = vigencia.getLinea();
@@ -54,11 +59,16 @@ public class MatrizProcessor {
                 String nombreMatriz= "";
                 int distancia=0;
                 Nodos nodos=null;
+                List<GroupedHorario> horarioActual =macroLineaEnHorario(macro,linea,horarioByTipoDia);
+                if(horarioActual.size()>0){
+
+                for( GroupedHorario tablaHorario: horarioActual ){
+
                 List<Lineas> lineasObj = encontrarLineas(macro, linea);
                 if(lineasObj.size()>0){
                     config= lineasObj.get(0).getConfig();
                 }
-                List<NodosSeccion> nodosSeccions = encontrarNodosSeccion(macro, linea, config,1);
+                List<NodosSeccion> nodosSeccions = encontrarNodosSeccion(macro, linea, tablaHorario.getSeccion(), config,1);
                 if(nodosSeccions.size()>0){
                     for (NodosSeccion nodoSec:nodosSeccions) {
                         seccion= nodoSec.getSeccion();
@@ -72,10 +82,22 @@ public class MatrizProcessor {
 
                 }
             }
+                }
+            }
         }else{
             return false;
         }
         return true;
+    }
+
+    private List<GroupedHorario> macroLineaEnHorario(int macro, int linea, List<GroupedHorario> horarioByTipoDia) {
+        List<GroupedHorario> horarios = new ArrayList<>();
+        for(GroupedHorario horario:horarioByTipoDia){
+            if(macro == horario.getMacro() && linea == horario.getLinea() ){
+                horarios.add(horario);
+            }
+        }
+        return horarios;
     }
 
     private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz) {
@@ -158,8 +180,8 @@ public class MatrizProcessor {
         return distanciaNodosService.getLineasByMacroAndLinea( macro,linea );
     }
 
-    public List<NodosSeccion> encontrarNodosSeccion(int macro,int linea,int config,int tipoNodo){
-        return distanciaNodosService.getNodosSeccionesByMacroLineaAndConfig(macro,linea,config,tipoNodo);
+    public List<NodosSeccion> encontrarNodosSeccion(int macro,int linea, int seccion,int config,int tipoNodo){
+        return distanciaNodosService.getNodosSeccionesByMacroLineaAndConfig(macro,linea, seccion,config,tipoNodo);
     }
 
     public String encontrarNombreMatriz(int macro,int linea,int config,int seccion){
