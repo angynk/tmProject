@@ -7,6 +7,7 @@ public class Messages {
     //ERRORES
     public static final String MENSAJE_CAMPOS_INCOMPLETOS = "Información incompleta";
     public static final String ACCION_CAMPOS_INCOMPLETOS = "Complete todos los campos";
+    public static final String ACCION_ELIMINACION_REGISTROS = "Registros Eliminados";
     public static final String MENSAJE_ARCHIVO_NO_EXCEL = "Error con el archivo cargado";
     public static final String ACCION_ARCHIVO_NO_EXCEL = "Verifique el el archivo sea de tipo xsl";
     public static final String MENSAJE_FALLO_ARCHIVO = "Fallo la carga del archivo";

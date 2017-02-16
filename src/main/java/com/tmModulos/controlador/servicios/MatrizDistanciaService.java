@@ -82,6 +82,7 @@ public class MatrizDistanciaService {
 
     }
 
+    @Transactional(readOnly = false)
     public void deleteDistanciaNodos(DistanciaNodos distanciaNodos) {
         distanciaNodosDao.deleteDistanciaNodos(distanciaNodos);
     }

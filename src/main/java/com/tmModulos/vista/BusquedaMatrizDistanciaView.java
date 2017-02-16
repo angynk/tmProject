@@ -36,6 +36,7 @@ public class BusquedaMatrizDistanciaView implements Serializable {
     private List<MatrizDistancia> selectedMatrizDistancia;
 
     private List<DistanciaNodos> distanciaNodosRecords;
+    private List<DistanciaNodos> selectedDistanciaNodosRecords;
     private List<DistanciaNodos> filteredDistanciaNodosRecords;
 
     @ManagedProperty("#{MatrizDistanciaService}")
@@ -111,6 +112,8 @@ public class BusquedaMatrizDistanciaView implements Serializable {
     public void busquedaMatrizDistancia(){
         visibleRecords=true;
         distanciaNodosRecords = matrizDistanciaService.getDistanciaNodosByMatriz(selectedMatriz);
+        selectedDistanciaNodosRecords = new ArrayList<>();
+        filteredDistanciaNodosRecords = new ArrayList<>();
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
@@ -120,6 +123,17 @@ public class BusquedaMatrizDistanciaView implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public void eliminar(){
+        for(DistanciaNodos distanciaNodos:selectedDistanciaNodosRecords){
+            matrizDistanciaService.deleteDistanciaNodos(distanciaNodos);
+            messagesView.error(Messages.MENSAJE_EXITOSO,Messages.ACCION_ELIMINACION_REGISTROS);
+
+        }
+        busquedaMatrizDistancia();
+    }
+
+
 
     public void setBusqueda(String busqueda) {
         this.busqueda = busqueda;
@@ -232,5 +246,13 @@ public class BusquedaMatrizDistanciaView implements Serializable {
 
     public void setMessagesView(MessagesView messagesView) {
         this.messagesView = messagesView;
+    }
+
+    public List<DistanciaNodos> getSelectedDistanciaNodosRecords() {
+        return selectedDistanciaNodosRecords;
+    }
+
+    public void setSelectedDistanciaNodosRecords(List<DistanciaNodos> selectedDistanciaNodosRecords) {
+        this.selectedDistanciaNodosRecords = selectedDistanciaNodosRecords;
     }
 }

@@ -101,6 +101,11 @@ public class MatrizProcessor {
     }
 
     private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz) {
+//        if(seccion == 3){
+//            seccion=1;
+//        }else if(seccion==4){
+//            seccion=2;
+//        }
 
         ServicioDistancia servicioDistancia = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
         if(servicioDistancia==null){

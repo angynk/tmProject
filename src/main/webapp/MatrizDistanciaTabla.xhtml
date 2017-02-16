@@ -28,8 +28,11 @@
                         </p:panelGrid>
                         <div style="height: 10px"></div>
                         <p:dataTable id="matriz" var="matriz" value="#{busquedaMatriz.distanciaNodosRecords}" widgetVar="MatrizTable"
-                                     emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{busquedaMatriz.filteredDistanciaNodosRecords}"
-                                     scrollable="true" scrollWidth="100%" scrollHeight="510">
+                                     emptyMessage="No hay registros relacionados a la busqueda"
+                                     filteredValue="#{busquedaMatriz.filteredDistanciaNodosRecords}"
+                                     scrollable="true" scrollWidth="100%" scrollHeight="510"
+                                     selection="#{busquedaMatriz.selectedDistanciaNodosRecords}" rowKey="#{matriz.id}"
+                                     >
 
 
                             <f:facet name="header" style="background-color: #4cae4c">
@@ -39,7 +42,7 @@
                                 </p:outputPanel>
                             </f:facet>
 
-
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
                             <p:column filterBy="#{matriz.servicioDistancia.ruta}" headerText="Ruta" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{matriz.servicioDistancia.ruta}"
                                       style="width: 120px">
@@ -80,9 +83,34 @@
                                       style="width: 120px">
                                 <h:outputText value="#{matriz.nodo.nombre}" />
                             </p:column>
+                            <f:facet name="footer">
+                                <!--<p:commandButton process="checkboxDT" update=":form:multiCarDetail" icon="ui-icon-search" -->
+                                                 <!--value="Eliminar" oncomplete="PF('multiCarDialog').show()" />-->
+                                <p:commandButton id="delete" process="matriz"
+                                                 icon="ui-icon ui-icon-trash"
+                                                 value="Eliminar"
+                                                 title="GDeleteButton"
+                                                 onclick="PF('groupDeleteConfirm').show()"
+
+                                                >
+                                    <!--<f:setPropertyActionListener value="#{ser}" target="#{serviciosTipoDiaP.selectedServicio}" />-->
+                                </p:commandButton>
+                            </f:facet>
 
                         </p:dataTable>
-
+                        <p:confirmDialog message="Esta seguro de eliminar estos registro?"
+                                         showEffect="fade"
+                                         hideEffect="explode"
+                                         widgetVar="groupDeleteConfirm">
+                            <p:commandButton title="GDelYesButton"
+                                             value="Yes"
+                                             action="#{busquedaMatriz.eliminar}"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"
+                            />
+                            <p:commandButton title="GDelNoButton"
+                                             value="No"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"/>
+                        </p:confirmDialog>
                     </div>
                 </p:panel>
             </h:form>
