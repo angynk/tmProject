@@ -25,7 +25,7 @@
 
                 <p:panel id="basic" header="Generar Matriz de distancia"  style="margin-bottom:20px">
                     <h:panelGrid  style="margin-bottom:10px;margin-top: 10px" cellpadding="5">
-                        <p:panelGrid style="border:none" columns="2" >
+                        <p:panelGrid style="border:none" columns="4" >
                         <p:outputLabel  value="Tipo Generación:" />
                         <p:selectOneRadio id="busqueda" value="#{matrizDis.tipoGeneracion}">
                             <p:ajax process="@this" update="@form" listener="#{matrizDis.cambioTipoGeneracion}"/>
@@ -37,10 +37,20 @@
                             <p:message for="numeracion" display="tooltip" />
 
                         </p:panelGrid>
+                        <p:panel>
+                            <p:panelGrid columns="4" style="border:none">
+                                <p:outputLabel for="buttonV" value="Fecha Hábil (DD-MM-AAAA):" />
+                                <p:calendar id="buttonV" value="#{matrizDis.fechaDeVigencia}" showOn="button" />
+                                <p:outputLabel for="buttonS" value="Fecha Sabado (DD-MM-AAAA):" />
+                                <p:calendar id="buttonS" value="#{matrizDis.fechaSabado}" showOn="button" />
+                                <p:outputLabel for="buttonF" value="Fecha Festivos (DD-MM-AAAA):" />
+                                <p:calendar id="buttonF" value="#{matrizDis.fechaFestivos}" showOn="button" />
+                            </p:panelGrid>
+                        </p:panel>
                         <p:panel visible="#{matrizDis.archivoVisible}" style="border:none">
-                            <p:panelGrid columns="2">
-                            <p:outputLabel for="button" value="Fecha Programación (DD-MM-AAAA):" />
-                            <p:calendar id="button" value="#{matrizDis.fechaDeProgramacion}" showOn="button" />
+                            <p:panelGrid columns="3">
+                            <!--<p:outputLabel for="button" value="Fecha Programación (DD-MM-AAAA):" />-->
+                            <!--<p:calendar id="button" value="#{matrizDis.fechaDeProgramacion}" showOn="button" />-->
                             <p:outputLabel value="Archivo Matriz de Distancias (DD-MM-AAAA):" />
                             <p:fileUpload value="#{matrizDis.matrizDistancias}" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(xls|xlsx)$/"/>
 
@@ -52,8 +62,6 @@
                         </p:panel>
                         <p:panel visible="#{matrizDis.automaticoVisible}" style="border:none" >
                             <p:panelGrid columns="2">
-                                <p:outputLabel for="buttonV" value="Fecha Vigencia (DD-MM-AAAA):" />
-                                <p:calendar id="buttonV" value="#{matrizDis.fechaDeVigencia}" showOn="button" />
                                 <p:commandButton value="Calcular" action="#{matrizDis.calcularMatrizDistancias}" ajax="false"
                                                  icon="ui-icon ui-icon-calculator" id="calcular" visible="#{matrizDis.automaticoVisible}"
                                                  async="true" process="@form" onclick="PF('dlg2').show();" global="false"
@@ -72,6 +80,21 @@
 
 
 
+                </p:panel>
+
+                <p:panel visible="#{matrizDis.resultadosVisibles}">
+                    <p:accordionPanel style="width: 100%" activeIndex="null">
+                        <p:tab title="Resultados">
+                            <h:panelGrid columns="2" cellpadding="10" style="width: 100%">
+                                <p:dataList value="#{matrizDis.logDatos}" var="log" type="ordered" style="width: 100%">
+                                    <f:facet name="header">
+                                        Log
+                                    </f:facet>
+                                    #{log.tipoLog} : #{log.mensaje}
+                                </p:dataList>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
                 </p:panel>
 
                 <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">

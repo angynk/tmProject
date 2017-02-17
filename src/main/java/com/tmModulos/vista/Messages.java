@@ -20,6 +20,7 @@ public class Messages {
     public static final String MENSAJE_EXITOSO = "Proceso Existoso";
     public static final String MENSAJE_CALCULO_EXITOSO = "Generacion exitosa";
     public static final String MENSAJE_CALCULO_FALLA = "Generacion fallida";
+    public static final String MENSAJE_CALCULO_REVISION = "Revisar Generación";
     public static final String ACCION_VERIFICACION = "Verifique el log de resultados";
     public static final String ACCION_MATRIZ_ALMACENADA = "Matriz de distancias Almacenada";
     public static final String ACCION_TABLA_MAESTRA_ALMACENADA = "Tabla Maestra Almacenada";

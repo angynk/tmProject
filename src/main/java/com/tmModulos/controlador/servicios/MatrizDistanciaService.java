@@ -92,7 +92,6 @@ public class MatrizDistanciaService {
         distanciaNodosDao.updateDistanciaNodos(distanciaNodos);
     }
 
-
     public List<DistanciaNodos> getDistanciaNodosAll() {
         return distanciaNodosDao.getDistanciaNodosAll();
     }

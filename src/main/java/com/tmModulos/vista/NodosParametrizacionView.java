@@ -27,6 +27,7 @@ public class NodosParametrizacionView implements Serializable {
     private NodoService nodoService;
 
     private List<Nodo> nodosRecords;
+    private Nodo selectedNodos;
     private List<Nodo> filteredNodosRecords;
 
     private List<Zona> zonasProgramadasRecords;
@@ -128,5 +129,13 @@ public class NodosParametrizacionView implements Serializable {
 
     public void setZonasUsuariosRecords(List<Zona> zonasUsuariosRecords) {
         this.zonasUsuariosRecords = zonasUsuariosRecords;
+    }
+
+    public Nodo getSelectedNodos() {
+        return selectedNodos;
+    }
+
+    public void setSelectedNodos(Nodo selectedNodos) {
+        this.selectedNodos = selectedNodos;
     }
 }

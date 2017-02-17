@@ -19,8 +19,14 @@ public class MatrizDistancia {
     @Column(name = "fecha_creacion")
     private Date fechaCreacion;
 
-    @Column(name = "fecha_aplicacion")
+    @Column(name = "fecha_habil")
     private Date fechaAplicacion;
+
+    @Column(name = "fecha_sabado")
+    private Date fechaSabado;
+
+    @Column(name = "fecha_festivo")
+    private Date fechaFestivo;
 
     @Column(name = "numeracion")
     private String numeracion;
@@ -40,9 +46,11 @@ public class MatrizDistancia {
     public MatrizDistancia() {
     }
 
-    public MatrizDistancia(Date fechaCreacion, Date fechaAplicacion, String numeracion) {
+    public MatrizDistancia(Date fechaCreacion, Date fechaAplicacion, Date fechaSabado, Date fechaFestivo, String numeracion) {
         this.fechaCreacion = fechaCreacion;
         this.fechaAplicacion = fechaAplicacion;
+        this.fechaSabado = fechaSabado;
+        this.fechaFestivo = fechaFestivo;
         this.numeracion = numeracion;
     }
 
@@ -110,5 +118,21 @@ public class MatrizDistancia {
 
     public void setTablaMaestraRecords(Set<TablaMaestra> tablaMaestraRecords) {
         this.tablaMaestraRecords = tablaMaestraRecords;
+    }
+
+    public Date getFechaSabado() {
+        return fechaSabado;
+    }
+
+    public void setFechaSabado(Date fechaSabado) {
+        this.fechaSabado = fechaSabado;
+    }
+
+    public Date getFechaFestivo() {
+        return fechaFestivo;
+    }
+
+    public void setFechaFestivo(Date fechaFestivo) {
+        this.fechaFestivo = fechaFestivo;
     }
 }

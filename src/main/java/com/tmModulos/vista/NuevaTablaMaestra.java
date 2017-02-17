@@ -26,11 +26,15 @@ public class NuevaTablaMaestra {
     private Date fechaDeProgramacion;
     private Date fechaDeVigencia;
     private UploadedFile tablaMaestra;
+    private String seleccionGIS;
 
     private String gisCarga;
     private String selectedTipoDia;
     private List<String> tipoDia;
+
     private List<GisCarga> gisCargaList;
+    private List<GisCarga> filteredGisCargaList;
+    private GisCarga gisCargaSelected;
 
     private String matrizDistancia;
     private List<MatrizDistancia> matrizDistanciasList;
@@ -81,6 +85,15 @@ public class NuevaTablaMaestra {
             }
         }
         return false;
+    }
+
+    public void habilitarBusquedaGIS(){
+
+    }
+
+    public void seleccionarGis(){
+       seleccionGIS = "GIS Carga Seleccionado: "+gisCargaSelected.getDescripcion();
+
     }
 
 
@@ -204,5 +217,29 @@ public class NuevaTablaMaestra {
 
     public void setTipoDia(List<String> tipoDia) {
         this.tipoDia = tipoDia;
+    }
+
+    public List<GisCarga> getFilteredGisCargaList() {
+        return filteredGisCargaList;
+    }
+
+    public void setFilteredGisCargaList(List<GisCarga> filteredGisCargaList) {
+        this.filteredGisCargaList = filteredGisCargaList;
+    }
+
+    public GisCarga getGisCargaSelected() {
+        return gisCargaSelected;
+    }
+
+    public void setGisCargaSelected(GisCarga gisCargaSelected) {
+        this.gisCargaSelected = gisCargaSelected;
+    }
+
+    public String getSeleccionGIS() {
+        return seleccionGIS;
+    }
+
+    public void setSeleccionGIS(String seleccionGIS) {
+        this.seleccionGIS = seleccionGIS;
     }
 }

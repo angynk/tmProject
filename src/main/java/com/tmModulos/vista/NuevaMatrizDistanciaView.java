@@ -1,6 +1,7 @@
 package com.tmModulos.vista;
 
 import com.tmModulos.controlador.procesador.MatrizProcessor;
+import com.tmModulos.controlador.utils.LogDatos;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @ManagedBean(name="matrizDis")
 @SessionScoped
@@ -23,7 +25,11 @@ public class NuevaMatrizDistanciaView {
     private boolean automaticoVisible;
     private Date fechaDeProgramacion;
     private Date fechaDeVigencia;
+    private Date fechaSabado;
+    private Date fechaFestivos;
     private UploadedFile matrizDistancias;
+    private List<LogDatos> logDatos;
+    private boolean resultadosVisibles;
 
     @ManagedProperty("#{MatrizProcessor}")
     private MatrizProcessor matrizProcessor;
@@ -52,7 +58,9 @@ public class NuevaMatrizDistanciaView {
         if(isValid()){
             if(matrizDistancias.getSize()>0 && matrizDistancias.getContentType().equals("application/vnd.ms-excel")) {
                 try {
-                    matrizProcessor.processDataFromFile(matrizDistancias.getFileName(),matrizDistancias.getInputstream(), fechaDeProgramacion,numeracion);
+                    resultadosVisibles=true;
+                    logDatos= matrizProcessor.processDataFromFile(matrizDistancias.getFileName(),matrizDistancias.getInputstream(), fechaDeProgramacion,numeracion,
+                            fechaDeVigencia,fechaSabado,fechaFestivos);
                     messagesView.info(Messages.MENSAJE_CARGA_EXITOSA,Messages.ACCION_MATRIZ_ALMACENADA);
                 } catch (IOException e) {
                     messagesView.error(Messages.MENSAJE_FALLO_ARCHIVO,Messages.ACCION_FALLO_ARCHIVO);
@@ -71,7 +79,7 @@ public class NuevaMatrizDistanciaView {
     private boolean isValid() {
 
         if(matrizDistancias!=null){
-            if(fechaDeProgramacion!=null){
+            if( fechaDeVigencia!=null && fechaSabado!=null && fechaFestivos!=null){
                 if(numeracion!=null){
                     return true;
                 }
@@ -84,12 +92,13 @@ public class NuevaMatrizDistanciaView {
 
     public void calcularMatrizDistancias(){
         if( numeracion!=null ){
-            if(fechaDeVigencia!=null ){
-                   boolean resultado= matrizProcessor.calcularMatrizDistancia(fechaDeVigencia,numeracion);
-                   if(resultado){
+            if(fechaDeVigencia!=null && fechaFestivos!= null && fechaSabado!=null){
+                   resultadosVisibles=true;
+                   logDatos= matrizProcessor.calcularMatrizDistancia(fechaDeVigencia,numeracion,fechaFestivos,fechaSabado);
+                   if(logDatos.size()==2){
                        messagesView.info(Messages.MENSAJE_CALCULO_EXITOSO,Messages.ACCION_MATRIZ_ALMACENADA);
                    }else{
-                       messagesView.info(Messages.MENSAJE_CALCULO_FALLA,Messages.ACCION_CALCULO_FALLA);
+                       messagesView.info(Messages.MENSAJE_CALCULO_REVISION,"");
                    }
             }else {
                 messagesView.error(Messages.MENSAJE_CAMPOS_INCOMPLETOS, Messages.ACCION_CAMPOS_INCOMPLETOS);
@@ -172,5 +181,37 @@ public class NuevaMatrizDistanciaView {
 
     public void setMessagesView(MessagesView messagesView) {
         this.messagesView = messagesView;
+    }
+
+    public Date getFechaSabado() {
+        return fechaSabado;
+    }
+
+    public void setFechaSabado(Date fechaSabado) {
+        this.fechaSabado = fechaSabado;
+    }
+
+    public Date getFechaFestivos() {
+        return fechaFestivos;
+    }
+
+    public void setFechaFestivos(Date fechaFestivos) {
+        this.fechaFestivos = fechaFestivos;
+    }
+
+    public List<LogDatos> getLogDatos() {
+        return logDatos;
+    }
+
+    public void setLogDatos(List<LogDatos> logDatos) {
+        this.logDatos = logDatos;
+    }
+
+    public boolean isResultadosVisibles() {
+        return resultadosVisibles;
+    }
+
+    public void setResultadosVisibles(boolean resultadosVisibles) {
+        this.resultadosVisibles = resultadosVisibles;
     }
 }
