@@ -38,6 +38,8 @@ public class NuevaTablaMaestra {
 
     private String matrizDistancia;
     private List<MatrizDistancia> matrizDistanciasList;
+    private List<MatrizDistancia> filteredMatrizDistanciasList;
+    private MatrizDistancia selectedMatrizDistancia;
 
 
     @ManagedProperty("#{MessagesView}")
@@ -92,8 +94,12 @@ public class NuevaTablaMaestra {
     }
 
     public void seleccionarGis(){
-       seleccionGIS = "GIS Carga Seleccionado: "+gisCargaSelected.getDescripcion();
+       gisCarga = "GIS Carga Seleccionado: "+gisCargaSelected.getDescripcion();
 
+    }
+
+    public void seleccionarMatriz(){
+        matrizDistancia = "Matriz de Distancias Seleccionada: "+selectedMatrizDistancia.getNumeracion();
     }
 
 
@@ -241,5 +247,21 @@ public class NuevaTablaMaestra {
 
     public void setSeleccionGIS(String seleccionGIS) {
         this.seleccionGIS = seleccionGIS;
+    }
+
+    public List<MatrizDistancia> getFilteredMatrizDistanciasList() {
+        return filteredMatrizDistanciasList;
+    }
+
+    public void setFilteredMatrizDistanciasList(List<MatrizDistancia> filteredMatrizDistanciasList) {
+        this.filteredMatrizDistanciasList = filteredMatrizDistanciasList;
+    }
+
+    public MatrizDistancia getSelectedMatrizDistancia() {
+        return selectedMatrizDistancia;
+    }
+
+    public void setSelectedMatrizDistancia(MatrizDistancia selectedMatrizDistancia) {
+        this.selectedMatrizDistancia = selectedMatrizDistancia;
     }
 }

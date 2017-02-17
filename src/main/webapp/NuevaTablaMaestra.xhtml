@@ -42,7 +42,7 @@
                                 <p:commandButton actionListener="#{tablaMaestra.habilitarBusquedaGIS}" update=":form:nuevoDialog" value="Buscar"
                                                  oncomplete="PF('nuevoDialog').show()" icon="ui-icon-plus" title="View">
                                 </p:commandButton>
-                                <p:outputLabel value="#{tablaMaestra.seleccionGIS}" />
+                                <p:outputLabel value="#{tablaMaestra.gisCarga}" />
                                 <!--<p:selectOneMenu id="advanced" value="#{tablaMaestra.gisCarga}"  panelStyle="width:180px"-->
                                                  <!--effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">-->
                                     <!--<f:selectItems value="#{tablaMaestra.gisCargaList}" var="gis"-->
@@ -55,16 +55,20 @@
                                 <!--</p:selectOneMenu>-->
 
                                 <p:outputLabel value="Matriz de distancias:" />
-                                <p:selectOneMenu id="matrizD" value="#{tablaMaestra.matrizDistancia}"  panelStyle="width:180px"
-                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{tablaMaestra.matrizDistanciasList}" var="matriz"
-                                                   itemLabel="#{matriz.numeracion}" itemValue="#{matriz.numeracion}" />
+                                <p:commandButton actionListener="#{tablaMaestra.habilitarBusquedaGIS}" update=":form:matrizDialog" value="Buscar"
+                                                 oncomplete="PF('matrizDialog').show()" icon="ui-icon-plus" title="View">
+                                </p:commandButton>
+                                <p:outputLabel value="#{tablaMaestra.matrizDistancia}" />
+                                <!--<p:selectOneMenu id="matrizD" value="#{tablaMaestra.matrizDistancia}"  panelStyle="width:180px"-->
+                                                 <!--effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">-->
+                                    <!--<f:selectItems value="#{tablaMaestra.matrizDistanciasList}" var="matriz"-->
+                                                   <!--itemLabel="#{matriz.numeracion}" itemValue="#{matriz.numeracion}" />-->
 
-                                    <p:column>
-                                        <h:outputText value="#{t}" />
-                                    </p:column>
+                                    <!--<p:column>-->
+                                        <!--<h:outputText value="#{t}" />-->
+                                    <!--</p:column>-->
 
-                                </p:selectOneMenu>
+                                <!--</p:selectOneMenu>-->
 
                             </p:panelGrid>
                         <p:panel  style="border:none" >
@@ -142,6 +146,37 @@
                                                  ajax="false" async="true" />
                             </f:facet>
                                 </p:dataTable>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+                <p:dialog header="Matriz de Distancia" widgetVar="matrizDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="matrizDialog" style="text-align:center;">
+                        <h:outputText value="Seleccione Matriz de Distancias" />
+
+                        <p:dataTable id="matriz" var="matriz" value="#{tablaMaestra.matrizDistanciasList}" widgetVar="gisTable"
+                                     emptyMessage="No hay registros relacionados a la busqueda"
+                                     filteredValue="#{tablaMaestra.filteredMatrizDistanciasList}"
+                                     rowKey="#{matriz.id}"
+                                     selection="#{tablaMaestra.selectedMatrizDistancia}"
+                                     scrollable="true"  scrollHeight="350"
+                        >
+                            <p:column selectionMode="single" style="width:32px;text-align:center" />
+                            <p:column headerText="Descripcion" filterBy="#{matriz.numeracion}" filterMatchMode="contains">
+                                <h:outputText value="#{matriz.numeracion}" />
+                            </p:column>
+                            <p:column headerText="Fecha Creacion" filterBy="#{matriz.fechaCreacionFormato}" filterMatchMode="contains">
+                                <h:outputText value="#{matriz.fechaCreacionFormato}" />
+                            </p:column>
+                            <p:column headerText="Fecha Programacion" filterBy="#{matriz.fechaProgramacionFormato}" filterMatchMode="contains">
+                                <h:outputText value="#{matriz.fechaProgramacionFormato}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton process="arco" icon="ui-icon-search" value="Seleccionar"
+                                                 actionListener="#{tablaMaestra.seleccionarMatriz}"
+                                                 ajax="false" async="true" />
+                            </f:facet>
+                        </p:dataTable>
 
                     </p:outputPanel>
                 </p:dialog>
