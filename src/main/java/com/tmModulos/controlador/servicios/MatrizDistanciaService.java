@@ -155,4 +155,8 @@ public class MatrizDistanciaService {
         return listaNegraMatrizDao.getListaNegraMatrizAll();
     }
 
+    public DistanciaNodos getUltimoDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia){
+        return distanciaNodosDao.getUltimoDistanciaNodosByServicioAndPunto(servicioDistancia,matrizDistancia);
+    }
+
 }

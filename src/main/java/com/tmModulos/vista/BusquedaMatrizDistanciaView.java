@@ -127,9 +127,10 @@ public class BusquedaMatrizDistanciaView implements Serializable {
     public void eliminar(){
         for(DistanciaNodos distanciaNodos:selectedDistanciaNodosRecords){
             matrizDistanciaService.deleteDistanciaNodos(distanciaNodos);
-            messagesView.error(Messages.MENSAJE_EXITOSO,Messages.ACCION_ELIMINACION_REGISTROS);
+
 
         }
+        messagesView.error(Messages.MENSAJE_EXITOSO,Messages.ACCION_ELIMINACION_REGISTROS);
         busquedaMatrizDistancia();
     }
 

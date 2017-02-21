@@ -34,7 +34,7 @@ public class NodoService {
 
     public List<Nodo> getNodo(String nombre){ return nodoDao.getNodo( nombre );}
 
-    public Nodo getNodoByCodigo(String codigo){ return nodoDao.getNodoByCodigo(codigo);}
+    public Nodo getNodoByCodigo(int codigo){ return nodoDao.getNodoByCodigo(codigo);}
 
     @Transactional(readOnly = false)
     public void addZona(Zona zona) {

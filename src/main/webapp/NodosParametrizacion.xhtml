@@ -18,7 +18,9 @@
                     <div style="margin-top:20px">
                         <p:panelGrid columns="4">
                             <p:commandButton actionListener="#{nodosP.inicio}" id="inicio"  icon="ui-icon ui-icon-home" title="inicio" />
-
+                            <p:commandButton actionListener="#{nodosP.habilitarNuevo}" update=":form:nuevoDialog" value="Crear"
+                                             oncomplete="PF('nuevoDialog').show()" icon="ui-icon-plus" title="View">
+                            </p:commandButton>
                             <h:outputText value="Exportar:" />
                             <h:commandLink>
                                 <p:graphicImage value="/resources/images/excel.png" width="24"/>
@@ -28,9 +30,11 @@
                         </p:panelGrid>
                         <div style="height: 10px"></div>
                         <p:dataTable id="matriz" var="nodo" value="#{nodosP.nodosRecords}" widgetVar="MatrizTable"
-                                     emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{nodosP.filteredNodosRecords}"
+                                     emptyMessage="No hay registros relacionados a la busqueda"
+                                     filteredValue="#{nodosP.filteredNodosRecords}"
                                      scrollable="true" scrollWidth="100%" scrollHeight="510"
-                                     editable="true" >
+                                     editable="true"
+                        selection="#{nodosP.selectedNodosRecords}" rowKey="#{nodo.id}">
 
 
                             <f:facet name="header" style="background-color: #4cae4c">
@@ -40,8 +44,11 @@
                                 </p:outputPanel>
                             </f:facet>
 
+
                             <p:ajax event="rowEdit" listener="#{nodosP.onRowEdit}" update=":form:msgs"/>
                             <p:ajax event="rowEditCancel" listener="#{nodosP.onRowCancel}" update=":form:msgs" />
+
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 
                             <p:column filterBy="#{nodo.codigo}" headerText="Codigo"  filterMatchMode="contains" sortBy="#{nodo.codigo}"
                                       style="width: 120px">
@@ -104,10 +111,70 @@
                                 <p:rowEditor />
                             </p:column>
 
+                            <f:facet name="footer">
+                                <p:commandButton id="delete" process="matriz"
+                                                 icon="ui-icon ui-icon-trash"
+                                                 value="Eliminar"
+                                                 title="GDeleteButton"
+                                                 onclick="PF('groupDeleteConfirm').show()"
+
+                                >
+                                </p:commandButton>
+                            </f:facet>
+
                         </p:dataTable>
 
                     </div>
                 </p:panel>
+
+                <p:dialog header="Nodo Informacion" widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="nuevoDialog" style="text-align:center;">
+                        <p:panelGrid  columns="4" rendered="#{not empty nodosP.nuevoNodo}" columnClasses="label,value">
+
+                            <h:outputText value="Codigo:" style="color:black" />
+                            <h:inputText value="#{nodosP.nuevoNodo.codigo}"/>
+
+                            <h:outputText value="Nombre:" style="color:black"/>
+                            <h:inputText value="#{nodosP.nuevoNodo.nombre}"  />
+
+                            <h:outputText value="Zona Usuario:" style="color:black"/>
+                            <h:selectOneMenu value="#{nodosP.auxNombreZonaU}" style="width:100%" >
+                                <f:selectItems value="#{nodosP.zonasUsuariosRecords}" var="zona" itemLabel="#{zona.nombre}" itemValue="#{zona}" />
+                            </h:selectOneMenu>
+
+                            <h:outputText value="Zona Programacion:" style="color:black"/>
+                            <h:selectOneMenu value="#{nodosP.auxNombreZonaP}" style="width:100%" >
+                                <f:selectItems value="#{nodosP.zonasProgramadasRecords}" var="zona" itemLabel="#{zona.nombre}" itemValue="#{zona}" />
+                            </h:selectOneMenu>
+
+
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            <p:commandButton value="Nuevo" action="#{nodosP.nuevo}" ajax="false"
+                                             icon="ui-icon ui-icon-disk" id="nuevo"
+                                             async="true" />
+
+                            <p:commandButton value="Cancelar" action="#{nodosP.cancelar}" ajax="false"
+                                             icon="ui-icon ui-icon-disk" id="cancelars"
+                                             async="true" />
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+
+                <p:confirmDialog message="Esta seguro de eliminar estos registro? Se borrara toda la información asociada a este Nodo"
+                                 showEffect="fade"
+                                 hideEffect="explode"
+                                 widgetVar="groupDeleteConfirm">
+                    <p:commandButton title="GDelYesButton"
+                                     value="Yes"
+                                     action="#{nodosP.eliminar}"
+                                     oncomplete="PF('groupDeleteConfirm').hide()"
+                    />
+                    <p:commandButton title="GDelNoButton"
+                                     value="No"
+                                     oncomplete="PF('groupDeleteConfirm').hide()"/>
+                </p:confirmDialog>
+
             </h:form>
         </ui:define>
 

@@ -82,7 +82,10 @@ public class NuevaTablaMaestra {
     public boolean valid(){
         if(descripcion!=null){
             if(fechaDeProgramacion!=null && fechaDeVigencia!=null && selectedTipoDia != null){
+                if(gisCarga!=null && matrizDistancia!=null){
                     return true;
+                }
+
 
             }
         }
@@ -94,12 +97,12 @@ public class NuevaTablaMaestra {
     }
 
     public void seleccionarGis(){
-       gisCarga = "GIS Carga Seleccionado: "+gisCargaSelected.getDescripcion();
+       gisCarga = gisCargaSelected.getDescripcion();
 
     }
 
     public void seleccionarMatriz(){
-        matrizDistancia = "Matriz de Distancias Seleccionada: "+selectedMatrizDistancia.getNumeracion();
+        matrizDistancia = selectedMatrizDistancia.getNumeracion();
     }
 
 

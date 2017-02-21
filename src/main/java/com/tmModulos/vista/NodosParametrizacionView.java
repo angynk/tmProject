@@ -2,6 +2,7 @@ package com.tmModulos.vista;
 
 import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.NodoService;
+import com.tmModulos.modelo.entity.tmData.DistanciaNodos;
 import com.tmModulos.modelo.entity.tmData.Nodo;
 import com.tmModulos.modelo.entity.tmData.Zona;
 import org.primefaces.event.CellEditEvent;
@@ -13,7 +14,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ public class NodosParametrizacionView implements Serializable {
     private NodoService nodoService;
 
     private List<Nodo> nodosRecords;
+    private List<Nodo> selectedNodosRecords;
     private Nodo selectedNodos;
     private List<Nodo> filteredNodosRecords;
 
@@ -36,6 +40,10 @@ public class NodosParametrizacionView implements Serializable {
 
     private String auxNombreZonaU;
     private List<Zona> zonasUsuariosRecords;
+
+    private Nodo nuevoNodo;
+    private String zonaProgramacion;
+    private String zonaUsuario;
 
 
     public NodosParametrizacionView() {
@@ -49,6 +57,10 @@ public class NodosParametrizacionView implements Serializable {
     }
 
     public void inicio(){
+    }
+
+    public void habilitarNuevo(){
+        nuevoNodo = new Nodo();
     }
 
     public void onRowEdit(RowEditEvent event) {
@@ -73,6 +85,54 @@ public class NodosParametrizacionView implements Serializable {
 
         if(newValue != null && !newValue.equals(oldValue)) {
         }
+    }
+
+    public void nuevo(){
+        if(nuevoNodo.getCodigo()!=null && nuevoNodo.getNombre()!=null){
+            Zona zonaP = nodoService.getZonaByName(auxNombreZonaP,"P");
+            nuevoNodo.setZonaProgramacion(zonaP);
+            Zona zonaU = nodoService.getZonaByName(auxNombreZonaU,"U");
+            nuevoNodo.setZonaUsuario(zonaU);
+            nodoService.addNodo(nuevoNodo);
+            addMessage(FacesMessage.SEVERITY_INFO,"Nodo Creado", "");
+            nodosRecords = nodoService.getNodosAll();
+        }else{
+            addMessage(FacesMessage.SEVERITY_ERROR,"El nodo no fue creado", "Complete los campos");
+        }
+
+    }
+
+    public void cancelar(){
+
+    }
+
+    public void eliminar(){
+        for(Nodo nodos:selectedNodosRecords){
+            nodoService.deleteNodo(nodos);
+        }
+        addMessage(FacesMessage.SEVERITY_INFO,"Nodo Eliminado", "");
+        redirectNodos();
+    }
+
+    public void redirectNodos(){
+        nodosRecords= nodoService.getNodosAll();
+        zonasProgramadasRecords = nodoService.getZonaByTipoZona("P");
+        zonasUsuariosRecords = nodoService.getZonaByTipoZona("U");
+        selectedNodosRecords=new ArrayList<>();
+        selectedNodos= null;
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/NodosParametrizacion.xhtml");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void addMessage(FacesMessage.Severity severity , String summary, String detail) {
+        FacesMessage message = new FacesMessage(severity, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public List<Nodo> getFilteredNodosRecords() {
@@ -137,5 +197,37 @@ public class NodosParametrizacionView implements Serializable {
 
     public void setSelectedNodos(Nodo selectedNodos) {
         this.selectedNodos = selectedNodos;
+    }
+
+    public Nodo getNuevoNodo() {
+        return nuevoNodo;
+    }
+
+    public void setNuevoNodo(Nodo nuevoNodo) {
+        this.nuevoNodo = nuevoNodo;
+    }
+
+    public String getZonaProgramacion() {
+        return zonaProgramacion;
+    }
+
+    public void setZonaProgramacion(String zonaProgramacion) {
+        this.zonaProgramacion = zonaProgramacion;
+    }
+
+    public String getZonaUsuario() {
+        return zonaUsuario;
+    }
+
+    public void setZonaUsuario(String zonaUsuario) {
+        this.zonaUsuario = zonaUsuario;
+    }
+
+    public List<Nodo> getSelectedNodosRecords() {
+        return selectedNodosRecords;
+    }
+
+    public void setSelectedNodosRecords(List<Nodo> selectedNodosRecords) {
+        this.selectedNodosRecords = selectedNodosRecords;
     }
 }

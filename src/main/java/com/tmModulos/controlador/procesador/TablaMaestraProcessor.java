@@ -76,13 +76,21 @@ public class TablaMaestraProcessor {
         TipoDia dia = tipoDiaService.getTipoDia(tipoDia);
         List<ServicioTipoDia> serviciosTipoDia = horariosProvisionalServicio.getServiciosByTipoDia(dia);
 
-        //Calcular intervalos
+//        //Calcular intervalos
         GisIntervalos gisIntervalos= generarIntervalosDeTiempo(fechaIntervalos,descripcion,tipoDia,tablaMaestra);
         intervalosProcessor.precalcularIntervalosProgramacion();
 
-
+int i=0;
         for (ServicioTipoDia servicio: serviciosTipoDia   ) {
-            GisServicio gisServicio=gisCargaService.getGisServicioByTrayectoLinea(servicio.getServicio().getLineaCompuesta(),servicio.getServicio().getTrayecto());
+            System.out.println(i+"  "+servicio.getServicio().getMacro()+" "+servicio.getServicio().getLinea());
+            i++;
+            //CalcularDistnacia
+            Nodo nodo = nodoService.getNodoByCodigo(servicio.getServicio().getPunto());
+            GisServicio gisServicio=null;
+            if(nodo!=null){
+                gisServicio=gisCargaService.getGisServicioByTrayectoLinea(servicio.getServicio().getLineaCompuesta(),servicio.getServicio().getTrayecto(),nodo.getNombre());
+            }
+
             if(gisServicio!=null){
                 List<ArcoTiempo> arcoTiempoRecords = gisCargaService.getArcoTiempoByGisCargaAndServicio(gis,gisServicio);
                 if(arcoTiempoRecords.size()>0){
@@ -122,19 +130,22 @@ public class TablaMaestraProcessor {
                             tablaMaestraServicios.setIdentificador(servicio.getServicio().getIdentificador());
 
 
-                            //CalcularDistnacia
+
                             tablaMaestraServicios= calcularDistancia(tablaMaestraServicios,nodoInicio,nodoFinal,matriz);
-                            tablaMaestraServicios.setTablaMeestra(tablaMaestra);
-                            tablaMaestraServicios.setTipologia(servicio.getServicio().getTipologia());
+                            if(tablaMaestraServicios!=null){
+                                tablaMaestraServicios.setTablaMeestra(tablaMaestra);
+                                tablaMaestraServicios.setTipologia(servicio.getServicio().getTipologia());
 
-                            //Calcular ciclos
-                            CicloServicio cicloServicio = calcularCiclos(tablaMaestraServicios,arcoTiempoRecords);
-                            tablaMaestraServicios.setCicloServicio(cicloServicio);
+                                //Calcular ciclos
+                                CicloServicio cicloServicio = calcularCiclos(tablaMaestraServicios,arcoTiempoRecords);
+                                tablaMaestraServicios.setCicloServicio(cicloServicio);
 
-                            tablaMaestraService.addTServicios(tablaMaestraServicios);
+                                tablaMaestraService.addTServicios(tablaMaestraServicios);
 
-                            //Calcular Intervalos de tiempo
-                            List<Intervalos> intervaloses = intervalosProcessor.calcularValorIntervaloPorFranja(tablaMaestraServicios, servicio, gisIntervalos);
+                                //Calcular Intervalos de tiempo
+                                 List<Intervalos> intervaloses = intervalosProcessor.calcularValorIntervaloPorFranja(tablaMaestraServicios, servicio, gisIntervalos);
+
+                            }
 
                         }else{
                             System.out.println("nodo no encontrado");
@@ -149,7 +160,9 @@ public class TablaMaestraProcessor {
                     System.out.println("No hay información de carga para el servicio "+servicio.getIdentificador());
                 }
             }else{
-                System.out.println("Servicio no encontrado");
+                System.out.println("Servicio no encontrado en el GIS de carga ");
+                System.out.println("No es posible encontrar valores para "+servicio.getServicio().getNombreEspecial()+" "+servicio.getServicio().getMacro()+"-"
+                        +servicio.getServicio().getLinea()+"-"+servicio.getServicio().getSeccion()+" nodo: "+servicio.getServicio().getPunto());
             }
 
 
@@ -213,19 +226,62 @@ public class TablaMaestraProcessor {
         int macro = tablaMaestraServicios.getMacro();
         int linea = tablaMaestraServicios.getLinea();
         int seccion = tablaMaestraServicios.getSeccion();
-
+        int seccionAux = 4;
+        boolean calculoEspecialInicio=false;
+        boolean calculoEspecialFin=false;
 
         ServicioDistancia servicioDistancia = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
+        ServicioDistancia servicioDistanciaAux=null ;
         if (servicioDistancia!=null){
-            DistanciaNodos distanciaNodosA= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoFin,matrizDistancia);
-            DistanciaNodos distanciaNodosB= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoIni,matrizDistancia);
+            DistanciaNodos distanciaNodosA= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoIni,matrizDistancia);
+            DistanciaNodos distanciaNodosB= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoFin,matrizDistancia);
 
-            if( distanciaNodosA!=null && distanciaNodosB!=null){
-                tablaMaestraServicios.setDistancia(distanciaNodosA.getDistancia()-distanciaNodosB.getDistancia());
-            }else{
-                tablaMaestraServicios.setDistancia(-1);
+            if( distanciaNodosA==null){
+                seccionAux = getSeccionAux(seccion);
+                servicioDistanciaAux = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccionAux);
+                if(servicioDistanciaAux!=null){
+                    distanciaNodosA= matrizDistanciaService.getUltimoDistanciaNodosByServicioAndPunto(servicioDistanciaAux,matrizDistancia);
+                    calculoEspecialInicio =true;
+                }else{
+                    System.out.println("Servicio no creado");
+                }
+
             }
-            tablaMaestraServicios.setMatrizNombre(servicioDistancia.getRuta());
+            if(distanciaNodosB==null){
+                seccionAux = getSeccionAux(seccion);
+                servicioDistanciaAux  = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccionAux);
+                if(servicioDistanciaAux!=null){
+                    distanciaNodosB= matrizDistanciaService.getUltimoDistanciaNodosByServicioAndPunto(servicioDistanciaAux,matrizDistancia);
+                    calculoEspecialFin =true;
+                }else{
+                    System.out.println("Servicio no creado");
+                }
+
+            }
+            if( distanciaNodosA!=null ){
+                if(distanciaNodosB!=null){
+                    int disFinal=distanciaNodosB.getDistancia();
+                    if(calculoEspecialInicio){
+                        disFinal= calcularDistanciaEspecial(seccion,distanciaNodosA,distanciaNodosB,servicioDistancia,servicioDistanciaAux,matrizDistancia);
+                    }else if(calculoEspecialFin){
+                        disFinal= calcularDistanciaEspecial(seccion,distanciaNodosA,distanciaNodosB,servicioDistancia,servicioDistanciaAux,matrizDistancia);
+                    }
+                    tablaMaestraServicios.setDistancia(disFinal-distanciaNodosA.getDistancia());
+                    tablaMaestraServicios.setMatrizNombre(servicioDistancia.getRuta());
+                }else{
+                    System.out.println("Error en la busqueda de la matriz de distancia");
+                    System.out.println("No es posible encontrar valores para "+servicioDistancia.getMacro()+"-"
+                    +servicioDistancia.getLinea()+"-"+servicioDistancia.getSeccion()+" nodo: "+nodoFin.getCodigo()+"-"+nodoFin.getNombre());
+                    return null;
+                }
+
+            }else{
+                System.out.println("Error en la busqueda de la matriz de distancia");
+                System.out.println("No es posible encontrar valores para "+servicioDistancia.getMacro()+"-"
+                        +servicioDistancia.getLinea()+"-"+servicioDistancia.getSeccion()+" nodo: "+nodoIni.getCodigo()+"-"+nodoIni.getNombre());
+                return null;
+            }
+
         }else{
             tablaMaestraServicios.setDistancia(-1);
             tablaMaestraServicios.setMatrizNombre("ERROR");
@@ -234,6 +290,21 @@ public class TablaMaestraProcessor {
 
 
         return tablaMaestraServicios;
+    }
+
+    private int getSeccionAux(int seccion) {
+        int seccionAux;
+        if(seccion==1){
+            seccionAux=3;
+        }else{
+            seccionAux=4;
+        }
+        return seccionAux;
+    }
+
+    private int calcularDistanciaEspecial(int seccion, DistanciaNodos distanciaNodosA, DistanciaNodos distanciaNodosB,ServicioDistancia servicioDistancia, ServicioDistancia servicioDistanciaAux,MatrizDistancia matrizDistancia ) {
+        DistanciaNodos ultimoNodoSeccion = matrizDistanciaService.getUltimoDistanciaNodosByServicioAndPunto(servicioDistancia,matrizDistancia);
+     return   distanciaNodosB.getDistancia()+ultimoNodoSeccion.getDistancia();
     }
 
     private String calcularId(Servicio servicio, Integer codigo) {

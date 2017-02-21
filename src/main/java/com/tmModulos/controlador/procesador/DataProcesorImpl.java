@@ -105,7 +105,7 @@ public class DataProcesorImpl {
     public GisServicio findOrSaveServicio(Row row,Nodo nodoInicial,Nodo nodoFinal){
         Integer trayectoId = Integer.parseInt( row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
         int linea = Integer.parseInt( row.getCell(GisCargaDefinition.LINEA).getStringCellValue());
-            GisServicio servicio = gisCargaService.getGisServicioByTrayectoLinea(linea,trayectoId);
+            GisServicio servicio = gisCargaService.getGisServicioByTrayectoLinea(linea,trayectoId,nodoInicial.getNombre());
             if( servicio== null ){
                 servicio = new GisServicio(trayectoId,linea,nodoInicial.getNombre(),nodoFinal.getNombre());
                 try{
