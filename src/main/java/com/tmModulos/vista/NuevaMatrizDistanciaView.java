@@ -31,6 +31,7 @@ public class NuevaMatrizDistanciaView {
     private List<LogDatos> logDatos;
     private boolean resultadosVisibles;
 
+
     @ManagedProperty("#{MatrizProcessor}")
     private MatrizProcessor matrizProcessor;
 
@@ -214,4 +215,6 @@ public class NuevaMatrizDistanciaView {
     public void setResultadosVisibles(boolean resultadosVisibles) {
         this.resultadosVisibles = resultadosVisibles;
     }
+
+
 }

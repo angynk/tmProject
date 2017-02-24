@@ -3,10 +3,8 @@ package com.tmModulos.vista;
 import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.TablaMaestraService;
 import com.tmModulos.controlador.utils.ProcessorUtils;
-import com.tmModulos.modelo.entity.tmData.DistanciaNodos;
-import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
-import com.tmModulos.modelo.entity.tmData.TablaMaestra;
-import com.tmModulos.modelo.entity.tmData.TablaMaestraServicios;
+import com.tmModulos.modelo.entity.tmData.*;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
@@ -47,6 +45,7 @@ public class BusquedaTablaMaestraView {
 
 
     private List<TablaMaestraServicios> tServiciosRecords;
+    private List<TablaMaestraServicios> selectedServiciosRecords;
     private List<TablaMaestraServicios> filteredTServiciosRecords;
     TablaMaestraServicios serviciosSelected;
 
@@ -168,6 +167,14 @@ public class BusquedaTablaMaestraView {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+
+    public void onRowEdit(RowEditEvent event) {
+
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+
     }
 
     public String getBusqueda() {
@@ -336,5 +343,13 @@ public class BusquedaTablaMaestraView {
 
     public void setTextoGeneracionMatrix(String textoGeneracionMatrix) {
         this.textoGeneracionMatrix = textoGeneracionMatrix;
+    }
+
+    public List<TablaMaestraServicios> getSelectedServiciosRecords() {
+        return selectedServiciosRecords;
+    }
+
+    public void setSelectedServiciosRecords(List<TablaMaestraServicios> selectedServiciosRecords) {
+        this.selectedServiciosRecords = selectedServiciosRecords;
     }
 }

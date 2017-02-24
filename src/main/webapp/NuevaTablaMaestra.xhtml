@@ -33,9 +33,14 @@
                             <p:calendar id="button" value="#{tablaMaestra.fechaDeProgramacion}" showOn="button"
                                         title="Formato: Dia-Mes-Año"/>
                             <p:tooltip id="toolTipButton1" for="button" showEvent="focus" hideEvent="blur" />
+                            <p:selectOneRadio id="tipoT" value="#{tablaMaestra.tipoTabla}">
+                                <p:ajax process="@this" update="@form" listener="#{tablaMaestra.cambioTipoTabla}"/>
+                                <f:selectItem itemLabel="Temporal" itemValue="1" />
+                                <f:selectItem itemLabel="Definitiva" itemValue="2" />
+                            </p:selectOneRadio>
                         </p:panelGrid>
                         </p:panel>
-                        <p:panel  style="border:none" >
+                        <p:panel  style="border:none" visible="#{tablaMaestra.definitivaVisible}">
                             <p:panelGrid columns="4">
 
                                 <p:outputLabel value="GIS de Carga:" />
@@ -82,23 +87,34 @@
                                 </p:selectOneMenu>
                             </h:panelGrid>
                             </p:panel>
-
                             <p:commandButton value="Calcular"  ajax="false"
                                              icon="ui-icon ui-icon-calculator" id="calcular" action="#{tablaMaestra.calcularTablaMaestra}"
                                              async="true" process="@form" onclick="PF('dlg2').show();" global="false"
                                              oncomplete="PF('dlg2').hide()"/>
-
                         </p:panel>
 
-
-
-
-
                     </h:panelGrid>
+                </p:panel>
+                <p:panel  style="border:none"  visible="#{!tablaMaestra.definitivaVisible}">
+                    <p:commandButton value="Calcular"  ajax="false"
+                                     icon="ui-icon ui-icon-calculator" id="generar" action="#{tablaMaestra.copiarTablaMaestra}"
+                                     async="true" process="@form" onclick="PF('dlg2').show();" global="false"
+                                     oncomplete="PF('dlg2').hide()"/>
+                        </p:panel>
 
-
-
-
+                <p:panel visible="#{tablaMaestra.resultadosVisibles}">
+                    <p:accordionPanel style="width: 100%" activeIndex="null">
+                        <p:tab title="Resultados">
+                            <h:panelGrid columns="2" cellpadding="10" style="width: 100%">
+                                <p:dataList value="#{tablaMaestra.logDatos}" var="log" type="ordered" style="width: 100%">
+                                    <f:facet name="header">
+                                        Log
+                                    </f:facet>
+                                    #{log.tipoLog} : #{log.mensaje}
+                                </p:dataList>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
                 </p:panel>
 
                 <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">

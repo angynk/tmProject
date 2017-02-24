@@ -29,7 +29,13 @@ public class TablaMaestraService {
     CicloServicioDao cicloServicioDao;
 
     @Autowired
+    private IntervalosDao intervalosDao;
+
+    @Autowired
     IntervalosServicioDao intervalosServicioDao;
+
+    @Autowired
+    VelocidadProgramadaDao velocidadProgramadaDao;
 
 
 
@@ -74,6 +80,11 @@ public class TablaMaestraService {
         tablaMaestraServiciosDao.deleteTServicios(tablaMaestraServicios);
     }
 
+    @Transactional(readOnly = false)
+    public void addIntervalos(Intervalos intervalos) {
+      intervalosDao.addIntervalos(intervalos);
+    }
+
 
     public void updateTServicios(TablaMaestraServicios tablaMaestraServicios) {
         tablaMaestraServiciosDao.updateTServicios(tablaMaestraServicios);
@@ -91,6 +102,10 @@ public class TablaMaestraService {
 
     public List<TablaMaestra> getTablaMaestraBetwenFechas(String tipoFecha,Date fechaIni,Date fechaFin){
         return tablaMaestraDao.getTablaMaestraBetwenFechas(tipoFecha,fechaIni,fechaFin);
+    }
+
+    public TablaMaestra getUltimaTablaMaestraByaTipoDia(String tipoDia){
+        return tablaMaestraDao.getUltimaTablaMaestraByaTipoDia(tipoDia);
     }
 
     public List<TablaMaestraServicios> getServiciosByTabla(TablaMaestra tablaMaestra){
@@ -151,6 +166,26 @@ public class TablaMaestraService {
 
     public List<CicloServicio> getCicloServicioByTabla(TablaMaestraServicios tablaMaestra){
         return getCicloServicioByTabla(tablaMaestra);
+    }
+
+    @Transactional(readOnly = false)
+    public void addVelocidadProgramada(VelocidadProgramada velocidadProgramada) {
+       velocidadProgramadaDao.addVelocidadProgramada(velocidadProgramada);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteVelocidadProgramada(VelocidadProgramada velocidadProgramada) {
+        velocidadProgramadaDao.deleteVelocidadProgramada(velocidadProgramada);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateVelocidadProgramada(VelocidadProgramada velocidadProgramada) {
+        velocidadProgramadaDao.updateVelocidadProgramada(velocidadProgramada);
+    }
+
+
+    public List<VelocidadProgramada> getVelocidadProgramadaAll() {
+       return velocidadProgramadaDao.getVelocidadProgramadaAll();
     }
 
 }

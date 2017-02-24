@@ -48,6 +48,8 @@ public class IntervalosServicio {
     public IntervalosServicio() {
     }
 
+
+
     public long getId() {
         return id;
     }

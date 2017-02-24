@@ -36,63 +36,91 @@
                         <p:dataTable id="tservicio" var="tservicio" value="#{busquedaTabla.tServiciosRecords}" widgetVar="MatrizTable"
                                      emptyMessage="No hay registros relacionados a la busqueda" filteredValue="#{busquedaTabla.filteredTServiciosRecords}"
                                      scrollable="true" scrollWidth="100%" scrollHeight="510"
+                                     editable="true"
                                      rowKey="#{tservicio.id}"
-                                     selection="#{busquedaTabla.serviciosSelected}" selectionMode="single"
+                                     selection="#{busquedaTabla.selectedServiciosRecords}"
+                                     rowStyleClass="#{not empty tservicio.macro  ?  '' : 'firstColColored'}
+                                                    #{not empty tservicio.linea  ?  '' : 'secondColColored'}
+                                                    #{not empty tservicio.identificador  ?  '' : 'idColColored'}
+                                                    #{not empty tservicio.tipoDia  ?  '' : 'diaColColored'}
+                                                    #{not empty tservicio.trayecto  ?  '' : 'trayectoColColored'}
+                                                    #{not empty tservicio.seccion  ?  '' : 'seccionColColored'}
+                                                    #{not empty tservicio.codigoInicio  ?  '' : 'pIniColColored'}
+                                                    #{not empty tservicio.codigoFin  ?  '' : 'pFinColColored'}
+                                                    #{not empty tservicio.nombreGeneral  ?  '' : 'nGeneralColColored'}
+                                                    #{not empty tservicio.nombreEspecial  ?  '' : 'nEspecialColColored'}
+                                                    #{not empty tservicio.matrizNombre  ?  '' : 'matrizColColored'}
+                                                    #{not empty tservicio.idInicio  ?  '' : 'nIncioColColored'}
+                                                    #{not empty tservicio.idFin  ?  '' : 'nFinColColored'}
+                                                    #{not empty tservicio.tipoServicio  ?  '' : 'tipoSColColored'}
+                                                    #{not empty tservicio.distancia  ?  '' : 'disColColored'}
+                                                    #{ tservicio.distancia eq -1 ?  'disColColored' : ''}
+                                                    "
                         >
 
-                            <!--<p:column style="width:45px;text-align: center">-->
-                                <!--<p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">-->
-                                    <!--<f:setPropertyActionListener value="#{ser}" target="#{busquedaTabla.serviciosSelected}" />-->
-                                <!--</p:commandButton>-->
-                            <!--</p:column>-->
+                            <p:ajax event="rowEdit" listener="#{busquedaTabla.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{busquedaTabla.onRowCancel}" update=":form:msgs" />
+
+                            <p:column selectionMode="multiple" style="width:32px;text-align:center"/>
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
 
                             <p:column filterBy="#{tservicio.identificador}" headerText="Id"  filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.identificador}"
-                                      style="width: 120px">
-                                <h:outputText value="#{tservicio.identificador}" style="width: 122px"/>
+                                      style="width: 120px" styleClass="idCol">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{tservicio.identificador}" style="width: 122px"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="nombreInput" value="#{tservicio.identificador}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
 
 
 
                             <p:column filterBy="#{tservicio.tipoDia}" headerText="TipoDia"  filterStyle="width: 80px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.tipoDia}"
-                                      style="width: 100px">
+                                      style="width: 100px" styleClass="diaCol">
                                 <h:outputText value="#{tservicio.tipoDia}" style="width: 104px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.trayecto}" headerText="Trayecto"  filterStyle="width: 80px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.trayecto}"
-                                      style="width: 110px">
+                                      style="width: 110px" styleClass="trayectoCol">
                                 <h:outputText value="#{tservicio.trayecto}" style="width: 114px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.macro}" headerText="Macro" filterStyle="width: 70px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.macro}"
-                                      style="width: 90px">
+                                      style="width: 90px" styleClass="firstCol">
                                 <h:outputText value="#{tservicio.macro}" style="width: 96px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.linea}" headerText="Linea" filterStyle="width: 50px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.linea}"
-                                      style="width: 80px">
+                                      style="width: 80px" styleClass="secondCol">
                                 <h:outputText value="#{tservicio.linea}" style="width: 82px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.seccion}" headerText="Seccion" filterStyle="width: 70px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.seccion}"
-                                      style="width: 100px">
+                                      style="width: 100px" styleClass="seccionCol">
                                 <h:outputText value="#{tservicio.seccion}" style="width: 102px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.codigoInicio}" headerText="PuntoI"  filterStyle="width: 50px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.codigoInicio}"
-                                      style="width: 90px">
+                                      style="width: 90px" styleClass="pinicol">
                                 <h:outputText value="#{tservicio.codigoInicio}" style="width: 92px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.codigoFin}" headerText="PuntoF" filterStyle="width: 50px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.codigoFin}"
-                                      style="width: 95px">
+                                      style="width: 95px" styleClass="pfincol">
                                 <h:outputText value="#{tservicio.codigoFin}" style="width: 98px"/>
                             </p:column>
 
@@ -103,86 +131,110 @@
                             </p:column>
 
                             <p:column filterBy="#{tservicio.tipologia.nombre}" headerText="Tipología"  filterMatchMode="contains" sortBy="#{tservicio.servicio.tipologia.nombre}"
-                                      style="width: 130px">
+                                      style="width: 130px" >
                                 <h:outputText value="#{tservicio.tipologia.nombre}" style="width: 132px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.nombreGeneral}" headerText="Servicio U" filterStyle="width: 60px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.nombreGeneral}"
-                                      style="width: 120px">
-                                <h:outputText value="#{tservicio.nombreGeneral}" style="width: 122px"/>
+                                      style="width: 120px" styleClass="nGeneralCol">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{tservicio.nombreGeneral}" style="width: 122px"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText  value="#{tservicio.nombreGeneral}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
 
                             <p:column filterBy="#{tservicio.nombreEspecial}" headerText="Servicio E" filterStyle="width: 60px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.nombreEspecial}"
-                                      style="width: 120px">
-                                <h:outputText value="#{tservicio.nombreEspecial}" style="width: 122px"/>
+                                      style="width: 120px" styleClass="nEspecialCol">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{tservicio.nombreEspecial}" style="width: 122px"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText  value="#{tservicio.nombreEspecial}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
 
                             <p:column filterBy="#{tservicio.matrizNombre}"
                                       headerText="Matriz" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.matrizNombre}"
-                                      style="width: 130px">
+                                      style="width: 130px" styleClass="matrizCol">
                                 <h:outputText value="#{tservicio.matrizNombre}" style="width: 132px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.idInicio}" headerText="M-L-S-P Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.idInicio}"
-                                      style="width: 145px">
+                                      style="width: 145px" styleClass="nInicioCol">
                                 <h:outputText value="#{tservicio.idInicio}" style="width: 147px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.nombreInicio}" headerText="Punto Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.nombreInicio}"
-                                      style="width: 145px">
+                                      style="width: 145px" styleClass="nInicioCol">
                                 <h:outputText value="#{tservicio.nombreInicio}" style="width: 147px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaTInicio}" headerText="Zona T Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaTInicio}"
-                                      style="width: 130px">
+                                      style="width: 130px" styleClass="nInicioCol">
                                 <h:outputText value="#{tservicio.zonaTInicio}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaPInicio}" headerText="Zona P Inicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaPInicio}"
-                                      style="width: 130px">
+                                      style="width: 130px" styleClass="nInicioCol">
                                 <h:outputText value="#{tservicio.zonaPInicio}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.idFin}" headerText="M-L-S-P Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.idInicio}"
-                                      style="width: 130px">
+                                      style="width: 130px" styleClass="nFinCol">
                                 <h:outputText value="#{tservicio.idFin}" style="width: 132px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.nombreIFin}" headerText="Punto Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.nombreIFin}"
-                                      style="width: 145px">
+                                      style="width: 145px" styleClass="nFinCol">
                                 <h:outputText value="#{tservicio.nombreIFin}" style="width: 147px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaTFin}" headerText="Zona T Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaTFin}"
-                                      style="width: 130px">
+                                      style="width: 130px" styleClass="nFinCol">
                                 <h:outputText value="#{tservicio.zonaTFin}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.zonaPFin}" headerText="Zona P Fin" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.zonaPFin}"
-                                      style="width: 130px">
+                                      style="width: 130px" styleClass="nFinCol">
                                 <h:outputText value="#{tservicio.zonaPFin}" style="width: 127px"/>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.tipoServicio}" headerText="Tipo Servicio" filterStyle="width: 110px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.tipoServicio}"
-                                      style="width: 140px">
-                                <h:outputText value="#{tservicio.tipoServicio}" style="width: 142px"/>
+                                      style="width: 140px" styleClass="tiposcol">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{tservicio.tipoServicio}" style="width: 142px"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText  value="#{tservicio.tipoServicio}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
 
                             <p:column filterBy="#{tservicio.distancia}" headerText="Distancia" filterStyle="width: 90px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.distancia}"
-                                      style="width: 120px">
+                                      style="width: 120px" styleClass="disCol">
                                 <h:outputText value="#{tservicio.distancia}" style="width: 122px"/>
                             </p:column>
 
@@ -282,6 +334,61 @@
                                 <h:outputText value="#{tservicio.cicloServicio.maximoCierre}" style="width: 122px"/>
                             </p:column>
 
+                            <p:column filterBy="#{tservicio.velocidadProgramada.optimoAM}" headerText="V-Pico AM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.optimoAM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.optimoAM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.optimoValle}" headerText="V-Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.optimoValle}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.optimoValle}" style="width: 129px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.optimoPM}" headerText="V-Pico PM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.optimoPM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleOptimos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.optimoPM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.minimoAM}" headerText="V-Pico AM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.minimoAM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMinimos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.minimoAM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.minimoValle}" headerText="V-Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.minimoValle}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMinimos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.minimoValle}" style="width: 129px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.minimoPM}" headerText="V-Pico PM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.minimoPM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.minimoPM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.maximoAM}" headerText="V-Pico AM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.maximoAM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.maximoAM}" style="width: 122px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.maximoAM}" headerText="V-Valle" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.maximoAM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.maximoAM}" style="width: 129px"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tservicio.velocidadProgramada.maximoPM}" headerText="V-Pico PM" filterStyle="width: 100px;"
+                                      filterMatchMode="contains" sortBy="#{tservicio.velocidadProgramada.maximoPM}"
+                                      style="width: 120px" visible="#{busquedaTabla.visibleMaximos}">
+                                <h:outputText value="#{tservicio.velocidadProgramada.maximoPM}" style="width: 122px"/>
+                            </p:column>
+
+
                             <p:column filterBy="#{tservicio.intervaloPromedio.valorInicio }" headerText="I-Inicio" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.intervaloPromedio.valorInicio}"
                                       style="width: 120px">
@@ -354,6 +461,17 @@
                                       style="width: 120px">
                                 <h:outputText value="#{tservicio.tipologia.capacidadValle}" style="width: 122px"/>
                             </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton id="delete" process="tservicio"
+                                                 icon="ui-icon ui-icon-trash"
+                                                 value="Eliminar"
+                                                 title="GDeleteButton"
+                                                 onclick="PF('groupDeleteConfirm').show()"
+
+                                >
+                                </p:commandButton>
+                            </f:facet>
 
                         </p:dataTable>
 
@@ -472,6 +590,20 @@
                                 </p:panelGrid>
                             </p:outputPanel>
                         </p:dialog>
+
+                        <p:confirmDialog message="Esta seguro de eliminar estos registro?"
+                                         showEffect="fade"
+                                         hideEffect="explode"
+                                         widgetVar="groupDeleteConfirm">
+                            <p:commandButton title="GDelYesButton"
+                                             value="Yes"
+                                             action="#{tablaMaestra.eliminar}"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"
+                            />
+                            <p:commandButton title="GDelNoButton"
+                                             value="No"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"/>
+                        </p:confirmDialog>
 
                     </div>
                 </p:panel>

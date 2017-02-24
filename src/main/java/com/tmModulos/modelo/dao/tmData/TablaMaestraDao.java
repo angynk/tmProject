@@ -4,6 +4,7 @@ import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
 import com.tmModulos.modelo.entity.tmData.TablaMaestra;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,6 +57,17 @@ public class TablaMaestraDao {
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TablaMaestra.class);
         criteria.add(Restrictions.eq(tipoFecha, fecha));
         return criteria.list();
+    }
+
+    public TablaMaestra getUltimaTablaMaestraByaTipoDia(String tipoDia){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TablaMaestra.class);
+        criteria.add(Restrictions.eq("tipoDia", tipoDia));
+        criteria.addOrder(Order.desc("fechaCreacion"));
+        List<TablaMaestra> list = criteria.list();
+        if(list.size()>0){
+            return list.get(0);
+        }
+        return null;
     }
 
     public List<TablaMaestra> getTablaMaestraBetwenFechas(String tipoFecha,Date fechaIni,Date fechaFin){

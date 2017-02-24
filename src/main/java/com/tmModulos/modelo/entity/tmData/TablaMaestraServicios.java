@@ -100,6 +100,9 @@ public class TablaMaestraServicios {
     private CicloServicio cicloServicio;
 
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "velocidad_programada", nullable = false)
+    private VelocidadProgramada velocidadProgramada;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestraServicios")
     private List<IntervalosServicio> intervalosServiciossaRecords= new ArrayList<>();
@@ -378,5 +381,13 @@ public class TablaMaestraServicios {
 
     public void setTipoIntervalo(String tipoIntervalo) {
         this.tipoIntervalo = tipoIntervalo;
+    }
+
+    public VelocidadProgramada getVelocidadProgramada() {
+        return velocidadProgramada;
+    }
+
+    public void setVelocidadProgramada(VelocidadProgramada velocidadProgramada) {
+        this.velocidadProgramada = velocidadProgramada;
     }
 }

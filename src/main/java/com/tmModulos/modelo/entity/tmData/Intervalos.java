@@ -69,6 +69,22 @@ public class Intervalos {
     public Intervalos() {
     }
 
+    public Intervalos(String tipoCalculo, Double valorInicio, Double valorAM, Double valorValle, Double valorPM, Double valorCierre, int busesInicio, int busesAM, int busesValle, int busesPM, int busesCierre, ServicioTipoDia idServicio, TablaMaestraServicios tablaMaestraServicios) {
+        this.tipoCalculo = tipoCalculo;
+        this.valorInicio = valorInicio;
+        this.valorAM = valorAM;
+        this.valorValle = valorValle;
+        this.valorPM = valorPM;
+        this.valorCierre = valorCierre;
+        this.busesInicio = busesInicio;
+        this.busesAM = busesAM;
+        this.busesValle = busesValle;
+        this.busesPM = busesPM;
+        this.busesCierre = busesCierre;
+        this.idServicio = idServicio;
+        this.tablaMaestraServicios = tablaMaestraServicios;
+    }
+
     public TablaMaestraServicios getTablaMaestraServicios() {
         return tablaMaestraServicios;
     }

@@ -25,6 +25,12 @@ public class TablaMaestra {
     @Column(name = "descripcion")
     private String descripcion;
 
+    @Column(name = "tipo_dia")
+    private String tipoDia;
+
+    @Column(name = "es_definitiva")
+    private Boolean esDefinitiva;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "matriz_distancia", nullable = false)
     private MatrizDistancia matrizDistancia;
@@ -136,5 +142,21 @@ public class TablaMaestra {
 
     public void setGisIntervaloses(Set<GisIntervalos> gisIntervaloses) {
         this.gisIntervaloses = gisIntervaloses;
+    }
+
+    public Boolean getEsDefinitiva() {
+        return esDefinitiva;
+    }
+
+    public void setEsDefinitiva(Boolean esDefinitiva) {
+        this.esDefinitiva = esDefinitiva;
+    }
+
+    public String getTipoDia() {
+        return tipoDia;
+    }
+
+    public void setTipoDia(String tipoDia) {
+        this.tipoDia = tipoDia;
     }
 }

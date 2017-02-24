@@ -128,3 +128,57 @@
 .ui-datatable-frozenlayout-left {
 	width: 130px;
 }
+
+.firstColColored .firstCol {
+	background: #ff9ea8;
+}
+
+.secondColColored .secondCol {
+	background: #ff9ea8;
+}
+.idColColored .idCol {
+	background: #ff9ea8;
+}
+.diaColColored .diaCol {
+	background: #ff9ea8;
+}
+.trayectoColColored .trayectoCol {
+	background: #ff9ea8;
+}
+
+.seccionColColored .seccionCol {
+	background: #ff9ea8;
+}
+.pIniColColored .pIniCol {
+	background: #ff9ea8;
+}
+.pFinColColored .pFinCol {
+	background: #ff9ea8;
+}
+
+.nGeneralColColored .nGeneralCol {
+	background: #ff9ea8;
+}
+.nEspecialColColored .nEspecialCol {
+	background: #ff9ea8;
+}
+
+.matrizColColored .matrizCol {
+	background: #ff9ea8;
+}
+
+.nIncioColColored .nInicioCol {
+	background: #ff9ea8;
+}
+
+.nFinColColored .nFinCol {
+	background: #ff9ea8;
+}
+
+.tipoSColColored .tipoSCol {
+	background: #ff9ea8;
+}
+
+.disColColored .disCol {
+	background: #ff9ea8;
+}

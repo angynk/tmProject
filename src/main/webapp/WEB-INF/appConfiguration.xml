@@ -62,6 +62,7 @@
                 <value>com.tmModulos.modelo.entity.tmData.ServicioTipoDia</value>
                 <value>com.tmModulos.modelo.entity.tmData.GisServicio</value>
                 <value>com.tmModulos.modelo.entity.tmData.ListaNegraMatriz</value>
+                <value>com.tmModulos.modelo.entity.tmData.VelocidadProgramada</value>
 
             </list>
         </property>

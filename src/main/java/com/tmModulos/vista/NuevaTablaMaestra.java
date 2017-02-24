@@ -1,6 +1,7 @@
 package com.tmModulos.vista;
 
 import com.tmModulos.controlador.procesador.TablaMaestraProcessor;
+import com.tmModulos.controlador.utils.LogDatos;
 import com.tmModulos.modelo.entity.tmData.GisCarga;
 import com.tmModulos.modelo.entity.tmData.GisIntervalos;
 import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
@@ -22,6 +23,7 @@ public class NuevaTablaMaestra {
     private String tipoGeneracion;
     private String descripcion;
     private boolean archivoVisible;
+    private boolean definitivaVisible;
     private boolean automaticoVisible;
     private Date fechaDeProgramacion;
     private Date fechaDeVigencia;
@@ -40,6 +42,10 @@ public class NuevaTablaMaestra {
     private List<MatrizDistancia> matrizDistanciasList;
     private List<MatrizDistancia> filteredMatrizDistanciasList;
     private MatrizDistancia selectedMatrizDistancia;
+
+    private List<LogDatos> logDatos;
+    private boolean resultadosVisibles;
+    private String tipoTabla;
 
 
     @ManagedProperty("#{MessagesView}")
@@ -62,12 +68,27 @@ public class NuevaTablaMaestra {
             tipoDia.add("FESTIVO");
     }
 
+    public void copiarTablaMaestra(){
+        if(descripcion!=null){
+            if(fechaDeProgramacion!=null){
+                logDatos = tablaMaestraProcessor.copiarUltimaTablaMaestra(fechaDeProgramacion,descripcion,selectedTipoDia);
+                resultadosVisibles=true;
+                if(logDatos.size()>2){
+                    messagesView.error(Messages.MENSAJE_CALCULO_FALLA,Messages.ACCION_VERIFICACION);
+                }else{
+                    messagesView.info(Messages.MENSAJE_CALCULO_EXITOSO,Messages.ACCION_TABLA_MAESTRA_ALMACENADA);
+                }
+
+            }
+        }
+    }
 
     public void calcularTablaMaestra(){
         if(valid()){
-            boolean resultado=tablaMaestraProcessor.calcularTablaMaestra(fechaDeProgramacion,
+            logDatos=tablaMaestraProcessor.calcularTablaMaestra(fechaDeProgramacion,
                     descripcion,gisCarga,matrizDistancia,fechaDeVigencia,selectedTipoDia);
-            if(resultado){
+            resultadosVisibles=true;
+            if(logDatos.size()>2){
                 messagesView.info(Messages.MENSAJE_CALCULO_EXITOSO,Messages.ACCION_TABLA_MAESTRA_ALMACENADA);
             }
 
@@ -75,8 +96,14 @@ public class NuevaTablaMaestra {
             messagesView.error(Messages.MENSAJE_CAMPOS_INCOMPLETOS, Messages.ACCION_CAMPOS_INCOMPLETOS);
         }
 
+    }
 
-
+    public void cambioTipoTabla(){
+        if(tipoTabla.equals("1")){
+            definitivaVisible=false;
+        }else{
+            definitivaVisible=true;
+        }
     }
 
     public boolean valid(){
@@ -93,6 +120,10 @@ public class NuevaTablaMaestra {
     }
 
     public void habilitarBusquedaGIS(){
+
+    }
+
+    public void eliminar(){
 
     }
 
@@ -266,5 +297,37 @@ public class NuevaTablaMaestra {
 
     public void setSelectedMatrizDistancia(MatrizDistancia selectedMatrizDistancia) {
         this.selectedMatrizDistancia = selectedMatrizDistancia;
+    }
+
+    public List<LogDatos> getLogDatos() {
+        return logDatos;
+    }
+
+    public void setLogDatos(List<LogDatos> logDatos) {
+        this.logDatos = logDatos;
+    }
+
+    public boolean isResultadosVisibles() {
+        return resultadosVisibles;
+    }
+
+    public void setResultadosVisibles(boolean resultadosVisibles) {
+        this.resultadosVisibles = resultadosVisibles;
+    }
+
+    public String getTipoTabla() {
+        return tipoTabla;
+    }
+
+    public void setTipoTabla(String tipoTabla) {
+        this.tipoTabla = tipoTabla;
+    }
+
+    public boolean isDefinitivaVisible() {
+        return definitivaVisible;
+    }
+
+    public void setDefinitivaVisible(boolean definitivaVisible) {
+        this.definitivaVisible = definitivaVisible;
     }
 }
