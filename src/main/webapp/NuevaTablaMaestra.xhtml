@@ -96,6 +96,8 @@
                     </h:panelGrid>
                 </p:panel>
                 <p:panel  style="border:none"  visible="#{!tablaMaestra.definitivaVisible}">
+                    <p:outputLabel for="buttons" value="Fecha Tabla Maestra a Copiar (DD-MM-AAAA):" />
+                    <p:calendar id="buttons" value="#{tablaMaestra.fechaDeCreacion}" showOn="button" title="Formato: Dia-Mes-Año"/>
                     <p:commandButton value="Calcular"  ajax="false"
                                      icon="ui-icon ui-icon-calculator" id="generar" action="#{tablaMaestra.copiarTablaMaestra}"
                                      async="true" process="@form" onclick="PF('dlg2').show();" global="false"

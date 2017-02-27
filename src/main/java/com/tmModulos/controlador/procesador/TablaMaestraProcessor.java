@@ -195,7 +195,9 @@ public class TablaMaestraProcessor {
             horas=horas + (minutos/60) + ( segundos/3600 );
 
             if(horas!=0){
-                return distanciaKM/horas;
+                double velocidad =distanciaKM/horas;
+                String velocidadFormateada = String.format("%.2f",velocidad);
+                return Double.parseDouble(velocidadFormateada);
             }
 
         }
@@ -437,8 +439,8 @@ public class TablaMaestraProcessor {
         this.logDatos = logDatos;
     }
 
-    public List<LogDatos> copiarUltimaTablaMaestra(Date fechaDeProgramacion, String descripcion,String tipoDia) {
-        TablaMaestra ultimaTablaMaestra = obtenerUltimaTablaMaestra(tipoDia);
+    public List<LogDatos> copiarUltimaTablaMaestra(Date fechaDeProgramacion, String descripcion,String tipoDia,Date fechaCreacion) {
+        TablaMaestra ultimaTablaMaestra = obtenerUltimaTablaMaestra(tipoDia,fechaCreacion);
         logDatos = new ArrayList<>();
         logDatos.add(new LogDatos("<<Inicio Calculo Tabla Maestra>>", TipoLog.INFO));
         if(ultimaTablaMaestra!=null){
@@ -545,7 +547,7 @@ public class TablaMaestraProcessor {
 
     }
 
-    private TablaMaestra obtenerUltimaTablaMaestra(String tipoDia) {
-        return tablaMaestraService.getUltimaTablaMaestraByaTipoDia(tipoDia);
+    private TablaMaestra obtenerUltimaTablaMaestra(String tipoDia,Date fechaCreacion) {
+        return tablaMaestraService.getUltimaTablaMaestraByaTipoDia(tipoDia,fechaCreacion);
     }
 }

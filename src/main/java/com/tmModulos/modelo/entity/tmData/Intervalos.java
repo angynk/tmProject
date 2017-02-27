@@ -45,6 +45,8 @@ public class Intervalos {
     @Column(name = "buses_cierre")
     private int busesCierre;
 
+
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "identificador", nullable = false)
     private ServicioTipoDia idServicio;

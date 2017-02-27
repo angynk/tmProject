@@ -59,8 +59,9 @@ public class TablaMaestraDao {
         return criteria.list();
     }
 
-    public TablaMaestra getUltimaTablaMaestraByaTipoDia(String tipoDia){
+    public TablaMaestra getUltimaTablaMaestraByaTipoDia(String tipoDia,Date fechaCreacion){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TablaMaestra.class);
+        criteria.add(Restrictions.eq("fechaCreacion", fechaCreacion));
         criteria.add(Restrictions.eq("tipoDia", tipoDia));
         criteria.addOrder(Order.desc("fechaCreacion"));
         List<TablaMaestra> list = criteria.list();

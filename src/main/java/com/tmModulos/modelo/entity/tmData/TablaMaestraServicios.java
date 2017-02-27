@@ -87,6 +87,9 @@ public class TablaMaestraServicios {
     @Column(name = "nombre_fin")
     private String nombreIFin;
 
+    @Column(name = "franja_cuartos")
+    private Integer franjaCuartos;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tabla_maestra", nullable = false)
     private TablaMaestra tablaMeestra;
@@ -389,5 +392,13 @@ public class TablaMaestraServicios {
 
     public void setVelocidadProgramada(VelocidadProgramada velocidadProgramada) {
         this.velocidadProgramada = velocidadProgramada;
+    }
+
+    public Integer getFranjaCuartos() {
+        return franjaCuartos;
+    }
+
+    public void setFranjaCuartos(Integer franjaCuartos) {
+        this.franjaCuartos = franjaCuartos;
     }
 }

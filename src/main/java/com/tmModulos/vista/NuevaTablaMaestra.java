@@ -27,6 +27,7 @@ public class NuevaTablaMaestra {
     private boolean automaticoVisible;
     private Date fechaDeProgramacion;
     private Date fechaDeVigencia;
+    private Date fechaDeCreacion;
     private UploadedFile tablaMaestra;
     private String seleccionGIS;
 
@@ -70,8 +71,8 @@ public class NuevaTablaMaestra {
 
     public void copiarTablaMaestra(){
         if(descripcion!=null){
-            if(fechaDeProgramacion!=null){
-                logDatos = tablaMaestraProcessor.copiarUltimaTablaMaestra(fechaDeProgramacion,descripcion,selectedTipoDia);
+            if(fechaDeProgramacion!=null && fechaDeCreacion!=null){
+                logDatos = tablaMaestraProcessor.copiarUltimaTablaMaestra(fechaDeProgramacion,descripcion,selectedTipoDia,fechaDeCreacion);
                 resultadosVisibles=true;
                 if(logDatos.size()>2){
                     messagesView.error(Messages.MENSAJE_CALCULO_FALLA,Messages.ACCION_VERIFICACION);
@@ -329,5 +330,13 @@ public class NuevaTablaMaestra {
 
     public void setDefinitivaVisible(boolean definitivaVisible) {
         this.definitivaVisible = definitivaVisible;
+    }
+
+    public Date getFechaDeCreacion() {
+        return fechaDeCreacion;
+    }
+
+    public void setFechaDeCreacion(Date fechaDeCreacion) {
+        this.fechaDeCreacion = fechaDeCreacion;
     }
 }

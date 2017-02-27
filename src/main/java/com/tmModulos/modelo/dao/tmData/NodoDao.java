@@ -54,10 +54,13 @@ public class NodoDao {
         criteria.add(Restrictions.eq("codigo", codigo));
         Nodo nodo =null;
         try{
-           nodo = (Nodo) criteria.uniqueResult();
+           List<Nodo> nodos =  criteria.list();
+            if(nodos.size()>0){
+                nodo=nodos.get(0);
+            }
         }catch (Exception e){
             System.out.println();
         }
-        return (Nodo) criteria.uniqueResult();
+        return nodo;
     }
 }
