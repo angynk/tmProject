@@ -85,13 +85,29 @@
                             <p:column filterBy="#{tservicio.tipoDia}" headerText="TipoDia"  filterStyle="width: 80px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.tipoDia}"
                                       style="width: 100px" styleClass="diaCol">
-                                <h:outputText value="#{tservicio.tipoDia}" style="width: 104px"/>
+
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{tservicio.tipoDia}" style="width: 104px"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText  value="#{tservicio.tipoDia}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
 
                             <p:column filterBy="#{tservicio.trayecto}" headerText="Trayecto"  filterStyle="width: 80px;"
                                       filterMatchMode="contains" sortBy="#{tservicio.trayecto}"
                                       style="width: 110px" styleClass="trayectoCol">
-                                <h:outputText value="#{tservicio.trayecto}" style="width: 114px"/>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{tservicio.trayecto}" style="width: 114px"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText  value="#{tservicio.trayecto}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
 
                             <p:column filterBy="#{tservicio.macro}" headerText="Macro" filterStyle="width: 70px;"
@@ -132,7 +148,15 @@
 
                             <p:column filterBy="#{tservicio.tipologia.nombre}" headerText="Tipología"  filterMatchMode="contains" sortBy="#{tservicio.servicio.tipologia.nombre}"
                                       style="width: 130px" >
-                                <h:outputText value="#{tservicio.tipologia.nombre}" style="width: 132px"/>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{tservicio.tipologia.nombre}" style="width: 132px"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText  value="#{tservicio.tipologia.nombre}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
 
                             <p:column filterBy="#{tservicio.nombreGeneral}" headerText="Servicio U" filterStyle="width: 60px;"

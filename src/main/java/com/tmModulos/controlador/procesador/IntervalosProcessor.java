@@ -69,29 +69,8 @@ public class IntervalosProcessor {
             long time=System.currentTimeMillis();
             List<Horario> tablaHorario = tablaHorarioService.getHorarioByDate(vigencias.get(0).getTipoDia());
             procesarInformacionTablaHorario(tablaHorario,gisIntervalos,serviciosTipoDia);
-            //Recorrer servicios
-//            for (ServicioTipoDia servicio: serviciosTipoDia ) {
-//                System.out.println("Servicio No."+servicio.getId());
-//
-//                String [] valoresId = servicio.getIdentificador().split("-");
-//                List<Horario> tablaHorario = tablaHorarioService.getHorarioByDateIndentificador(vigencias.get(0).getTipoDia(),
-//                        Integer.parseInt(valoresId[0]),
-//                        Integer.parseInt(valoresId[1]),
-//                                Integer.parseInt(valoresId[2]),
-//                                Integer.parseInt(valoresId[3]));
-//                procesarInformacionTablaHorario(tablaHorario,gisIntervalos,servicio);
-//
-//            }
-
-         //   calcularValorIntervaloPorFranja(vigencias.get(0).getTipoDia(),serviciosTipoDia,gisIntervalos);
 
             System.out.println("Tiempo Total: "+(getTime((int) (System.currentTimeMillis()-time))));
-
-          // GisIntervalos gisIntervalos = new GisIntervalos(new Date(),fechaVigencia,descripcion,vigencias.get(0).getTipoDia());
-          //  GisIntervalos gisIntervalos = horariosProvisionalServicio.getGisIntervalosAll().get(0);
-          // horariosProvisionalServicio.addGisIntervalo(gisIntervalos);
-          //  List<Horario> tablaHorario = tablaHorarioService.getHorarioByDate(vigencias.get(0).getTipoDia());
-          //  procesarInformacionTablaHorario(tablaHorario,gisIntervalos);
         }
         return gisIntervalos;
     }
@@ -130,7 +109,7 @@ public class IntervalosProcessor {
                List<TiempoIntervalos> tiemposFranjaCierre = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaCierre,servicio,gisIntervalos);
 
         List<Intervalos> intervalosLista = new ArrayList<>();
-           intervalosLista.add( calcularPromedio(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
+       intervalosLista.add( calcularPromedio(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
        intervalosLista.add( calcularModa(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
         intervalosLista.add(calcularMinimo(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
        intervalosLista.add( calcularMaximo(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
@@ -258,7 +237,7 @@ return intervalosLista;
         intervalos.setBusesValle(busesValle);
         intervalos.setBusesPM(busesPm);
         intervalos.setBusesCierre(busesCierre);
-       horariosProvisionalServicio.addIntervalos(intervalos);
+        horariosProvisionalServicio.addIntervalos(intervalos);
         return intervalos;
     }
 

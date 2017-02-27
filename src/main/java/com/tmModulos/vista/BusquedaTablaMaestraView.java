@@ -34,6 +34,7 @@ public class BusquedaTablaMaestraView {
     private boolean visibleMinimos;
     private boolean visibleMaximos;
 
+//    private String tipologiaCiclo;
     private String tipoCiclo;
     private String tipoIntervalo;
     private String textoGeneracionMatrix;
@@ -152,7 +153,7 @@ public class BusquedaTablaMaestraView {
         }
 
         tServiciosRecords=auxiliar;
-        textoGeneracionMatrix="Tabla Maestra generada tipo ciclo: "+tipoCiclo+" y tipo intervalo: "+tipoIntervalo;
+        textoGeneracionMatrix="Tabla Maestra "+obtenerTipoTabla()+" generada para tipo ciclo: "+tipoCiclo+" y tipo intervalo: "+tipoIntervalo;
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
@@ -161,6 +162,14 @@ public class BusquedaTablaMaestraView {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    private String obtenerTipoTabla() {
+
+        if(selectedTabla.getEsDefinitiva()){
+            return "Definitiva";
+        }
+        return "Temporal";
     }
 
     public void onDateSelect(SelectEvent event) {

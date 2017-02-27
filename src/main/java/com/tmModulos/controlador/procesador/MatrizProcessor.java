@@ -10,6 +10,7 @@ import com.tmModulos.controlador.utils.MatrizDistanciaDefinicion;
 import com.tmModulos.controlador.utils.ProcessorUtils;
 import com.tmModulos.controlador.utils.TipoLog;
 import com.tmModulos.modelo.dao.saeBogota.GroupedHorario;
+import com.tmModulos.modelo.dao.saeBogota.NodosDao;
 import com.tmModulos.modelo.entity.tmData.*;
 import com.tmModulos.modelo.entity.saeBogota.*;
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
@@ -25,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service("MatrizProcessor")
 public class MatrizProcessor {
@@ -44,6 +47,9 @@ public class MatrizProcessor {
     @Autowired
     private ProcessorUtils processorUtils;
 
+    @Autowired
+    ThreadPoolTaskExecutor taskExecutor;
+
     private List<LogDatos> logDatos;
     private static Logger log = Logger.getLogger(MatrizProcessor.class);
     private String destination="C:\\temp\\";
@@ -54,19 +60,31 @@ public class MatrizProcessor {
         logDatos.add(new LogDatos("<<Inicio Calculo Matriz Distancias>>", TipoLog.INFO));
         log.info("<<Inicio Calculo Matriz Distancias>>");
         MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion,fechaFestivos,fechaSabado);
-         calcularMatrizPorFecha(fechaHabil, matrizDistancia);
-         calcularMatrizPorFecha(fechaSabado, matrizDistancia);
-         calcularMatrizPorFecha(fechaFestivos, matrizDistancia);
+        //List<DistanciaNodos> distanciaNodos= calcularMatrizPorFecha(fechaHabil, matrizDistancia);
+         NodosHilo nodoHiloHabil = new NodosHilo(fechaHabil,matrizDistancia);
+        taskExecutor.execute(nodoHiloHabil);
+
+      //  List<DistanciaNodos> distanciaNodosSabado= calcularMatrizPorFecha(fechaSabado, matrizDistancia);
+        taskExecutor.execute(new NodosHilo(fechaSabado,matrizDistancia));
+       // List<DistanciaNodos> distanciaNodosFestivo= calcularMatrizPorFecha(fechaFestivos, matrizDistancia);
+       taskExecutor.execute(new NodosHilo(fechaFestivos,matrizDistancia));
+       while(taskExecutor.getActiveCount()>0){
+
+       }
+        
         logDatos.add(new LogDatos("<<Fin Calculo Matriz Distancias>>", TipoLog.INFO));
         log.info("<<Fin Calculo Matriz Distancias>>");
         return logDatos;
     }
 
-    private boolean calcularMatrizPorFecha(Date fecha, MatrizDistancia matrizDistancia) {
+    private List<DistanciaNodos> calcularMatrizPorFecha(Date fecha, MatrizDistancia matrizDistancia) {
+        List<DistanciaNodos> distanciaNodos = new ArrayList<>();
         List<Vigencias> vigenciasDaoByDate = encontrarVigencias(fecha);
         if(vigenciasDaoByDate.size()>0){
             List<GroupedHorario> horarioByTipoDia = tablaHorarioService.getHorarioByTipoDia(vigenciasDaoByDate.get(0).getTipoDia());
             for (Vigencias vigencia:vigenciasDaoByDate ) {
+
+
                 int macro = vigencia.getMacro();
                 int linea = vigencia.getLinea();
                 int config=0;
@@ -84,15 +102,30 @@ public class MatrizProcessor {
                     config= lineasObj.get(0).getConfig();
                 }
                 List<NodosSeccion> nodosSeccions = encontrarNodosSeccion(macro, linea, tablaHorario.getSeccion(), config,1);
+                List<NodosSeccion> nodosProceso= new ArrayList<>();
+                    int i =0;
+
                 if(nodosSeccions.size()>0){
+                    //taskExecutor.execute(new NodosHilo(nodosSeccions,matrizDistancia));
                     for (NodosSeccion nodoSec:nodosSeccions) {
+//                        if (nodosProceso.size()<7){
+//                            nodosProceso.add(nodoSec);
+//                        }else{
+//                            taskExecutor.execute(new NodosHilo(nodosProceso,matrizDistancia));
+//                            nodosProceso = new ArrayList<>();
+//                        }
+//                        i++;
                         seccion= nodoSec.getSeccion();
                         nombreMatriz= encontrarNombreMatriz(macro,linea,config,seccion);
                         distancia=nodoSec.getDistancia();
                         nodos= encontrarNodo(nodoSec.getNodo(),nodoSec.getTipo());
                         Nodo nodo= findOrSaveNodo(nodos.getId(),nodos.getNombre());
                         ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(macro,linea,seccion,nombreMatriz);
-                        guardarDistanciaNodos(matrizDistancia,nodo,distancia,servicioDistancia);
+                        DistanciaNodos nodoDis= guardarDistanciaNodos(matrizDistancia,nodo,distancia,servicioDistancia);
+                        if(nodoDis!=null){
+                            distanciaNodos.add(nodoDis);
+                        }
+
                     }
 
                 }else{
@@ -105,9 +138,9 @@ public class MatrizProcessor {
         }else{
             log.error("No se econtro información para la fecha: "+fecha.toString());
             logDatos.add(new LogDatos("No se econtro información para la fecha: "+fecha.toString(), TipoLog.ERROR));
-            return false;
+            return distanciaNodos;
         }
-        return true;
+        return distanciaNodos;
     }
 
     private List<GroupedHorario> macroLineaEnHorario(int macro, int linea, List<GroupedHorario> horarioByTipoDia) {
@@ -222,7 +255,10 @@ public class MatrizProcessor {
     private Nodo findOrSaveNodo(int nodoCodigo,String nodoNombre) {
         List<Nodo> nodos = nodoService.getNodo( nodoNombre );
         if( nodos.size() == 0 ){
+            Zona zona = nodoService.getZonaByName("SIN ASIGNAR","P");
             Nodo nodo = new Nodo(nodoNombre,nodoCodigo);
+            nodo.setZonaProgramacion(zona);
+            nodo.setZonaUsuario(zona);
             nodoService.addNodo( nodo );
             return nodo;
         }else if (nodos.get(0).getCodigo()==null){
@@ -240,12 +276,15 @@ public class MatrizProcessor {
         return matrizDistancia;
     }
 
-    private void guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, int distancia,ServicioDistancia servicioDistancia){
+    private DistanciaNodos guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, int distancia,ServicioDistancia servicioDistancia){
         DistanciaNodos distanciaNodosByServicioAndPunto = matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia, nodo, matrizDistancia);
         if(distanciaNodosByServicioAndPunto==null){
             DistanciaNodos distanciaNodos=new DistanciaNodos(distancia,nodo,matrizDistancia,servicioDistancia);
-            matrizDistanciaService.addDistanciaNodos(distanciaNodos);
+           // matrizDistanciaService.addDistanciaNodos(distanciaNodos);
+            return distanciaNodos;
         }
+
+        return null;
     }
 
     public Nodos encontrarNodo(int id,int tipo){
