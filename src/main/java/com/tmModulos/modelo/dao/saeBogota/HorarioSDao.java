@@ -1,6 +1,6 @@
 package com.tmModulos.modelo.dao.saeBogota;
 
-import com.tmModulos.modelo.entity.saeBogota.Horario;
+import com.tmModulos.modelo.entity.saeBogota.HorarioS;
 import com.tmModulos.modelo.entity.saeBogota.Vigencias;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class HorarioDao implements Serializable {
+public class HorarioSDao implements Serializable {
 
     private SessionFactory sessionFactoryServer = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
     Session session = null;
@@ -32,10 +32,10 @@ public class HorarioDao implements Serializable {
         this.sessionFactoryServer = sessionFactoryServer;
     }
 
-    public List<Horario> getHorarioByDate(String date) {
+    public List<HorarioS> getHorarioByDate(String date) {
 
         session = sessionFactoryServer.openSession();
-        Criteria criteria = session.createCriteria(Horario.class);
+        Criteria criteria = session.createCriteria(HorarioS.class);
         criteria.add(Restrictions.eq("cuadro", date));
         Criterion eventos= Restrictions.or(Restrictions.eq("evento",1),
                 Restrictions.eq("evento", 5));
@@ -50,10 +50,10 @@ public class HorarioDao implements Serializable {
         return list;
     }
 
-    public List<Horario> getHorarioByDateIndentificador(String date,int macro, int linea, int seccion, int punto) {
+    public List<HorarioS> getHorarioByDateIndentificador(String date, int macro, int linea, int seccion, int punto) {
 
         session = sessionFactoryServer.openSession();
-        Criteria criteria = session.createCriteria(Horario.class);
+        Criteria criteria = session.createCriteria(HorarioS.class);
         criteria.add(Restrictions.eq("cuadro", date));
         Criterion eventos= Restrictions.or(Restrictions.eq("evento",1),
                 Restrictions.eq("evento", 5));
@@ -76,7 +76,7 @@ public class HorarioDao implements Serializable {
     public List<GroupedHorario> getHorarioByTipoDia(String cuadro) {
 
         session = sessionFactoryServer.openSession();
-        Criteria criteria = session.createCriteria(Horario.class).setResultTransformer(Transformers.aliasToBean(GroupedHorario.class));;
+        Criteria criteria = session.createCriteria(HorarioS.class).setResultTransformer(Transformers.aliasToBean(GroupedHorario.class));;
         criteria.add(Restrictions.eq("cuadro", cuadro));
         Criterion eventos= Restrictions.or(Restrictions.eq("evento",1),
                 Restrictions.eq("evento", 5));

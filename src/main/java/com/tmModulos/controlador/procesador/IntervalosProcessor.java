@@ -4,7 +4,7 @@ import com.tmModulos.controlador.servicios.HorariosProvisionalServicio;
 import com.tmModulos.controlador.servicios.TablaHorarioService;
 import com.tmModulos.controlador.servicios.TipoDiaService;
 import com.tmModulos.controlador.utils.ProcessorUtils;
-import com.tmModulos.modelo.entity.saeBogota.Horario;
+import com.tmModulos.modelo.entity.saeBogota.HorarioS;
 import com.tmModulos.modelo.entity.saeBogota.Vigencias;
 import com.tmModulos.modelo.entity.tmData.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class IntervalosProcessor {
 
 
             long time=System.currentTimeMillis();
-            List<Horario> tablaHorario = tablaHorarioService.getHorarioByDate(vigencias.get(0).getTipoDia());
+            List<HorarioS> tablaHorario = tablaHorarioService.getHorarioByDate(vigencias.get(0).getTipoDia());
             procesarInformacionTablaHorario(tablaHorario,gisIntervalos,serviciosTipoDia);
 
             System.out.println("Tiempo Total: "+(getTime((int) (System.currentTimeMillis()-time))));
@@ -75,7 +75,7 @@ public class IntervalosProcessor {
         return gisIntervalos;
     }
 
-    private void procesarInformacionTablaHorario(List<Horario> tablaHorario,GisIntervalos gisIntervalos,List<ServicioTipoDia> servicioTipoDia) {
+    private void procesarInformacionTablaHorario(List<HorarioS> tablaHorario,GisIntervalos gisIntervalos,List<ServicioTipoDia> servicioTipoDia) {
 
        extraerDiferenciaIntervalos(tablaHorario, servicioTipoDia, gisIntervalos);
 
@@ -277,11 +277,11 @@ return intervalosLista;
 
 
 
-    private List<TiempoIntervalos> extraerDiferenciaIntervalos(List<Horario> tablaHorario,List<ServicioTipoDia> servicioTipoDia,GisIntervalos gisIntervalos) {
+    private List<TiempoIntervalos> extraerDiferenciaIntervalos(List<HorarioS> tablaHorario,List<ServicioTipoDia> servicioTipoDia,GisIntervalos gisIntervalos) {
         List<TiempoIntervalos> tiempoIntervalosLista = new ArrayList<>();
         String cuadro = tablaHorario.get(0).getCuadro();
-        Horario horarioA= tablaHorario.get(0);
-        Horario horarioB= null;
+        HorarioS horarioA= tablaHorario.get(0);
+        HorarioS horarioB= null;
         int macroA= horarioA.getMacro();
         int lineaA=horarioA.getLinea();
         int seccionA=horarioA.getSeccion();

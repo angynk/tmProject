@@ -63,6 +63,8 @@
                 <value>com.tmModulos.modelo.entity.tmData.GisServicio</value>
                 <value>com.tmModulos.modelo.entity.tmData.ListaNegraMatriz</value>
                 <value>com.tmModulos.modelo.entity.tmData.VelocidadProgramada</value>
+                <value>com.tmModulos.modelo.entity.tmData.HorariosServicio</value>
+                <value>com.tmModulos.modelo.entity.tmData.Horario</value>
 
             </list>
         </property>

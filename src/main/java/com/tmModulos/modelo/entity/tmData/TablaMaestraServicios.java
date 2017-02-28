@@ -102,6 +102,10 @@ public class TablaMaestraServicios {
     @JoinColumn(name = "ciclo_servicio", nullable = false)
     private CicloServicio cicloServicio;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "horarios", nullable = false)
+    private HorariosServicio horariosServicio;
+
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "velocidad_programada", nullable = false)
@@ -400,5 +404,13 @@ public class TablaMaestraServicios {
 
     public void setFranjaCuartos(Integer franjaCuartos) {
         this.franjaCuartos = franjaCuartos;
+    }
+
+    public HorariosServicio getHorariosServicio() {
+        return horariosServicio;
+    }
+
+    public void setHorariosServicio(HorariosServicio horariosServicio) {
+        this.horariosServicio = horariosServicio;
     }
 }

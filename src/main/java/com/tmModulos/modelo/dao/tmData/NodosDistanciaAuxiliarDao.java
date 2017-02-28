@@ -2,6 +2,7 @@ package com.tmModulos.modelo.dao.tmData;
 
 import com.tmModulos.modelo.dao.saeBogota.GroupedHorario;
 import com.tmModulos.modelo.entity.saeBogota.*;
+import com.tmModulos.modelo.entity.saeBogota.HorarioS;
 import com.tmModulos.modelo.entity.tmData.*;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;

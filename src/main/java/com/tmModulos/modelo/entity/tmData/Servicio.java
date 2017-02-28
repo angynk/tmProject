@@ -63,7 +63,8 @@ public class Servicio {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
     private Set<ServicioTipoDia> servicioTipoDias = new HashSet<ServicioTipoDia>(0);
 
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
+    private Set<Horario> horario = new HashSet<Horario>(0);
 
 
 
@@ -259,6 +260,14 @@ public class Servicio {
 //            }
 //        }
         return false;
+    }
+
+    public Set<Horario> getHorario() {
+        return horario;
+    }
+
+    public void setHorario(Set<Horario> horario) {
+        this.horario = horario;
     }
 
     public void setSabado(boolean sabado) {

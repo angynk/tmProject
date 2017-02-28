@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 //@Table(name="VistaHorarioFecha",schema="dbo")
 @Table(name="Horario",schema="dbo")
-public class Horario implements Serializable {
+public class HorarioS implements Serializable {
 
     @Id
     @Column(name = "TipoDia")

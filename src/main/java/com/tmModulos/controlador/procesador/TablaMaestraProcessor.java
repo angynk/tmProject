@@ -130,6 +130,8 @@ public class TablaMaestraProcessor {
                                 VelocidadProgramada  velocidadProgramada = calcularVelocidadProgramada(cicloServicio,tablaMaestraServicios.getDistancia());
                                 tablaMaestraServicios.setVelocidadProgramada(velocidadProgramada);
 
+                                HorariosServicio horariosServicio = calcularHorarioServicios(servicio.getServicio());
+                                tablaMaestraServicios.setHorariosServicio(horariosServicio);
 
                                 tablaMaestraService.addTServicios(tablaMaestraServicios);
 
@@ -141,6 +143,8 @@ public class TablaMaestraProcessor {
                             log.warn("Nodo con nombre "+arcoTiempoBase.getServicio().getNodoFinal()+" No encontrado");
                             logDatos.add(new LogDatos("Nodo con nombre "+arcoTiempoBase.getServicio().getNodoFinal()+" No encontrado", TipoLog.WARN));
                             tablaMaestraServicios= addCicloServicio(tablaMaestraServicios);
+                            HorariosServicio horariosServicio = calcularHorarioServicios(servicio.getServicio());
+                            tablaMaestraServicios.setHorariosServicio(horariosServicio);
                             tablaMaestraService.addTServicios(tablaMaestraServicios);
                         }
 
@@ -148,6 +152,8 @@ public class TablaMaestraProcessor {
                         log.warn("Nodo con nombre "+arcoTiempoBase.getServicio().getNodoIncial()+" No encontrado");
                         logDatos.add(new LogDatos("Nodo con nombre "+arcoTiempoBase.getServicio().getNodoIncial()+" No encontrado", TipoLog.WARN));
                         tablaMaestraServicios= addCicloServicio(tablaMaestraServicios);
+                        HorariosServicio horariosServicio = calcularHorarioServicios(servicio.getServicio());
+                        tablaMaestraServicios.setHorariosServicio(horariosServicio);
                         tablaMaestraService.addTServicios(tablaMaestraServicios);
                     }
 
@@ -157,6 +163,9 @@ public class TablaMaestraProcessor {
                 }
             }else{
                 tablaMaestraServicios= addCicloServicio(tablaMaestraServicios);
+
+                HorariosServicio horariosServicio = calcularHorarioServicios(servicio.getServicio());
+                tablaMaestraServicios.setHorariosServicio(horariosServicio);
                 tablaMaestraService.addTServicios(tablaMaestraServicios);
                 servicioNoExisteEnGISCarga(servicio);
             }
@@ -165,6 +174,35 @@ public class TablaMaestraProcessor {
         }
         logDatos.add(new LogDatos("<<Fin Calculo Tabla Maestra>>", TipoLog.INFO));
         return logDatos;
+    }
+
+    private HorariosServicio calcularHorarioServicios(Servicio servicio) {
+
+        List<Horario> horariosByServicio = tablaMaestraService.getHorariosByServicio(servicio);
+        HorariosServicio horario= new HorariosServicio();
+        if( horariosByServicio.size()>0){
+            for(Horario hr: horariosByServicio){
+                if(hr.getTipoHorario().equals("P")){
+                    if(hr.getConfig()==1){
+                        horario.setHoraInicioA(hr.getHoraInicio());
+                        horario.setHoraFinA(hr.getHoraFin());
+                    }else if(hr.getConfig() ==2){
+                        horario.setHoraInicioB(hr.getHoraInicio());
+                        horario.setHoraFinB(hr.getHoraFin());
+                    }
+                }else {
+                    if(hr.getConfig()==1){
+                        horario.setHoraInicioC(hr.getHoraInicio());
+                        horario.setHoraFinC(hr.getHoraFin());
+                    }else if(hr.getConfig() ==2){
+                        horario.setHoraInicioD(hr.getHoraInicio());
+                        horario.setHoraFinD(hr.getHoraFin());
+                    }
+                }
+            }
+        }
+        tablaMaestraService.addHorariosServicios(horario);
+        return horario;
     }
 
     private VelocidadProgramada calcularVelocidadProgramada(CicloServicio cicloServicio, Integer distancia) {

@@ -37,6 +37,12 @@ public class TablaMaestraService {
     @Autowired
     VelocidadProgramadaDao velocidadProgramadaDao;
 
+    @Autowired
+    HorariosServicioDao horariosServicioDao;
+
+    @Autowired
+    HorarioDao horarioDao;
+
 
 
     @Transactional(readOnly = false)
@@ -186,6 +192,47 @@ public class TablaMaestraService {
 
     public List<VelocidadProgramada> getVelocidadProgramadaAll() {
        return velocidadProgramadaDao.getVelocidadProgramadaAll();
+    }
+
+    @Transactional(readOnly = false)
+    public void addHorariosServicios(HorariosServicio horariosServicio) {
+       horariosServicioDao.addHorariosServicios(horariosServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteHorariosServicios(HorariosServicio horariosServicio) {
+        horariosServicioDao.deleteHorariosServicios(horariosServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateHorariosServicios(HorariosServicio horariosServicio) {
+       horariosServicioDao.updateHorariosServicios(horariosServicio);
+    }
+
+
+    public List<GisServicio> getHorariosServiciosAll() {
+        return horariosServicioDao.getHorariosServiciosAll();
+
+    }
+
+    @Transactional(readOnly = false)
+    public void addHorarios(Horario horariosServicio) {
+        horarioDao.addHorarios(horariosServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteHorarios(Horario horariosServicio) {
+        horarioDao.deleteHorarios(horariosServicio);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateHorarios(Horario horariosServicio) {
+        horarioDao.updateHorarios(horariosServicio);
+    }
+
+
+    public List<Horario> getHorariosByServicio(Servicio servicio){
+        return horarioDao.getHorariosByServicio(servicio);
     }
 
 }
