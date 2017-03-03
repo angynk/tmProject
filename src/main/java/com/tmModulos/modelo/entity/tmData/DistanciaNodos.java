@@ -15,10 +15,12 @@ public class DistanciaNodos {
     @Column(name = "distancia")
     private int distancia;
 
+    @Column(name = "nodo_nombre")
+    private String nodoNombre;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "nodo", nullable = false)
-    private Nodo nodo;
+    @Column(name = "nodo_codigo")
+    private String nodoCodigo;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "matriz_distancia", nullable = false)
@@ -31,9 +33,8 @@ public class DistanciaNodos {
     public DistanciaNodos() {
     }
 
-    public DistanciaNodos(int distancia, Nodo nodo, MatrizDistancia matrizDistancia, ServicioDistancia servicioDistancia) {
+    public DistanciaNodos(int distancia,  MatrizDistancia matrizDistancia, ServicioDistancia servicioDistancia) {
         this.distancia = distancia;
-        this.nodo = nodo;
         this.matrizDistancia = matrizDistancia;
         this.servicioDistancia = servicioDistancia;
     }
@@ -54,14 +55,6 @@ public class DistanciaNodos {
         this.distancia = distancia;
     }
 
-    public Nodo getNodo() {
-        return nodo;
-    }
-
-    public void setNodo(Nodo nodo) {
-        this.nodo = nodo;
-    }
-
     public MatrizDistancia getMatrizDistancia() {
         return matrizDistancia;
     }
@@ -76,5 +69,21 @@ public class DistanciaNodos {
 
     public void setServicioDistancia(ServicioDistancia servicioDistancia) {
         this.servicioDistancia = servicioDistancia;
+    }
+
+    public String getNodoNombre() {
+        return nodoNombre;
+    }
+
+    public void setNodoNombre(String nodoNombre) {
+        this.nodoNombre = nodoNombre;
+    }
+
+    public String getNodoCodigo() {
+        return nodoCodigo;
+    }
+
+    public void setNodoCodigo(String nodoCodigo) {
+        this.nodoCodigo = nodoCodigo;
     }
 }

@@ -25,9 +25,11 @@ public class Horario {
     @Column(name = "config")
     private int config;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "servicio", nullable = false)
     private Servicio servicio;
+
 
 
     public Horario() {
@@ -80,4 +82,5 @@ public class Horario {
     public void setServicio(Servicio servicio) {
         this.servicio = servicio;
     }
+
 }

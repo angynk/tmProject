@@ -1,9 +1,15 @@
 package com.tmModulos.controlador.servicios;
 
+import com.tmModulos.modelo.dao.tmData.EstacionDao;
 import com.tmModulos.modelo.dao.tmData.NodoDao;
+import com.tmModulos.modelo.dao.tmData.VagonDao;
 import com.tmModulos.modelo.dao.tmData.ZonaDao;
+import com.tmModulos.modelo.entity.tmData.Estacion;
 import com.tmModulos.modelo.entity.tmData.Nodo;
+import com.tmModulos.modelo.entity.tmData.Vagon;
 import com.tmModulos.modelo.entity.tmData.Zona;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +26,12 @@ public class NodoService {
     @Autowired
     ZonaDao zonaDao;
 
+    @Autowired
+    EstacionDao estacionDao;
+
+    @Autowired
+    VagonDao vagonDao;
+
     @Transactional(readOnly = false)
     public void addNodo(Nodo nodo) { nodoDao.addNodo(nodo); }
 
@@ -32,7 +44,7 @@ public class NodoService {
     @Transactional(readOnly = true)
     public List<Nodo> getNodosAll() { return  nodoDao.getNodosAll(); }
 
-    public List<Nodo> getNodo(String nombre){ return nodoDao.getNodo( nombre );}
+    public Nodo getNodo(String nombre){ return nodoDao.getNodo( nombre );}
 
     public Nodo getNodoByCodigo(int codigo){ return nodoDao.getNodoByCodigo(codigo);}
 
@@ -62,6 +74,55 @@ public class NodoService {
 
     public Zona getZonaByName(String nombre,String tipozona){
             return  zonaDao.getNombreByNombre(nombre,tipozona);
+    }
+
+    @Transactional(readOnly = false)
+    public void addEstacion(Estacion estacion)
+    {
+        estacionDao.addEstacion(estacion);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteEstacion(Estacion estacion) {
+        estacionDao.deleteEstacion(estacion);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateEstacion(Estacion estacion) {
+       estacionDao.updateEstacion(estacion);
+    }
+
+
+    public List<Estacion> getEstacionAll() {
+        return estacionDao.getEstacionAll();
+    }
+
+    public List<Estacion> getEstacionbyCodigo(Integer codigo){
+        return estacionDao.getEstacionbyCodigo(codigo);
+    }
+
+    @Transactional(readOnly = false)
+    public void addVagon(Vagon vagon) {
+       vagonDao.addVagon(vagon);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteVagon(Vagon vagon) {
+        vagonDao.deleteVagon(vagon);
+    }
+
+    @Transactional(readOnly = false)
+    public void updateVagon(Vagon vagon) {
+       vagonDao.updateVagon(vagon);
+    }
+
+
+    public List<Vagon> getVagonAll() {
+        return vagonDao.getVagonAll();
+    }
+
+    public List<Vagon> getVagonbyEstacion(Estacion estacion){
+        return vagonDao.getVagonbyEstacion(estacion);
     }
 
 }

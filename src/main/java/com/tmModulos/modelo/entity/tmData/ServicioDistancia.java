@@ -22,6 +22,9 @@ public class ServicioDistancia {
     @Column(name = "seccion")
     private int seccion;
 
+    @Column(name = "identificador")
+    private String identificador;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicioDistancia")
     private Set<DistanciaNodos> distanciaNodosRecords = new HashSet<DistanciaNodos>(0);
 
@@ -85,4 +88,14 @@ public class ServicioDistancia {
     public void setDistanciaNodosRecords(Set<DistanciaNodos> distanciaNodosRecords) {
         this.distanciaNodosRecords = distanciaNodosRecords;
     }
+
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
+
 }

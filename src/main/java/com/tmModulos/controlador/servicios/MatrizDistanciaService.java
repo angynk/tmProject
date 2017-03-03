@@ -130,10 +130,17 @@ public class MatrizDistanciaService {
     public ServicioDistancia getServicioDistanciaByMacroLineaSeccion(int macro, int linea, int seccion){
         return servicioDistanciaDao.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
     }
-    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia,Nodo nodo, MatrizDistancia matrizDistancia){
-       return distanciaNodosDao.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodo,matrizDistancia);
+
+    public ServicioDistancia getServicioDistanciaByIdentificador(String identificador){
+        return servicioDistanciaDao.getServicioDistanciaByIdentificador(identificador);
+    }
+    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia){
+       return distanciaNodosDao.getDistanciaNodosByServicioAndPunto(servicioDistancia,matrizDistancia);
     }
 
+    public DistanciaNodos getDistanciaNodosByServicioAndNodo(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia,String nodoCodigo){
+        return distanciaNodosDao.getDistanciaNodosByServicioAndNodo(servicioDistancia,matrizDistancia,nodoCodigo);
+    }
 
     @Transactional(readOnly = false)
     public void addListaNegraMatriz(ListaNegraMatriz listaNegraMatriz) {

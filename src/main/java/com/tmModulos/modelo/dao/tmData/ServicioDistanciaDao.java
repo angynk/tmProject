@@ -50,4 +50,10 @@ public class ServicioDistanciaDao {
         criteria.add(Restrictions.eq("seccion", seccion));
         return (ServicioDistancia) criteria.uniqueResult();
     }
+
+    public ServicioDistancia getServicioDistanciaByIdentificador(String identificador){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(ServicioDistancia.class);
+        criteria.add(Restrictions.eq("identificador", identificador));
+        return (ServicioDistancia) criteria.uniqueResult();
+    }
 }

@@ -42,6 +42,7 @@
                                      rowStyleClass="#{not empty tservicio.macro  ?  '' : 'firstColColored'}
                                                     #{not empty tservicio.linea  ?  '' : 'secondColColored'}
                                                     #{not empty tservicio.identificador  ?  '' : 'idColColored'}
+                                                    #{ tservicio.identificador eq '0' ?  'idColColored' : ''}
                                                     #{not empty tservicio.tipoDia  ?  '' : 'diaColColored'}
                                                     #{not empty tservicio.trayecto  ?  '' : 'trayectoColColored'}
                                                     #{not empty tservicio.seccion  ?  '' : 'seccionColColored'}
@@ -66,7 +67,7 @@
                             <p:columnGroup type="header">
                                 <p:row>
                                     <p:column colspan="3" headerText="Id" style="width: 350px" />
-                                    <p:column colspan="11" headerText="Servicio" style="width: 1000px"/>
+                                    <p:column colspan="11" headerText="Servicio" style="width: 1350px"/>
                                     <p:column colspan="1" headerText="Matriz D" style="width: 130px"/>
                                     <p:column colspan="4" headerText="Punto Inicio" style="width: 430px"/>
                                     <p:column colspan="4" headerText="Punto Fin" style="width: 430px"/>

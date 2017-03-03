@@ -77,71 +77,6 @@ public class MatrizProcessor {
         return logDatos;
     }
 
-    private List<DistanciaNodos> calcularMatrizPorFecha(Date fecha, MatrizDistancia matrizDistancia) {
-        List<DistanciaNodos> distanciaNodos = new ArrayList<>();
-        List<Vigencias> vigenciasDaoByDate = encontrarVigencias(fecha);
-        if(vigenciasDaoByDate.size()>0){
-            List<GroupedHorario> horarioByTipoDia = tablaHorarioService.getHorarioByTipoDia(vigenciasDaoByDate.get(0).getTipoDia());
-            for (Vigencias vigencia:vigenciasDaoByDate ) {
-
-
-                int macro = vigencia.getMacro();
-                int linea = vigencia.getLinea();
-                int config=0;
-                int seccion=0;
-                String nombreMatriz= "";
-                int distancia=0;
-                Nodos nodos=null;
-                List<GroupedHorario> horarioActual =macroLineaEnHorario(macro,linea,horarioByTipoDia);
-                if(horarioActual.size()>0){
-
-                for( GroupedHorario tablaHorario: horarioActual ){
-
-                List<Lineas> lineasObj = encontrarLineas(macro, linea);
-                if(lineasObj.size()>0){
-                    config= lineasObj.get(0).getConfig();
-                }
-                List<NodosSeccion> nodosSeccions = encontrarNodosSeccion(macro, linea, tablaHorario.getSeccion(), config,1);
-                List<NodosSeccion> nodosProceso= new ArrayList<>();
-                    int i =0;
-
-                if(nodosSeccions.size()>0){
-                    //taskExecutor.execute(new NodosHilo(nodosSeccions,matrizDistancia));
-                    for (NodosSeccion nodoSec:nodosSeccions) {
-//                        if (nodosProceso.size()<7){
-//                            nodosProceso.add(nodoSec);
-//                        }else{
-//                            taskExecutor.execute(new NodosHilo(nodosProceso,matrizDistancia));
-//                            nodosProceso = new ArrayList<>();
-//                        }
-//                        i++;
-                        seccion= nodoSec.getSeccion();
-                        nombreMatriz= encontrarNombreMatriz(macro,linea,config,seccion);
-                        distancia=nodoSec.getDistancia();
-                        nodos= encontrarNodo(nodoSec.getNodo(),nodoSec.getTipo());
-                        Nodo nodo= findOrSaveNodo(nodos.getId(),nodos.getNombre());
-                        ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(macro,linea,seccion,nombreMatriz);
-                        DistanciaNodos nodoDis= guardarDistanciaNodos(matrizDistancia,nodo,distancia,servicioDistancia);
-                        if(nodoDis!=null){
-                            distanciaNodos.add(nodoDis);
-                        }
-
-                    }
-
-                }else{
-                    log.error("No información de NodosSeccion para el servicio con macro: "+macro+" linea: "+linea+" y seccion: "+tablaHorario.getSeccion());
-                    logDatos.add(new LogDatos("No información de NodosSeccion para el servicio con macro: "+macro+" linea: "+linea+" y seccion: "+tablaHorario.getSeccion(), TipoLog.WARN));
-                }
-            }
-                }
-            }
-        }else{
-            log.error("No se econtro información para la fecha: "+fecha.toString());
-            logDatos.add(new LogDatos("No se econtro información para la fecha: "+fecha.toString(), TipoLog.ERROR));
-            return distanciaNodos;
-        }
-        return distanciaNodos;
-    }
 
     private List<GroupedHorario> macroLineaEnHorario(int macro, int linea, List<GroupedHorario> horarioByTipoDia) {
         List<GroupedHorario> horarios = new ArrayList<>();
@@ -153,10 +88,12 @@ public class MatrizProcessor {
         return horarios;
     }
 
-    private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz) {
+    private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz,String nodoCodigo) {
+        String identificador = macro+"-"+linea+"-"+seccion+"-"+nodoCodigo;
         ServicioDistancia servicioDistancia = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
         if(servicioDistancia==null){
             servicioDistancia = new ServicioDistancia(nombreMatriz,macro,linea,seccion);
+            servicioDistancia.setIdentificador(identificador);
             matrizDistanciaService.addServicioDistancia(servicioDistancia);
         }
         return servicioDistancia;
@@ -196,17 +133,17 @@ public class MatrizProcessor {
                     int codigoNodo=convertirAInt(row, MatrizDistanciaDefinicion.NODO_CODIGO);
 
 
-                    Nodo nodo= findOrSaveNodo(codigoNodo
-                            ,row.getCell(MatrizDistanciaDefinicion.NOMBRE_NODO).getStringCellValue());
+                    String nodoNombre= row.getCell(MatrizDistanciaDefinicion.NOMBRE_NODO).getStringCellValue();
+                    String nodoCodigo= row.getCell(MatrizDistanciaDefinicion.NODO_CODIGO).getNumericCellValue()+"";
 
                     ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(convertirAInt(row,MatrizDistanciaDefinicion.MACRO)
                             , convertirAInt(row,MatrizDistanciaDefinicion.LINEA)
                             , convertirAInt(row,MatrizDistanciaDefinicion.SECCION)
-                            ,row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue());
-                    guardarDistanciaNodos(matrizDistancia
-                            ,nodo,
+                            ,row.getCell(MatrizDistanciaDefinicion.RUTA).getStringCellValue(),
+                            nodoCodigo);
+                    guardarDistanciaNodos(matrizDistancia,
                             convertirAInt(row,MatrizDistanciaDefinicion.ABSICSA),
-                            servicioDistancia);
+                            servicioDistancia,nodoNombre,nodoCodigo);
                 }else{
                     break;
                 }
@@ -253,19 +190,20 @@ public class MatrizProcessor {
 
 
     private Nodo findOrSaveNodo(int nodoCodigo,String nodoNombre) {
-        List<Nodo> nodos = nodoService.getNodo( nodoNombre );
-        if( nodos.size() == 0 ){
+       Nodo nodos = nodoService.getNodo( nodoNombre );
+        if( nodos != null){
             Zona zona = nodoService.getZonaByName("SIN ASIGNAR","P");
             Nodo nodo = new Nodo(nodoNombre,nodoCodigo);
-            nodo.setZonaProgramacion(zona);
-            nodo.setZonaUsuario(zona);
+         //   nodo.setZonaProgramacion(zona);
+         //   nodo.setZonaUsuario(zona);
             nodoService.addNodo( nodo );
             return nodo;
-        }else if (nodos.get(0).getCodigo()==null){
-                nodos.get(0).setCodigo(nodoCodigo);
-                nodoService.updateNodo(nodos.get(0));
         }
-        return  nodos.get(0);
+//        else if (nodos.get(0).getCodigo()==null){
+//                nodos.get(0).setCodigo(nodoCodigo);
+//                nodoService.updateNodo(nodos.get(0));
+//        }
+        return  nodos;
     }
 
 
@@ -276,11 +214,13 @@ public class MatrizProcessor {
         return matrizDistancia;
     }
 
-    private DistanciaNodos guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, int distancia,ServicioDistancia servicioDistancia){
-        DistanciaNodos distanciaNodosByServicioAndPunto = matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia, nodo, matrizDistancia);
+    private DistanciaNodos guardarDistanciaNodos(MatrizDistancia matrizDistancia, int distancia,ServicioDistancia servicioDistancia,String nodoNombre, String nodoCodigo){
+        DistanciaNodos distanciaNodosByServicioAndPunto = matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia, matrizDistancia);
         if(distanciaNodosByServicioAndPunto==null){
-            DistanciaNodos distanciaNodos=new DistanciaNodos(distancia,nodo,matrizDistancia,servicioDistancia);
-           // matrizDistanciaService.addDistanciaNodos(distanciaNodos);
+            DistanciaNodos distanciaNodos=new DistanciaNodos(distancia,matrizDistancia,servicioDistancia);
+            distanciaNodos.setNodoNombre(nodoNombre);
+            distanciaNodos.setNodoCodigo(nodoCodigo);
+            matrizDistanciaService.addDistanciaNodos(distanciaNodos);
             return distanciaNodos;
         }
 

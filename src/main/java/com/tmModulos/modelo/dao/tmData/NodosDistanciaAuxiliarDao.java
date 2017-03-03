@@ -104,11 +104,11 @@ public class NodosDistanciaAuxiliarDao implements Serializable {
 
     }
 
-    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, Nodo nodo, MatrizDistancia matrizDistancia){
+    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia, String nodoCodigo){
         session = sessionFactoryServer.openSession();
         Criteria criteria = session.createCriteria(DistanciaNodos.class);
-        criteria.add(Restrictions.eq("nodo", nodo));
         criteria.add(Restrictions.eq("servicioDistancia", servicioDistancia));
+        criteria.add(Restrictions.eq("nodoCodigo", nodoCodigo));
         criteria.add(Restrictions.eq("matrizDistancia", matrizDistancia));
         DistanciaNodos distanciaNodos= (DistanciaNodos) criteria.uniqueResult();
         session.close();
@@ -165,7 +165,7 @@ public class NodosDistanciaAuxiliarDao implements Serializable {
     public List<GroupedHorario> getHorarioByTipoDia(String cuadro) {
 
         sessionSqlServer = sessionFactoryServerSqlServer.openSession();
-        Criteria criteria = sessionSqlServer.createCriteria(Horario.class).setResultTransformer(Transformers.aliasToBean(GroupedHorario.class));;
+        Criteria criteria = sessionSqlServer.createCriteria(HorarioS.class).setResultTransformer(Transformers.aliasToBean(GroupedHorario.class));;
         criteria.add(Restrictions.eq("cuadro", cuadro));
         Criterion eventos= Restrictions.or(Restrictions.eq("evento",1),
                 Restrictions.eq("evento", 5));

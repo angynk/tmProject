@@ -20,25 +20,9 @@ public class Nodo {
     @Column(name = "codigo")
     private Integer codigo;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "zona_programacion", nullable = false)
-    private Zona zonaProgramacion;
-
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "zona_usuario", nullable = false)
-    private Zona zonaUsuario;
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoInicial")
-//    private Set<ArcoTiempo> arcoTiempoNodoInicialRecords = new HashSet<ArcoTiempo>(0);
-//
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodoFinal")
-//    private Set<ArcoTiempo> arcoTiempoNodoFinalRecords = new HashSet<ArcoTiempo>(0);
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
-    private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
-
+    @JoinColumn(name = "vagon", nullable = false)
+    private Vagon vagon;
 
 
     public Nodo() {
@@ -78,43 +62,11 @@ public class Nodo {
         this.codigo = codigo;
     }
 
-//    public Set<ArcoTiempo> getArcoTiempoNodoInicialRecords() {
-//        return arcoTiempoNodoInicialRecords;
-//    }
-//
-//    public void setArcoTiempoNodoInicialRecords(Set<ArcoTiempo> arcoTiempoNodoInicialRecords) {
-//        this.arcoTiempoNodoInicialRecords = arcoTiempoNodoInicialRecords;
-//    }
-//
-//    public Set<ArcoTiempo> getArcoTiempoNodoFinalRecords() {
-//        return arcoTiempoNodoFinalRecords;
-//    }
-//
-//    public void setArcoTiempoNodoFinalRecords(Set<ArcoTiempo> arcoTiempoNodoFinalRecords) {
-//        this.arcoTiempoNodoFinalRecords = arcoTiempoNodoFinalRecords;
-//    }
-
-    public Set<DistanciaNodos> getDistanciaNodosRecords() {
-        return distanciaNodosRecords;
+    public Vagon getVagon() {
+        return vagon;
     }
 
-    public void setDistanciaNodosRecords(Set<DistanciaNodos> distanciaNodosRecords) {
-        this.distanciaNodosRecords = distanciaNodosRecords;
-    }
-
-    public Zona getZonaProgramacion() {
-        return zonaProgramacion;
-    }
-
-    public void setZonaProgramacion(Zona zonaProgramacion) {
-        this.zonaProgramacion = zonaProgramacion;
-    }
-
-    public Zona getZonaUsuario() {
-        return zonaUsuario;
-    }
-
-    public void setZonaUsuario(Zona zonaUsuario) {
-        this.zonaUsuario = zonaUsuario;
+    public void setVagon(Vagon vagon) {
+        this.vagon = vagon;
     }
 }

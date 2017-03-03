@@ -66,9 +66,9 @@ public class NodosParametrizacionView implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         Nodo nodo = (Nodo) event.getObject();
         Zona zonaP = nodoService.getZonaByName(auxNombreZonaP,"P");
-        nodo.setZonaProgramacion(zonaP);
+      //  nodo.setZonaProgramacion(zonaP);
         Zona zonaU = nodoService.getZonaByName(auxNombreZonaU,"U");
-        nodo.setZonaUsuario(zonaU);
+     //   nodo.setZonaUsuario(zonaU);
         nodoService.updateNodo(nodo);
         FacesMessage msg = new FacesMessage("Zona Actualizada", (nodo).getNombre());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -90,9 +90,9 @@ public class NodosParametrizacionView implements Serializable {
     public void nuevo(){
         if(nuevoNodo.getCodigo()!=null && nuevoNodo.getNombre()!=null){
             Zona zonaP = nodoService.getZonaByName(auxNombreZonaP,"P");
-            nuevoNodo.setZonaProgramacion(zonaP);
+          //  nuevoNodo.setZonaProgramacion(zonaP);
             Zona zonaU = nodoService.getZonaByName(auxNombreZonaU,"U");
-            nuevoNodo.setZonaUsuario(zonaU);
+          //  nuevoNodo.setZonaUsuario(zonaU);
             nodoService.addNodo(nuevoNodo);
             addMessage(FacesMessage.SEVERITY_INFO,"Nodo Creado", "");
             nodosRecords = nodoService.getNodosAll();

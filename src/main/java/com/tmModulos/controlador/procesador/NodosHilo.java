@@ -75,9 +75,9 @@ public class NodosHilo implements Runnable{
                                 nombreMatriz= encontrarNombreMatriz(macro,linea,config,seccion);
                                 distancia=nodoSec.getDistancia();
                                 nodos= encontrarNodo(nodoSec.getNodo(),nodoSec.getTipo());
-                                Nodo nodo= findOrSaveNodo(nodos.getId(),nodos.getNombre());
-                                ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(macro,linea,seccion,nombreMatriz);
-                                guardarDistanciaNodos(matrizDistancia,nodo,distancia,servicioDistancia);
+                                //Nodo nodo= findOrSaveNodo(nodos.getId(),nodos.getNombre());
+                                ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(macro,linea,seccion,nombreMatriz,nodos.getId());
+                                guardarDistanciaNodos(matrizDistancia,distancia,servicioDistancia,nodos.getNombre(),nodos.getId());
 
 
                             }
@@ -124,10 +124,12 @@ public class NodosHilo implements Runnable{
         return horarios;
     }
 
-    private void guardarDistanciaNodos(MatrizDistancia matrizDistancia, Nodo nodo, int distancia, ServicioDistancia servicioDistancia){
-        DistanciaNodos distanciaNodosByServicioAndPunto = auxiliarDao.getDistanciaNodosByServicioAndPunto(servicioDistancia, nodo, matrizDistancia);
+    private void guardarDistanciaNodos(MatrizDistancia matrizDistancia, int distancia, ServicioDistancia servicioDistancia,String nodoNombre, int nodoCodigo){
+        DistanciaNodos distanciaNodosByServicioAndPunto = auxiliarDao.getDistanciaNodosByServicioAndPunto(servicioDistancia, matrizDistancia,nodoCodigo+"");
         if(distanciaNodosByServicioAndPunto==null){
-            DistanciaNodos distanciaNodos=new DistanciaNodos(distancia,nodo,matrizDistancia,servicioDistancia);
+            DistanciaNodos distanciaNodos=new DistanciaNodos(distancia,matrizDistancia,servicioDistancia);
+            distanciaNodos.setNodoNombre(nodoNombre);
+            distanciaNodos.setNodoCodigo(nodoCodigo+"");
             auxiliarDao.addDistanciaNodos(distanciaNodos);
         }
     }
@@ -158,10 +160,12 @@ public class NodosHilo implements Runnable{
         return  nodos.get(0);
     }
 
-    private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz) {
+    private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz, int nodoCodigo) {
+        String identificador =macro+"-"+linea+"-"+seccion+"-"+nodoCodigo;
         ServicioDistancia servicioDistancia = auxiliarDao.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
         if(servicioDistancia==null){
             servicioDistancia = new ServicioDistancia(nombreMatriz,macro,linea,seccion);
+            servicioDistancia.setIdentificador(identificador);
             auxiliarDao.addServicioDistancia(servicioDistancia);
         }
         return servicioDistancia;

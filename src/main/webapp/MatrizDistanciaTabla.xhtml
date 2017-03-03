@@ -67,10 +67,10 @@
                                 <h:outputText value="#{matriz.servicioDistancia.seccion}" />
                             </p:column>
 
-                            <p:column filterBy="#{matriz.nodo.codigo}" headerText="Nodo" filterStyle="width: 65px;"
-                                      filterMatchMode="contains" sortBy="#{matriz.nodo.codigo}"
+                            <p:column filterBy="#{matriz.nodoCodigo}" headerText="Nodo" filterStyle="width: 65px;"
+                                      filterMatchMode="contains" sortBy="#{matriz.nodoCodigo}"
                                       style="width: 70px">
-                                <h:outputText value="#{matriz.nodo.codigo}" />
+                                <h:outputText value="#{matriz.nodoCodigo}" />
                             </p:column>
 
                             <p:column filterBy="#{matriz.distancia}" headerText="Abscisa" filterStyle="width: 90px;"
@@ -79,9 +79,9 @@
                                 <h:outputText value="#{matriz.distancia}" />
                             </p:column>
 
-                            <p:column filterBy="#{matriz.nodo.nombre}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{matriz.nodo.nombre}"
+                            <p:column filterBy="#{matriz.nodoNombre}" headerText="Nombre"  filterMatchMode="contains" sortBy="#{matriz.nodoNombre}"
                                       style="width: 120px">
-                                <h:outputText value="#{matriz.nodo.nombre}" />
+                                <h:outputText value="#{matriz.nodoNombre}" />
                             </p:column>
                             <f:facet name="footer">
                                 <!--<p:commandButton process="checkboxDT" update=":form:multiCarDetail" icon="ui-icon-search" -->

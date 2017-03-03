@@ -65,6 +65,8 @@
                 <value>com.tmModulos.modelo.entity.tmData.VelocidadProgramada</value>
                 <value>com.tmModulos.modelo.entity.tmData.HorariosServicio</value>
                 <value>com.tmModulos.modelo.entity.tmData.Horario</value>
+                <value>com.tmModulos.modelo.entity.tmData.Estacion</value>
+                <value>com.tmModulos.modelo.entity.tmData.Vagon</value>
 
             </list>
         </property>

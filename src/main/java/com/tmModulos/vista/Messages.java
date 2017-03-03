@@ -6,9 +6,11 @@ public class Messages {
 
     //ERRORES
     public static final String MENSAJE_CAMPOS_INCOMPLETOS = "Información incompleta";
+    public static final String MENSAJE_CAMPOS_REPETIDOS = "Información Duplicada";
     public static final String ACCION_CAMPOS_INCOMPLETOS = "Complete todos los campos";
     public static final String ACCION_ELIMINACION_REGISTROS = "Registros Eliminados";
     public static final String MENSAJE_ARCHIVO_NO_EXCEL = "Error con el archivo cargado";
+    public static final String MENSAJE_VERIFIQUE = "Verifique el identificador, trayecto y nombre del servicio";
     public static final String ACCION_ARCHIVO_NO_EXCEL = "Verifique el el archivo sea de tipo xsl";
     public static final String MENSAJE_FALLO_ARCHIVO = "Fallo la carga del archivo";
     public static final String MENSAJE_FALLO = "El proceso fallo";
@@ -20,7 +22,8 @@ public class Messages {
     public static final String MENSAJE_EXITOSO = "Proceso Existoso";
     public static final String MENSAJE_CALCULO_EXITOSO = "Generacion exitosa";
     public static final String MENSAJE_CALCULO_FALLA = "Generacion fallida";
-    public static final String MENSAJE_CALCULO_REVISION = "Revisar Generación";
+    public static final String MENSAJE_CALCULO_REVISION = "Revisar Identificador, Trayecto y Nombre";
+    public static final String ACCION_REVISAR_TIPOLOGIA = "Revisar Nombre de la tipologia";
     public static final String ACCION_VERIFICACION = "Verifique el log de resultados";
     public static final String ACCION_MATRIZ_ALMACENADA = "Matriz de distancias Almacenada";
     public static final String ACCION_TABLA_MAESTRA_ALMACENADA = "Tabla Maestra Almacenada";

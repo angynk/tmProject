@@ -45,11 +45,9 @@ public class GisServicioDao {
         return list;
     }
 
-    public GisServicio getGisServicioByTrayectoLinea(int linea, Integer trayecto, String nombre){
+    public GisServicio getGisServicioByTrayectoLinea(String identificador){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(GisServicio.class);
-        criteria.add(Restrictions.eq("linea", linea));
-        criteria.add(Restrictions.eq("trayecto", trayecto));
-        criteria.add(Restrictions.eq("nodoIncial", nombre));
+        criteria.add(Restrictions.eq("identificador", identificador));
         return (GisServicio) criteria.uniqueResult();
     }
 

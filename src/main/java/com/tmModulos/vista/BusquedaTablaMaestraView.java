@@ -1,5 +1,6 @@
 package com.tmModulos.vista;
 
+import com.tmModulos.controlador.procesador.TablaMaestraEdicion;
 import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.TablaMaestraService;
 import com.tmModulos.controlador.utils.ProcessorUtils;
@@ -52,6 +53,10 @@ public class BusquedaTablaMaestraView {
 
     @ManagedProperty("#{TablaMaestraService}")
     private TablaMaestraService tablaMaestraService;
+
+
+    @ManagedProperty("#{TablaMaestraEdicion}")
+    private TablaMaestraEdicion tablaMaestraEdicion;
 
     @ManagedProperty("#{MessagesView}")
     private MessagesView messagesView;
@@ -179,6 +184,49 @@ public class BusquedaTablaMaestraView {
     }
 
     public void onRowEdit(RowEditEvent event) {
+       for(TablaMaestraServicios servicioSeleccionado: selectedServiciosRecords){
+           //Verificar que Id no exista
+           if(!existeIdNombreOTrayecto(servicioSeleccionado)){
+                //Cambios por identificador
+
+               //Cambios por trayecto
+
+               //Cambios por tipología
+               if( modificacionTipologia(servicioSeleccionado)){
+
+               }else{
+                   messagesView.error(Messages.MENSAJE_FALLO,Messages.ACCION_REVISAR_TIPOLOGIA);
+               }
+               //Cambios por horarios
+           }else{
+               servicioSeleccionado.setIdentificador("0");
+               messagesView.error(Messages.MENSAJE_CAMPOS_REPETIDOS,Messages.MENSAJE_CALCULO_REVISION);
+           }
+       }
+    }
+
+    private boolean modificacionTipologia(TablaMaestraServicios servicioSeleccionado) {
+        String nuevoNombre = servicioSeleccionado.getTipologia().getNombre();
+        Tipologia tipologia = tablaMaestraEdicion.obtenerTipologia(nuevoNombre);
+        if(tipologia!=null){
+            servicioSeleccionado.setTipologia(tipologia);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean existeIdNombreOTrayecto(TablaMaestraServicios servicioSeleccionado) {
+        int repeticiones=0;
+        for( TablaMaestraServicios servicios: tServiciosRecords){
+            if(servicioSeleccionado.getIdentificador().equals(servicios.getIdentificador()) ||
+                    servicioSeleccionado.getNombreEspecial().equals(servicios.getNombreEspecial())){
+                       repeticiones++;
+                    }
+                }
+        if(repeticiones>1){
+            return true;
+        }
+        return false;
 
     }
 
@@ -360,5 +408,13 @@ public class BusquedaTablaMaestraView {
 
     public void setSelectedServiciosRecords(List<TablaMaestraServicios> selectedServiciosRecords) {
         this.selectedServiciosRecords = selectedServiciosRecords;
+    }
+
+    public TablaMaestraEdicion getTablaMaestraEdicion() {
+        return tablaMaestraEdicion;
+    }
+
+    public void setTablaMaestraEdicion(TablaMaestraEdicion tablaMaestraEdicion) {
+        this.tablaMaestraEdicion = tablaMaestraEdicion;
     }
 }

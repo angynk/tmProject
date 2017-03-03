@@ -95,8 +95,8 @@ public class TablaMaestraProcessor {
         for (ServicioTipoDia servicio: serviciosTipoDia   ) {
 
             //Encontrar nodo Inicio del servicio por el codigo
-            Nodo nodo = nodoService.getNodoByCodigo(servicio.getServicio().getPunto());
-            GisServicio gisServicio = obtenerGisServicio(servicio, nodo);
+           // Nodo nodo = nodoService.getNodoByCodigo(servicio.getServicio().getPunto());
+            GisServicio gisServicio = obtenerGisServicio(servicio, servicio.getServicio().getIdentificador());
 
             TablaMaestraServicios tablaMaestraServicios = new TablaMaestraServicios();
             tablaMaestraServicios= copiarInfoBasicaServicio(servicio, tablaMaestraServicios,tablaMaestra);
@@ -275,8 +275,8 @@ public class TablaMaestraProcessor {
     private TablaMaestraServicios agregarInfoNodo(ServicioTipoDia servicio, TablaMaestraServicios tablaMaestraServicios, Nodo nodoInicio) {
         tablaMaestraServicios.setCodigoInicio(nodoInicio.getCodigo());
         tablaMaestraServicios.setNombreInicio(nodoInicio.getNombre());
-        tablaMaestraServicios.setZonaTInicio(nodoInicio.getZonaUsuario().getNombre());
-        tablaMaestraServicios.setZonaPInicio(nodoInicio.getZonaProgramacion().getNombre());
+        tablaMaestraServicios.setZonaTInicio(nodoInicio.getVagon().getEstacion().getZonaUsuario().getNombre());
+        tablaMaestraServicios.setZonaPInicio(nodoInicio.getVagon().getEstacion().getZonaProgramacion().getNombre());
         tablaMaestraServicios.setIdInicio(calcularId(servicio.getServicio(),nodoInicio.getCodigo()));
         return  tablaMaestraServicios;
     }
@@ -284,8 +284,8 @@ public class TablaMaestraProcessor {
     private TablaMaestraServicios agregarInfoNodoFin(ServicioTipoDia servicio, TablaMaestraServicios tablaMaestraServicios, Nodo nodoFinal) {
         tablaMaestraServicios.setCodigoFin(nodoFinal.getCodigo());
         tablaMaestraServicios.setNombreIFin(nodoFinal.getNombre());
-        tablaMaestraServicios.setZonaTFin(nodoFinal.getZonaUsuario().getNombre());
-        tablaMaestraServicios.setZonaPFin(nodoFinal.getZonaProgramacion().getNombre());
+        tablaMaestraServicios.setZonaTFin(nodoFinal.getVagon().getEstacion().getZonaUsuario().getNombre());
+        tablaMaestraServicios.setZonaPFin(nodoFinal.getVagon().getEstacion().getZonaProgramacion().getNombre());
         tablaMaestraServicios.setIdFin(calcularId(servicio.getServicio(),nodoFinal.getCodigo()));
         return  tablaMaestraServicios;
     }
@@ -300,10 +300,10 @@ public class TablaMaestraProcessor {
     }
 
     // Obtener el servicio asociado en el GIS de Carga a partir de la linea, trayecto y nodo
-    private GisServicio obtenerGisServicio(ServicioTipoDia servicio, Nodo nodo) {
+    private GisServicio obtenerGisServicio(ServicioTipoDia servicio, String identificador) {
         GisServicio gisServicio=null;
-        if(nodo!=null){
-            gisServicio=gisCargaService.getGisServicioByTrayectoLinea(servicio.getServicio().getLineaCompuesta(),servicio.getServicio().getTrayecto(),nodo.getNombre());
+        if(identificador!=null){
+            gisServicio=gisCargaService.getGisServicioByTrayectoLinea(identificador);
         }else{
             log.error("El nodo "+servicio.getServicio().getPunto()+" No existe para el servicio: "+servicio.getIdentificador());
             logDatos.add(new LogDatos("El nodo "+servicio.getServicio().getPunto()+" No existe para el servicio: "+servicio.getIdentificador(), TipoLog.ERROR));
@@ -312,11 +312,8 @@ public class TablaMaestraProcessor {
     }
 
     private Nodo getNodoInicio(String nodoIncial) {
-        List<Nodo> nodo = nodoService.getNodo(nodoIncial);
-        if(nodo.size()>0){
-            return nodo.get(0);
-        }
-        return null;
+       Nodo nodo = nodoService.getNodo(nodoIncial);
+       return nodo;
     }
 
     private GisIntervalos generarIntervalosDeTiempo(Date fechaIntervalos,String descripcion, String tipoDia, TablaMaestra tablaMaestra) {
@@ -375,14 +372,14 @@ public class TablaMaestraProcessor {
         ServicioDistancia servicioDistanciaAux=null ;
 
         if (servicioDistancia!=null){
-            DistanciaNodos distanciaNodosA= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoIni,matrizDistancia);
-            DistanciaNodos distanciaNodosB= matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia,nodoFin,matrizDistancia);
+            DistanciaNodos distanciaNodosA= matrizDistanciaService.getDistanciaNodosByServicioAndNodo(servicioDistancia,matrizDistancia,nodoIni.getCodigo()+"");
+            DistanciaNodos distanciaNodosB= matrizDistanciaService.getDistanciaNodosByServicioAndNodo(servicioDistancia,matrizDistancia,nodoFin.getCodigo()+"");
 
             if( distanciaNodosA==null){
                 seccionAux = getSeccionAux(seccion);
                 servicioDistanciaAux = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccionAux);
                 if(servicioDistanciaAux!=null){
-                    distanciaNodosA= matrizDistanciaService.getUltimoDistanciaNodosByServicioAndPunto(servicioDistanciaAux,matrizDistancia);
+                    distanciaNodosA= matrizDistanciaService.getDistanciaNodosByServicioAndNodo(servicioDistanciaAux,matrizDistancia,nodoIni.getCodigo()+"");
                     calculoEspecialInicio =true;
                 }else{
                     serviciosNoEncontradosMatriz(macro, linea, seccion);
@@ -393,7 +390,7 @@ public class TablaMaestraProcessor {
                 seccionAux = getSeccionAux(seccion);
                 servicioDistanciaAux  = matrizDistanciaService.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccionAux);
                 if(servicioDistanciaAux!=null){
-                    distanciaNodosB= matrizDistanciaService.getUltimoDistanciaNodosByServicioAndPunto(servicioDistanciaAux,matrizDistancia);
+                    distanciaNodosB= matrizDistanciaService.getDistanciaNodosByServicioAndNodo(servicioDistanciaAux,matrizDistancia,nodoFin.getCodigo()+"");
                     calculoEspecialFin =true;
                 }else{
                     serviciosNoEncontradosMatriz(macro, linea, seccion);

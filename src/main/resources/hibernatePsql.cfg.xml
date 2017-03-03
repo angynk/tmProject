@@ -55,6 +55,8 @@
         <mapping class="com.tmModulos.modelo.entity.tmData.VelocidadProgramada"/>
         <mapping class="com.tmModulos.modelo.entity.tmData.HorariosServicio"/>
         <mapping class="com.tmModulos.modelo.entity.tmData.Horario"/>
+        <mapping class="com.tmModulos.modelo.entity.tmData.Estacion"/>
+        <mapping class="com.tmModulos.modelo.entity.tmData.Vagon"/>
 
     </session-factory>
 </hibernate-configuration>

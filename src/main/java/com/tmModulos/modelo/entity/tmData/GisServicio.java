@@ -20,11 +20,18 @@ public class GisServicio {
     @Column(name = "linea")
     private int linea;
 
+    @Column(name = "sentido")
+    private int sentido;
+
     @Column(name = "nodo_inicial")
     private String nodoIncial;
 
     @Column(name = "nodo_final")
     private String nodoFinal;
+
+    @Column(name = "identificador")
+    private String identificador;
+
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "servicio")
@@ -86,5 +93,21 @@ public class GisServicio {
 
     public void setArcoTiempoRecords(Set<ArcoTiempo> arcoTiempoRecords) {
         this.arcoTiempoRecords = arcoTiempoRecords;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
+
+    public int getSentido() {
+        return sentido;
+    }
+
+    public void setSentido(int sentido) {
+        this.sentido = sentido;
     }
 }

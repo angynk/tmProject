@@ -56,9 +56,15 @@ public class DistanciaNodosDao {
         return criteria.list();
     }
 
-    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia,Nodo nodo, MatrizDistancia matrizDistancia){
+    public DistanciaNodos getDistanciaNodosByServicioAndNodo(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia,String nodoCodigo){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(DistanciaNodos.class);
-        criteria.add(Restrictions.eq("nodo", nodo));
+        criteria.add(Restrictions.eq("servicioDistancia", servicioDistancia));
+        criteria.add(Restrictions.eq("matrizDistancia", matrizDistancia));
+        criteria.add(Restrictions.eq("nodoCodigo", nodoCodigo));
+        return (DistanciaNodos) criteria.uniqueResult();
+    }
+    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(DistanciaNodos.class);
         criteria.add(Restrictions.eq("servicioDistancia", servicioDistancia));
         criteria.add(Restrictions.eq("matrizDistancia", matrizDistancia));
         return (DistanciaNodos) criteria.uniqueResult();

@@ -117,8 +117,8 @@ public class GisCargaService {
       return gisServicioDao.getGisServicioAll();
     }
 
-    public GisServicio getGisServicioByTrayectoLinea(int linea, Integer trayecto,String nombre){
-        return gisServicioDao.getGisServicioByTrayectoLinea(linea,trayecto,nombre);
+    public GisServicio getGisServicioByTrayectoLinea(String identificador){
+        return gisServicioDao.getGisServicioByTrayectoLinea(identificador);
     }
 
 

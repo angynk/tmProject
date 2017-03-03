@@ -72,11 +72,11 @@ public class BuscarGisCargaView implements Serializable {
     public void buscar(){
         visibleRecords=true;
         if (busqueda.equals("1")){
-            if(fechaInicial!=null && tipoFecha!= null){
+            if(fechaInicial!=null && !tipoFecha.equals("")){
                 gisCargaRecords = busquedaService.busquedaFecha(fechaInicial, tipoFecha);
             }else { messagesView.error(Messages.MENSAJE_CAMPOS_INCOMPLETOS,Messages.ACCION_CAMPOS_INCOMPLETOS);}
         }else if (busqueda.equals("2")){
-            if( fechaInicial!= null && fechaFinal!=null && tipoFecha!= null){
+            if( fechaInicial!= null && fechaFinal!=null && !tipoFecha.equals("")){
                 gisCargaRecords = busquedaService.busquedaRangos( fechaInicial,fechaFinal,tipoFecha );
             }else { messagesView.error(Messages.MENSAJE_CAMPOS_INCOMPLETOS,Messages.ACCION_CAMPOS_INCOMPLETOS);}
         }else{

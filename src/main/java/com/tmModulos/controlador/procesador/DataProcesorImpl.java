@@ -102,12 +102,16 @@ public class DataProcesorImpl {
        return gisCarga;
     }
 
-    public GisServicio findOrSaveServicio(Row row,Nodo nodoInicial,Nodo nodoFinal){
+    public GisServicio findOrSaveServicio(Row row,String nodoInicial,String nodoFinal){
         Integer trayectoId = Integer.parseInt( row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
         int linea = Integer.parseInt( row.getCell(GisCargaDefinition.LINEA).getStringCellValue());
-            GisServicio servicio = gisCargaService.getGisServicioByTrayectoLinea(linea,trayectoId,nodoInicial.getNombre());
+        int sentido = Integer.parseInt(row.getCell( GisCargaDefinition.SENTIDO ).getStringCellValue());
+        String identificador = calclularIdentificador(trayectoId,linea+"",sentido,nodoInicial);
+        if( identificador!= null){
+            GisServicio servicio = gisCargaService.getGisServicioByTrayectoLinea(identificador);
             if( servicio== null ){
-                servicio = new GisServicio(trayectoId,linea,nodoInicial.getNombre(),nodoFinal.getNombre());
+                servicio = new GisServicio(trayectoId,linea,nodoInicial,nodoFinal);
+                servicio.setIdentificador(identificador);
                 try{
                     gisCargaService.addGisServicio(servicio);
                 }catch (Exception e){
@@ -118,9 +122,29 @@ public class DataProcesorImpl {
                 }
 
             }
+            return servicio;
+        }
 
-        return servicio;
 
+        return null;
+
+    }
+
+    private String calclularIdentificador(Integer trayectoId, String linea, int sentido, String nodoInicial) {
+        String [] lineaDividida = linea.split("");
+        String lineaFinal=lineaDividida[1]+lineaDividida[2];
+        if(lineaDividida[1].equals("0")){
+            lineaFinal=lineaDividida[2];
+        }
+        String identificador= lineaDividida[0]+"-"+lineaFinal+"-"+sentido;
+        Nodo nodo= nodoService.getNodo(nodoInicial);
+        if(nodo!=null){
+            identificador= identificador+"-"+nodo.getCodigo();
+            return identificador;
+        }
+        log.error("El nodo: "+nodoInicial+" No existe en la BD de nodos");
+        logDatos.add(new LogDatos("El nodo: "+nodoInicial+" No existe en la BD de nodos", TipoLog.ERROR));
+        return null;
     }
 
 
@@ -137,8 +161,8 @@ public class DataProcesorImpl {
 
                 Row row = rowIterator.next();
                 if( row.getCell(0) != null ){
-                    Nodo nodoInicial = findOrSaveNodo(row, GisCargaDefinition.NODOINICIO);
-                    Nodo nodoFinal = findOrSaveNodo(row, GisCargaDefinition.NODOFINAL);
+                    String nodoInicial = findNodo(row, GisCargaDefinition.NODOINICIO);
+                    String nodoFinal = findNodo(row, GisCargaDefinition.NODOFINAL);
                     if(nodoInicial!=null){
                         if(nodoFinal!=null){
                             GisServicio servicio = findOrSaveServicio(row,nodoInicial,nodoFinal);
@@ -198,19 +222,24 @@ public class DataProcesorImpl {
                 gisCarga,servicio,tipoDia
         );
 
-        gisCargaService.addArcoTiempo( arcoTiempo );
+        try{
+            gisCargaService.addArcoTiempo( arcoTiempo );
+        }catch (Exception e){
+            System.out.println("aui");
+        }
+
 
     }
 
 
 
-    private Nodo findOrSaveNodo(Row row, int nodoinicio) {
+    private String findNodo(Row row, int nodoinicio) {
          String nodoNombre = row.getCell(nodoinicio).getStringCellValue();
-         List<Nodo> nodos = nodoService.getNodo( nodoNombre );
-        if( nodos.size() == 0 ){
-            return null;
-        }
-        return  nodos.get(0);
+//         List<Nodo> nodos = nodoService.getNodo( nodoNombre );
+//        if( nodos.size() == 0 ){
+//            return null;
+//        }
+        return nodoNombre;
     }
 
     private TipoDiaDetalle findOrSaveTipoDia(Row row,String tipoDiaD) {

@@ -21,10 +21,10 @@ public class Zona {
     private String tipoZona;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "zonaProgramacion")
-    private Set<Nodo> zonaRecords= new HashSet<Nodo>(0);
+    private Set<Estacion> zonaRecords= new HashSet<Estacion>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "zonaUsuario")
-    private Set<Nodo> zonaUsuariosRecords= new HashSet<Nodo>(0);
+    private Set<Estacion> zonaUsuariosRecords= new HashSet<Estacion>(0);
 
 
     public long getId() {
@@ -43,14 +43,21 @@ public class Zona {
         this.nombre = nombre;
     }
 
-    public Set<Nodo> getZonaRecords() {
+    public Set<Estacion> getZonaRecords() {
         return zonaRecords;
     }
 
-    public void setZonaRecords(Set<Nodo> zonaRecords) {
+    public void setZonaRecords(Set<Estacion> zonaRecords) {
         this.zonaRecords = zonaRecords;
     }
 
+    public Set<Estacion> getZonaUsuariosRecords() {
+        return zonaUsuariosRecords;
+    }
+
+    public void setZonaUsuariosRecords(Set<Estacion> zonaUsuariosRecords) {
+        this.zonaUsuariosRecords = zonaUsuariosRecords;
+    }
 
     public String toString() {
         return nombre;
@@ -64,11 +71,4 @@ public class Zona {
         this.tipoZona = tipoZona;
     }
 
-    public Set<Nodo> getZonaUsuariosRecords() {
-        return zonaUsuariosRecords;
-    }
-
-    public void setZonaUsuariosRecords(Set<Nodo> zonaUsuariosRecords) {
-        this.zonaUsuariosRecords = zonaUsuariosRecords;
-    }
 }
