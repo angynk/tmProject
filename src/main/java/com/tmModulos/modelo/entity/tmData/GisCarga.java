@@ -121,7 +121,7 @@ public class GisCarga {
     }
 
     public String getFechaCreacionFormato() {
-        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat dt1 = new SimpleDateFormat("MM/dd/yyyy");
         return dt1.format(fechaCreacion);
     }
 
@@ -130,7 +130,7 @@ public class GisCarga {
     }
 
     public String getFechaProgramacionFormato() {
-        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat dt1 = new SimpleDateFormat("MM/dd/yyyy");
         return dt1.format(fechaProgramacion);
     }
 
@@ -139,7 +139,7 @@ public class GisCarga {
     }
 
     public String getFechaVigenciaFormato() {
-        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat dt1 = new SimpleDateFormat("MM/dd/yyyy");
         return dt1.format(fechaVigencia);
     }
 

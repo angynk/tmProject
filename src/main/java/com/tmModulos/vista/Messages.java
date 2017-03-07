@@ -15,6 +15,7 @@ public class Messages {
     public static final String MENSAJE_FALLO_ARCHIVO = "Fallo la carga del archivo";
     public static final String MENSAJE_FALLO = "El proceso fallo";
     public static final String ACCION_FALLO_ARCHIVO = "Verifique el archivo";
+    public static final String ACCION_ARCHIVO_INCOMPATIBLE = "El archivo debe ser tipo .xls";
 
 
     //INFORMACION

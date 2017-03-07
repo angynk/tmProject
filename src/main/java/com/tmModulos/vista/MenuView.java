@@ -12,23 +12,23 @@ public class MenuView {
 
 
     public void refreshServicios(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/ServiciosParametrizacion.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        try {
+//            ec.redirect(ec.getRequestContextPath()
+//                    + "/ServiciosParametrizacion.xhtml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void refreshServiciosporDia(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/ServiciosPorDiaParametrizacion.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        try {
+//            ec.redirect(ec.getRequestContextPath()
+//                    + "/ServiciosPorDiaParametrizacion.xhtml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void refreshNodo(){
@@ -42,23 +42,23 @@ public class MenuView {
     }
 
     public void refreshNuevaTablaMaestra(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/NuevaTablaMaestra.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        try {
+//            ec.redirect(ec.getRequestContextPath()
+//                    + "/NuevaTablaMaestra.xhtml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void refreshBuscarTablaMaestra(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarTablaMaestra.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        try {
+//            ec.redirect(ec.getRequestContextPath()
+//                    + "/BuscarTablaMaestra.xhtml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void refreshNuevoGISCarga(){
@@ -92,13 +92,13 @@ public class MenuView {
     }
 
     public void refreshListaNegra(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/ListaNegraMatriz.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        try {
+//            ec.redirect(ec.getRequestContextPath()
+//                    + "/ListaNegraMatriz.xhtml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void refreshBuscarMatrizDistancia(){
@@ -113,23 +113,23 @@ public class MenuView {
 
 
     public void refreshNuevosIntervalosGIS(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/NuevoIntervalosGIS.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        try {
+//            ec.redirect(ec.getRequestContextPath()
+//                    + "/NuevoIntervalosGIS.xhtml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void refreshBuscarIntervalosGIS(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarGisIntervalos.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        try {
+//            ec.redirect(ec.getRequestContextPath()
+//                    + "/BuscarGisIntervalos.xhtml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

@@ -6,6 +6,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -38,6 +39,13 @@ public class NuevoGisCargaView implements Serializable{
     @ManagedProperty("#{MessagesView}")
     private MessagesView messagesView;
 
+    @PostConstruct
+    public void init(){
+        resultadosVisibles =false;
+        fechaProgramacion = null;
+        fechaVigencia = null;
+        descripcion = "";
+    }
 
     public void upload() {
         resultadosVisibles=false;
@@ -60,6 +68,8 @@ public class NuevoGisCargaView implements Serializable{
                 messagesView.error(Messages.MENSAJE_FALLO_ARCHIVO,Messages.ACCION_FALLO_ARCHIVO);
             }
 
+        }else{
+            messagesView.error(Messages.MENSAJE_FALLO_ARCHIVO,Messages.ACCION_ARCHIVO_INCOMPATIBLE);
         }
         }else{
             messagesView.error(Messages.MENSAJE_CAMPOS_INCOMPLETOS,Messages.ACCION_CAMPOS_INCOMPLETOS);

@@ -103,11 +103,24 @@ public class DataProcesorImpl {
     }
 
     public GisServicio findOrSaveServicio(Row row,String nodoInicial,String nodoFinal){
-        Integer trayectoId = Integer.parseInt( row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
-        int linea = Integer.parseInt( row.getCell(GisCargaDefinition.LINEA).getStringCellValue());
-        int sentido = Integer.parseInt(row.getCell( GisCargaDefinition.SENTIDO ).getStringCellValue());
-        String identificador = calclularIdentificador(trayectoId,linea+"",sentido,nodoInicial);
-        if( identificador!= null){
+        Integer trayectoId=0;
+        int linea=0;
+        int sentido=0;
+        String identificador=null;
+        try{
+            trayectoId = Integer.parseInt( row.getCell(GisCargaDefinition.TRAYECTO).getStringCellValue());
+            linea = Integer.parseInt( row.getCell(GisCargaDefinition.LINEA).getStringCellValue());
+            sentido = Integer.parseInt(row.getCell( GisCargaDefinition.SENTIDO ).getStringCellValue());
+            identificador = calclularIdentificador(trayectoId,linea+"",sentido,nodoInicial);
+        }catch (Exception e){
+            log.error("Error en la extracion de datos excel");
+            log.error(e.getMessage());
+            logDatos.add(new LogDatos("Error en la extracion de datos excel", TipoLog.ERROR));
+            logDatos.add(new LogDatos(e.getMessage(), TipoLog.ERROR));
+            exitoso =false;
+        }
+
+        if( identificador!= null && linea!=0 && sentido!=0 && trayectoId!=0){
             GisServicio servicio = gisCargaService.getGisServicioByTrayectoLinea(identificador);
             if( servicio== null ){
                 servicio = new GisServicio(trayectoId,linea,nodoInicial,nodoFinal);

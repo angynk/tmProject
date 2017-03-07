@@ -52,6 +52,7 @@ public class BuscarGisCargaView implements Serializable {
     @PostConstruct
     public void init() {
         busqueda = "1";
+        tipoFecha = "fechaCreacion";
         fechaFinalVisible=false;
         gisCargaRecords = busquedaService.getGisCargaAll();
         selectedGisCarga = new ArrayList<>();
