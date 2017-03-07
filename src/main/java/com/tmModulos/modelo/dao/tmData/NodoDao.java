@@ -1,6 +1,7 @@
 package com.tmModulos.modelo.dao.tmData;
 
 import com.tmModulos.modelo.entity.tmData.Nodo;
+import com.tmModulos.modelo.entity.tmData.Vagon;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -47,6 +48,12 @@ public class NodoDao {
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Nodo.class);
         criteria.add(Restrictions.eq("nombre", nombre));
         return (Nodo) criteria.uniqueResult();
+    }
+
+    public List<Nodo> getNodoByVagon(Vagon vagon){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Nodo.class);
+        criteria.add(Restrictions.eq("vagon", vagon));
+        return criteria.list();
     }
 
     public Nodo getNodoByCodigo(int codigo){

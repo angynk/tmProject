@@ -50,4 +50,10 @@ public class VagonDao {
         criteria.add(Restrictions.eq("estacion", estacion));
         return criteria.list();
     }
+
+    public Vagon getVagonbyId(Long id){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Vagon.class);
+        criteria.add(Restrictions.eq("id", id));
+        return (Vagon) criteria.uniqueResult();
+    }
 }

@@ -1,6 +1,5 @@
 package com.tmModulos.modelo.dao.tmData;
 
-import com.tmModulos.modelo.entity.saeBogota.Horario;
 import com.tmModulos.modelo.entity.tmData.IntervalosProgramacion;
 import com.tmModulos.modelo.entity.tmData.MatrizDistancia;
 import com.tmModulos.modelo.entity.tmData.TipoFranja;

@@ -199,7 +199,7 @@ public class BusquedaTablaMaestraView {
                }
                //Cambios por horarios
            }else{
-               servicioSeleccionado.setIdentificador("0");
+               tServiciosRecords=tablaMaestraService.getServiciosByTabla(selectedTabla);
                messagesView.error(Messages.MENSAJE_CAMPOS_REPETIDOS,Messages.MENSAJE_CALCULO_REVISION);
            }
        }

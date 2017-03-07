@@ -20,7 +20,7 @@ public class Nodo {
     @Column(name = "codigo")
     private Integer codigo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "vagon", nullable = false)
     private Vagon vagon;
 

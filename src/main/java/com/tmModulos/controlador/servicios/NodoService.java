@@ -46,6 +46,10 @@ public class NodoService {
 
     public Nodo getNodo(String nombre){ return nodoDao.getNodo( nombre );}
 
+    public List<Nodo> getNodoByVagon(Vagon vagon){
+        return nodoDao.getNodoByVagon(vagon);
+    }
+
     public Nodo getNodoByCodigo(int codigo){ return nodoDao.getNodoByCodigo(codigo);}
 
     @Transactional(readOnly = false)
@@ -119,6 +123,10 @@ public class NodoService {
 
     public List<Vagon> getVagonAll() {
         return vagonDao.getVagonAll();
+    }
+
+    public Vagon getVagonbyId(Long id){
+        return vagonDao.getVagonbyId(id);
     }
 
     public List<Vagon> getVagonbyEstacion(Estacion estacion){

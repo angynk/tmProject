@@ -20,11 +20,11 @@ public class Vagon {
     @Column(name = "numeracion")
     private Integer numeracion;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "estacion", nullable = false)
     private Estacion estacion;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vagon")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vagon",cascade = CascadeType.REMOVE)
     private Set<Nodo> estacionRecords= new HashSet<Nodo>(0);
 
 

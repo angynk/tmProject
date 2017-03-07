@@ -30,7 +30,7 @@ public class Estacion {
     @JoinColumn(name = "zona_usuario", nullable = false)
     private Zona zonaUsuario;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "estacion")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "estacion", cascade = CascadeType.REMOVE)
     private Set<Vagon> estacionRecords= new HashSet<Vagon>(0);
 
 
