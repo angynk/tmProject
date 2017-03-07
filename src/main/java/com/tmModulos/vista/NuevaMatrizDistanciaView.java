@@ -9,13 +9,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 @ManagedBean(name="matrizDis")
-@SessionScoped
+@ViewScoped
 public class NuevaMatrizDistanciaView {
 
 
@@ -43,6 +44,12 @@ public class NuevaMatrizDistanciaView {
         tipoGeneracion = "1";
         automaticoVisible=true;
         archivoVisible=false;
+        fechaFestivos =null;
+        fechaSabado=null;
+        fechaDeVigencia=null;
+        fechaDeProgramacion=null;
+        resultadosVisibles=false;
+        numeracion="";
     }
 
     public void cambioTipoGeneracion(){
