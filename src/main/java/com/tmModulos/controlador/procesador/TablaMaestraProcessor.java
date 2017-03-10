@@ -8,9 +8,11 @@ import com.tmModulos.modelo.dao.tmData.IntervalosDao;
 import com.tmModulos.modelo.entity.tmData.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.faces.bean.ManagedProperty;
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.*;
 
 @Service("TablaMaestraProcessor")
@@ -33,6 +35,9 @@ public class TablaMaestraProcessor {
 
     @Autowired
     private NodoService nodoService;
+
+    @Autowired
+    ThreadPoolTaskExecutor taskExecutor;
 
 
 
@@ -89,10 +94,29 @@ public class TablaMaestraProcessor {
 
        //Calcular intervalos
         GisIntervalos gisIntervalos= generarIntervalosDeTiempo(fechaIntervalos,descripcion,tipoDia,tablaMaestra);
-        intervalosProcessor.precalcularIntervalosProgramacion();
+       // intervalosProcessor.precalcularIntervalosProgramacion();
 
-        // Calcular tabla maestra para cada servicio encontrado
-        for (ServicioTipoDia servicio: serviciosTipoDia   ) {
+//        System.out.println("Tamaño servicios: "+serviciosTipoDia.size());
+//        // Calcular tabla maestra para cada servicio encontrado
+//        int j=0;
+//
+//        while ( j<serviciosTipoDia.size() ) {
+//
+//            if(taskExecutor.getActiveCount() < 2){
+//                ServicioTipoDia servicio = serviciosTipoDia.get(j);
+//                System.out.println("!!! "+servicio.getIdentificador());
+//                taskExecutor.execute(new TablaMaestraServicioHilo(
+//                        servicio,gisIntervalos,gis,tablaMaestra,matriz,logDatos
+//                ));
+//                j++;
+//            }else{
+//                while(taskExecutor.getActiveCount()>=2){
+//                    System.out.println("Esperando  "+taskExecutor.getActiveCount());
+//                }
+//            }
+
+            for (ServicioTipoDia servicio: serviciosTipoDia) {
+
 
             //Encontrar nodo Inicio del servicio por el codigo
            // Nodo nodo = nodoService.getNodoByCodigo(servicio.getServicio().getPunto());
@@ -114,11 +138,11 @@ public class TablaMaestraProcessor {
                     //Obtener Nodo Inicio basado en la informacion del GIS de carga
                     Nodo nodoInicio = getNodoInicio(arcoTiempoBase.getServicio().getNodoIncial());
                     if(nodoInicio!=null){
-                        tablaMaestraServicios = agregarInfoNodo(servicio, tablaMaestraServicios, nodoInicio);
+                        tablaMaestraServicios = agregarInfoNodo(servicio.getServicio(), tablaMaestraServicios, nodoInicio);
 
                         Nodo nodoFinal = getNodoInicio(arcoTiempoBase.getServicio().getNodoFinal());
                         if(nodoFinal!=null){
-                           tablaMaestraServicios =agregarInfoNodoFin(servicio,tablaMaestraServicios,nodoFinal);
+                           tablaMaestraServicios =agregarInfoNodoFin(servicio.getServicio(),tablaMaestraServicios,nodoFinal);
 
                             //Calcular datos basicos matriz
                             tablaMaestraServicios.setTipoDia(arcoTiempoBase.getTipoDiaByArco().getTipoDia().getNombre());
@@ -169,16 +193,21 @@ public class TablaMaestraProcessor {
                 tablaMaestraService.addTServicios(tablaMaestraServicios);
                 servicioNoExisteEnGISCarga(servicio);
             }
+            }
 
-
-        }
         logDatos.add(new LogDatos("<<Fin Calculo Tabla Maestra>>", TipoLog.INFO));
         return logDatos;
     }
 
-    private HorariosServicio calcularHorarioServicios(Servicio servicio) {
+    public HorariosServicio calcularHorarioServicios(Servicio servicio) {
 
         List<Horario> horariosByServicio = tablaMaestraService.getHorariosByServicio(servicio);
+        HorariosServicio horario = getHorariosServicio(horariosByServicio);
+        tablaMaestraService.addHorariosServicios(horario);
+        return horario;
+    }
+
+    private HorariosServicio getHorariosServicio(List<Horario> horariosByServicio) {
         HorariosServicio horario= new HorariosServicio();
         if( horariosByServicio.size()>0){
             for(Horario hr: horariosByServicio){
@@ -201,8 +230,23 @@ public class TablaMaestraProcessor {
                 }
             }
         }
-        tablaMaestraService.addHorariosServicios(horario);
         return horario;
+    }
+
+    public void actualizarHorarioServicios(Servicio servicio, TablaMaestraServicios tablaMaestraServicios){
+        List<Horario> horariosByServicio = tablaMaestraService.getHorariosByServicio(servicio);
+        HorariosServicio horario = getHorariosServicio(horariosByServicio);
+        HorariosServicio oldHorario =  tablaMaestraServicios.getHorariosServicio();
+        oldHorario.setHoraInicioA(horario.getHoraInicioA());
+        oldHorario.setHoraFinA(horario.getHoraFinA());
+        oldHorario.setHoraInicioB(horario.getHoraInicioB());
+        oldHorario.setHoraFinB(horario.getHoraFinB());
+        oldHorario.setHoraInicioC(horario.getHoraInicioC());
+        oldHorario.setHoraFinC(horario.getHoraFinC());
+        oldHorario.setHoraInicioD(horario.getHoraInicioD());
+        oldHorario.setHoraFinD(horario.getHoraFinD());
+        tablaMaestraService.updateHorariosServicios(oldHorario);
+
     }
 
     private VelocidadProgramada calcularVelocidadProgramada(CicloServicio cicloServicio, Integer distancia) {
@@ -272,21 +316,21 @@ public class TablaMaestraProcessor {
         return tablaMaestraServicios;
     }
 
-    private TablaMaestraServicios agregarInfoNodo(ServicioTipoDia servicio, TablaMaestraServicios tablaMaestraServicios, Nodo nodoInicio) {
+    public TablaMaestraServicios agregarInfoNodo(Servicio servicio, TablaMaestraServicios tablaMaestraServicios, Nodo nodoInicio) {
         tablaMaestraServicios.setCodigoInicio(nodoInicio.getCodigo());
         tablaMaestraServicios.setNombreInicio(nodoInicio.getNombre());
         tablaMaestraServicios.setZonaTInicio(nodoInicio.getVagon().getEstacion().getZonaUsuario().getNombre());
         tablaMaestraServicios.setZonaPInicio(nodoInicio.getVagon().getEstacion().getZonaProgramacion().getNombre());
-        tablaMaestraServicios.setIdInicio(calcularId(servicio.getServicio(),nodoInicio.getCodigo()));
+        tablaMaestraServicios.setIdInicio(calcularId(servicio,nodoInicio.getCodigo()));
         return  tablaMaestraServicios;
     }
 
-    private TablaMaestraServicios agregarInfoNodoFin(ServicioTipoDia servicio, TablaMaestraServicios tablaMaestraServicios, Nodo nodoFinal) {
+    public TablaMaestraServicios agregarInfoNodoFin(Servicio servicio, TablaMaestraServicios tablaMaestraServicios, Nodo nodoFinal) {
         tablaMaestraServicios.setCodigoFin(nodoFinal.getCodigo());
         tablaMaestraServicios.setNombreIFin(nodoFinal.getNombre());
         tablaMaestraServicios.setZonaTFin(nodoFinal.getVagon().getEstacion().getZonaUsuario().getNombre());
         tablaMaestraServicios.setZonaPFin(nodoFinal.getVagon().getEstacion().getZonaProgramacion().getNombre());
-        tablaMaestraServicios.setIdFin(calcularId(servicio.getServicio(),nodoFinal.getCodigo()));
+        tablaMaestraServicios.setIdFin(calcularId(servicio,nodoFinal.getCodigo()));
         return  tablaMaestraServicios;
     }
 
@@ -311,7 +355,7 @@ public class TablaMaestraProcessor {
         return gisServicio;
     }
 
-    private Nodo getNodoInicio(String nodoIncial) {
+    public Nodo getNodoInicio(String nodoIncial) {
        Nodo nodo = nodoService.getNodo(nodoIncial);
        return nodo;
     }
@@ -358,7 +402,7 @@ public class TablaMaestraProcessor {
         return cicloServicio;
     }
 
-    private TablaMaestraServicios calcularDistancia(TablaMaestraServicios tablaMaestraServicios, Nodo nodoIni,Nodo nodoFin, MatrizDistancia matrizDistancia) {
+    public TablaMaestraServicios calcularDistancia(TablaMaestraServicios tablaMaestraServicios, Nodo nodoIni,Nodo nodoFin, MatrizDistancia matrizDistancia) {
 
         int macro = tablaMaestraServicios.getMacro();
         int linea = tablaMaestraServicios.getLinea();
@@ -565,6 +609,18 @@ public class TablaMaestraProcessor {
         velocidadProgramada.setOptimoPM(tablaMaestraServicios.getVelocidadProgramada().getOptimoPM());
         tablaMaestraService.addVelocidadProgramada(velocidadProgramada);
         nuevaTablaMaestraServicios.setVelocidadProgramada(velocidadProgramada);
+
+        HorariosServicio horariosServicio = new HorariosServicio();
+        horariosServicio.setHoraInicioA(tablaMaestraServicios.getHorariosServicio().getHoraInicioA());
+        horariosServicio.setHoraFinA(tablaMaestraServicios.getHorariosServicio().getHoraFinA());
+        horariosServicio.setHoraInicioB(tablaMaestraServicios.getHorariosServicio().getHoraInicioB());
+        horariosServicio.setHoraFinB(tablaMaestraServicios.getHorariosServicio().getHoraFinB());
+        horariosServicio.setHoraInicioC(tablaMaestraServicios.getHorariosServicio().getHoraInicioC());
+        horariosServicio.setHoraFinC(tablaMaestraServicios.getHorariosServicio().getHoraFinC());
+        horariosServicio.setHoraInicioD(tablaMaestraServicios.getHorariosServicio().getHoraInicioD());
+        horariosServicio.setHoraFinD(tablaMaestraServicios.getHorariosServicio().getHoraFinD());
+        tablaMaestraService.addHorariosServicios(horariosServicio);
+        nuevaTablaMaestraServicios.setHorariosServicio(horariosServicio);
 
         nuevaTablaMaestraServicios.setTablaMeestra(nuevaTablaMaestra);
         tablaMaestraService.addTServicios(nuevaTablaMaestraServicios);

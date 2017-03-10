@@ -40,7 +40,7 @@ public class TablaMaestra {
     private GisCarga gisCarga;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMeestra")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMeestra", cascade = CascadeType.MERGE)
     private Set<TablaMaestraServicios> tablaServiciosRecords = new HashSet<TablaMaestraServicios>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestra")
@@ -119,7 +119,7 @@ public class TablaMaestra {
     }
 
     public String getFechaCreacionFormato() {
-        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat dt1 = new SimpleDateFormat("MM/dd/yyyy");
         return dt1.format(fechaCreacion);
     }
 
@@ -128,7 +128,7 @@ public class TablaMaestra {
     }
 
     public String getFechaProgramacionFormato() {
-        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat dt1 = new SimpleDateFormat("MM/dd/yyyy");
         return dt1.format(fechaVigencia);
     }
 

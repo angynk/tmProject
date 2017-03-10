@@ -90,31 +90,31 @@ public class TablaMaestraServicios {
     @Column(name = "franja_cuartos")
     private Integer franjaCuartos;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "tabla_maestra", nullable = false)
     private TablaMaestra tablaMeestra;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tipologia", nullable = false)
     private Tipologia tipologia;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "ciclo_servicio", nullable = false)
     private CicloServicio cicloServicio;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "horarios", nullable = false)
     private HorariosServicio horariosServicio;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "velocidad_programada", nullable = false)
     private VelocidadProgramada velocidadProgramada;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestraServicios")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tablaMaestraServicios", cascade = CascadeType.REMOVE)
     private List<IntervalosServicio> intervalosServiciossaRecords= new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tablaMaestraServicios")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tablaMaestraServicios", cascade = CascadeType.REMOVE)
     private List<Intervalos> serviciosRecords = new ArrayList<Intervalos>(0);
 
     @Transient

@@ -201,11 +201,7 @@
 			<artifactId>blitzer</artifactId>
 			<version>1.0.10</version>
 		</dependency>
-		<dependency>
-			<groupId>com.journaldev</groupId>
-			<artifactId>saeBogotaData</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>net.sf.jacob-project</groupId>

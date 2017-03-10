@@ -43,6 +43,9 @@ public class TablaMaestraService {
     @Autowired
     HorarioDao horarioDao;
 
+    @Autowired
+    ServicioDao servicioDao;
+
 
 
     @Transactional(readOnly = false)
@@ -82,6 +85,7 @@ public class TablaMaestraService {
         tablaMaestraServiciosDao.addTServicios(tablaMaestraServicios);
     }
 
+    @Transactional(readOnly = false)
     public void deleteTServicios(TablaMaestraServicios tablaMaestraServicios) {
         tablaMaestraServiciosDao.deleteTServicios(tablaMaestraServicios);
     }
@@ -91,7 +95,7 @@ public class TablaMaestraService {
       intervalosDao.addIntervalos(intervalos);
     }
 
-
+    @Transactional(readOnly = false)
     public void updateTServicios(TablaMaestraServicios tablaMaestraServicios) {
         tablaMaestraServiciosDao.updateTServicios(tablaMaestraServicios);
     }
@@ -235,4 +239,7 @@ public class TablaMaestraService {
         return horarioDao.getHorariosByServicio(servicio);
     }
 
+    public Servicio getServicioByIdentificador(String identificador){
+        return servicioDao.getServicioByIdentificador(identificador);
+    }
 }

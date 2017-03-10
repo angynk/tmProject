@@ -1,5 +1,8 @@
 package com.tmModulos.modelo.entity.tmData;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -43,6 +46,7 @@ public class IntervalosServicio {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tabla_servicios", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private TablaMaestraServicios tablaMaestraServicios;
 
     public IntervalosServicio() {

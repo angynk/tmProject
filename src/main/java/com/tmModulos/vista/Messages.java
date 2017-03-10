@@ -25,6 +25,7 @@ public class Messages {
     public static final String MENSAJE_CALCULO_FALLA = "Generacion fallida";
     public static final String MENSAJE_CALCULO_REVISION = "Revisar Identificador, Trayecto y Nombre";
     public static final String ACCION_REVISAR_TIPOLOGIA = "Revisar Nombre de la tipologia";
+    public static final String ACCION_REVISAR_ID = "Revisar Identificador, el servicio no existe";
     public static final String ACCION_VERIFICACION = "Verifique el log de resultados";
     public static final String ACCION_MATRIZ_ALMACENADA = "Matriz de distancias Almacenada";
     public static final String ACCION_TABLA_MAESTRA_ALMACENADA = "Tabla Maestra Almacenada";

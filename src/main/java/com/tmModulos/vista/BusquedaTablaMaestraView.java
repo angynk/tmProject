@@ -1,6 +1,7 @@
 package com.tmModulos.vista;
 
 import com.tmModulos.controlador.procesador.TablaMaestraEdicion;
+import com.tmModulos.controlador.procesador.TablaMaestraProcessor;
 import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.TablaMaestraService;
 import com.tmModulos.controlador.utils.ProcessorUtils;
@@ -58,6 +59,9 @@ public class BusquedaTablaMaestraView {
     @ManagedProperty("#{TablaMaestraEdicion}")
     private TablaMaestraEdicion tablaMaestraEdicion;
 
+    @ManagedProperty("#{TablaMaestraProcessor}")
+    private TablaMaestraProcessor tablaMaestraProcessor;
+
     @ManagedProperty("#{MessagesView}")
     private MessagesView messagesView;
 
@@ -86,6 +90,13 @@ public class BusquedaTablaMaestraView {
 
     public void cancelar(){
 
+    }
+
+    public void eliminar(){
+        for(TablaMaestraServicios servicios: selectedServiciosRecords){
+            tablaMaestraService.deleteTServicios(servicios);
+        }
+        busquedaTablaMaestra();
     }
 
     public void reinciar(){
@@ -161,8 +172,14 @@ public class BusquedaTablaMaestraView {
         textoGeneracionMatrix="Tabla Maestra "+obtenerTipoTabla()+" generada para tipo ciclo: "+tipoCiclo+" y tipo intervalo: "+tipoIntervalo;
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/tablaMaestra.xhtml");
+            if(obtenerTipoTabla().equals("Definitiva")){
+                ec.redirect(ec.getRequestContextPath()
+                        + "/tablaMaestra.xhtml");
+            }else{
+                ec.redirect(ec.getRequestContextPath()
+                        + "/TablaMaestraTemporal.xhtml");
+            }
+
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -183,43 +200,130 @@ public class BusquedaTablaMaestraView {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
 
-    public void onRowEdit(RowEditEvent event) {
-       for(TablaMaestraServicios servicioSeleccionado: selectedServiciosRecords){
-           //Verificar que Id no exista
-           if(!existeIdNombreOTrayecto(servicioSeleccionado)){
-                //Cambios por identificador
 
-               //Cambios por trayecto
 
-               //Cambios por tipología
-               if( modificacionTipologia(servicioSeleccionado)){
+    public void edicionTablaTemporal(){
+        for(TablaMaestraServicios servicioSeleccionado: selectedServiciosRecords){
 
-               }else{
-                   messagesView.error(Messages.MENSAJE_FALLO,Messages.ACCION_REVISAR_TIPOLOGIA);
-               }
-               //Cambios por horarios
-           }else{
-               tServiciosRecords=tablaMaestraService.getServiciosByTabla(selectedTabla);
-               messagesView.error(Messages.MENSAJE_CAMPOS_REPETIDOS,Messages.MENSAJE_CALCULO_REVISION);
-           }
-       }
+            modificacionTipologia(servicioSeleccionado);
+            tablaMaestraService.updateTServicios(servicioSeleccionado);
+            tablaMaestraService.updateHorariosServicios(servicioSeleccionado.getHorariosServicio());
+            tablaMaestraService.updateCicloServicio(servicioSeleccionado.getCicloServicio());
+            tablaMaestraService.updateVelocidadProgramada(servicioSeleccionado.getVelocidadProgramada());
+
+
+
+        }
     }
 
-    private boolean modificacionTipologia(TablaMaestraServicios servicioSeleccionado) {
-        String nuevoNombre = servicioSeleccionado.getTipologia().getNombre();
-        Tipologia tipologia = tablaMaestraEdicion.obtenerTipologia(nuevoNombre);
-        if(tipologia!=null){
-            servicioSeleccionado.setTipologia(tipologia);
+    public void onRowEdit(RowEditEvent event) {
+        if(obtenerTipoTabla().equals("Definitiva")){
+            for(TablaMaestraServicios servicioSeleccionado: selectedServiciosRecords){
+                //Verificar que Id no exista
+                if(!existeIdNombreOTrayecto(servicioSeleccionado)){
+                    if(!existeTrayectoYNombreDeServicio(servicioSeleccionado)){
+                        //Cambios por identificador
+                        cambiosPorIdentificador( servicioSeleccionado );
+                        //Cambios por trayecto
+
+                        //Cambios por tipología
+                        modificacionTipologia(servicioSeleccionado);
+
+                        tablaMaestraService.updateTServicios(servicioSeleccionado);
+                        tablaMaestraService.updateHorariosServicios(servicioSeleccionado.getHorariosServicio());
+
+                        //Cambios por horarios
+                    }else{
+                        tServiciosRecords=tablaMaestraService.getServiciosByTabla(selectedTabla);
+                        messagesView.error(Messages.MENSAJE_CAMPOS_REPETIDOS,Messages.MENSAJE_CALCULO_REVISION);
+                    }
+
+                }else{
+                    tServiciosRecords=tablaMaestraService.getServiciosByTabla(selectedTabla);
+                    messagesView.error(Messages.MENSAJE_CAMPOS_REPETIDOS,Messages.MENSAJE_CALCULO_REVISION);
+                }
+            }
+        }else{
+            edicionTablaTemporal();
+        }
+
+    }
+
+    private void cambiosPorIdentificador(TablaMaestraServicios servicioSeleccionado) {
+        String identificador = servicioSeleccionado.getIdentificador();
+        Servicio nuevoServicio = tablaMaestraService.getServicioByIdentificador(identificador);
+        if(nuevoServicio!=null){
+               // servicioSeleccionado.setTrayecto(nuevoServicio.getTrayecto()+"");
+                servicioSeleccionado.setMacro(nuevoServicio.getMacro());
+                servicioSeleccionado.setLinea(nuevoServicio.getLinea());
+                servicioSeleccionado.setSeccion(nuevoServicio.getSeccion());
+                servicioSeleccionado.setNombreGeneral(nuevoServicio.getNombreGeneral());
+               // servicioSeleccionado.setNombreEspecial(nuevoServicio.getNombreEspecial());
+                servicioSeleccionado.setCodigoInicio(nuevoServicio.getPunto());
+
+          GisServicio  gisServicio=tablaMaestraEdicion.getGisServicioByTrayectoLinea(identificador);
+          if(gisServicio!=null){
+              List<ArcoTiempo> arcoTiempoRecords = tablaMaestraEdicion.getArcoTiempoByGisCargaAndServicio(servicioSeleccionado.getTablaMeestra().getGisCarga(),gisServicio);
+              if(arcoTiempoRecords.size()>0){
+                  ArcoTiempo arcoTiempoBase = arcoTiempoRecords.get(0);
+                  Nodo nodoInicio = tablaMaestraProcessor.getNodoInicio(arcoTiempoBase.getServicio().getNodoIncial());
+                  if(nodoInicio!=null){
+                      servicioSeleccionado =tablaMaestraProcessor.agregarInfoNodo(nuevoServicio,servicioSeleccionado,nodoInicio);
+                      Nodo nodoFinal = tablaMaestraProcessor.getNodoInicio(arcoTiempoBase.getServicio().getNodoFinal());
+                      if(nodoFinal!=null){
+                          servicioSeleccionado =tablaMaestraProcessor.agregarInfoNodoFin(nuevoServicio,servicioSeleccionado,nodoFinal);
+                          servicioSeleccionado.setTipoDia(arcoTiempoBase.getTipoDiaByArco().getTipoDia().getNombre());
+                          servicioSeleccionado.setSecuencia(arcoTiempoBase.getSecuencia());
+                          servicioSeleccionado= tablaMaestraProcessor.calcularDistancia(servicioSeleccionado,nodoInicio,nodoFinal,servicioSeleccionado.getTablaMeestra().getMatrizDistancia());
+
+//                          CicloServicio cicloServicio = calcularCiclos(servicioSeleccionado,arcoTiempoRecords);
+//                          servicioSeleccionado.setCicloServicio(cicloServicio);
+//                          VelocidadProgramada  velocidadProgramada = calcularVelocidadProgramada(cicloServicio,servicioSeleccionado.getDistancia());
+//                          servicioSeleccionado.setVelocidadProgramada(velocidadProgramada);
+
+                          tablaMaestraProcessor.actualizarHorarioServicios(nuevoServicio,servicioSeleccionado);
+
+
+                      }
+
+                  }
+              }
+          }
+
+        }else{
+            tServiciosRecords=tablaMaestraService.getServiciosByTabla(selectedTabla);
+            messagesView.error(Messages.MENSAJE_FALLO,Messages.ACCION_REVISAR_ID);
+        }
+    }
+
+    private boolean existeTrayectoYNombreDeServicio(TablaMaestraServicios servicioSeleccionado) {
+        int repeticiones=0;
+        for( TablaMaestraServicios servicios: tServiciosRecords){
+            if(servicioSeleccionado.getTrayecto().equals(servicios.getTrayecto()) &&
+                    servicioSeleccionado.getNombreEspecial().equals(servicios.getNombreEspecial())){
+                repeticiones++;
+            }
+        }
+        if(repeticiones>1){
             return true;
         }
         return false;
     }
 
+    private TablaMaestraServicios modificacionTipologia(TablaMaestraServicios servicioSeleccionado) {
+        String nuevoNombre = servicioSeleccionado.getTipologia().getNombre();
+        Tipologia tipologia = tablaMaestraEdicion.obtenerTipologia(nuevoNombre);
+        if(tipologia!=null){
+            servicioSeleccionado.setTipologia(tipologia);
+
+        }
+        return servicioSeleccionado;
+    }
+
     private boolean existeIdNombreOTrayecto(TablaMaestraServicios servicioSeleccionado) {
         int repeticiones=0;
         for( TablaMaestraServicios servicios: tServiciosRecords){
-            if(servicioSeleccionado.getIdentificador().equals(servicios.getIdentificador()) ||
-                    servicioSeleccionado.getNombreEspecial().equals(servicios.getNombreEspecial())){
+            if(servicioSeleccionado.getIdentificador().equals(servicios.getIdentificador())){
                        repeticiones++;
                     }
                 }
@@ -231,7 +335,7 @@ public class BusquedaTablaMaestraView {
     }
 
     public void onRowCancel(RowEditEvent event) {
-
+        System.out.println("sa");
     }
 
     public String getBusqueda() {
@@ -416,5 +520,13 @@ public class BusquedaTablaMaestraView {
 
     public void setTablaMaestraEdicion(TablaMaestraEdicion tablaMaestraEdicion) {
         this.tablaMaestraEdicion = tablaMaestraEdicion;
+    }
+
+    public TablaMaestraProcessor getTablaMaestraProcessor() {
+        return tablaMaestraProcessor;
+    }
+
+    public void setTablaMaestraProcessor(TablaMaestraProcessor tablaMaestraProcessor) {
+        this.tablaMaestraProcessor = tablaMaestraProcessor;
     }
 }

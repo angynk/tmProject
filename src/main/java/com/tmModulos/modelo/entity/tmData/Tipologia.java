@@ -28,7 +28,7 @@ public class Tipologia {
     private int capacidadValle;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipologia")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipologia", cascade = CascadeType.PERSIST)
     private Set<Servicio> tipologiaRecords= new HashSet<Servicio>(0);
 
     public long getId() {

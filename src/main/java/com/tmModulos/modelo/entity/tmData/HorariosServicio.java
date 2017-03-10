@@ -36,7 +36,7 @@ public class HorariosServicio {
     @Column(name = "hora_fin_d")
     private String horaFinD;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "horariosServicio", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "horariosServicio", cascade = CascadeType.REMOVE)
     private TablaMaestraServicios tablaMaestraServicios;
 
 

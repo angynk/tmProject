@@ -77,4 +77,14 @@ public class ServicioDao {
         }
         return list.get(0);
     }
+
+    public Servicio getServicioByIdentificador(String identificador){
+        Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Servicio.class);
+        criteria.add(Restrictions.eq("identificador", identificador));
+        List<Servicio> list = criteria.list();
+        if(list.size()<1){
+            return null;
+        }
+        return list.get(0);
+    }
 }

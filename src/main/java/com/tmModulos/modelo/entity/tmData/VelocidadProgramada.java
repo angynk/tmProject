@@ -39,7 +39,7 @@ public class VelocidadProgramada {
     @Column(name = "maxima_pm")
     private Double maximoPM;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "velocidadProgramada", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "velocidadProgramada", cascade = CascadeType.REMOVE)
     private TablaMaestraServicios tablaMaestraServicios;
 
 

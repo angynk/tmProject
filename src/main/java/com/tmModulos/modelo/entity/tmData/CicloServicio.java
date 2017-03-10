@@ -62,7 +62,7 @@ public class CicloServicio {
 
 
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "cicloServicio", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "cicloServicio", cascade = CascadeType.REMOVE)
     private TablaMaestraServicios tablaMaestraServicios;
 
     public CicloServicio(String optimoInicio, String optimoAM, String optimoValle, String optimoPM, String optimoCierre) {
