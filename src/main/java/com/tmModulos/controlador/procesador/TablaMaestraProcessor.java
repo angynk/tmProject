@@ -366,6 +366,34 @@ public class TablaMaestraProcessor {
 
     //Calcular ciclos de tiempos de recorrido - en base al GIS de carga
     private CicloServicio calcularCiclos(TablaMaestraServicios tablaMaestraServicios, List<ArcoTiempo> arcoTiempoRecords) {
+        CicloServicio cicloServicio = getCicloServicio(arcoTiempoRecords);
+        tablaMaestraService.addCicloServicio(cicloServicio);
+        return cicloServicio;
+    }
+
+    public void actualizarCicloServicio (TablaMaestraServicios tablaMaestraServicios, List<ArcoTiempo> arcoTiempoRecords){
+        CicloServicio cicloServicio = getCicloServicio(arcoTiempoRecords);
+        CicloServicio oldCicloServicio = tablaMaestraServicios.getCicloServicio();
+        oldCicloServicio.setMinimoAM(cicloServicio.getMinimoAM());
+        oldCicloServicio.setMaximoInicio(cicloServicio.getMinimoInicio());
+        oldCicloServicio.setMinimoValle(cicloServicio.getMinimoValle());
+        oldCicloServicio.setMinimoPM(cicloServicio.getMinimoPM());
+        oldCicloServicio.setMinimoCierre(cicloServicio.getMinimoCierre());
+        oldCicloServicio.setMaximoInicio(cicloServicio.getMaximoInicio());
+        oldCicloServicio.setMaximoAM(cicloServicio.getMaximoAM());
+        oldCicloServicio.setMaximoValle(cicloServicio.getMaximoValle());
+        oldCicloServicio.setMaximoPM(cicloServicio.getMaximoPM());
+        oldCicloServicio.setMaximoCierre(cicloServicio.getMaximoCierre());
+        oldCicloServicio.setOptimoInicio(cicloServicio.getOptimoInicio());
+        oldCicloServicio.setOptimoAM(cicloServicio.getOptimoAM());
+        oldCicloServicio.setOptimoValle(cicloServicio.getOptimoValle());
+        oldCicloServicio.setOptimoPM(cicloServicio.getOptimoPM());
+        oldCicloServicio.setOptimoCierre(cicloServicio.getOptimoCierre());
+        tablaMaestraService.updateCicloServicio(oldCicloServicio);
+
+    }
+
+    private CicloServicio getCicloServicio(List<ArcoTiempo> arcoTiempoRecords) {
         CicloServicio cicloServicio = new CicloServicio();
         for (ArcoTiempo arcoTiempo: arcoTiempoRecords){
             TipoFranja tipoFranja = tablaMaestraService.getTipoFranjaByHorario(arcoTiempo.getHoraDesde(),arcoTiempo.getHoraHasta());
@@ -397,8 +425,6 @@ public class TablaMaestraProcessor {
             }
 
         }
-
-        tablaMaestraService.addCicloServicio(cicloServicio);
         return cicloServicio;
     }
 

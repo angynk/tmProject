@@ -276,8 +276,7 @@ public class BusquedaTablaMaestraView {
                           servicioSeleccionado.setSecuencia(arcoTiempoBase.getSecuencia());
                           servicioSeleccionado= tablaMaestraProcessor.calcularDistancia(servicioSeleccionado,nodoInicio,nodoFinal,servicioSeleccionado.getTablaMeestra().getMatrizDistancia());
 
-//                          CicloServicio cicloServicio = calcularCiclos(servicioSeleccionado,arcoTiempoRecords);
-//                          servicioSeleccionado.setCicloServicio(cicloServicio);
+                            tablaMaestraProcessor.actualizarCicloServicio(servicioSeleccionado,arcoTiempoRecords);
 //                          VelocidadProgramada  velocidadProgramada = calcularVelocidadProgramada(cicloServicio,servicioSeleccionado.getDistancia());
 //                          servicioSeleccionado.setVelocidadProgramada(velocidadProgramada);
 

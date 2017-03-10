@@ -62,6 +62,7 @@ public class EstacionParametrizacionView implements Serializable {
     @PostConstruct
     public void init() {
        estacionRecords= nodoService.getEstacionAll();
+        selectedestacionRecords=new ArrayList<>();
         zonasProgramadasRecords = nodoService.getZonaByTipoZona("P");
         zonasUsuariosRecords = nodoService.getZonaByTipoZona("U");
     }
@@ -202,6 +203,7 @@ public class EstacionParametrizacionView implements Serializable {
             nodoService.addEstacion(nuevaEstacion);
             addMessage(FacesMessage.SEVERITY_INFO,"Estacion Creado", "");
             estacionRecords= nodoService.getEstacionAll();
+            selectedestacionRecords=new ArrayList<>();
         }else{
             addMessage(FacesMessage.SEVERITY_ERROR,"La estacion no fue creado", "Complete los campos");
         }
