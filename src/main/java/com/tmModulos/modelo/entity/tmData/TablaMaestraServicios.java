@@ -126,6 +126,9 @@ public class TablaMaestraServicios {
     @Transient
     private String tipoIntervalo;
 
+    @Transient
+    private String tipologiaAux;
+
     public long getId() {
         return id;
     }
@@ -412,5 +415,13 @@ public class TablaMaestraServicios {
 
     public void setHorariosServicio(HorariosServicio horariosServicio) {
         this.horariosServicio = horariosServicio;
+    }
+
+    public String getTipologiaAux() {
+        return tipologiaAux;
+    }
+
+    public void setTipologiaAux(String tipologiaAux) {
+        this.tipologiaAux = tipologiaAux;
     }
 }

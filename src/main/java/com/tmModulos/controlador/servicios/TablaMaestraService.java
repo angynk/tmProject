@@ -47,6 +47,10 @@ public class TablaMaestraService {
     ServicioDao servicioDao;
 
 
+    @Autowired
+    TipologiaDao tipologiaDao;
+
+
 
     @Transactional(readOnly = false)
     public void addCustomer(TablaMaestra tablaMaestra) {
@@ -241,5 +245,9 @@ public class TablaMaestraService {
 
     public Servicio getServicioByIdentificador(String identificador){
         return servicioDao.getServicioByIdentificador(identificador);
+    }
+
+    public Tipologia getTipologiaByNombre(String nombre){
+        return tipologiaDao.getTipologiaByNombre(nombre);
     }
 }

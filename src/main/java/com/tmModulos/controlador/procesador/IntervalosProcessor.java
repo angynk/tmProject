@@ -98,6 +98,10 @@ public class IntervalosProcessor {
 
     }
 
+    public void actualizarIntervalosTiempo(){
+
+    }
+
 
 
     public List<Intervalos> calcularValorIntervaloPorFranja(TablaMaestraServicios tablaMaestraServicios,ServicioTipoDia servicio,GisIntervalos gisIntervalos) {

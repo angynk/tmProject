@@ -43,7 +43,7 @@ public class BusquedaTablaMaestraView {
 
     private List<TablaMaestra> tablaMaestraRecords;
     private TablaMaestra selectedTabla;
-    private TablaMaestra nuevaTabla;
+    private TablaMaestraServicios nuevaTabla;
     private List<TablaMaestra> filteredTablaMaestra;
 
 
@@ -81,7 +81,10 @@ public class BusquedaTablaMaestraView {
     }
 
     public void habilitarNuevo(){
-        nuevaTabla = new TablaMaestra();
+        nuevaTabla = new TablaMaestraServicios();
+        nuevaTabla.setTablaMeestra(selectedTabla);
+        nuevaTabla.setEstado(true);
+        nuevaTabla.setTipoDia(selectedTabla.getTipoDia());
     }
 
     public void actualizar(){
@@ -89,6 +92,17 @@ public class BusquedaTablaMaestraView {
     }
 
     public void cancelar(){
+
+    }
+
+    public void nuevoRegistro(){
+        boolean resultado = tablaMaestraProcessor.crearServicioTablaMaestraDefinitiva(nuevaTabla);
+        if(resultado){
+            messagesView.info(Messages.MENSAJE_EXITOSO,"");
+            tServiciosRecords = tablaMaestraService.getServiciosByTabla(selectedTabla);
+        }else{
+            messagesView.error(Messages.MENSAJE_FALLO,"");
+        }
 
     }
 
@@ -276,9 +290,8 @@ public class BusquedaTablaMaestraView {
                           servicioSeleccionado.setSecuencia(arcoTiempoBase.getSecuencia());
                           servicioSeleccionado= tablaMaestraProcessor.calcularDistancia(servicioSeleccionado,nodoInicio,nodoFinal,servicioSeleccionado.getTablaMeestra().getMatrizDistancia());
 
-                            tablaMaestraProcessor.actualizarCicloServicio(servicioSeleccionado,arcoTiempoRecords);
-//                          VelocidadProgramada  velocidadProgramada = calcularVelocidadProgramada(cicloServicio,servicioSeleccionado.getDistancia());
-//                          servicioSeleccionado.setVelocidadProgramada(velocidadProgramada);
+                           tablaMaestraProcessor.actualizarCicloServicio(servicioSeleccionado,arcoTiempoRecords);
+                           tablaMaestraProcessor.actualizarVelocidadProgramada(servicioSeleccionado, servicioSeleccionado.getCicloServicio(),servicioSeleccionado.getDistancia());
 
                           tablaMaestraProcessor.actualizarHorarioServicios(nuevoServicio,servicioSeleccionado);
 
@@ -449,11 +462,11 @@ public class BusquedaTablaMaestraView {
         this.tablaMaestraService = tablaMaestraService;
     }
 
-    public TablaMaestra getNuevaTabla() {
+    public TablaMaestraServicios getNuevaTabla() {
         return nuevaTabla;
     }
 
-    public void setNuevaTabla(TablaMaestra nuevaTabla) {
+    public void setNuevaTabla(TablaMaestraServicios nuevaTabla) {
         this.nuevaTabla = nuevaTabla;
     }
 

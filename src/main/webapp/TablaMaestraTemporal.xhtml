@@ -1144,73 +1144,61 @@
                         </p:dialog>
 
 
-                        <p:dialog header="Servicio Informacion" widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:dialog header="Servicio Tabla Maestra" widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                             <p:outputPanel id="nuevoDialog" style="text-align:center;">
-                                <p:panelGrid  columns="4" rendered="#{not empty serviciosP.nuevoServicio}" columnClasses="label,value">
+                                <p:panelGrid  columns="4" rendered="#{not empty busquedaTabla.nuevaTabla}" columnClasses="label,value">
 
                                     <h:outputText value="Identificador:" style="color:black" />
-                                    <h:inputText value="#{serviciosP.nuevoServicio.identificador}" disabled="true" style="background-color: #d6d7d8" />
-
-                                    <h:outputText value="Macro:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.macro}"  />
-
-                                    <h:outputText value="Linea:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.linea}"  />
-
-                                    <h:outputText value="Seccion:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.seccion}"  />
-
-                                    <h:outputText value="Punto:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.punto}"  />
-
-
-                                    <h:outputText value="Linea Compuesta:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.lineaCompuesta}"  />
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.identificador}"  />
 
                                     <h:outputText value="Trayecto:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.trayecto}"  />
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.trayecto}"  />
+
+                                    <h:outputText value="Macro:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.macro}"  />
+
+                                    <h:outputText value="Linea:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.linea}"  />
+
+                                    <h:outputText value="Seccion:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.seccion}"  />
+
+                                    <h:outputText value="Punto I:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.codigoInicio}"  />
+
+                                    <h:outputText value="Punto F:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.codigoFin}"  />
 
                                     <h:outputText value="Nombre Generico:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.nombreGeneral}"  />
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.nombreGeneral}"  />
 
                                     <h:outputText value="Nombre Especifico:" style="color:black"/>
-                                    <h:inputText value="#{serviciosP.nuevoServicio.nombreEspecial}"  />
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.nombreEspecial}"  />
 
+                                    <h:outputText value="Tipo Servicio:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.tipoServicio}"  />
 
-                                    <h:outputText value="Estado:" style="color:black"/>
-                                    <p:selectBooleanCheckbox value="#{serviciosP.nuevoServicio.estado}" />
+                                    <h:outputText value="Distancia:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.distancia}"  />
 
-                                    <h:outputText value="TipoServicio:" style="color:black"/>
-                                    <h:selectOneMenu value="#{serviciosP.nuevoServicio.tipoServicio}" style="width:100%" >
-                                        <f:selectItems value="#{serviciosP.tipoServicio}" var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
-                                    </h:selectOneMenu>
+                                    <h:outputText value="Franja Cuartos:" style="color:black"/>
+                                    <h:inputText value="#{busquedaTabla.nuevaTabla.franjaCuartos}"  />
 
                                     <h:outputText value="Tipología:" style="color:black"/>
-                                    <h:selectOneMenu value="#{serviciosP.console}" style="width:100%" >
-                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <p:selectOneMenu value="#{busquedaTabla.nuevaTabla.tipologiaAux}" style="width:100%" >
                                         <f:selectItem itemLabel="ARTICULADO" itemValue="ARTICULADO" />
                                         <f:selectItem itemLabel="BIARTICULADO" itemValue="BIARTICULADO" />
                                         <f:selectItem itemLabel="MIXTO" itemValue="MIXTO" />
-                                    </h:selectOneMenu>
 
-                                    <p:panelGrid columns="6">
-                                        <h:outputText value="Habil:" style="color:black"/>
-                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.habil}" />
-                                        <h:outputText value="Sabado:" style="color:black"/>
-                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.sabado}" />
-                                        <h:outputText value="Festivo:" style="color:black"/>
-                                        <p:selectBooleanCheckbox value="#{serviciosP.selectedServicio.festivo}" />
-                                    </p:panelGrid>
-
-
+                                    </p:selectOneMenu>
 
                                 </p:panelGrid>
                                 <p:panelGrid columns="2">
-                                    <p:commandButton value="Nuevo" action="#{serviciosP.nuevo}" ajax="false"
+                                    <p:commandButton value="Nuevo" action="#{busquedaTabla.nuevoRegistro}" ajax="false"
                                                      icon="ui-icon ui-icon-disk" id="nuevo"
                                                      async="true" />
 
-                                    <p:commandButton value="Cancelar" action="#{serviciosP.cancelar}" ajax="false"
+                                    <p:commandButton value="Cancelar" action="#{busquedaTabla.cancelar}" ajax="false"
                                                      icon="ui-icon ui-icon-disk" id="cancelars"
                                                      async="true" />
                                 </p:panelGrid>

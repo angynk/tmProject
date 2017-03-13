@@ -199,6 +199,22 @@ public class TablaMaestraProcessor {
         return logDatos;
     }
 
+    public boolean crearServicioTablaMaestraDefinitiva(TablaMaestraServicios tablaMaestraServicios){
+        tablaMaestraServicios= addCicloServicio(tablaMaestraServicios);
+        Tipologia tipologiaByNombre = tablaMaestraService.getTipologiaByNombre(tablaMaestraServicios.getTipologiaAux());
+        tablaMaestraServicios.setTipologia(tipologiaByNombre);
+        tablaMaestraServicios.setHorariosServicio(definirHorarioServiciosVacio());
+        tablaMaestraService.addTServicios(tablaMaestraServicios);
+        return true;
+    }
+
+
+    public HorariosServicio definirHorarioServiciosVacio(){
+        HorariosServicio horario= new HorariosServicio();
+        tablaMaestraService.addHorariosServicios(horario);
+        return horario;
+    }
+
     public HorariosServicio calcularHorarioServicios(Servicio servicio) {
 
         List<Horario> horariosByServicio = tablaMaestraService.getHorariosByServicio(servicio);
@@ -250,6 +266,28 @@ public class TablaMaestraProcessor {
     }
 
     private VelocidadProgramada calcularVelocidadProgramada(CicloServicio cicloServicio, Integer distancia) {
+        VelocidadProgramada velocidadProgramada = getVelocidadProgramada(cicloServicio, distancia);
+        tablaMaestraService.addVelocidadProgramada(velocidadProgramada);
+        return velocidadProgramada;
+    }
+
+    public void actualizarVelocidadProgramada(TablaMaestraServicios tablaMaestraServicios, CicloServicio cicloServicio, Integer distancia){
+        VelocidadProgramada velocidadProgramada = getVelocidadProgramada(cicloServicio, distancia);
+        VelocidadProgramada oldVelocidad = tablaMaestraServicios.getVelocidadProgramada();
+        oldVelocidad.setOptimoAM(velocidadProgramada.getOptimoAM());
+        oldVelocidad.setOptimoPM(velocidadProgramada.getOptimoPM());
+        oldVelocidad.setOptimoValle(velocidadProgramada.getOptimoValle());
+        oldVelocidad.setMinimoAM(velocidadProgramada.getMinimoAM());
+        oldVelocidad.setMinimoPM(velocidadProgramada.getMinimoPM());
+        oldVelocidad.setMinimoValle(velocidadProgramada.getMinimoValle());
+        oldVelocidad.setMaximoAM(velocidadProgramada.getMaximoAM());
+        oldVelocidad.setMaximoPM(velocidadProgramada.getMaximoPM());
+        oldVelocidad.setMaximoValle(velocidadProgramada.getMaximoValle());
+        tablaMaestraServicios.setVelocidadProgramada(oldVelocidad);
+
+    }
+
+    private VelocidadProgramada getVelocidadProgramada(CicloServicio cicloServicio, Integer distancia) {
         VelocidadProgramada  velocidadProgramada = new VelocidadProgramada();
         Integer distanciaKM;
         if(distancia!=-1){
@@ -264,7 +302,6 @@ public class TablaMaestraProcessor {
             velocidadProgramada.setMinimoPM(calcularVelocidad(distanciaKM,cicloServicio.getMinimoPM()));
             velocidadProgramada.setMinimoValle(calcularVelocidad(distanciaKM,cicloServicio.getMinimoValle()));
         }
-        tablaMaestraService.addVelocidadProgramada(velocidadProgramada);
         return velocidadProgramada;
     }
 
