@@ -155,9 +155,10 @@ public class DataProcesorImpl {
             identificador= identificador+"-"+nodo.getCodigo();
             return identificador;
         }
-        log.error("El nodo: "+nodoInicial+" No existe en la BD de nodos");
-        logDatos.add(new LogDatos("El nodo: "+nodoInicial+" No existe en la BD de nodos", TipoLog.ERROR));
-        return null;
+        identificador= identificador+"-000";
+        log.error("El nodo: "+nodoInicial+" No existe en la BD de nodos, a este se le ha asignado el numero 000");
+        logDatos.add(new LogDatos("El nodo: "+nodoInicial+" No existe en la BD de nodos, a este se le ha asignado el numero 000", TipoLog.ERROR));
+        return identificador;
     }
 
 
@@ -248,10 +249,7 @@ public class DataProcesorImpl {
 
     private String findNodo(Row row, int nodoinicio) {
          String nodoNombre = row.getCell(nodoinicio).getStringCellValue();
-//         List<Nodo> nodos = nodoService.getNodo( nodoNombre );
-//        if( nodos.size() == 0 ){
-//            return null;
-//        }
+
         return nodoNombre;
     }
 
