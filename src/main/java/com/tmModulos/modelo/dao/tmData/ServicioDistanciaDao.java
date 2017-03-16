@@ -48,7 +48,11 @@ public class ServicioDistanciaDao {
         criteria.add(Restrictions.eq("macro", macro));
         criteria.add(Restrictions.eq("linea", linea));
         criteria.add(Restrictions.eq("seccion", seccion));
-        return (ServicioDistancia) criteria.uniqueResult();
+        List<ServicioDistancia> lista = criteria.list();
+        if(lista.size()>0){
+            return lista.get(0);
+        }
+        return null;
     }
 
     public ServicioDistancia getServicioDistanciaByIdentificador(String identificador){

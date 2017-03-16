@@ -131,7 +131,7 @@ public class TablaMaestraService {
     }
 
     public TipoFranja getTipoFranjaByHorario(String horaIncio,String horaFin){
-        return  tipoFranjaDao.getTipoFranjaByHorario(horaIncio,horaFin);
+        return tipoFranjaDao.getTipoFranjaByHorario(horaIncio,horaFin);
     }
 
     @Transactional(readOnly = false)
