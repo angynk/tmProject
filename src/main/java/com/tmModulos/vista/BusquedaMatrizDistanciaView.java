@@ -197,6 +197,9 @@ public class BusquedaMatrizDistanciaView implements Serializable {
     }
 
     public List<DistanciaNodos> getDistanciaNodosRecords() {
+        if(distanciaNodosRecords == null){
+            distanciaNodosRecords =matrizDistanciaService.getDistanciaNodosByMatriz(selectedMatriz);
+        }
         return distanciaNodosRecords;
     }
 
