@@ -55,11 +55,11 @@ public class MatrizProcessor {
     private String destination="C:\\temp\\";
 
 
-    public List<LogDatos> calcularMatrizDistancia(Date fechaHabil,String numeracion,Date fechaFestivos, Date fechaSabado){
+    public List<LogDatos> calcularMatrizDistancia(Date fechaHabil,String numeracion,Date fechaFestivos, Date fechaSabado,String desc){
         logDatos = new ArrayList<>();
         logDatos.add(new LogDatos("<<Inicio Calculo Matriz Distancias>>", TipoLog.INFO));
         log.info("<<Inicio Calculo Matriz Distancias>>");
-        MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion,fechaFestivos,fechaSabado);
+        MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion,fechaFestivos,fechaSabado,desc);
         //List<DistanciaNodos> distanciaNodos= calcularMatrizPorFecha(fechaHabil, matrizDistancia);
          NodosHilo nodoHiloHabil = new NodosHilo(fechaHabil,matrizDistancia);
         taskExecutor.execute(nodoHiloHabil);
@@ -100,13 +100,13 @@ public class MatrizProcessor {
     }
 
 
-    public List<LogDatos> processDataFromFile(String fileName, InputStream in, Date fechaProgramacion,String numeracion, Date fechaHabil, Date fechaSabado, Date fechaFestivo){
+    public List<LogDatos> processDataFromFile(String fileName, InputStream in, Date fechaProgramacion,String numeracion, Date fechaHabil, Date fechaSabado, Date fechaFestivo,String desc){
        logDatos = new ArrayList<>();
         logDatos.add(new LogDatos("<<Inicio Calculo Matriz Distancias con Archivo>>", TipoLog.INFO));
         log.info("<<Inicio Calculo Matriz Distancias con Archivo>>");
         processorUtils.copyFile(fileName,in,destination);
         destination=destination+fileName;
-        MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion, fechaSabado,fechaFestivo);
+        MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion, fechaSabado,fechaFestivo,desc);
         try {
             readExcelAndSaveData(destination,matrizDistancia);
 
@@ -208,8 +208,8 @@ public class MatrizProcessor {
 
 
 
-    private MatrizDistancia guardarMatrizDistancia(Date fecha,String numeracion,Date fechaFestivos, Date fechaSabado){
-        MatrizDistancia matrizDistancia= new MatrizDistancia(new Date(),fecha,fechaSabado,fechaFestivos,numeracion);
+    private MatrizDistancia guardarMatrizDistancia(Date fecha,String numeracion,Date fechaFestivos, Date fechaSabado, String desc){
+        MatrizDistancia matrizDistancia= new MatrizDistancia(new Date(),fecha,fechaSabado,fechaFestivos,numeracion,desc);
         matrizDistanciaService.addMatrizDistancia(matrizDistancia);
         return matrizDistancia;
     }

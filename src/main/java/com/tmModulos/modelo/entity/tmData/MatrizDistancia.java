@@ -31,6 +31,10 @@ public class MatrizDistancia {
     @Column(name = "numeracion")
     private String numeracion;
 
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matrizDistancia")
     private Set<DistanciaNodos> distanciaNodosRecords= new HashSet<DistanciaNodos>(0);
 
@@ -46,12 +50,13 @@ public class MatrizDistancia {
     public MatrizDistancia() {
     }
 
-    public MatrizDistancia(Date fechaCreacion, Date fechaAplicacion, Date fechaSabado, Date fechaFestivo, String numeracion) {
+    public MatrizDistancia(Date fechaCreacion, Date fechaAplicacion, Date fechaSabado, Date fechaFestivo, String numeracion, String descripcion) {
         this.fechaCreacion = fechaCreacion;
         this.fechaAplicacion = fechaAplicacion;
         this.fechaSabado = fechaSabado;
         this.fechaFestivo = fechaFestivo;
         this.numeracion = numeracion;
+        this.descripcion = descripcion;
     }
 
     public long getId() {
@@ -134,5 +139,13 @@ public class MatrizDistancia {
 
     public void setFechaFestivo(Date fechaFestivo) {
         this.fechaFestivo = fechaFestivo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

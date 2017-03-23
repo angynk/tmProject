@@ -22,6 +22,7 @@ public class NuevaMatrizDistanciaView {
 
     private String tipoGeneracion;
     private String numeracion;
+    private String descripcion;
     private boolean archivoVisible;
     private boolean automaticoVisible;
     private Date fechaDeProgramacion;
@@ -68,7 +69,7 @@ public class NuevaMatrizDistanciaView {
                 try {
                     resultadosVisibles=true;
                     logDatos= matrizProcessor.processDataFromFile(matrizDistancias.getFileName(),matrizDistancias.getInputstream(), fechaDeProgramacion,numeracion,
-                            fechaDeVigencia,fechaSabado,fechaFestivos);
+                            fechaDeVigencia,fechaSabado,fechaFestivos,descripcion);
                     messagesView.info(Messages.MENSAJE_CARGA_EXITOSA,Messages.ACCION_MATRIZ_ALMACENADA);
                 } catch (IOException e) {
                     messagesView.error(Messages.MENSAJE_FALLO_ARCHIVO,Messages.ACCION_FALLO_ARCHIVO);
@@ -102,7 +103,7 @@ public class NuevaMatrizDistanciaView {
         if( numeracion!=null ){
             if(fechaDeVigencia!=null && fechaFestivos!= null && fechaSabado!=null){
                    resultadosVisibles=true;
-                   logDatos= matrizProcessor.calcularMatrizDistancia(fechaDeVigencia,numeracion,fechaFestivos,fechaSabado);
+                   logDatos= matrizProcessor.calcularMatrizDistancia(fechaDeVigencia,numeracion,fechaFestivos,fechaSabado,descripcion);
                    if(logDatos.size()==2){
                        messagesView.info(Messages.MENSAJE_CALCULO_EXITOSO,Messages.ACCION_MATRIZ_ALMACENADA);
                    }else{
@@ -224,4 +225,11 @@ public class NuevaMatrizDistanciaView {
     }
 
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 }

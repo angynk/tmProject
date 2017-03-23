@@ -23,9 +23,12 @@
                             <h:commandLink>
                                 <p:graphicImage value="/resources/images/excel.png" width="24"/>
                                 <p:dataExporter type="xls"
-                                                target="matriz" fileName="Matriz de Distancias"  />
+                                                target="matriz" fileName="#{busquedaMatriz.selectedMatriz.descripcion}"  />
                             </h:commandLink>
                         </p:panelGrid>
+                        <div class="tablaMTexto">
+                            <h:outputText value="#{busquedaMatriz.selectedMatriz.descripcion}"/>
+                        </div>
                         <div style="height: 10px"></div>
                         <p:dataTable id="matriz" var="matriz" value="#{busquedaMatriz.distanciaNodosRecords}" widgetVar="MatrizTable"
                                      emptyMessage="No hay registros relacionados a la busqueda"
@@ -42,7 +45,7 @@
                                 </p:outputPanel>
                             </f:facet>
 
-                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center" exportable="false"/>
                             <p:column filterBy="#{matriz.servicioDistancia.ruta}" headerText="Ruta" filterStyle="width: 100px;"
                                       filterMatchMode="contains" sortBy="#{matriz.servicioDistancia.ruta}"
                                       style="width: 120px">
