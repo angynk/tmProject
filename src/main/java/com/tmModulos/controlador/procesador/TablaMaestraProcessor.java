@@ -316,7 +316,13 @@ public class TablaMaestraProcessor {
             if(horas!=0){
                 double velocidad =distanciaKM/horas;
                 String velocidadFormateada = String.format("%.2f",velocidad);
-                return Double.parseDouble(velocidadFormateada);
+                try{
+                    return Double.parseDouble(velocidadFormateada);
+                }catch (Exception e){
+                    logDatos.add(new LogDatos(e.getMessage(),TipoLog.ERROR));
+                    log.error(e.getMessage());
+                }
+                return 0;
             }
 
         }

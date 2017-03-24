@@ -134,7 +134,13 @@ public class MatrizProcessor {
 
 
                     String nodoNombre= row.getCell(MatrizDistanciaDefinicion.NOMBRE_NODO).getStringCellValue();
-                    String nodoCodigo= (int) row.getCell(MatrizDistanciaDefinicion.NODO_CODIGO).getNumericCellValue()+"";
+                    String nodoCodigo;
+
+                    if(row.getCell(MatrizDistanciaDefinicion.NODO_CODIGO).getCellType()==0 ){
+                        nodoCodigo= (int) row.getCell(MatrizDistanciaDefinicion.NODO_CODIGO).getNumericCellValue()+"";
+                    }else{
+                        nodoCodigo= row.getCell(MatrizDistanciaDefinicion.NODO_CODIGO).getStringCellValue();
+                    }
 
                     ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(convertirAInt(row,MatrizDistanciaDefinicion.MACRO)
                             , convertirAInt(row,MatrizDistanciaDefinicion.LINEA)

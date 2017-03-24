@@ -46,7 +46,7 @@ public class NodoDao {
 
     public Nodo getNodo(String nombre){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Nodo.class);
-        criteria.add(Restrictions.eq("nombre", nombre));
+        criteria.add(Restrictions.eq("nombre", nombre).ignoreCase());
         return (Nodo) criteria.uniqueResult();
     }
 

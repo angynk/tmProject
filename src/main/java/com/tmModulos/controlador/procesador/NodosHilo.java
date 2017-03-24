@@ -161,6 +161,9 @@ public class NodosHilo implements Runnable{
     }
 
     private ServicioDistancia crearOBuscarServicioDistancia(int macro, int linea, int seccion, String nombreMatriz, int nodoCodigo) {
+        if(seccion==4 || seccion==3){
+            System.out.println("ad");
+        }
         String identificador =macro+"-"+linea+"-"+seccion+"-"+nodoCodigo;
         ServicioDistancia servicioDistancia = auxiliarDao.getServicioDistanciaByMacroLineaSeccion(macro,linea,seccion);
         if(servicioDistancia==null){

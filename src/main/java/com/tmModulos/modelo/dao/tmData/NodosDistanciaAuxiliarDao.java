@@ -168,7 +168,8 @@ public class NodosDistanciaAuxiliarDao implements Serializable {
         Criteria criteria = sessionSqlServer.createCriteria(HorarioS.class).setResultTransformer(Transformers.aliasToBean(GroupedHorario.class));;
         criteria.add(Restrictions.eq("cuadro", cuadro));
         Criterion eventos= Restrictions.or(Restrictions.eq("evento",1),
-                Restrictions.eq("evento", 5));
+                Restrictions.or(Restrictions.eq("evento", 5),Restrictions.eq("evento", 6)) );
+
         criteria.add(eventos);
         criteria.addOrder(Order.asc("macro"));
         criteria.addOrder(Order.asc("linea"));
