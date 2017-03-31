@@ -50,7 +50,7 @@ public class Intervalos {
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "identificador", nullable = false)
     private ServicioTipoDia idServicio;
 

@@ -23,7 +23,7 @@ public class TiempoIntervalos {
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "servicio", nullable = false)
     private ServicioTipoDia idServicio;
 

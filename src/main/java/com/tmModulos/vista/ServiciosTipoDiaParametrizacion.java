@@ -64,9 +64,12 @@ public class ServiciosTipoDiaParametrizacion {
 
 
     public void eliminar(){
-        servicioService.deleteServicioTipoDia(selectedServicio);
-        addMessage(FacesMessage.SEVERITY_INFO,"Servicio Eliminado", "");
-        serviciosRecords = servicioService.getServiciosByTipoDia(tipoDia);
+        if(selectedServicio!= null){
+            servicioService.deleteServicioTipoDia(selectedServicio);
+            addMessage(FacesMessage.SEVERITY_INFO,"Servicio Eliminado", "");
+            serviciosRecords = servicioService.getServiciosByTipoDia(tipoDia);
+        }
+
     }
 
     public void cancelar(){

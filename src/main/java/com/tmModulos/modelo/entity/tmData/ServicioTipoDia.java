@@ -30,10 +30,10 @@ public class ServicioTipoDia {
     @JoinColumn(name = "servicio", nullable = false)
     private Servicio servicio;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "idServicio")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "idServicio", cascade = CascadeType.REMOVE)
     private Set<TiempoIntervalos> tiempoIntervalosRecords = new HashSet<TiempoIntervalos>(0);
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "idServicio")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "idServicio", cascade = CascadeType.REMOVE)
     private Set<Intervalos> serviciosRecords = new HashSet<Intervalos>(0);
 
     public ServicioTipoDia() {
