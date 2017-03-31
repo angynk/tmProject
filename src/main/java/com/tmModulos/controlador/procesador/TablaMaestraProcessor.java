@@ -92,6 +92,8 @@ public class TablaMaestraProcessor {
         TipoDia dia = tipoDiaService.getTipoDia(tipoDia);
         List<ServicioTipoDia> serviciosTipoDia = horariosProvisionalServicio.getServiciosByTipoDia(dia);
 
+        serviciosTipoDia = cleanServiciosTipoDia(serviciosTipoDia);
+
        //Calcular intervalos
         GisIntervalos gisIntervalos= generarIntervalosDeTiempo(fechaIntervalos,descripcion,tipoDia,tablaMaestra);
        // intervalosProcessor.precalcularIntervalosProgramacion();
@@ -197,6 +199,17 @@ public class TablaMaestraProcessor {
 
         logDatos.add(new LogDatos("<<Fin Calculo Tabla Maestra>>", TipoLog.INFO));
         return logDatos;
+    }
+
+    private List<ServicioTipoDia> cleanServiciosTipoDia(List<ServicioTipoDia> serviciosTipoDia) {
+        List<ServicioTipoDia> updateServicios= new ArrayList<>();
+        for(ServicioTipoDia servicio: serviciosTipoDia){
+            if(servicio.getServicio().isEstado()){
+             updateServicios.add(servicio);
+            }
+        }
+
+        return updateServicios;
     }
 
     public boolean crearServicioTablaMaestraDefinitiva(TablaMaestraServicios tablaMaestraServicios){
