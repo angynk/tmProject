@@ -134,8 +134,8 @@ public class MatrizDistanciaService {
     public ServicioDistancia getServicioDistanciaByIdentificador(String identificador){
         return servicioDistanciaDao.getServicioDistanciaByIdentificador(identificador);
     }
-    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia){
-       return distanciaNodosDao.getDistanciaNodosByServicioAndPunto(servicioDistancia,matrizDistancia);
+    public DistanciaNodos getDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia, String nodoCodigo){
+       return distanciaNodosDao.getDistanciaNodosByServicioAndPunto(servicioDistancia,matrizDistancia,nodoCodigo);
     }
 
     public DistanciaNodos getDistanciaNodosByServicioAndNodo(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia,String nodoCodigo){

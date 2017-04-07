@@ -221,7 +221,7 @@ public class MatrizProcessor {
     }
 
     private DistanciaNodos guardarDistanciaNodos(MatrizDistancia matrizDistancia, int distancia,ServicioDistancia servicioDistancia,String nodoNombre, String nodoCodigo){
-        DistanciaNodos distanciaNodosByServicioAndPunto = matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia, matrizDistancia);
+        DistanciaNodos distanciaNodosByServicioAndPunto = matrizDistanciaService.getDistanciaNodosByServicioAndPunto(servicioDistancia, matrizDistancia,nodoCodigo);
         if(distanciaNodosByServicioAndPunto==null){
             DistanciaNodos distanciaNodos=new DistanciaNodos(distancia,matrizDistancia,servicioDistancia);
             distanciaNodos.setNodoNombre(nodoNombre);
@@ -230,7 +230,7 @@ public class MatrizProcessor {
             return distanciaNodos;
         }
 
-        return null;
+        return distanciaNodosByServicioAndPunto;
     }
 
     public Nodos encontrarNodo(int id,int tipo){
