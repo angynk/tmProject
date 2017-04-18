@@ -30,6 +30,7 @@
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/applicationContext2.xml</file>
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/appConfiguration.xml</file>
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/appConfiguration.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/DataSource.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -87,5 +88,6 @@
     <orderEntry type="library" name="Maven: org.primefaces.themes:blitzer:1.0.10" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jacob-project:jacob:1.14.3" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
   </component>
 </module>

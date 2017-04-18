@@ -13,7 +13,7 @@ public class SideBar implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.page = "/templates/tablaMaestra";
+        this.page = "/templates/secured/tablaMaestra";
 
     }
 

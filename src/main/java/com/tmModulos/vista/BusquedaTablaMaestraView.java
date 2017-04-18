@@ -151,7 +151,7 @@ public class BusquedaTablaMaestraView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarTablaMaestra.xhtml");
+                    + "/secured/BuscarTablaMaestra.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,10 +188,10 @@ public class BusquedaTablaMaestraView {
         try {
             if(obtenerTipoTabla().equals("Definitiva")){
                 ec.redirect(ec.getRequestContextPath()
-                        + "/tablaMaestra.xhtml");
+                        + "/secured/tablaMaestra.xhtml");
             }else{
                 ec.redirect(ec.getRequestContextPath()
-                        + "/TablaMaestraTemporal.xhtml");
+                        + "/secured/TablaMaestraTemporal.xhtml");
             }
 
         } catch (IOException e) {

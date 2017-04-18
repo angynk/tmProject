@@ -90,7 +90,7 @@ public class BuscarGisCargaView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarGISCarga.xhtml");
+                    + "/secured/BuscarGISCarga.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,7 +116,7 @@ public class BuscarGisCargaView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/GISCargaTabla.xhtml");
+                    + "/secured/GISCargaTabla.xhtml");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

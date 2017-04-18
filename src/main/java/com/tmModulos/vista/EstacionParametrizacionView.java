@@ -116,7 +116,7 @@ public class EstacionParametrizacionView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/VagonNodoParametrizacion.xhtml");
+                    + "/secured/VagonNodoParametrizacion.xhtml");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -160,7 +160,7 @@ public class EstacionParametrizacionView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/NodosParametrizacion.xhtml");
+                    + "/secured/NodosParametrizacion.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -231,7 +231,7 @@ public class EstacionParametrizacionView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/NodosParametrizacion.xhtml");
+                    + "/secured/NodosParametrizacion.xhtml");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

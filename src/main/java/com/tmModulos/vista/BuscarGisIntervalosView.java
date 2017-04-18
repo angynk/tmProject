@@ -97,7 +97,7 @@ public class BuscarGisIntervalosView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarGISIntervalos.xhtml");
+                    + "/secured/BuscarGISIntervalos.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,7 +128,7 @@ public class BuscarGisIntervalosView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/IntervalosTabla.xhtml");
+                    + "/secured/IntervalosTabla.xhtml");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

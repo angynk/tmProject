@@ -103,7 +103,7 @@ public class BusquedaMatrizDistanciaView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarMatrizDistancia.xhtml");
+                    + "/secured/BuscarMatrizDistancia.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,7 +117,7 @@ public class BusquedaMatrizDistanciaView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/MatrizDistanciaTabla.xhtml");
+                    + "/secured/MatrizDistanciaTabla.xhtml");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

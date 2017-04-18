@@ -31,6 +31,15 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>com.tmModulos.controlador.AuthorizationFilter</filter-class>
+	</filter>
+	<!-- Set the login filter to secure all the pages in the /secured/* path of the application  -->
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/secured/*</url-pattern>
+	</filter-mapping>
 	<context-param>
 		<description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>

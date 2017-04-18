@@ -15,7 +15,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/ServiciosParametrizacion.xhtml");
+                    + "/secured/ServiciosParametrizacion.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -25,7 +25,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/ServiciosPorDiaParametrizacion.xhtml");
+                    + "/secured/ServiciosPorDiaParametrizacion.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/NodosParametrizacion.xhtml");
+                    + "/secured/NodosParametrizacion.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/NuevaTablaMaestra.xhtml");
+                    + "/secured/NuevaTablaMaestra.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarTablaMaestra.xhtml");
+                    + "/secured/BuscarTablaMaestra.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/NewGISCarga.xhtml");
+                    + "/secured/NewGISCarga.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,7 +75,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarGISCarga.xhtml");
+                    + "/secured/BuscarGISCarga.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,27 +85,19 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/NuevaMatrizDistancias.xhtml");
+                    + "/secured/NuevaMatrizDistancias.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void refreshListaNegra(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(ec.getRequestContextPath()
-                    + "/ListaNegraMatriz.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void refreshBuscarMatrizDistancia(){
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarMatrizDistancia.xhtml");
+                    + "/secured/BuscarMatrizDistancia.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,7 +108,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/NuevoIntervalosGIS.xhtml");
+                    + "/secured/NuevoIntervalosGIS.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +118,7 @@ public class MenuView {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/BuscarGisIntervalos.xhtml");
+                    + "/secured/BuscarGisIntervalos.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
         }
