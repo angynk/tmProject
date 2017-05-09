@@ -50,7 +50,6 @@ public class BuscarGisIntervalosView {
     @ManagedProperty("#{MessagesView}")
     private MessagesView messagesView;
 
-    private String destination="C:\\temp\\";
 
     private StreamedContent file;
 

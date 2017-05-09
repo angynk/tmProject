@@ -62,9 +62,9 @@ public class GisCargaDao {
         return criteria.list();
     }
 
-    public GisCarga getGisCargaById(String id){
+    public List<GisCarga> getGisCargaById(String id){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(GisCarga.class);
         criteria.add(Restrictions.eq("descripcion", id));
-        return (GisCarga) criteria.uniqueResult();
+        return  criteria.list();
     }
 }

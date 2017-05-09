@@ -30,12 +30,13 @@ public class OrdenServiciosService {
     @Autowired
     private ProcessorUtils processorUtils;
 
-    private String destination="C:\\temp\\";
+    private String destination;
     private boolean actualizar;
 
     public List<ServicioTipoDia>  processDataFromFile(String fileName, InputStream in, TipoDia tipoDia, List<ServicioTipoDia> servicios) {
+        destination="C:\\temp\\";
         processorUtils.copyFile(fileName,in,destination);
-        destination=destination+fileName;
+        destination="C:\\temp\\"+fileName;
        return leerYProcesarDatosExcel(destination, servicios, tipoDia);
 
     }

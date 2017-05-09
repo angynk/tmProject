@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @ManagedBean(name="busquedaMatriz")
-@SessionScoped
+@ViewScoped
 public class BusquedaMatrizDistanciaView implements Serializable {
 
     private String busqueda;
@@ -117,7 +118,7 @@ public class BusquedaMatrizDistanciaView implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-                    + "/secured/MatrizDistanciaTabla.xhtml");
+                    + "/secured/BuscarMatrizDistancia.xhtml");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -134,6 +135,21 @@ public class BusquedaMatrizDistanciaView implements Serializable {
         busquedaMatrizDistancia();
     }
 
+    public void eliminarMatriz(){
+        matrizDistanciaService.deleteMatrizDistancia(selectedMatriz);
+        messagesView.error(Messages.MENSAJE_EXITOSO,Messages.ACCION_ELIMINACION_REGISTROS);
+        actualizarTabla();
+    }
+
+    public void actualizarTabla(){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/secured/BuscarMatrizDistancia.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void setBusqueda(String busqueda) {

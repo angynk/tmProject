@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service("MatrizDistanciaService")
-@Transactional(readOnly = true)
+@Transactional
 public class MatrizDistanciaService {
 
     @Autowired
@@ -35,6 +35,7 @@ public class MatrizDistanciaService {
 
     }
 
+    @Transactional(readOnly = false)
     public void deleteMatrizDistancia(MatrizDistancia matrizDistancia) {
         matrizDistanciaDao.deleteMatrizDistancia(matrizDistancia);
     }

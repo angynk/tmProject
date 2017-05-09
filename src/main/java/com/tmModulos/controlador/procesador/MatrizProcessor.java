@@ -52,7 +52,7 @@ public class MatrizProcessor {
 
     private List<LogDatos> logDatos;
     private static Logger log = Logger.getLogger(MatrizProcessor.class);
-    private String destination="C:\\temp\\";
+    private String destination;
 
 
     public List<LogDatos> calcularMatrizDistancia(Date fechaHabil,String numeracion,Date fechaFestivos, Date fechaSabado,String desc){
@@ -104,8 +104,9 @@ public class MatrizProcessor {
        logDatos = new ArrayList<>();
         logDatos.add(new LogDatos("<<Inicio Calculo Matriz Distancias con Archivo>>", TipoLog.INFO));
         log.info("<<Inicio Calculo Matriz Distancias con Archivo>>");
+        destination="C:\\temp\\";
         processorUtils.copyFile(fileName,in,destination);
-        destination=destination+fileName;
+        destination="C:\\temp\\"+fileName;
         MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion, fechaSabado,fechaFestivo,desc);
         try {
             readExcelAndSaveData(destination,matrizDistancia);

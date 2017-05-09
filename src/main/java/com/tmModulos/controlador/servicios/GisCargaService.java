@@ -90,7 +90,11 @@ public class GisCargaService {
     }
 
     public GisCarga getGisCargaById(String id){
-      return  gisCargaDao.getGisCargaById(id);
+        List<GisCarga> lista = gisCargaDao.getGisCargaById(id);
+        if(lista.size()>0){
+            return lista.get(0);
+        }
+      return  null;
     }
 
     public List<ArcoTiempo> getArcoTiempoByGisCargaAndServicio(GisCarga gisCarga,GisServicio servicio){
