@@ -68,6 +68,7 @@
                 <value>com.tmModulos.modelo.entity.tmData.Estacion</value>
                 <value>com.tmModulos.modelo.entity.tmData.Vagon</value>
                 <value>com.tmModulos.modelo.entity.tmData.Usuario</value>
+                <value>com.tmModulos.modelo.entity.tmData.TemporalMatrizDistancia</value>
             </list>
         </property>
     </bean>

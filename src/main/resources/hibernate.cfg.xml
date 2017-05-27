@@ -20,7 +20,7 @@
             sa
         </property>
         <property name="hibernate.connection.password">
-            abc%123
+           1234
         </property>
         <property name="hibernate.show_sql">false</property>
 

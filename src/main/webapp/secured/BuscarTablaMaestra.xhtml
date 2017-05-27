@@ -68,7 +68,39 @@
                                 <f:setPropertyActionListener value="#{tabla}" target="#{busquedaTabla.selectedTabla}" />
                             </p:commandButton>
                         </p:column>
+
+                        <p:column style="width:50px;text-align: center" exportable="false">
+                            <p:commandButton id="delete"
+                                             icon="ui-icon ui-icon-trash"
+                                             title="GDeleteButton"
+                                             onclick="PF('groupDeleteConfirm').show()">
+                                <f:setPropertyActionListener value="#{tabla}" target="#{busquedaTabla.selectedTabla}" />
+                            </p:commandButton>
+
+                        </p:column>
+
                     </p:dataTable>
+
+                    <p:confirmDialog message="¿Esta seguro de eliminar la Tabla Maestra
+                    ?. Recuerd que se eliminaran todos los registros de la matriz."
+                                     showEffect="fade"
+                                     hideEffect="explode"
+                                     widgetVar="groupDeleteConfirm">
+                        <p:panel visible="#{!busquedaTabla.mensajeVisible}">
+                            <p:commandButton title="GDelYesButton"
+                                             value="Si"
+                                             action="#{busquedaTabla.eliminarTabla}"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"
+                            />
+                            <p:commandButton title="GDelNoButton"
+                                             value="No"
+                                             oncomplete="PF('groupDeleteConfirm').hide()"/>
+                        </p:panel>
+
+                        <p:panel visible="#{busquedaTabla.mensajeVisible}">
+                            <p:outputLabel value="Eliminado Matriz de Distancia"></p:outputLabel>
+                        </p:panel>
+                    </p:confirmDialog>
 
                     <p:dialog header="Opciones visualización tabla maestra" widgetVar="nuevoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="nuevoDialog" style="text-align:center;">

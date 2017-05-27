@@ -41,4 +41,11 @@ public class BusquedaService {
     public void setGisCargaService(GisCargaService gisCargaService) {
         this.gisCargaService = gisCargaService;
     }
+
+    public void deleteGisCarga(GisCarga gisCarga) {
+
+       gisCargaService.deleteGisCarga(gisCarga);
+    }
+
+
 }

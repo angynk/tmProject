@@ -34,6 +34,7 @@ public class BusquedaTablaMaestraView {
     private boolean fechaFinalVisible;
     private boolean visibleOptimos;
     private boolean visibleMinimos;
+    private boolean mensajeVisible;
     private boolean visibleMaximos;
 
 //    private String tipologiaCiclo;
@@ -74,6 +75,7 @@ public class BusquedaTablaMaestraView {
         fechaFinalVisible=false;
         tablaMaestraRecords = tablaMaestraService.getCustomers();
         visibleRecords = false;
+        mensajeVisible = false;
     }
 
     public void inicio(){
@@ -88,6 +90,15 @@ public class BusquedaTablaMaestraView {
     }
 
     public void actualizar(){
+        tablaMaestraRecords = tablaMaestraService.getCustomers();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        mensajeVisible = false;
+        try {
+            ec.redirect(ec.getRequestContextPath()
+                    + "/secured/BuscarTablaMaestra.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -106,6 +117,14 @@ public class BusquedaTablaMaestraView {
 
     }
 
+    public void eliminarTabla (){
+        mensajeVisible = true;
+        tablaMaestraService.deleteCustomer(selectedTabla);
+        messagesView.error(Messages.MENSAJE_EXITOSO,Messages.ACCION_ELIMINACION_REGISTROS);
+        actualizar();
+    }
+
+
     public void eliminar(){
         for(TablaMaestraServicios servicios: selectedServiciosRecords){
             tablaMaestraService.deleteTServicios(servicios);
@@ -116,7 +135,7 @@ public class BusquedaTablaMaestraView {
     public void reinciar(){
         busqueda = "1";
         fechaFinalVisible=false;
-        tablaMaestraRecords = new ArrayList<>();
+        tablaMaestraRecords = tablaMaestraService.getCustomers();
         visibleRecords = false;
         fechaFinal = null;
         fechaInicial = null;
@@ -540,5 +559,13 @@ public class BusquedaTablaMaestraView {
 
     public void setTablaMaestraProcessor(TablaMaestraProcessor tablaMaestraProcessor) {
         this.tablaMaestraProcessor = tablaMaestraProcessor;
+    }
+
+    public boolean isMensajeVisible() {
+        return mensajeVisible;
+    }
+
+    public void setMensajeVisible(boolean mensajeVisible) {
+        this.mensajeVisible = mensajeVisible;
     }
 }

@@ -150,7 +150,7 @@ public class BusquedaMatrizDistanciaView implements Serializable {
         }else{
             messagesView.error(Messages.MENSAJE_FALLO,"Seleccione la matriz a eliminar");
         }
-
+        messagesView.error(Messages.MENSAJE_FALLO,"Seleccione la matriz a eliminar");
     }
 
     public void actualizarTabla(){

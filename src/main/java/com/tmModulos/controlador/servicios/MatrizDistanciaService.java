@@ -28,6 +28,9 @@ public class MatrizDistanciaService {
     @Autowired
     ListaNegraMatrizDao listaNegraMatrizDao;
 
+    @Autowired
+    TemporalMatrizDistanciaDao temporalMatrizDistanciaDao;
+
 
     @Transactional(readOnly = false)
     public void addMatrizDistancia(MatrizDistancia matrizDistancia) {
@@ -165,6 +168,20 @@ public class MatrizDistanciaService {
 
     public DistanciaNodos getUltimoDistanciaNodosByServicioAndPunto(ServicioDistancia servicioDistancia, MatrizDistancia matrizDistancia){
         return distanciaNodosDao.getUltimoDistanciaNodosByServicioAndPunto(servicioDistancia,matrizDistancia);
+    }
+
+    @Transactional(readOnly = false)
+    public void addMatrizTemporalByFile(String filename){
+        matrizDistanciaDao.addMatrizTemporalByFile(filename);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteMatrizTemporal(){
+        matrizDistanciaDao.deleteMatrizTemporal();
+    }
+
+    public List<TemporalMatrizDistancia> getTempMatrizDistanciaAll() {
+        return temporalMatrizDistanciaDao.getMatrizDistanciaAll();
     }
 
 }

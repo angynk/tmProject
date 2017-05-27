@@ -108,15 +108,35 @@ public class MatrizProcessor {
         processorUtils.copyFile(fileName,in,destination);
         destination="C:\\temp\\"+fileName;
         MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion, fechaSabado,fechaFestivo,desc);
-        try {
-            readExcelAndSaveData(destination,matrizDistancia);
+//        try {
+//            readExcelAndSaveData(destination,matrizDistancia);
+//
+//        } catch (IOException e) {
+//           log.error( e.getMessage());
+//            logDatos.add(new LogDatos(e.getMessage(),TipoLog.ERROR));
+//        }
 
-        } catch (IOException e) {
-           log.error( e.getMessage());
-            logDatos.add(new LogDatos(e.getMessage(),TipoLog.ERROR));
-        }
+        matrizDistanciaService.addMatrizTemporalByFile(destination);
+        processDataMatriz(matrizDistancia);
+        matrizDistanciaService.deleteMatrizTemporal();
+
         logDatos.add(new LogDatos("<<Fin Calculo Matriz Distancias con Archivo>>", TipoLog.INFO));
         return logDatos;
+    }
+
+    private void processDataMatriz(MatrizDistancia matrizDistancia) {
+        List<TemporalMatrizDistancia> tempMatrizDistanciaAll = matrizDistanciaService.getTempMatrizDistanciaAll();
+        for(TemporalMatrizDistancia temp: tempMatrizDistanciaAll){
+            ServicioDistancia servicioDistancia= crearOBuscarServicioDistancia(
+                    temp.getMacro()
+                    , temp.getLinea()
+                    , temp.getSeccion()
+                    ,temp.getRuta(),
+                    temp.getNodo()+"");
+            guardarDistanciaNodos(matrizDistancia,
+                    temp.getAbscisa(),
+                    servicioDistancia,temp.getNombre(),temp.getNodo()+"");
+        }
     }
 
     public void readExcelAndSaveData(String destination, MatrizDistancia matrizDistancia)throws IOException {
