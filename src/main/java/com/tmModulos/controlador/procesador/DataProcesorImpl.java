@@ -4,10 +4,7 @@ package com.tmModulos.controlador.procesador;
 import com.tmModulos.controlador.servicios.GisCargaService;
 import com.tmModulos.controlador.servicios.NodoService;
 import com.tmModulos.controlador.servicios.TipoDiaService;
-import com.tmModulos.controlador.utils.GisCargaDefinition;
-import com.tmModulos.controlador.utils.LogDatos;
-import com.tmModulos.controlador.utils.ProcessorUtils;
-import com.tmModulos.controlador.utils.TipoLog;
+import com.tmModulos.controlador.utils.*;
 import com.tmModulos.modelo.entity.tmData.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -62,9 +59,9 @@ public class DataProcesorImpl {
         log.info("<< GIS Carga Incio de Procesamiento >>");
         logDatos.add(new LogDatos("GIS Carga Incio de Procesamiento", TipoLog.INFO));
         serviciosNoEncontrados = new ArrayList<>();
-        destination="C:\\temp\\";
+        destination= PathFiles.PATH_FOR_FILES+"\\";
         processorUtils.copyFile(fileName,in,destination);
-        destination="C:\\temp\\"+fileName;
+        destination=PathFiles.PATH_FOR_FILES+"\\"+fileName;
         GisCarga gisCarga = saveGisCarga(fechaProgrmacion,fechaVigencia,descripcion,tipoDia);
         try {
             readExcelAndSaveData(destination,gisCarga,tipoDia);

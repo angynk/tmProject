@@ -1,6 +1,7 @@
 package com.tmModulos.controlador.servicios;
 
 import com.tmModulos.controlador.utils.GisCargaDefinition;
+import com.tmModulos.controlador.utils.PathFiles;
 import com.tmModulos.controlador.utils.ProcessorUtils;
 import com.tmModulos.modelo.dao.tmData.ServicioTipoDiaDao;
 import com.tmModulos.modelo.entity.tmData.*;
@@ -34,9 +35,9 @@ public class OrdenServiciosService {
     private boolean actualizar;
 
     public List<ServicioTipoDia>  processDataFromFile(String fileName, InputStream in, TipoDia tipoDia, List<ServicioTipoDia> servicios) {
-        destination="C:\\temp\\";
+        destination= PathFiles.PATH_FOR_FILES+"\\";
         processorUtils.copyFile(fileName,in,destination);
-        destination="C:\\temp\\"+fileName;
+        destination=PathFiles.PATH_FOR_FILES+"\\"+fileName;
        return leerYProcesarDatosExcel(destination, servicios, tipoDia);
 
     }

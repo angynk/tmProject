@@ -5,10 +5,7 @@ import com.tmModulos.controlador.servicios.DistanciaNodosService;
 import com.tmModulos.controlador.servicios.MatrizDistanciaService;
 import com.tmModulos.controlador.servicios.NodoService;
 import com.tmModulos.controlador.servicios.TablaHorarioService;
-import com.tmModulos.controlador.utils.LogDatos;
-import com.tmModulos.controlador.utils.MatrizDistanciaDefinicion;
-import com.tmModulos.controlador.utils.ProcessorUtils;
-import com.tmModulos.controlador.utils.TipoLog;
+import com.tmModulos.controlador.utils.*;
 import com.tmModulos.modelo.dao.saeBogota.GroupedHorario;
 import com.tmModulos.modelo.dao.saeBogota.NodosDao;
 import com.tmModulos.modelo.entity.tmData.*;
@@ -104,9 +101,9 @@ public class MatrizProcessor {
        logDatos = new ArrayList<>();
         logDatos.add(new LogDatos("<<Inicio Calculo Matriz Distancias con Archivo>>", TipoLog.INFO));
         log.info("<<Inicio Calculo Matriz Distancias con Archivo>>");
-        destination="C:\\temp\\";
+        destination= PathFiles.PATH_FOR_FILES+"\\";
         processorUtils.copyFile(fileName,in,destination);
-        destination="C:\\temp\\"+fileName;
+        destination=PathFiles.PATH_FOR_FILES+"\\"+fileName;
         MatrizDistancia matrizDistancia = guardarMatrizDistancia(fechaHabil,numeracion, fechaSabado,fechaFestivo,desc);
 //        try {
 //            readExcelAndSaveData(destination,matrizDistancia);
