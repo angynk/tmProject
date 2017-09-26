@@ -70,7 +70,10 @@ public class NuevaMatrizDistanciaView {
                     resultadosVisibles=true;
                     logDatos= matrizProcessor.processDataFromFile(matrizDistancias.getFileName(),matrizDistancias.getInputstream(), fechaDeProgramacion,numeracion,
                             fechaDeVigencia,fechaSabado,fechaFestivos,descripcion);
-                    messagesView.info(Messages.MENSAJE_CARGA_EXITOSA,Messages.ACCION_MATRIZ_ALMACENADA);
+                    if(logDatos.size()<= 2 ){
+                        messagesView.info(Messages.MENSAJE_CARGA_EXITOSA,Messages.ACCION_MATRIZ_ALMACENADA);
+                    }
+                    messagesView.error(Messages.MENSAJE_FALLO_ARCHIVO,Messages.ACCION_FALLO_ARCHIVO);
                 } catch (IOException e) {
                     messagesView.error(Messages.MENSAJE_FALLO_ARCHIVO,Messages.ACCION_FALLO_ARCHIVO);
                 }

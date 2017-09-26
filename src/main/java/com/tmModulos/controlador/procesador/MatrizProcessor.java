@@ -112,10 +112,14 @@ public class MatrizProcessor {
 //           log.error( e.getMessage());
 //            logDatos.add(new LogDatos(e.getMessage(),TipoLog.ERROR));
 //        }
+        try{
+            matrizDistanciaService.addMatrizTemporalByFile(destination);
+            processDataMatriz(matrizDistancia);
+            matrizDistanciaService.deleteMatrizTemporal();
+        }catch (Exception e){
+            logDatos.add(new LogDatos(e.getMessage(), TipoLog.ERROR));
+        }
 
-        matrizDistanciaService.addMatrizTemporalByFile(destination);
-        processDataMatriz(matrizDistancia);
-        matrizDistanciaService.deleteMatrizTemporal();
 
         logDatos.add(new LogDatos("<<Fin Calculo Matriz Distancias con Archivo>>", TipoLog.INFO));
         return logDatos;

@@ -76,7 +76,7 @@ public class MatrizDistanciaDao {
         return (MatrizDistancia) criteria.uniqueResult();
     }
 
-    public void addMatrizTemporalByFile(String filename){
+    public void addMatrizTemporalByFile(String filename) throws Exception {
         SessionFactory factory = getSessionFactory();
         Session session = factory.getCurrentSession();
         SessionImplementor sessImpl = (SessionImplementor) session;
@@ -88,11 +88,11 @@ public class MatrizDistanciaDao {
             FileReader fileReader = new FileReader(filename);
             copyManager.copyIn("COPY temp_matriz_distancia (ruta,macro,linea,seccion,nodo,abscisa,nombre) from  STDIN DELIMITER ';' CSV HEADER encoding 'windows-1251'", fileReader );
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new Exception(e.getMessage());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw  new Exception(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw  new Exception(e.getMessage());
         }
     }
 

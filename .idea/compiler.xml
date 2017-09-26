@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Primefaces-Hibernate-Spring-Integration-Sample" />
+        <module name="saeBogota" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Primefaces-Hibernate-Spring-Integration-Sample" target="1.8" />
+      <module name="saeBogota" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

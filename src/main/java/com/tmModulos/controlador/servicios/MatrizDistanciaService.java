@@ -171,7 +171,7 @@ public class MatrizDistanciaService {
     }
 
     @Transactional(readOnly = false)
-    public void addMatrizTemporalByFile(String filename){
+    public void addMatrizTemporalByFile(String filename) throws Exception {
         matrizDistanciaDao.addMatrizTemporalByFile(filename);
     }
 
