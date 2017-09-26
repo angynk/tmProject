@@ -3,6 +3,8 @@ package com.tmModulos.controlador.procesador;
 import com.tmModulos.controlador.servicios.HorariosProvisionalServicio;
 import com.tmModulos.controlador.servicios.TablaHorarioService;
 import com.tmModulos.controlador.servicios.TipoDiaService;
+import com.tmModulos.controlador.utils.FranjaDef;
+import com.tmModulos.controlador.utils.IntervaloCuartos;
 import com.tmModulos.controlador.utils.ProcessorUtils;
 import com.tmModulos.modelo.entity.saeBogota.HorarioS;
 import com.tmModulos.modelo.entity.saeBogota.Vigencias;
@@ -27,61 +29,61 @@ public class IntervalosProcessor {
 
 
     @Autowired
-    private TablaHorarioService tablaHorarioService;
-
-    @Autowired
     private HorariosProvisionalServicio horariosProvisionalServicio;
 
-    @Autowired
-    private TipoDiaService tipoDiaService;
+
 
     @Autowired
     ThreadPoolTaskExecutor taskExecutor;
 
-    TipoFranja franjaIncio ;
-    TipoFranja franjaPicoAM;
-    TipoFranja franjaValle;
-    TipoFranja franjaPicoPM;
-    TipoFranja franjaCierre;
-    List<IntervalosProgramacion> intervalosFranjaInicio;
-    List<IntervalosProgramacion> intervalosFranjaPicoAM;
-    List<IntervalosProgramacion> intervalosFranjaValle;
-    List<IntervalosProgramacion> intervalosFranjaPicoPM;
-    List<IntervalosProgramacion> intervalosFranjaCierre;
+    private TipoFranja franjaIncio ;
+    private TipoFranja franjaPicoAM;
+    private TipoFranja franjaValle;
+    private TipoFranja franjaPicoPM;
+    private TipoFranja franjaCierre;
+    private List<IntervalosProgramacion> intervalosFranjaInicio;
+    private List<IntervalosProgramacion> intervalosFranjaPicoAM;
+    private List<IntervalosProgramacion> intervalosFranjaValle;
+    private List<IntervalosProgramacion> intervalosFranjaPicoPM;
+    private List<IntervalosProgramacion> intervalosFranjaCierre;
+    Map<IntervalosProgramacion, Double> valoresFinalesInicio;
+    Map<IntervalosProgramacion, Double> valoresFinalesPicoAM;
+    Map<IntervalosProgramacion, Double> valoresFinalesValle;
+    Map<IntervalosProgramacion, Double> valoresFinalesPicoPM;
+    Map<IntervalosProgramacion, Double> valoresFinalesCierre;
+
+    List<Double> intervalosInicio;
+    List<Double> intervalosPicoAM;
+    List<Double> intervalosValle;
+    List<Double> intervalosPicoPM;
+    List<Double> intervalosCierre;
 
 
 
-    public GisIntervalos generarIntervalos(Date fechaVigencia, String descripcion, String tipoDia, TablaMaestra tablaMaestra) {
-        GisIntervalos gisIntervalos = null;
-        // Traer valor cuadro por fecha de vigencia
-        List<Vigencias> vigencias = tablaHorarioService.getVigenciasDaoByDate(fechaVigencia);
-        if(vigencias.size()>0){
-
-        // Traer servicios disponibles por tipo Dia
-            TipoDia dia = tipoDiaService.getTipoDia(tipoDia);
-            List<ServicioTipoDia> serviciosTipoDia = horariosProvisionalServicio.getServiciosByTipoDia(dia);
-
-            // Crear Gis intervalos
-            gisIntervalos = new GisIntervalos(new Date(),fechaVigencia,descripcion,vigencias.get(0).getTipoDia(),dia,tablaMaestra);
-            horariosProvisionalServicio.addGisIntervalo(gisIntervalos);
-
-
-            long time=System.currentTimeMillis();
-            List<HorarioS> tablaHorario = tablaHorarioService.getHorarioByDate(vigencias.get(0).getTipoDia());
-            procesarInformacionTablaHorario(tablaHorario,gisIntervalos,serviciosTipoDia);
-
-            System.out.println("Tiempo Total: "+(getTime((int) (System.currentTimeMillis()-time))));
-        }
+    public GisIntervalos generarIntervalos(Date fechaVigencia, String descripcion,
+                                           String tipoDia, TablaMaestra tablaMaestra,
+                                           TipoDia servicio) {
+        GisIntervalos gisIntervalos = new GisIntervalos(new Date(),fechaVigencia,descripcion,"Habil",servicio,tablaMaestra);
+        horariosProvisionalServicio.addGisIntervalo(gisIntervalos);
         return gisIntervalos;
     }
 
-    private void procesarInformacionTablaHorario(List<HorarioS> tablaHorario,GisIntervalos gisIntervalos,List<ServicioTipoDia> servicioTipoDia) {
-
-       extraerDiferenciaIntervalos(tablaHorario, servicioTipoDia, gisIntervalos);
 
 
-
+    private Map<IntervalosProgramacion, Double> calcularIntervalosBusesHora(List<IntervaloCuartos> tiemposServicio) {
+        Map<IntervalosProgramacion, Double> cuartos = new HashMap<IntervalosProgramacion, Double>();
+        Map<IntervalosProgramacion, List<Long>> franjaCuartos = distribuirTiemposEIntervalos(tiemposServicio);
+        Iterator it = franjaCuartos.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            List<Long> valores = (List<Long>) pair.getValue();
+            double valorFInal = calcularPromedio(valores);
+            IntervalosProgramacion intervalo = (IntervalosProgramacion) pair.getKey();
+            cuartos.put(intervalo,valorFInal);
+        }
+        return cuartos;
     }
+
 
     public void precalcularIntervalosProgramacion(){
         franjaIncio = horariosProvisionalServicio.getTipoFranjaByNombre("Inicio");
@@ -98,100 +100,36 @@ public class IntervalosProcessor {
 
     }
 
-    public void actualizarIntervalosTiempo(){
 
+    public List<Intervalos> calcularIntervalos(TablaMaestraServicios tablaMaestraServicios,ServicioTipoDia servicio) {
+        List<Intervalos> intervalosRecords = new ArrayList<Intervalos>();
+        List<IntervaloCuartos> tiemposServicio = encontrarTiemposPorServicio(servicio);
+
+        calcularDiferenciaDeTiempo(tiemposServicio);
+        calcularValorPorIntervaloCuarto (tiemposServicio);
+        intervalosRecords.add(intervaloPromedio(servicio,tablaMaestraServicios));
+        intervalosRecords.add(intervaloMinimo(servicio,tablaMaestraServicios));
+        intervalosRecords.add(intervaloMaximo(servicio,tablaMaestraServicios));
+        return intervalosRecords;
     }
 
-
-
-    public List<Intervalos> calcularValorIntervaloPorFranja(TablaMaestraServicios tablaMaestraServicios,ServicioTipoDia servicio,GisIntervalos gisIntervalos) {
-        precalcularIntervalosProgramacion();
-
-               List<TiempoIntervalos> tiemposFranjaInciio = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaInicio,servicio,gisIntervalos);
-               List<TiempoIntervalos> tiemposFranjaAM = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaPicoAM,servicio,gisIntervalos);
-               List<TiempoIntervalos> tiemposFranjaValle = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaValle,servicio,gisIntervalos);
-               List<TiempoIntervalos> tiemposFranjaPM = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaPicoPM,servicio,gisIntervalos);
-               List<TiempoIntervalos> tiemposFranjaCierre = horariosProvisionalServicio.getTiempoIntervalosByServicio(intervalosFranjaCierre,servicio,gisIntervalos);
-
-        List<Intervalos> intervalosLista = new ArrayList<>();
-       intervalosLista.add( calcularPromedio(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
-       intervalosLista.add( calcularModa(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
-        intervalosLista.add(calcularMinimo(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
-       intervalosLista.add( calcularMaximo(servicio,tiemposFranjaInciio,tiemposFranjaAM,tiemposFranjaValle,tiemposFranjaCierre,tiemposFranjaPM,tablaMaestraServicios));
-
-return intervalosLista;
-    }
-
-    private Intervalos calcularMaximo(ServicioTipoDia servicio, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM, TablaMaestraServicios tablaMaestraServicios) {
-        double valorInicio = maximo(tiemposFranjaInciio);
-        double valorPicoAm = maximo(tiemposFranjaAM);
-        double valorValle = maximo(tiemposFranjaValle);
-        double valorPicoPM = maximo(tiemposFranjaPM);
-        double valorCierre = maximo(tiemposFranjaCierre);
-        int busesInicio= calcularBuses(valorInicio);
-        int busesAM= calcularBuses(valorPicoAm);
-        int busesValle= calcularBuses(valorValle);
-        int busesPm= calcularBuses(valorPicoPM);
-        int busesCierre= calcularBuses(valorCierre);
-        Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_MAXIMO,valorInicio,valorPicoAm,valorValle,valorPicoPM,valorCierre,servicio,tablaMaestraServicios);
-        intervalos.setBusesInicio(busesInicio);
-        intervalos.setBusesAM(busesAM);
-        intervalos.setBusesValle(busesValle);
-        intervalos.setBusesPM(busesPm);
-        intervalos.setBusesCierre(busesCierre);
-        horariosProvisionalServicio.addIntervalos(intervalos);
+    private Intervalos intervaloMaximo(ServicioTipoDia servicio, TablaMaestraServicios tablaMaestraServicios) {
+        double valorInicio = maximo(intervalosInicio);
+        double valorPicoAm = maximo(intervalosPicoAM);
+        double valorValle = maximo(intervalosValle);
+        double valorPicoPM = maximo(intervalosPicoPM);
+        double valorCierre = maximo(intervalosCierre);
+        Intervalos intervalos = incluirIntervalos(servicio, tablaMaestraServicios, valorInicio, valorPicoAm, valorValle, valorPicoPM, valorCierre, ProcessorUtils.CALCULO_MAXIMO);
         return intervalos;
-
     }
 
-    private double maximo(List<TiempoIntervalos> tiemposFranjaInciio) {
-        if(tiemposFranjaInciio.size()>0){
-            return transformarAFormatoTiempo(tiemposFranjaInciio.get(tiemposFranjaInciio.size()-1).getInstante());
-        }
-        return 0;
-    }
-
-    private Intervalos calcularMinimo(ServicioTipoDia servicio, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM, TablaMaestraServicios tablaMaestraServicios) {
-        double valorInicio = minimo(tiemposFranjaInciio);
-        double valorPicoAm = minimo(tiemposFranjaAM);
-        double valorValle = minimo(tiemposFranjaValle);
-        double valorPicoPM = minimo(tiemposFranjaPM);
-        double valorCierre = minimo(tiemposFranjaCierre);
-        int busesInicio= calcularBuses(valorInicio);
-        int busesAM= calcularBuses(valorPicoAm);
-        int busesValle= calcularBuses(valorValle);
-        int busesPm= calcularBuses(valorPicoPM);
-        int busesCierre= calcularBuses(valorCierre);
-        Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_MINIMO,valorInicio,valorPicoAm,valorValle,valorPicoPM,valorCierre,servicio,tablaMaestraServicios);
-        intervalos.setBusesInicio(busesInicio);
-        intervalos.setBusesAM(busesAM);
-        intervalos.setBusesValle(busesValle);
-        intervalos.setBusesPM(busesPm);
-        intervalos.setBusesCierre(busesCierre);
-        horariosProvisionalServicio.addIntervalos(intervalos);
-        return intervalos;
-
-    }
-
-    private double minimo(List<TiempoIntervalos> tiemposFranjaInciio) {
-        if(tiemposFranjaInciio.size()>0){
-            return transformarAFormatoTiempo(tiemposFranjaInciio.get(0).getInstante());
-        }
-        return 0;
-    }
-
-    private Intervalos calcularModa(ServicioTipoDia servicio, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM, TablaMaestraServicios tablaMaestraServicios) {
-        double valorInicio = moda(tiemposFranjaInciio);
-        double valorPicoAm = moda(tiemposFranjaAM);
-        double valorValle = moda(tiemposFranjaValle);
-        double valorPicoPM = moda(tiemposFranjaPM);
-        double valorCierre = moda(tiemposFranjaCierre);
-        int busesInicio= calcularBuses(valorInicio);
-        int busesAM= calcularBuses(valorPicoAm);
-        int busesValle= calcularBuses(valorValle);
-        int busesPm= calcularBuses(valorPicoPM);
-        int busesCierre= calcularBuses(valorCierre);
-        Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_MODA,valorInicio,valorPicoAm,valorValle,valorPicoPM,valorCierre,servicio,tablaMaestraServicios);
+    private Intervalos incluirIntervalos(ServicioTipoDia servicio, TablaMaestraServicios tablaMaestraServicios, double valorInicio, double valorPicoAm, double valorValle, double valorPicoPM, double valorCierre, String calculoMaximo) {
+        int busesInicio = calcularBuses(valorInicio);
+        int busesAM = calcularBuses(valorPicoAm);
+        int busesValle = calcularBuses(valorValle);
+        int busesPm = calcularBuses(valorPicoPM);
+        int busesCierre = calcularBuses(valorCierre);
+        Intervalos intervalos = new Intervalos(calculoMaximo, valorInicio, valorPicoAm, valorValle, valorPicoPM, valorCierre, servicio, tablaMaestraServicios);
         intervalos.setBusesInicio(busesInicio);
         intervalos.setBusesAM(busesAM);
         intervalos.setBusesValle(busesValle);
@@ -201,188 +139,234 @@ return intervalosLista;
         return intervalos;
     }
 
-    private double moda(List<TiempoIntervalos> tiemposFranjaInciio) {
-        Map<Integer,Integer> servicios = new HashMap<>();
+    private Intervalos intervaloMinimo(ServicioTipoDia servicio, TablaMaestraServicios tablaMaestraServicios) {
+        double valorInicio = minimo(intervalosInicio);
+        double valorPicoAm = minimo(intervalosPicoAM);
+        double valorValle = minimo(intervalosValle);
+        double valorPicoPM = minimo(intervalosPicoPM);
+        double valorCierre = minimo(intervalosCierre);
+        Intervalos intervalos = incluirIntervalos(servicio, tablaMaestraServicios, valorInicio, valorPicoAm, valorValle, valorPicoPM, valorCierre, ProcessorUtils.CALCULO_MINIMO);
+        return intervalos;
+    }
 
-        for (TiempoIntervalos tiempoInt:tiemposFranjaInciio ) {
-            if(servicios.containsKey(tiempoInt.getInstante())){
-                servicios.replace(tiempoInt.getInstante(),servicios.get(tiempoInt.getInstante())+1);
+    private Intervalos intervaloPromedio(ServicioTipoDia servicio,TablaMaestraServicios tablaMaestraServicio) {
+        double promedioInicio = promedio( intervalosInicio);
+        double promedioPicoAm = promedio(intervalosPicoAM);
+        double promedioValle = promedio(intervalosValle);
+        double promedioPicoPM = promedio(intervalosPicoPM);
+        double promedioCierre = promedio(intervalosCierre);
+        Intervalos intervalos = incluirIntervalos(servicio, tablaMaestraServicio, promedioInicio, promedioPicoAm, promedioValle, promedioPicoPM, promedioCierre, ProcessorUtils.CALCULO_PROMEDIO);
+        return intervalos;
+    }
+
+
+
+    private void calcularValorPorIntervaloCuarto(List<IntervaloCuartos> tiemposServicio) {
+
+        Map<IntervalosProgramacion, List<Long>> franjaCuartos = distribuirTiemposEIntervalos(tiemposServicio);
+
+        intervalosInicio = new ArrayList<Double>();
+        intervalosPicoAM = new ArrayList<Double>();
+        intervalosValle = new ArrayList<Double>();
+        intervalosPicoPM = new ArrayList<Double>();
+        intervalosCierre = new ArrayList<Double>();
+
+
+        Iterator it = franjaCuartos.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            List<Long> valores = (List<Long>) pair.getValue();
+            double valorFInal = calcularPromedio(valores);
+
+            IntervalosProgramacion intervalo = (IntervalosProgramacion) pair.getKey();
+            if( intervalo.getTipoFranja().getNombre().equals(FranjaDef.INICIO) ){
+                intervalosInicio.add(valorFInal);
+            }else if( intervalo.getTipoFranja().getNombre().equals(FranjaDef.PICO_AM)  ){
+                intervalosPicoAM.add(valorFInal);
+            }else if( intervalo.getTipoFranja().getNombre().equals(FranjaDef.VALLE)  ){
+                intervalosValle.add(valorFInal);
+            }else if( intervalo.getTipoFranja().getNombre().equals(FranjaDef.PICO_PM)  ){
+                intervalosPicoPM.add(valorFInal);
             }else{
-                servicios.put(tiempoInt.getInstante(),1);
+                intervalosCierre.add(valorFInal);
             }
-        }
-        int repetidoMasVeces=0;
-        int instante=0;
-        for (Map.Entry<Integer, Integer> entry : servicios.entrySet())
-        {
-            if(repetidoMasVeces< entry.getValue()){
-                repetidoMasVeces = entry.getValue();
-                instante=entry.getKey();
-            }
-        }
 
-        return transformarAFormatoTiempo(instante);
+        }
     }
 
-
-    private Intervalos calcularPromedio(ServicioTipoDia id, List<TiempoIntervalos> tiemposFranjaInciio, List<TiempoIntervalos> tiemposFranjaAM, List<TiempoIntervalos> tiemposFranjaValle, List<TiempoIntervalos> tiemposFranjaCierre, List<TiempoIntervalos> tiemposFranjaPM,TablaMaestraServicios tservicios) {
-        double promedioInicio = promedio(tiemposFranjaInciio);
-        double promedioPicoAm = promedio(tiemposFranjaAM);
-        double promedioValle = promedio(tiemposFranjaValle);
-        double promedioPicoPM = promedio(tiemposFranjaPM);
-        double promedioCierre = promedio(tiemposFranjaCierre);
-        int busesInicio= calcularBuses(promedioInicio);
-        int busesAM= calcularBuses(promedioPicoAm);
-        int busesValle= calcularBuses(promedioValle);
-        int busesPm= calcularBuses(promedioPicoPM);
-        int busesCierre= calcularBuses(promedioCierre);
-        Intervalos intervalos = new Intervalos(ProcessorUtils.CALCULO_PROMEDIO,promedioInicio,promedioPicoAm,promedioValle,promedioPicoPM,promedioCierre,id,tservicios);
-        intervalos.setBusesInicio(busesInicio);
-        intervalos.setBusesAM(busesAM);
-        intervalos.setBusesValle(busesValle);
-        intervalos.setBusesPM(busesPm);
-        intervalos.setBusesCierre(busesCierre);
-        horariosProvisionalServicio.addIntervalos(intervalos);
-        return intervalos;
-    }
-
-    private int calcularBuses(double promedioInicio) {
-        if(promedioInicio!=0){
-            return (int) (60/promedioInicio);
-        }
-        return 0;
-    }
-
-    private double promedio(List<TiempoIntervalos> tiempos) {
-        double tiempoTotal=0;
-        int i=0;
-        for (TiempoIntervalos tiempoInt:tiempos ) {
-          tiempoTotal= tiempoTotal+ tiempoInt.getInstante();
-            i++;
-        }
-        if(tiempoTotal!=0){
-            tiempoTotal= tiempoTotal/i;
-           return transformarAFormatoTiempo(tiempoTotal);
-        }
-
-
-        return tiempoTotal;
-    }
-
-    private double transformarAFormatoTiempo(double tiempoTotal) {
-        Time time = getTime((int) tiempoTotal);
-        SimpleDateFormat format = new SimpleDateFormat("mm.ss");
-        String date = format.format(new Date(time.getTime()));
-        if (date.split("")[0].equals("0")) {
-            String [] fecha = date.split("");
-            date = fecha[1]+fecha[2]+fecha[3]+fecha[4];
-        }
-        return Double.parseDouble(date);
-    }
-
-
-
-    private List<TiempoIntervalos> extraerDiferenciaIntervalos(List<HorarioS> tablaHorario,List<ServicioTipoDia> servicioTipoDia,GisIntervalos gisIntervalos) {
-        List<TiempoIntervalos> tiempoIntervalosLista = new ArrayList<>();
-        String cuadro = tablaHorario.get(0).getCuadro();
-        HorarioS horarioA= tablaHorario.get(0);
-        HorarioS horarioB= null;
-        int macroA= horarioA.getMacro();
-        int lineaA=horarioA.getLinea();
-        int seccionA=horarioA.getSeccion();
-        int puntoA=horarioA.getPunto();
-        Time horaA= getTime(horarioA.getInstante());
-        IntervalosProgramacion intervaloA= calcularIntervaloInstante(horaA);
-        int macroB,lineaB,seccionB,puntoB;
-        Time horaB;
-        IntervalosProgramacion intervaloB=null;
-        int aux=0;
-        for (int i=1;i<tablaHorario.size();i++) {
-            horarioB = tablaHorario.get(i);
-            macroB=horarioB.getMacro();
-            lineaB=horarioB.getLinea();
-            seccionB=horarioB.getSeccion();
-            puntoB=horarioB.getPunto();
-            horaB=getTime(horarioB.getInstante());
-            intervaloB=calcularIntervaloInstante(horaB);
-
-            if( macroA==macroB && lineaA==lineaB && seccionA==seccionB && puntoA==puntoB){
-                if(intervaloA.getId() == intervaloB.getId() ){
-                    ServicioTipoDia  servicio = getServicioById(servicioTipoDia,macroB+"-"+lineaB+"-"+seccionB+"-"+puntoB);
-                    if(servicio!=null){
-                        int diferencia = calcularDiferencia(horarioA.getInstante(),horarioB.getInstante());
-                        TiempoIntervalos tiempoIntervalos = new TiempoIntervalos(getTime(diferencia),servicio,intervaloB,diferencia,gisIntervalos);
-                       if(tiempoIntervalosLista.size()<200){
-                           tiempoIntervalosLista.add(tiempoIntervalos);
-                       }else{
-                           taskExecutor.execute(new IntervalosHilo(tiempoIntervalosLista));
-                           tiempoIntervalosLista = new ArrayList<>();
-                       }
-
-
-                    }
-                    aux++;
+    private Map<IntervalosProgramacion, List<Long>> distribuirTiemposEIntervalos(List<IntervaloCuartos> tiemposServicio) {
+        Map<IntervalosProgramacion, List<Long>> franjaCuartos = new HashMap<IntervalosProgramacion, List<Long>>();
+        //Intervalos Franja Inicio
+        for(IntervaloCuartos cuartos: tiemposServicio){
+            IntervalosProgramacion intervaloActual = cuartos.getIntervalo();
+            if(cuartos.getDiferencia()!= null){
+                if(franjaCuartos.get(intervaloActual)!= null){
+                    franjaCuartos.get(intervaloActual).add(cuartos.getDiferencia());
                 }else{
-                    horarioA=horarioB;
-                    macroA=macroB;
-                    lineaA=lineaB;
-                    seccionA=seccionB;
-                    puntoA=puntoB;
-                    horaA=horaB;
-                    intervaloA=intervaloB;
-                    aux=0;
+                    List<Long> valores =new ArrayList<Long>();
+                    valores.add(cuartos.getDiferencia());
+                    franjaCuartos.put(intervaloActual,valores);
                 }
-            }else{
-                horarioA=horarioB;
-                macroA=macroB;
-                lineaA=lineaB;
-                seccionA=seccionB;
-                puntoA=puntoB;
-                horaA=horaB;
-                intervaloB=intervaloA;
-                aux=0;
             }
+
         }
-        return tiempoIntervalosLista;
+        return franjaCuartos;
     }
 
-    private ServicioTipoDia getServicioById(List<ServicioTipoDia> servicioTipoDia, String id) {
-        for (ServicioTipoDia servicio: servicioTipoDia ) {
-            if(servicio.getIdentificador().equals(id)){
-                return servicio;
+    private double calcularPromedio(List<Long> valores) {
+        long suma = 0;
+        for(Long valor: valores){
+            suma = suma + valor;
+        }
+        suma = suma / valores.size();
+        return ProcessorUtils.transformarAFormatoTiempo(new Time(suma));
+    }
+
+
+    private void calcularDiferenciaDeTiempo(List<IntervaloCuartos> tiemposServicio) {
+        for(int x = 0; x<tiemposServicio.size(); x++){
+            IntervaloCuartos intervaloCuartos = tiemposServicio.get(x);
+            try{
+                Long tiempoB =tiemposServicio.get(x-1).getInstante().getTime();
+                intervaloCuartos.setDiferencia(  intervaloCuartos.getInstante().getTime() - tiempoB  );
+                tiemposServicio.set(x,intervaloCuartos);
+            }catch (Exception e){
+                // Cuando es el primer Registro
+            }
+
+        }
+    }
+
+
+
+    private List<IntervaloCuartos> encontrarTiemposPorServicio(ServicioTipoDia servicio) {
+        List<IntervaloCuartos> tiemposPorServicio = new ArrayList<>();
+        List<TempHorario> tablaHorario = horariosProvisionalServicio.getTablaHorarioPorServicio(servicio.getServicio());
+        for(TempHorario horario:tablaHorario){
+            IntervaloCuartos cuartos = new IntervaloCuartos();
+            cuartos.setInstante(horario.getInstante());
+            cuartos.setIntervalo(obtenerIntervaloProg(horario.getInstante()));
+            tiemposPorServicio.add(cuartos);
+        }
+        return tiemposPorServicio;
+    }
+
+    private IntervalosProgramacion obtenerIntervaloProg(Time instante) {
+        IntervalosProgramacion prog = estaEnEstaFranja(instante,intervalosFranjaInicio);
+        if (prog == null) {
+            prog = estaEnEstaFranja(instante,intervalosFranjaPicoAM);
+            if(prog == null){
+                prog = estaEnEstaFranja(instante,intervalosFranjaValle);
+                if(prog == null){
+                    prog = estaEnEstaFranja(instante,intervalosFranjaPicoPM);
+                    if(prog == null){
+                        prog = estaEnEstaFranja(instante,intervalosFranjaCierre);
+                    }
+                }
+            }
+        }
+        return prog;
+    }
+
+    private IntervalosProgramacion estaEnEstaFranja(Time instante,List<IntervalosProgramacion> franja) {
+        for(IntervalosProgramacion prog: franja){
+            if(instante.after(prog.getInicio()) || instante.equals(prog.getInicio())){
+                if(instante.before(prog.getFin()) || instante.equals(prog.getFin())){
+                    return  prog;
+                }
             }
         }
         return null;
     }
 
 
-    private Time getTime(int instante) {
-        int hor = instante / 3600;
-        int min=(instante-(3600*hor))/60;
-        int seg=instante-((hor*3600)+(min*60));
-        Time time= new Time(hor,min,seg);
-        return time;
-    }
 
-    private int calcularDiferencia(int horaA, int horaB) {
-       int diferencia= horaB-horaA;
-        return diferencia;
-    }
-
-    private IntervalosProgramacion calcularIntervaloInstante(Time time){
-        IntervalosProgramacion intervalosProgramacion = horariosProvisionalServicio.getIntervaloForDate(time);
-        return intervalosProgramacion;
+    private double maximo(List<Double> tiemposFranjaInciio) {
+        double mayor = 0.0;
+        for(Double tiempo:tiemposFranjaInciio){
+            if(mayor < tiempo){
+                mayor = tiempo;
+            }
+        }
+        return mayor;
     }
 
 
-
-
-
-    public TablaHorarioService getTablaHorarioService() {
-        return tablaHorarioService;
+    private double minimo(List<Double> tiemposFranjaInciio) {
+        double menor = 0;
+        if(tiemposFranjaInciio.size()>0){
+            menor = tiemposFranjaInciio.get(0);
+            for(Double tiempo:tiemposFranjaInciio){
+                if(menor >tiempo){
+                    menor = tiempo;
+                }
+            }
+        }
+        return menor;
     }
 
-    public void setTablaHorarioService(TablaHorarioService tablaHorarioService) {
-        this.tablaHorarioService = tablaHorarioService;
+
+    private int calcularBuses(double promedioInicio) {
+        if(promedioInicio!=0){
+            return (int) ((60/promedioInicio)+1);
+        }
+        return 0;
+    }
+
+    private double promedio(List<Double> tiempos) {
+        double tiempoTotal=0;
+        int i=0;
+        for (Double tiempoInt:tiempos ) {
+            tiempoTotal= tiempoTotal+ tiempoInt;
+            i++;
+        }
+        if(tiempoTotal!=0){
+            tiempoTotal= tiempoTotal/tiempos.size();
+            return ProcessorUtils.round(tiempoTotal,2);
+        }
+
+
+        return ProcessorUtils.round(tiempoTotal,2);
+    }
+
+
+    public List<IntervalosProgramacion> getIntervalosFranjaInicio() {
+        return intervalosFranjaInicio;
+    }
+
+    public void setIntervalosFranjaInicio(List<IntervalosProgramacion> intervalosFranjaInicio) {
+        this.intervalosFranjaInicio = intervalosFranjaInicio;
+    }
+
+    public List<IntervalosProgramacion> getIntervalosFranjaPicoAM() {
+        return intervalosFranjaPicoAM;
+    }
+
+    public void setIntervalosFranjaPicoAM(List<IntervalosProgramacion> intervalosFranjaPicoAM) {
+        this.intervalosFranjaPicoAM = intervalosFranjaPicoAM;
+    }
+
+    public List<IntervalosProgramacion> getIntervalosFranjaValle() {
+        return intervalosFranjaValle;
+    }
+
+    public void setIntervalosFranjaValle(List<IntervalosProgramacion> intervalosFranjaValle) {
+        this.intervalosFranjaValle = intervalosFranjaValle;
+    }
+
+    public List<IntervalosProgramacion> getIntervalosFranjaPicoPM() {
+        return intervalosFranjaPicoPM;
+    }
+
+    public void setIntervalosFranjaPicoPM(List<IntervalosProgramacion> intervalosFranjaPicoPM) {
+        this.intervalosFranjaPicoPM = intervalosFranjaPicoPM;
+    }
+
+    public List<IntervalosProgramacion> getIntervalosFranjaCierre() {
+        return intervalosFranjaCierre;
+    }
+
+    public void setIntervalosFranjaCierre(List<IntervalosProgramacion> intervalosFranjaCierre) {
+        this.intervalosFranjaCierre = intervalosFranjaCierre;
     }
 }

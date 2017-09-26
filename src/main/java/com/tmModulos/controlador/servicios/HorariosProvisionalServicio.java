@@ -42,6 +42,9 @@ public class HorariosProvisionalServicio {
     @Autowired
     ServicioTipoDiaDao servicioTipoDiaDao;
 
+    @Autowired
+    TempHorarioDao tempHorarioDao;
+
 
 
     public IntervalosProgramacion getIntervaloForDate(Time date){
@@ -125,6 +128,19 @@ public class HorariosProvisionalServicio {
 
     public List<ServicioTipoDia> getServiciosByTipoDia(TipoDia tipoDia){
         return servicioTipoDiaDao.getServiciosByTipoDia(tipoDia);
+    }
+
+    public List<TempHorario> getTablaHorarioPorServicio(Servicio servicio){
+        return tempHorarioDao.getTablaHorarioPorServicio(servicio);
+    }
+    @Transactional(readOnly = false)
+    public void addTablaHorarioFromFile(String destination) {
+        tempHorarioDao.addTablaHorarioFromFile(destination);
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteTablaHorarioFromFile() {
+        tempHorarioDao.deleteTablaHorario();
     }
 
     }

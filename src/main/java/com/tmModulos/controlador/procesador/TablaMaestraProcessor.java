@@ -2,6 +2,8 @@ package com.tmModulos.controlador.procesador;
 
 import com.tmModulos.controlador.servicios.*;
 import com.tmModulos.controlador.utils.LogDatos;
+import com.tmModulos.controlador.utils.PathFiles;
+import com.tmModulos.controlador.utils.ProcessorUtils;
 import com.tmModulos.controlador.utils.TipoLog;
 import com.tmModulos.modelo.dao.tmData.GisCargaDao;
 import com.tmModulos.modelo.dao.tmData.IntervalosDao;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.faces.bean.ManagedProperty;
 import javax.xml.bind.SchemaOutputResolver;
+import java.io.InputStream;
 import java.util.*;
 
 @Service("TablaMaestraProcessor")
@@ -39,6 +42,9 @@ public class TablaMaestraProcessor {
     @Autowired
     ThreadPoolTaskExecutor taskExecutor;
 
+    @Autowired
+    private ProcessorUtils processorUtils;
+
 
 
     @Autowired
@@ -47,7 +53,7 @@ public class TablaMaestraProcessor {
     private List<LogDatos> logDatos;
     private static Logger log = Logger.getLogger(TablaMaestraServicios.class);
 
-
+    private String destination= PathFiles.PATH_FOR_FILES+"\\";
     private Map serviciosIncluidos;
 
 
@@ -75,9 +81,14 @@ public class TablaMaestraProcessor {
         this.matrizDistanciaService = matrizDistanciaService;
     }
 
-    public List<LogDatos> calcularTablaMaestra(Date fechaDeProgramacion, String descripcion, String gisCarga, String matrizDistancia,Date fechaIntervalos,String tipoDia) {
+    public List<LogDatos> calcularTablaMaestra(Date fechaDeProgramacion, String descripcion, String gisCarga, String matrizDistancia,Date fechaIntervalos,String tipoDia, String filename, InputStream in) {
         logDatos = new ArrayList<>();
         logDatos.add(new LogDatos("<<Inicio Calculo Tabla Maestra>>", TipoLog.INFO));
+        processorUtils.copyFile(filename,in,destination);
+        destination=destination+filename;
+        // Copiar informacion intervalos
+        horariosProvisionalServicio.deleteTablaHorarioFromFile();
+        horariosProvisionalServicio.addTablaHorarioFromFile(destination);
 
         //Encontrar parametros para la generacion de la tabla maestra
         GisCarga gis= gisCargaService.getGisCargaById(gisCarga);
@@ -95,7 +106,9 @@ public class TablaMaestraProcessor {
         serviciosTipoDia = cleanServiciosTipoDia(serviciosTipoDia);
 
        //Calcular intervalos
-        GisIntervalos gisIntervalos= generarIntervalosDeTiempo(fechaIntervalos,descripcion,tipoDia,tablaMaestra);
+       // GisIntervalos gisIntervalos= generarIntervalosDeTiempo(fechaIntervalos,descripcion,tipoDia,tablaMaestra);
+
+
        // intervalosProcessor.precalcularIntervalosProgramacion();
 
 //        System.out.println("Tamaño servicios: "+serviciosTipoDia.size());
@@ -162,7 +175,8 @@ public class TablaMaestraProcessor {
                                 tablaMaestraService.addTServicios(tablaMaestraServicios);
 
                                 //Calcular Intervalos de tiempo
-                                 List<Intervalos> intervaloses = intervalosProcessor.calcularValorIntervaloPorFranja(tablaMaestraServicios, servicio, gisIntervalos);
+                                    intervalosProcessor.precalcularIntervalosProgramacion();
+                                    List<Intervalos> intervaloses = intervalosProcessor.calcularIntervalos(tablaMaestraServicios, servicio);
 
 
                         }else{
@@ -416,9 +430,7 @@ public class TablaMaestraProcessor {
        return nodo;
     }
 
-    private GisIntervalos generarIntervalosDeTiempo(Date fechaIntervalos,String descripcion, String tipoDia, TablaMaestra tablaMaestra) {
-       return intervalosProcessor.generarIntervalos(fechaIntervalos,descripcion,tipoDia,tablaMaestra);
-    }
+
 
     //Calcular ciclos de tiempos de recorrido - en base al GIS de carga
     private CicloServicio calcularCiclos(TablaMaestraServicios tablaMaestraServicios, List<ArcoTiempo> arcoTiempoRecords) {
@@ -722,5 +734,13 @@ public class TablaMaestraProcessor {
 
     private TablaMaestra obtenerUltimaTablaMaestra(String tipoDia,Date fechaCreacion) {
         return tablaMaestraService.getUltimaTablaMaestraByaTipoDia(tipoDia,fechaCreacion);
+    }
+
+    public ProcessorUtils getProcessorUtils() {
+        return processorUtils;
+    }
+
+    public void setProcessorUtils(ProcessorUtils processorUtils) {
+        this.processorUtils = processorUtils;
     }
 }
