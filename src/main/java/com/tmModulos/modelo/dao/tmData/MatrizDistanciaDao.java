@@ -86,7 +86,7 @@ public class MatrizDistanciaDao {
         try {
             copyManager = new CopyManager((BaseConnection) conn);
             FileReader fileReader = new FileReader(filename);
-            copyManager.copyIn("COPY temp_matriz_distancia (ruta,macro,linea,seccion,nodo,abscisa,nombre) from  STDIN DELIMITER ';' CSV HEADER encoding 'windows-1251'", fileReader );
+            copyManager.copyIn("COPY temp_matriz_distancia (ruta,macro,linea,seccion,nodo,abscisa,nombre) from  STDIN DELIMITER ';' CSV HEADER ", fileReader );
         } catch (SQLException e) {
             throw  new Exception(e.getMessage());
         } catch (FileNotFoundException e) {
