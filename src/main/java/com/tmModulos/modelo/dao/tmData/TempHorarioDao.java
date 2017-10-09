@@ -51,8 +51,7 @@ public class TempHorarioDao {
         try {
             copyManager = new CopyManager((BaseConnection) conn);
             FileReader fileReader = new FileReader(filename);
-            copyManager.copyIn("COPY temp_horario (jornada,tipo,operador,inst,serbus,evento,linea,coche,sublinea,ruta,punto,nodo,viaje,ad1,ad2,ad3,ad4,ad5)\n" +
-                    " FROM STDIN DELIMITER ';' CSV HEADER ", fileReader);
+            copyManager.copyIn("COPY temp_horario (tipo_dia,inst,serbus,evento,macro,linea,coche,sublinea,seccion,punto,tipo,viaje,ad1,ad2,ad3) from STDIN DELIMITER ';' CSV HEADER ", fileReader);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -95,10 +94,10 @@ public class TempHorarioDao {
     public List<TempHorario> getTablaHorarioPorServicio(Servicio servicio){
         Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(TempHorario.class);
 
-                criteria.add(Restrictions.eq("linea", servicio.getMacro()));
-                criteria.add(Restrictions.eq("sublinea", servicio.getLinea()));
+                criteria.add(Restrictions.eq("macro", servicio.getMacro()));
+                criteria.add(Restrictions.eq("linea", servicio.getLinea()));
                 criteria.add(Restrictions.eq("punto", servicio.getPunto()));
-                criteria.add(Restrictions.eq("ruta", servicio.getSeccion()));
+                criteria.add(Restrictions.eq("seccion", servicio.getSeccion()));
                 criteria.addOrder(Order.asc("instante"));
                 Criterion eventos= Restrictions.or(Restrictions.eq("evento",3),Restrictions.eq("evento", 11));
 

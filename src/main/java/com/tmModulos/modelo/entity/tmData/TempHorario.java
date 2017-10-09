@@ -22,8 +22,11 @@ public class TempHorario {
     @Column(name = "instante")
     private Time instante;
 
-    @Column(name = "ruta")
-    private int ruta;
+    @Column(name = "seccion")
+    private int seccion;
+
+    @Column(name = "macro")
+    private int macro;
 
     @Column(name = "punto")
     private int punto;
@@ -63,12 +66,20 @@ public class TempHorario {
         this.instante = instante;
     }
 
-    public int getRuta() {
-        return ruta;
+    public int getSeccion() {
+        return seccion;
     }
 
-    public void setRuta(int ruta) {
-        this.ruta = ruta;
+    public void setSeccion(int seccion) {
+        this.seccion = seccion;
+    }
+
+    public int getMacro() {
+        return macro;
+    }
+
+    public void setMacro(int macro) {
+        this.macro = macro;
     }
 
     public int getPunto() {
